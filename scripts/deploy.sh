@@ -3,7 +3,7 @@
 set -eux
 
 git clone git@gitlab.com:eatonphil/data-ide workspace || true
-( cd workspace && yarn && yarn build-ui )
+( cd workspace && git pull && yarn && yarn build-ui )
 
 echo "
 <script async src=\"https://www.googletagmanager.com/gtag/js?id=G-0YH69RMKWK\"></script>
