@@ -26,10 +26,10 @@ function remote_run () {
     ssh $REMOTE -- "$1"
 }
 
-remote_run "rm -rf $REMOTE_HOME/ui"
+remote_run "rm -rf $REMOTE_HOME/ui $REMOTE_HOME/site"
 remote_copy workspace/build $REMOTE_HOME/ui
-remote_copy site $REMOVE_HOME/site
-remote_copy scripts/setup_tls.sh
+remote_copy site $REMOTE_HOME/site
+remote_copy scripts/setup_tls.sh $REMOTE_HOME/setup_tls.sh
 remote_copy config/nginx.conf $REMOTE_HOME/nginx.conf
 remote_copy config/selinux.conf $REMOTE_HOME/selinux.conf
 remote_run "sudo dnf install -y nginx && sudo mkdir -p /run && sudo mkdir -p /usr/share/nginx/logs && sudo mv $REMOTE_HOME/nginx.conf /etc/nginx && sudo nginx -t && sudo setenforce permissive && sudo service nginx restart && sudo mv $REMOTE_HOME/selinux.conf /etc/selinux/config"
