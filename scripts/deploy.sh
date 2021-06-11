@@ -2,7 +2,7 @@
 
 set -eux
 
-git clone git@gitlab.com:eatonphil/data-ide workspace || true
+git clone git@gitlab.com:multiprocessio/datastation workspace || true
 ( cd workspace && git pull && yarn && yarn build-ui )
 
 echo "
