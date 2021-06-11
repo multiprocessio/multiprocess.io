@@ -2,7 +2,7 @@
 
 set -eux
 
-git clone git@gitlab.com/eatonphil:data-ide workspace || true
+git clone git@gitlab.com:eatonphil/data-ide workspace || true
 ( cd workspace && yarn && yarn build-ui )
 
 echo "
@@ -29,14 +29,7 @@ function remote_run () {
 remote_run "rm -rf $REMOTE_HOME/ui"
 remote_copy workspace/build $REMOTE_HOME/ui
 remote_copy site $REMOVE_HOME/site
+remote_copy scripts/setup_tls.sh
 remote_copy config/nginx.conf $REMOTE_HOME/nginx.conf
 remote_copy config/selinux.conf $REMOTE_HOME/selinux.conf
 remote_run "sudo dnf install -y nginx && sudo mkdir -p /run && sudo mkdir -p /usr/share/nginx/logs && sudo mv $REMOTE_HOME/nginx.conf /etc/nginx && sudo nginx -t && sudo setenforce permissive && sudo service nginx restart && sudo mv $REMOTE_HOME/selinux.conf /etc/selinux/config"
-
-if [[ "$2" == "--setup-tls" ]]; then
-    remote_run "
-    sudo wget https://dl.eff.org/certbot-auto -O /usr/sbin/certbot-auto &&
-    sudo chmod a+x /usr/sbin/certbot-auto &&
-    sudo certbot-auto --os-packages-only
-    sudo certbot-auto --nginx"
-fi
