@@ -1,23 +1,53 @@
-<link href="style.css" rel="stylesheet" type="text/css" />
+{% extends "layout.tmpl" %}
 
+{% block body %}
 <header>
-  <h1>DataStation</h1>
+  <div class="container container--horizontal">
+    <a href="/">DataStation</a>
+    <a href="/docs">Documentation</a>
+    <a href="/blog">Blog</a>
+    <a><iframe
+      src="https://ghbtns.com/github-btn.html?user=multiprocessio&repo=datastation&type=star&count=true&size=medium"
+      frameBorder="0"
+      scrolling="0"
+      width="71"
+      height="20"
+      title="GitHub"
+    ></iframe></a>
+    <a href="https://app.datastation.multiprocess.io">Try it online!</a>
+  </div>
 </header>
-
-<p>
-  This site is in progress. Try out the <a href="https://app.datastation.multiprocess.io">DataStation demo</a>.
-</p>
-
-<p>
-  <a href="https://forms.gle/wH5fdxrxXwZHoNxk8">Subscribe to updates</a>
-</p>
-
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-DR7CMKJCTS"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-DR7CMKJCTS');
-</script>
+<section class="header">
+  <div class="container container--horizontal">
+    <div class="product">
+      <div class="product-description">
+        <div class="product-name">The Data IDE for Developers</div>
+        <ul class="product-features">
+          <li>Query all your data in one place: SQL, HTTP, files, etc.</li>
+          <li>Script against data in Python, JavaScript</li>
+          <li>Create visualizations</li>
+        </ul>
+        <form class="cta">
+          <input type="email" placeholder="Email" />
+          <button>Subscribe for updates</button>
+        </form>
+	<div class="text-center">
+	  <iframe src="https://ghbtns.com/github-btn.html?user=multiprocessio&repo=datastation&type=star&count=true&size=large" frameborder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe>
+	</div>
+      </div>
+      <img class="product-picture" src="/screenshot.jpg" alt="Product screenshot" />
+    </div>
+  </div>
+</section>
+<section>
+  <div class="container">
+    <h1 id="demo">Demo</h1>
+    <ul>
+      <li>Entirely in-memory application</li>
+      <li>Data and code never leaves your browser</li>
+      <li>Use at work or home for munging data</li>
+      <li>100% free and open source</li>
+    </ul>
+  </div>
+</section>
+{% endblock %}

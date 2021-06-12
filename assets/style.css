@@ -1,0 +1,104 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 100%;
+    width: 1200px;
+    display: flex;
+    flex-direction: column;
+}
+
+.container--horizontal {
+    flex-direction: row;
+    align-items: center;
+}
+
+section {
+    padding: 50px 0;
+}
+
+header {
+    padding: 15px 0;
+}
+
+header a {
+    padding-right: 15px;
+    color: black;
+}
+
+header a:first-of-type {
+    font-size: 1.5rem;
+}
+
+header a:nth-last-child(2) {
+    flex: 1;
+}
+
+header a:last-of-type {
+    background: #1dc37e;
+    color: white;
+    padding: 5px;
+    border: 1px solid #1dc37e;
+}
+
+header a:last-of-type:hover {
+    color: black;
+    border-color: #1dc37e;
+    background: white;
+}
+
+.header {
+    background: linear-gradient(180deg, #090619, #181850);
+    color: white;
+}
+
+.product {
+    display: flex;
+    flex-direction: horizontal;
+}
+
+.product-name {
+    font-size: 4rem;
+    padding-bottom: 15px;
+}
+
+.product-features {
+    line-height: 1.5rem;
+}
+
+.product-picture {
+    height: 550px;
+}
+
+table td, table th {
+    padding: 15px;
+    vertical-align: top;
+}
+
+table thead th {
+    text-align: left;
+}
+
+table tbody tr:nth-child(odd) {
+    background: #f5edf5;
+}
+
+table tbody tr td:first-of-type {
+    font-weight: bold;
+}
+
+table ul {
+    margin-bottom: 0;
+}
+
+.text-center {
+    text-align: center;
+}
