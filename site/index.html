@@ -1,22 +1,6 @@
 {% extends "layout.tmpl" %}
 
 {% block body %}
-<header>
-  <div class="container container--horizontal">
-    <a href="/">DataStation</a>
-    <a href="/docs">Documentation</a>
-    <a href="/blog">Blog</a>
-    <a><iframe
-      src="https://ghbtns.com/github-btn.html?user=multiprocessio&repo=datastation&type=star&count=true&size=medium"
-      frameBorder="0"
-      scrolling="0"
-      width="71"
-      height="20"
-      title="GitHub"
-    ></iframe></a>
-    <a href="https://app.datastation.multiprocess.io">Try it online!</a>
-  </div>
-</header>
 <section class="header">
   <div class="container container--horizontal">
     <div class="product">
@@ -31,11 +15,11 @@
           <input type="email" placeholder="Email" />
           <button>Subscribe for updates</button>
         </form>
-	<div class="text-center">
+	<div class="text-center hide-mobile">
 	  <iframe src="https://ghbtns.com/github-btn.html?user=multiprocessio&repo=datastation&type=star&count=true&size=large" frameborder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe>
 	</div>
       </div>
-      <img class="product-picture" src="/screenshot.jpg" alt="Product screenshot" />
+      <a href="/screenshot.jpg"><img class="product-picture" src="/screenshot.jpg" alt="Product screenshot" /></a>
     </div>
   </div>
 </section>
@@ -48,6 +32,11 @@
       <li>Use at work or home for munging data</li>
       <li>100% free and open source</li>
     </ul>
+    <p class="show-mobile warn">
+      The demo is desktop-only, so you'll have to try the demo on another device.
+    </p>
   </div>
+</section>
+<section>
 </section>
 {% endblock %}

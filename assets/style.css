@@ -6,6 +6,17 @@ html, body {
 
 a {
     text-decoration: none;
+    color: blue;
+}
+
+a:visited {
+    color: blue;
+}
+
+.warn {
+    background: red;
+    color: white;
+    padding: 5px;
 }
 
 .container {
@@ -30,8 +41,11 @@ header {
 }
 
 header a {
-    padding-right: 15px;
     color: black;
+}
+
+header a:not(:last-of-type) {
+    padding-right: 15px;
 }
 
 header a:first-of-type {
@@ -42,14 +56,14 @@ header a:nth-last-child(2) {
     flex: 1;
 }
 
-header a:last-of-type {
+header a.try-it-online {
     background: #1dc37e;
     color: white;
     padding: 5px;
     border: 1px solid #1dc37e;
 }
 
-header a:last-of-type:hover {
+header a.try-it-online:hover {
     color: black;
     border-color: #1dc37e;
     background: white;
@@ -62,7 +76,7 @@ header a:last-of-type:hover {
 
 .product {
     display: flex;
-    flex-direction: horizontal;
+    flex-direction: row;
 }
 
 .product-name {
@@ -76,6 +90,10 @@ header a:last-of-type:hover {
 
 .product-picture {
     height: 550px;
+}
+
+.cta input, .cta button {
+    width: 100%;
 }
 
 table td, table th {
@@ -101,4 +119,43 @@ table ul {
 
 .text-center {
     text-align: center;
+}
+
+.show-mobile {
+    display: none;
+}
+
+@media only screen and (max-width: 600px) {
+    .container {
+	padding: 0 15px;
+    }
+
+    header a:first-of-type {
+	font-size: initial;
+    }
+
+    .product-name {
+	font-size: 3rem;
+    }
+
+    .header {
+	padding: 15px 0;
+    }
+
+    .product {
+	flex-direction: column;
+    }
+
+    .product-picture {
+	max-width: 100%;
+	height: initial;
+    }
+
+    footer a {
+	padding-top: 5px;
+    }
+
+    footer .container--horizontal {
+	flex-direction: column;
+    }
 }

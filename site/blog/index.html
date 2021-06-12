@@ -1,0 +1,21 @@
+{% extends 'layout.tmpl' %}
+
+{% block body %}
+<section>
+  <div class="container">
+    <h1>Blog</h1>
+
+    <div class="posts">
+      {% for post in posts %}
+      <div class="post">
+	<a href="/{{ post.url }}" class="post-title">{{ post.title }}</a>
+	<div class="post-subtitle">
+	  Published on <span class="post-date">{{ post.date }}</span> by <span class="post-author">{{ post.author }}</span>
+	</div>
+	<div class="post-tags">{{ post.tags }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

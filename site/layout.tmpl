@@ -1,11 +1,46 @@
-<link href="style.css" rel="stylesheet" type="text/css" />
+<link href="/style.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/modern-css-reset/dist/reset.min.css" />
+
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<header>
+  <div class="container container--horizontal">
+    <a href="/">DataStation</a>
+    <a href="/docs" class="hide-mobile">Documentation</a>
+    <a href="/blog" class="hide-mobile">Blog</a>
+    <a><iframe
+      src="https://ghbtns.com/github-btn.html?user=multiprocessio&repo=datastation&type=star&count=true&size=medium"
+      frameBorder="0"
+      scrolling="0"
+      width="71"
+      height="20"
+      title="GitHub"
+    ></iframe></a>
+    <a href="https://app.datastation.multiprocess.io" class="try-it-online hide-mobile">Try it online!</a>
+  </div>
+</header>
 
 {% block body %}{% endblock %}
 
-<p>
-  <a href="https://forms.gle/wH5fdxrxXwZHoNxk8">Subscribe to updates</a>
-</p>
+<footer>
+  <div class="container container--horizontal">
+    <a href="/">DataStation</a>
+    <a href="/docs">Documentation</a>
+    <a href="/blog">Blog</a>
+    <a><iframe
+      src="https://ghbtns.com/github-btn.html?user=multiprocessio&repo=datastation&type=star&count=true&size=medium"
+      frameBorder="0"
+      scrolling="0"
+      width="71"
+      height="20"
+      title="GitHub"
+    ></iframe></a>
+    <a href="https://app.datastation.multiprocess.io" class="try-it-online hide-mobile">Try it online!</a>
+    <p>
+      <a href="https://forms.gle/wH5fdxrxXwZHoNxk8">Subscribe to updates</a>
+    </p>
+  </div>
+</footer>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DR7CMKJCTS"></script>
@@ -15,4 +50,20 @@
   gtag('js', new Date());
 
   gtag('config', 'G-DR7CMKJCTS');
+</script>
+
+<script type="text/javascript">
+  // SOURCE: https://stackoverflow.com/a/7995898/1507139
+  var isMobile = Boolean(navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i));
+  if (isMobile) {
+    var hideMobile = document.querySelectorAll('.hide-mobile');
+    for (var i = 0; i < hideMobile.length; i++) {
+      hideMobile[i].remove();
+    }
+
+    var showMobile = document.querySelectorAll('.show-mobile');
+    for (var i = 0; i < showMobile.length; i++) {
+      showMobile[i].className = showMobile[i].className.replace('show-mobile', '');
+    }
+  }
 </script>
