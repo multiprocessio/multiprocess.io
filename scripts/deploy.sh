@@ -2,6 +2,8 @@
 
 set -eux
 
+./scripts/build_site.sh
+
 git clone git@gitlab.com:multiprocessio/datastation workspace || true
 ( cd workspace && git pull && yarn && yarn build-ui )
 
