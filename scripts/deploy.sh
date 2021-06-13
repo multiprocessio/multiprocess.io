@@ -28,7 +28,7 @@ function remote_run () {
 
 remote_run "rm -rf $REMOTE_HOME/ui $REMOTE_HOME/site"
 remote_copy workspace/build $REMOTE_HOME/ui
-remote_copy site $REMOTE_HOME/site
+remote_copy build $REMOTE_HOME/site
 remote_copy scripts/setup_tls.sh $REMOTE_HOME/setup_tls.sh
 remote_copy config/nginx.conf $REMOTE_HOME/nginx.conf
 remote_copy config/selinux.conf $REMOTE_HOME/selinux.conf
