@@ -12,9 +12,6 @@
           <li>Create visualizations</li>
 	  <li>Open source</li>
         </ul>
-	<div class="cta text-center">
-	  <a href="https://docs.google.com/forms/d/e/1FAIpQLSfYF3AZivacRrQWanC-skd0iI23ermwPd17T_64Xc4etoL_Tw/viewform" class="button">Subscribe to updates</a>
-	</div>
       </div>
       <div class="product-picture">
 	<iframe src="https://www.youtube.com/embed/_7LEV3ZeQWU?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -25,16 +22,60 @@
 <section>
   <div class="container">
     <h1 id="online-environment">Online Environment</h1>
-    <a href="https://app.datastation.multiprocess.io">app.datastation.multiprocess.io</a>
-    <ul>
-      <li>Entirely in-memory application</li>
-      <li>Data and code never leaves your browser</li>
-      <li>Use at work or home for munging data</li>
-      <li>Open source</li>
-    </ul>
-    <p class="show-mobile warn">
-      The online environment is desktop-only, so you'll have to try it out on another device.
-    </p>
+    <div class="post-body">
+      <div class="container">
+	<p>
+	  An <a href="https://app.datastation.multiprocess.io">online
+	  environment</a> is available for data exploration in the
+	  browser. In the online environment you have access to the
+	  majority of DataStation's features limited only by the fact
+	  that the entire application runs without a server.
+	</p>
+	<h2>Entirely in-memory</h2>
+	<p>
+	  The online environment runs entirely without a server,
+	  entirely in your browser. You have access to one project and
+	  it persists to localstorage.
+	</p>
+	<h2>Own your data</h2>
+	<p>
+	  Since there is no server, you can safely use it for work or
+	  home. The data never leaves your computer.
+	</p>
+	<h2>Share projects safely</h2>
+	<p>
+	  Project state can be serialized to a URL by clicking the
+	  Share mbutton in the top right. The data in the URL not
+	  stored in any database (though it will be stored in
+	  DataStation web server access logs if someone uses the URL).
+	</p>
+	<h2>Make HTTP requests</h2>
+	<p>
+	  You can make HTTP requests to any server that set CORS
+	  headers. However, you cannot make requests to SQL databases
+	  since these requests use a protocol other than HTTP.
+	</p>
+	<h2>In-memory SQL</h2>
+	<p>
+	  You do have access to an in-memory SQL
+	  implementation so you can still perform SQL queries against any
+	  other data in the online environment.
+	</p>
+	<h2>Script in Python and JavaScript</h2>
+	<p>
+	  The online environment supports JavaScript and Python today,
+	  limited to languages that have been implemented in
+	  JavaScript already.
+	</p>
+	<h2 class="show-mobile">Great for desktop</h2>
+	<div class="show-mobile warn">
+	  <p>
+	    The online environment is for use on desktop computers, so
+	    you'll have to try it out on another device.
+	  </p>
+	</div>
+      </div>
+    </div>
   </div>
 </section>
 <section>

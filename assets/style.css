@@ -4,6 +4,18 @@ html, body {
     font-family: sans-serif;
 }
 
+h1 {
+    font-size: 2rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+}
+
+h3 {
+    font-size: 1.3rem;
+}
+
 a {
     text-decoration: none;
     color: blue;
@@ -62,11 +74,11 @@ header {
     border-bottom: 1px solid #190029;
 }
 
-header a:not(:last-of-type) {
+.header-item:not(:last-of-type) {
     padding-right: 15px;
 }
 
-header a:nth-last-child(2) {
+.header-item:nth-last-child(2) {
     flex: 1;
 }
 
@@ -146,24 +158,24 @@ footer {
     border-top: 1px solid #6400a2;
 }
 
-footer a, footer iframe {
+footer .container > * {
     margin-top: 5px;
-    display: inline-block;
 }
 
 .posts {
     margin-top: 15px;
 }
 
-.post-body .container, .post-header .container, .post-footer .container {
+.post-body  p, .post-header p, .post-footer p {
     width: 650px;
+    max-width: 100%;
 }
 
 .post-subtitle {
     padding: 5px 0;
 }
 
-.post-title {
+.post-title:not(h1) {
     font-size: 1.2rem;
 }
 
@@ -181,8 +193,8 @@ footer a, footer iframe {
     line-height: 2rem;
 }
 
-.post-body p:not(:first-of-type) {
-    padding-top: 15px;
+.post-body p {
+    padding: 15px 0;
 }
 
 .post-body .product-picture {
