@@ -13,6 +13,11 @@ a:visited {
     color: blue;
 }
 
+.button {
+    border-radius: 3px;
+    padding: 5px 15px;
+}
+
 .warn {
     background: red;
     color: white;
@@ -36,20 +41,17 @@ section {
     padding: 50px 0;
 }
 
-header {
+header, footer {
     padding: 15px 0;
 }
 
-header a {
+.site-name, .site-name:visited {
     color: black;
+    font-size: 1.5rem;
 }
 
 header a:not(:last-of-type) {
     padding-right: 15px;
-}
-
-header a:first-of-type {
-    font-size: 1.5rem;
 }
 
 header a:nth-last-child(2) {
@@ -59,14 +61,12 @@ header a:nth-last-child(2) {
 header a.try-it-online {
     background: #1dc37e;
     color: white;
-    padding: 5px;
     border: 1px solid #1dc37e;
 }
 
 header a.try-it-online:hover {
-    color: black;
-    border-color: #1dc37e;
-    background: white;
+    border-color: #159661;
+    background: #159661;
 }
 
 .header {
@@ -89,11 +89,18 @@ header a.try-it-online:hover {
 }
 
 .product-picture {
-    height: 550px;
+    padding-left: 50px;
 }
 
-.cta input, .cta button {
+.header .button {
+    background: white;
+    display: block;
     width: 100%;
+    margin-top: 15px;
+}
+
+.header .button:hover {
+    background: #eee;
 }
 
 table td, table th {
@@ -125,6 +132,14 @@ table ul {
     display: none;
 }
 
+footer {
+    border-top: 1px solid blue;
+}
+
+footer a {
+    padding-top: 5px;
+}
+
 @media only screen and (max-width: 600px) {
     .container {
 	padding: 0 15px;
@@ -149,13 +164,5 @@ table ul {
     .product-picture {
 	max-width: 100%;
 	height: initial;
-    }
-
-    footer a {
-	padding-top: 5px;
-    }
-
-    footer .container--horizontal {
-	flex-direction: column;
     }
 }
