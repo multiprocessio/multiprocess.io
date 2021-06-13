@@ -27,45 +27,27 @@
 	<p>
 	  An <a href="https://app.datastation.multiprocess.io">online
 	  environment</a> is available for data exploration in the
-	  browser. In the online environment you have access to the
-	  majority of DataStation's features limited only by the fact
-	  that the entire application runs without a server.
+	  browser. It has access to the majority of DataStation's
+	  features limited only by the fact that the entire
+	  application runs without any server.
 	</p>
 	<h2>Entirely in-memory</h2>
 	<p>
-	  The online environment runs entirely without a server,
-	  entirely in your browser. You have access to one project and
-	  it persists to localstorage.
+	  HTTP requests happen from the browser without any proxy (so
+	  your server must set CORS headers). SQL, JavaScript, and
+	  Python are available and interpreted within the browser.
 	</p>
 	<h2>Own your data</h2>
 	<p>
-	  Since there is no server, you can safely use it for work or
+	  Since there is no server, you can safely use it at work or
 	  home. The data never leaves your computer.
 	</p>
 	<h2>Share projects safely</h2>
 	<p>
 	  Project state can be serialized to a URL by clicking the
-	  Share mbutton in the top right. The data in the URL not
+	  Share button in the top right. The data in the URL is not
 	  stored in any database (though it will be stored in
 	  DataStation web server access logs if someone uses the URL).
-	</p>
-	<h2>Make HTTP requests</h2>
-	<p>
-	  You can make HTTP requests to any server that set CORS
-	  headers. However, you cannot make requests to SQL databases
-	  since these requests use a protocol other than HTTP.
-	</p>
-	<h2>In-memory SQL</h2>
-	<p>
-	  You do have access to an in-memory SQL
-	  implementation so you can still perform SQL queries against any
-	  other data in the online environment.
-	</p>
-	<h2>Script in Python and JavaScript</h2>
-	<p>
-	  The online environment supports JavaScript and Python today,
-	  limited to languages that have been implemented in
-	  JavaScript already.
 	</p>
 	<h2 class="show-mobile">Great for desktop</h2>
 	<div class="show-mobile warn">
