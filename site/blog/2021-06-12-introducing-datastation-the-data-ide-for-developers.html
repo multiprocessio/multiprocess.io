@@ -1,16 +1,68 @@
 {% extends "blog/layout.tmpl" %}
 
 {% block postTitle %}Introducing DataStation, the open-source data IDE for developers{% endblock %}
-{% block postDate %}June 6, 2021{% endblock %}
+{% block postDate %}June 12, 2021{% endblock %}
 {% block postAuthor %}Phil Eaton{% endblock %}
+{% block postAuthorEmail %}phil@multiprocess.io{% endblock %}
 {% block postTags %}release{% endblock %}
 
 {% block postBody %}
 <p>
-  While trying to do analysis at work I'd have a constant
-  context-switch between using my SQL IDE to do SQL queries, Kibana to
-  do ES exploration, Excel to do graphs on all of this data, and
-  Python to write simple scripts on top of all these data sources or
-  random Excel sheets I got from product/sales.
+  Real-world data analysis as a developer means combing through
+  customer data in SQL, historic (activity) logs in ElasticSearch,
+  exports from Salesforce, issues in JIRA, random additional Excel
+  files from product and sales, and myriad other systems. Switching
+  between tools to transform, join, group, filter, search and visualize
+  is a pain. SQL IDE for SQL, Kibana for Elastic logs, Excel for
+  visualizing, and Python when all else is too cumbersome.
+</p>
+<p>
+  I want to have access to all data sources in a single place and be
+  able to share and script seamlessly between them. I want to end up
+  with a visualization, a recurring report, or a CSV I can send along
+  to someone else.
+</p>
+<p>
+  I am building DataStation to tackle this problem of data exploration.
+</p>
+<h2></h2>
+<p>
+  DataStation is somewhere before alpha quality. The easiest way to play with the
+  concept today is through
+  the <a href="https://app.datastation.multiprocess.io/">entirely
+  in-memory online environment</a>. Or you
+  can <a href="https://www.youtube.com/watch?v=_7LEV3ZeQWU">watch a
+  short demo</a> to see a simple example in action. Since it runs with
+  no server component, the online environment has a few natural
+  restrictions: it cannot connect to SQL databases and it cannot make
+  HTTP requests that don't set CORS headers. In the next few weeks
+  we'll release the (also open-source) desktop edition that does not
+  have these restrictions. Feel free
+  to <a href="https://forms.gle/wH5fdxrxXwZHoNxk8">subscribe</a> to
+  hear about this availability and other upcoming features.
+</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/_7LEV3ZeQWU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<p>
+  The core of DataStation will always be open-source. In the future if
+  it makes sense we may offer a commercial licensed version with
+  features needed for enterprise use.
+</p>
+<p>
+  Due to the offline-first design, DataStation will always be a tool
+  you can bring into your work environment and use just like any other
+  text editor. Don't worrying about corporate security since it is not
+  (today) a SaaS. We don't store your data and use minimal analytics
+  to inform product direction.
+</p>
+<p>
+  You can help out by using DataStation, reporting bugs (of which
+  there will surely be many), checking out
+  the <a href="https://github.com/multiprocessio/datastation">source
+  code</a>, joining
+  the <a href="https://discord.gg/f2wQBc4bXX">community on
+  Discord</a>, and getting in touch about potential use cases.
+</p>
+<p>
+  I'm looking forward to hearing from you!
 </p>
 {% endblock %}

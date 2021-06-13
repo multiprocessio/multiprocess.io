@@ -3,16 +3,24 @@
 {% block body %}
 <section class="post-header">
   <div class="container">
-    <h1 class="post-title">{% block postTitle %}{% endblock %}</h1>
+    <h3><a href="/blog">Blog</a></h3>
+    <h1>{% block postTitle %}{% endblock %}</h1>
     <div class="post-subtitle">
       Published on <span class="post-date">{% block postDate %}{% endblock %}</span> by <span class="post-author">{% block postAuthor %}{% endblock %}</span>
     </div>
-    <div class="post-tags">{% block postTags %}{% endblock %}</div>
+    <span class="post-tags">{% block postTags %}{% endblock %}</span>
   </div>
 </section>
 <section class="post-body">
   <div class="container">
     {% block postBody%}{% endblock %}
+  </div>
+</section>
+<section class="post-footer">
+  <div class="container">
+    <p>
+      Questions? Feedback? Feel free to reach the author at {% block postAuthorEmail %}{% endblock %}.
+    </p>
   </div>
 </section>
 {% endblock %}

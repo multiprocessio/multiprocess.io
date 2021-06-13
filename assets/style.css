@@ -28,16 +28,24 @@ a:visited {
     margin: 0 auto;
     max-width: 100%;
     width: 1200px;
+}
+
+.flex {
     display: flex;
     flex-direction: column;
 }
 
-.container--horizontal {
+.flex--horizontal {
     flex-direction: row;
     align-items: center;
 }
 
 section {
+    margin: 50px 0;
+}
+
+section.header {
+    margin: 0;
     padding: 50px 0;
 }
 
@@ -50,6 +58,10 @@ header, footer {
     font-size: 1.5rem;
 }
 
+header {
+    border-bottom: 1px solid #190029;
+}
+
 header a:not(:last-of-type) {
     padding-right: 15px;
 }
@@ -59,24 +71,17 @@ header a:nth-last-child(2) {
 }
 
 header a.try-it-online {
-    background: #1dc37e;
+    background: #9f04ff;
     color: white;
-    border: 1px solid #1dc37e;
 }
 
 header a.try-it-online:hover {
-    border-color: #159661;
-    background: #159661;
+    background: #6400a2;
 }
 
 .header {
-    background: linear-gradient(180deg, #090619, #181850);
+    background: linear-gradient(360deg, #280042, #190029);
     color: white;
-}
-
-.product {
-    display: flex;
-    flex-direction: row;
 }
 
 .product-name {
@@ -92,11 +97,16 @@ header a.try-it-online:hover {
     padding-left: 50px;
 }
 
+.product-picture iframe {
+    height: 385px;
+    width: 640px;
+}
+
 .header .button {
     background: white;
+    margin-top: 50px;
     display: block;
-    width: 100%;
-    margin-top: 15px;
+    padding: 15px 30px;
 }
 
 .header .button:hover {
@@ -133,11 +143,54 @@ table ul {
 }
 
 footer {
-    border-top: 1px solid blue;
+    border-top: 1px solid #6400a2;
 }
 
 footer a {
-    padding-top: 5px;
+    margin-top: 5px;
+    display: inline-block;
+}
+
+.posts {
+    margin-top: 15px;
+}
+
+.post-body .container, .post-header .container, .post-footer .container {
+    width: 650px;
+}
+
+.post-subtitle {
+    padding: 5px 0;
+}
+
+.post-title {
+    font-size: 1.2rem;
+}
+
+.post-date, .post-author {
+    font-weight: bold;
+}
+
+.post-tags {
+    background: #eee;
+    padding: 5px;
+    border-color: 1px solid #ccc;
+}
+
+.post-body p {
+    line-height: 2rem;
+}
+
+.post-body p:not(:first-of-type) {
+    padding-top: 15px;
+}
+
+.post-body iframe {
+    padding-top: 15px;
+}
+
+.post-footer p {
+    font-size: .9rem;
 }
 
 @media only screen and (max-width: 600px) {
@@ -157,12 +210,17 @@ footer a {
 	padding: 15px 0;
     }
 
-    .product {
+    .flex-mobile--column {
 	flex-direction: column;
     }
 
     .product-picture {
-	max-width: 100%;
+	padding: 0;
+	padding-top: 50px;
+    }
+
+    .product-picture iframe {
 	height: initial;
+	width: initial;
     }
 }
