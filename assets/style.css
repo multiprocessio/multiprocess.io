@@ -185,8 +185,9 @@ footer a, footer iframe {
     padding-top: 15px;
 }
 
-.post-body iframe {
+.post-body .product-picture {
     padding-top: 15px;
+    padding-left: 0;
 }
 
 .post-footer p {
@@ -217,6 +218,10 @@ footer a, footer iframe {
     .product-picture {
 	padding: 0;
 	padding-top: 50px;
+    }
+
+    .post-body .product-picture {
+	padding-top: 15px;
     }
 
     .product-picture iframe {
