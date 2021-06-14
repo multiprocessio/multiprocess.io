@@ -1,6 +1,7 @@
 import glob
 from datetime import datetime, timezone
 
+import yaml
 from feedgen.feed import FeedGenerator
 from jinja2 import Environment, FileSystemLoader
 
@@ -13,12 +14,14 @@ def load_template(file, base):
 base = "site"
 out_base = "build"
 
+events = yaml.load(open('data/events.yaml'))
+
 for file in glob.glob(base+"/*.*")+glob.glob(base+"/**/*.*"):
     if file.endswith(".tmpl"):
         continue
     tmpl = load_template(file, base)
     out = file.replace(base+"/", out_base+"/")
-    content = tmpl.render()
+    content = tmpl.render({ 'events': events })
     with open(out, "w") as fw:
         fw.write(content)
 
@@ -36,14 +39,14 @@ for file in glob.glob(base+"/*.*")+glob.glob(base+"/**/*.*"):
         })
 
 tmpl = load_template(base+"/blog/index.html", base)
-blog_posts.sort(key=lambda post: datetime.strptime(post["date"], "%B %d, %Y"))
+blog_posts.sort(key=lambda post: datetime.strptime(post["date"], "%B %d, %Y"), reverse=True)
 with open(out_base+"/blog/index.html", "w") as fw:
     fw.write(tmpl.render(posts=blog_posts))
 
 url_base = "https://datastation.multiprocess.io"
 
 fg = FeedGenerator()
-for post in reversed(blog_posts):
+for post in blog_posts:
     fe = fg.add_entry()
     fe.id(url_base+"/"+post["url"])
     fe.title(post["title"])

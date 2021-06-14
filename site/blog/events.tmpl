@@ -1,0 +1,26 @@
+{% extends 'blog/layout.tmpl' %}
+
+{% block postBody %}
+<p>
+  One fortunate aspect of the pandemic is that the tech talk groups
+  that remain active have all gone online. This means you no longer
+  have to be in a particular city to attend a particular event.
+</p>
+<p>
+  This list is a curated collection of interesting-sounding events by
+  generally high-quality groups. If you have suggestions for events or
+  groups to follow in the future, please email me!
+</p>
+<div class="events">
+  {% for event in week_events %}
+  <a class="event" href="{{ event.url }}">
+    <h2 class="event-title">{{ event.title }}</h2>
+    <div class="event-subtitle">By {{ event.by }} at {{ event.datetime }}</div>
+  </a>
+  {% endfor %}
+</div>
+<p>
+  <a href="https://forms.gle/wH5fdxrxXwZHoNxk8">Subscribe</a> to stay
+  in the loop about future interesting tech talks!
+</p>
+{% endblock %}

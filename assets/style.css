@@ -206,6 +206,15 @@ footer .container > * {
     font-size: .9rem;
 }
 
+.event {
+    padding: 15px 0;
+    display: block;
+}
+
+.event-title, .event-title:visited {
+    color: black;
+}
+
 @media only screen and (max-width: 600px) {
     .container {
 	padding: 0 15px;

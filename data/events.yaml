@@ -1,0 +1,53 @@
+20210614:
+  - title: Systems for Human Data Interaction
+    by: Carnegie Mellon Database Group
+    url: 'https://db.cs.cmu.edu/events/vaccination-2021-systems-for-human-data-interaction-eugene-wu/'
+    datetime: Monday, June 14 at 4:30PM EDT
+  - title: It's just a SQL - Crash course on Synapse Serverless for T-SQL ninjas!
+    by: Data on Kubernetes Community
+    url: 'https://www.meetup.com/Data-on-Kubernetes-community/events/278408931/'
+    datetime: Tuesday, June 15 at 9AM PDT
+  - title: 'Blazor WebAssembly: Inside/Out'
+    datetime: Tuesday, June 15 at 9AM PDT
+    url: 'https://www.meetup.com/dotnet-virtual-user-group/events/278605266/'
+    by: .NET Virtual User Group
+  - title: 'Amazon DataTuner: End-to-End Neural Data-to-Text Generation'
+    datetime: Tuesday, June 15 at 1PM EDT
+    url: 'https://www.meetup.com/NY-NLP/events/277807565/'
+    by: Natural Language Processing Community
+  - title: Simulating a Simple Order Book With Kafka and Streamlit
+    url: 'https://www.meetup.com/python-plus-data-science/events/277811848/'
+    by: Python + Data Science Group
+    datetime: Tuesday, June 15 at 6:15PM EDT
+  - title: Text Preprocessing in R
+    url: 'https://www.meetup.com/nyhackr/events/278432228/'
+    datetime: Tuesday, June 15 at 7PM EDT
+    by: New York Open Statistical Programming Meetup
+  - title: Key Criteria for Evaluating Kubernetes Data Storage
+    url: 'https://www.meetup.com/Data-on-Kubernetes-community/events/278688800/'
+    by: Data On Kubernetes Community
+    datetime: Wednesday, June 16 at 9AM PDT
+  - title: SF Reliability Engineering - June Talks
+    url: 'https://www.meetup.com/San-Francisco-Reliability-Engineering/events/275551747/'
+    by: San Francisco Reliability Engineering
+    datetime: Wednesday, June 16 2021 at 12PM PDT
+  - title: Do More with Conditional Formatting in Power BI with Parvinder Chana
+    url: 'https://www.meetup.com/Seattle-Modern-Excel-Users-Group-MEUG/events/276809770/'
+    by: Seattle Modern Excel+Power BI User Group
+    datetime: Wednesday, June 16 2021 at 6PM PDT
+  - title: Learn how to automate formatting and linting your code with pre-commit
+    url: 'https://www.meetup.com/sfpython/events/mpgbhsyccjbvb/'
+    by: San Francisco Python Meetup Group
+    datetime: Wednesday, June 16 2021 at 6:30PM PDT
+  - title: Deep Neural Network-Based Recommendation Systems
+    url: 'https://www.meetup.com/python-plus-data-science/events/277842798/'
+    by: Python + Data Science
+    datetime: Wednesday, June 16 at 6:15PM EDT
+  - title: Benchmarking for PostgreSQL workloads in Kubernetes
+    url: 'https://www.meetup.com/Data-on-Kubernetes-community/events/278662614/'
+    by: Data on Kubernetes Community
+    datetime: Thursday, June 17 at 9AM PDT
+  - title: Building Event-Driven Microservices with Azure Cosmos DB Change Feed
+    by: NYC .NET Developers
+    datetime: Thursday, June 16 at 6:30PM EDT
+    url: 'https://www.meetup.com/NYC-NET-Developers/events/278574820/'
