@@ -33,7 +33,7 @@ for file in glob.glob(base+"/*.*")+glob.glob(base+"/**/*.*"):
             "title": get_block("postTitle"),
             "author": get_block("postAuthor"),
             "date": get_block("postDate"),
-            "tags": get_block("postTags"),
+            "tags": ', '.join([t.strip() for t in get_block("postTags").split(',')]),
             "url": file.replace(base+"/", ""),
             "content": content,
         })

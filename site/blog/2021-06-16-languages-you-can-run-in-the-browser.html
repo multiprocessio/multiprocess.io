@@ -1,24 +1,153 @@
 {% extends "blog/layout.tmpl" %}
 
-{% block postTitle %}Languages you can run in the browser (languages implemented in JavaScript){% endblock %}
+{% block postTitle %}Languages you can run in the browser, part 1: Python, JavaScript, SQLite{% endblock %}
 {% block postDate %}June 17, 2021{% endblock %}
 {% block postAuthor %}Phil Eaton{% endblock %}
 {% block postAuthorEmail %}phil@multiprocess.io{% endblock %}
-{% block postTags %}javascript,python,basic,schema,php,lua{% endblock %}
+{% block postTags %}javascript,python,browser{% endblock %}
 
 {% block postBody %}
 <p>
-  People often write about languages that compile to JavaScript. But
-  what if you want to run languages in the browser, without any API to
-  proxy code and I/O to a standard language implementation on a
-  server? Recently I was trying to find
-  languages <strong>implemented</strong> in JavaScript as possible
-  scripting options for
-  the <a href="https://app.datastation.multiprocess.io/">in-browser
-  DataStation IDE</a>.
+  People often write
+  about <a href="https://github.com/jashkenas/coffeescript/wiki/List-of-languages-that-compile-to-JS">languages
+  that compile to JavaScript</a>. But what if you want to run
+  languages in the browser? Without any API to proxy code and I/O to a
+  standard language implementation on a server? Languages that compile
+  to JavaScript cannot be run in the browser unless the compiler is
+  written in JavaScript.
 </p>
 <p>
-  Implementing JavaScript in JavaScript is easy. Sorta.
-  <pre><code></code></pre>
+  Recently I was trying to find such
+  languages implemented in JavaScript as possible
+  scripting options for the <a target="_blank"
+  href="https://app.datastation.multiprocess.io/">in-browser
+  DataStation</a> application. In this series I'll walk through a few
+  useful and interesting languages running entirely within the browser,
+  based on learnings building DataStation.
+</p>
+<h3>Python</h3>
+<p>
+  <a href="https://brython.info/" target="_blank">Brython</a> is a
+  Python implementation written in JavaScript. To run a Python script
+  in the browser using Brython, just add the following JavaScript
+  files:
+</p>
+<pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/brython@3.9/brython.min.js"&gt;&lt;/script&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/brython@3.9/brython_stdlib.js"&gt;&lt;/script&gt;</code></pre>
+<p>
+  The Brython docs assume you are going to script your app in Python
+  so <a href="https://brython.info/static_tutorial/en/index.html">they
+  only document</a> how to use Brython as the type of a script
+  tag. But if you're trying to run Python code given by the user you
+  can call <code>window.__BRYTHON__.python_to_js(program)</code> and
+  then <code>eval</code> the result. Here's some React pseudo-code:
+</p>
+<pre></code>function PythonEditor() {
+  const [code, setCode] = React.useState('');
+  const [pythonResult, setPythonResult] = React.useState('');
+  React.useEffect(() => {
+    const codeAsJS = window.__BRYTHON__.python_to_js(code);
+    try {
+      setPythonResult(eval(codeAsJS);
+    } catch (e) {
+      setPythonResult(e.stack);
+    }
+  }, [code]);
+
+  return (
+    &lt;div&gt;
+      &lt;textarea value={code} onChange={(e) =&gt; setCode(e.target.value)} /&gt;
+      &lt;div&gt;Result: {pythonResult}&lt;/div&gt;
+    &lt;/div&gt;
+  );
+}</pre></code>
+<h3>JavaScript</h3>
+<p>
+  Eval not your speed? Fair enough. You could try sandboxing the
+  interpreter in an iframe. Or you could
+  use <a href="https://github.com/NeilFraser/JS-Interpreter">JS-Interpreter</a>,
+  a JavaScript interpreter written in JavaScript.
+</p>
+<h3>SQLite</h3>
+<p>
+  <a href="https://github.com/sql-js/sql.js">SQL.js</a> is SQLite
+  compiled to webassembly using emscripten. DataStation uses it for
+  its in-memory SQL engine. It was tricky to get configured correctly!
+  You need to self-host both the sql-wasm.js file they mention and
+  also the sql-wasm.wasm. I couldn't get it working at all trying to
+  use a CDN.
+</p>
+<p>
+  So first install this package through yarn/npm: <code>yarn add
+  sql.js</code>. Then copy sql-wasm.js and sql-wasm.wasm into wherever
+  you will host it:
+</p>
+<pre><code>cp node_modules/sql.js/dist/sql-wasm.js build
+cp node_modules/sql.js/dist/sql-wasm.wasm build</code></pre>
+<p>
+  Now you can follow the rest of the SQL.js tutorials pretty
+  easily. Here's another pseudo-code React component for running SQL
+  in-memory:
+</p>
+<pre><code>function SQLEditor() {
+  const [code, setCode] = React.useState('SELECT 1');
+  const [sqlResult, setSqlResult] = React.useState('');
+  let sql = React.useRef(null);
+
+  // Load the wasm file once.
+  React.useEffect(() => {
+    async function loadWasm() {
+      sql.current = await window.initSqlJs({
+        locateFile: (file) => file, // Where to find the sql-wasm.wasm file. This implementation assumes it's as /sql-wasm.wasm
+      });
+    };
+
+    loadWasm();
+  });
+    
+  React.useEffect(() => {
+    if (!sql.current) { return; }
+
+    try {
+      const db = new sql.Database();
+      const res = db.exec(code)[0];
+      // Set the result to be an array of objects
+      setSqlResult(res.values.map((row: Array<any>) => {
+        const formattedRow: { [k: string]: any } = {};
+        res.columns.forEach((c: string, i: number) => {
+          formattedRow[c] = row[i];
+        });
+        return formattedRow;
+      }));
+    } catch (e) {
+      setSqlResult(e.stack);
+    }
+  }, [code, sql.current]);
+
+  return (
+    &lt;div&gt;
+      &lt;textarea value={code} onChange={(e) =&gt; setCode(e.target.value)} /&gt;
+      &lt;div&gt;Result: {sqlResult}&lt;/div&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+<h3>Recapping</h3>
+<p>
+  In this post we looked at a few ways to run dynamic JavaScript,
+  Python, and SQLite code in the browser without any server-side
+  component. There are definitely security considerations to make
+  before allowing dynamic code execution. In particular, a user could
+  have access to read cookies, localstorage, and potentially make
+  requests from a domain that you own. In some situations this is ok,
+  for example in
+  the <a href="http://app.datastation.multiprocess.io/">in-browser
+  DataStation app</a> that has no special CORS access and no special
+  cookies or localstorage to read.  If it's also the case for your
+  application, you should know about the languages you have available
+  to you!
+</p>
+<p>
+  In the next post in this series we'll take a look at JavaScript
+  implementations of Lua, PHP, and Basic.
 </p>
 {% endblock %}

@@ -162,8 +162,8 @@ footer .container > * {
     margin-top: 5px;
 }
 
-.posts {
-    margin-top: 15px;
+.posts .post {
+    margin: 30px 0;
 }
 
 .post-body  p, .post-header p, .post-footer p {
