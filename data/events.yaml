@@ -1,3 +1,73 @@
+20210621:
+  - title: Modeling and Partitioning for Azure Cosmos DB
+    by: .NET Virtual User Group
+    url: 'https://www.meetup.com/dotnet-virtual-user-group/events/278496833/'
+    datetime: Monday, June 21 at 6:30PM PDT
+  - title: SRE | Do we need it?
+    url: 'https://www.meetup.com/Data-on-Kubernetes-community/events/278791930/'
+    by: Data on Kubernetes Community
+    datetime: Tuesday, June 22 at 9AM PDT
+  - title: Entity Framework Performance Monitoring and Tuning
+    url: 'https://www.meetup.com/dotnet-virtual-user-group/events/278942363/'
+    datetime: Tuesday, June 22 at 4:15PM PDT
+    by: .NET Virtual User Group
+  - title: Design @ U.S. Digital Service
+    url: 'https://www.meetup.com/Pittsburgh-Code-Supply/events/278390887/'
+    by: Pittsburgh Code & Supply
+    datetime: Tuesday, June 22 at 6PM EDT
+  - title: WWCode SF + Upward - Advancing Women Engineers
+    by: Women Who Code SF
+    url: 'https://www.meetup.com/Women-Who-Code-SF/events/278375912/'
+    datetime: Tuesday, June 22 at 6PM PDT
+  - title: Own Your Story
+    by: Women Who Code NYC
+    url: 'https://www.meetup.com/WomenWhoCodeNYC/events/278747261/'
+    datetime: Tuesday, June 22 at 6PM EDT
+  - title: End To End Object Detection with Transformers
+    url: 'https://www.meetup.com/python-plus-data-science/events/278180232/'
+    datetime: Tuesday, June 22 at 6:15PM EDT
+    by: Python + Data Science
+  - title: 'Online Linux-Stammtisch: Focus on Kubernetes'
+    url: 'https://www.meetup.com/Linux-Stammtisch-Munchen/events/278701047/'
+    by: Linux-Stammtisch Munich
+    datetime: Tuesday, June 22 at 6:30PM GMT+2
+  - title: Serverless Web - Azure Static Web Apps
+    url: 'https://www.meetup.com/dotnet-virtual-user-group/events/278901864/'
+    datetime: Wednesday, June 23 at 9AM PDT
+    by: .NET Virtual User Group
+  - title: 'Best Practices for Pitching SLOs; Exploring SRE: Reliability as a Pillar of Software Engineering'
+    by: Seattle SRE Meetup
+    url: 'https://www.meetup.com/sre-meetup/events/278673304/'
+    datetime: Wednesday, June 23 at 3PM PDT
+  - title: The evolution of Go APIs at qonto; Update on gRPC
+    by: Golang Paris
+    url: 'https://www.meetup.com/Golang-Paris/events/278773710/'
+    datetime: Wednesday, June 23 at 7PM GMT+2
+  - title: 'Azure Functions: a guide to getting started'
+    by: .NET Virtual User Group
+    url: 'https://www.meetup.com/dotnet-virtual-user-group/events/278833657/'
+    datetime: Thursday, June 24 at 5AM PDT
+  - title: 'WAS Series: Custom JavaScript / ARIA Widgets'
+    by: Princeton Accessibility Meetup
+    url: 'https://www.meetup.com/A11YPrinceton/events/275686191/'
+    datetime: Thursday, June 24 at 12:30PM EDT
+  - title: Using Source Generators for Fun (and Maybe Profit)
+    url: 'https://www.meetup.com/dotnet-virtual-user-group/events/278814475/'
+    by: .NET Virtual User Group
+    datetime: Thursday, June 24 at 4PM PDT
+  - title: Building Distributed Applications with .NET and Dapr
+    datetime: Thursday, June 24 at 4:15PM PDT
+    by: .NET Virtual User Grou
+    url: 'https://www.meetup.com/dotnet-virtual-user-group/events/278974610/'
+  - title: Cryptography 101
+    by: Silicon Valley Cryptography Meetup
+    datetime: Thursday, June 24 at 6:50PM PDT
+    url: 'https://www.meetup.com/silicon-valley-cybersecurity/events/278102390/'
+  - title: Bringing IOT to your swimming spot
+    by: Greater Atlanta Internet of Things
+    url: 'https://www.meetup.com/Greater-Atlanta-Internet-of-Things/events/278873813/'
+    datetime: Thursday, June 24 at 7PM EDT
+
 20210614:
   - title: Systems for Human Data Interaction
     by: Carnegie Mellon Database Group
