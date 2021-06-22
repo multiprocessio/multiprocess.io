@@ -22,7 +22,7 @@ REMOTE=fedora@datastation.multiprocess.io
 REMOTE_HOME=/home/fedora
 
 function remote_copy () {
-    rsync -r --delete $1 $REMOTE:$2
+    rsync -r --delete-after $1 $REMOTE:$2
 }
 
 function remote_run () {
