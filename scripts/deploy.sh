@@ -2,6 +2,7 @@
 
 set -eux
 
+git clean -xid
 ./scripts/build_site.sh
 
 git clone git@gitlab.com:multiprocessio/datastation workspace || true
@@ -21,14 +22,14 @@ REMOTE=fedora@datastation.multiprocess.io
 REMOTE_HOME=/home/fedora
 
 function remote_copy () {
-    scp -i ~/.ssh/id_rsa -r $1 $REMOTE:$2
+    rsync -r --delete $1 $REMOTE:$2
 }
 
 function remote_run () {
     ssh $REMOTE -- "$1"
 }
 
-remote_run "rm -rf $REMOTE_HOME/ui $REMOTE_HOME/site"
+remote_run "sudo dnf install rsync"
 remote_copy workspace/build $REMOTE_HOME/ui
 remote_copy build $REMOTE_HOME/site
 remote_copy scripts/setup_tls.sh $REMOTE_HOME/setup_tls.sh
