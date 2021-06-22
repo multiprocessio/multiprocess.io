@@ -11,6 +11,13 @@ def load_template(file, base):
     with open(file, "r") as f:
         return Environment(loader=FileSystemLoader(base+"/")).from_string(f.read())
 
+def get_block(tmpl, name):
+    ctx = tmpl.environment.context_class
+    if name in tmpl.blocks:
+        return next(tmpl.blocks[name](ctx))
+
+    return None
+
 base = "site"
 out_base = "build"
 
@@ -21,22 +28,24 @@ for file in glob.glob(base+"/*.*")+glob.glob(base+"/**/*.*"):
         continue
     tmpl = load_template(file, base)
     out = file.replace(base+"/", out_base+"/")
-    content = tmpl.render({ 'events': events })
-    with open(out, "w") as fw:
-        fw.write(content)
+    title = get_block(tmpl, "title") or "DataStation | The Data IDE for Developers"
+    content = tmpl.render({ "events": events, "title": title })
 
     # Accumulate blog posts
     if file.startswith(base+"/blog/") and not file.endswith("index.html"):
-        ctx = tmpl.environment.context_class
-        get_block = lambda name: next(tmpl.blocks[name](ctx))
+        title = get_block(tmpl, "postTitle")
+        content = tmpl.render({ "events": events, "title": title })
         blog_posts.append({
-            "title": get_block("postTitle"),
-            "author": get_block("postAuthor"),
-            "date": get_block("postDate"),
-            "tags": ', '.join([t.strip() for t in get_block("postTags").split(',')]),
+            "title": title,
+            "author": get_block(tmpl, "postAuthor"),
+            "date": get_block(tmpl, "postDate"),
+            "tags": ', '.join([t.strip() for t in get_block(tmpl, "postTags").split(',')]),
             "url": file.replace(base+"/", ""),
             "content": content,
         })
+
+    with open(out, "w") as fw:
+        fw.write(content)
 
 tmpl = load_template(base+"/blog/index.html", base)
 blog_posts.sort(key=lambda post: datetime.strptime(post["date"], "%B %d, %Y"), reverse=True)
