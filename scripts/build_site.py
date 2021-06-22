@@ -70,3 +70,22 @@ fg.title("DataStation Blog")
 fg.description("DataStation | The Data IDE for Developers")
 fg.language("en")
 fg.rss_file(out_base+"/blog/rss.xml")
+
+with open(out_base+"/sitemap.xml", "w") as f:
+    urls = []
+    for post in blog_posts:
+        urls.append("""  <url>
+    <loc>{url_base}/{url}</loc>
+    <lastmod>{date}</lastmod>
+ </url>""".format(url_base=url_base, url=post["url"], date=datetime.strptime(post["date"], '%B %d, %Y').strftime('%Y-%m-%d')))
+
+    f.write("""<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{urls}
+</urlset>""".format(urls='\n'.join(urls)))
+
+with open(out_base+"/robots.txt", "w") as f:
+    f.write("""User-agent: *
+Allow: /
+
+Sitemap: {url_base}/sitemap.xml""".format(url_base=url_base))
