@@ -53,7 +53,17 @@ a:visited {
 }
 
 section {
-    margin: 50px 0;
+    padding: 50px 0;
+}
+
+section:nth-of-type(odd) {
+    background: #131313;
+    color: white;
+}
+
+section:nth-of-type(odd) a {
+    color: white;
+    text-decoration: underline;
 }
 
 section.header {
@@ -91,11 +101,6 @@ header a.try-it-online:hover {
     background: #6400a2;
 }
 
-.header {
-    background: linear-gradient(360deg, #280042, #190029);
-    color: white;
-}
-
 .product-name {
     font-size: 4rem;
     padding-bottom: 15px;
@@ -105,6 +110,16 @@ header a.try-it-online:hover {
     line-height: 1.5rem;
 }
 
+.product-features li {
+    list-style: none;
+    display: flex;
+    padding: 5px;
+}
+
+.product-features li .material-icons {
+    padding-right: 15px;
+}
+
 .product-picture {
     padding-left: 50px;
 }
@@ -112,6 +127,20 @@ header a.try-it-online:hover {
 .product-picture iframe {
     height: 385px;
     width: 640px;
+    border: 1px solid white;
+}
+
+.online-environment-description {
+    padding-left: 30px;
+}
+
+.online-environment-picture img {
+    box-shadow: 0 0 3px 0 black;
+}
+
+.online-environment-picture a {
+    padding: 10px 0;
+    display: block;
 }
 
 .header .button {
@@ -125,21 +154,38 @@ header a.try-it-online:hover {
     background: #eee;
 }
 
+table {
+    border-collapse: collapse;
+    color: white;
+    width: 100%;
+}
+
 table td, table th {
-    padding: 15px;
+    padding: 30px;
     vertical-align: top;
 }
 
 table thead th {
     text-align: left;
+    font-size: 1.1rem;
 }
 
-table tbody tr:nth-child(odd) {
-    background: #f5edf5;
+table tbody tr {
+    border-top: 1px solid #777;
+}
+
+table td:nth-of-type(3), table th:nth-of-type(3) {
+    background: #6b199e;
 }
 
 table tbody tr td:first-of-type {
-    font-weight: bold;
+    text-align: right;
+}
+
+table tbody tr td:first-of-type, .coming-soon {
+    color: #ddd;
+    font-size: .7rem;
+    text-transform: uppercase;
 }
 
 table ul {
@@ -189,11 +235,8 @@ footer .container > * {
     border-color: 1px solid #ccc;
 }
 
-.post-body p {
+p {
     line-height: 2rem;
-}
-
-.post-body p {
     padding: 15px 0;
 }
 
@@ -218,6 +261,7 @@ footer .container > * {
 @media only screen and (max-width: 600px) {
     .container {
 	padding: 0 15px;
+	overflow-x : auto;
     }
 
     header a:first-of-type {
