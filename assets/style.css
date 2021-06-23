@@ -16,6 +16,10 @@ h3 {
     font-size: 1.3rem;
 }
 
+strong {
+    padding: 0 5px;
+}
+
 a {
     text-decoration: none;
     color: blue;
