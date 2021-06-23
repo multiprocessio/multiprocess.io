@@ -293,4 +293,8 @@ p {
 	height: initial;
 	width: initial;
     }
+
+    .online-environment-description {
+	padding-left: 0;
+    }
 }
