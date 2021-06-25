@@ -8,16 +8,15 @@
 
 {% block postBody %}
 <p>
-  When you create a controlled <code>input</code> in React, if the
-  value you pass in is empty the <code>input</code> element will show
-  nothing.
+  When you create a controlled <code>input</code> in React with a
+  blank <code>value</code>, the UI will show nothing in the textbox.
 </p>
 <pre class="code"><code>function Input({ value, onChange }) {
   return (
     &lt;input type="text" value={value} onChange={e => onChange(e.target.value)} /&gt;
   );
 }</code></pre>
-<p>What about for <code>select</code> elements?</p>
+<p>What about <code>select</code> elements?</p>
 <pre class="code"><code>function Select({ value, onChange, children }) {
   return (
     &lt;select value={value} onChange={e => onChange(e.target.value)} children={children} /&gt;
