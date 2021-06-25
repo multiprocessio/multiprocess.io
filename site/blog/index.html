@@ -13,7 +13,7 @@
 	<div class="post-subtitle">
 	  Published on <span class="post-date">{{ post.date }}</span> by <span class="post-author">{{ post.author }}</span>
 	</div>
-	<span class="post-tags">{{ post.tags }}</span>
+	<span class="post-tags">{% for tag in post.tags %}<span class="post-tag">{{tag}}</span>{% endfor %}</span>
       </div>
       {% endfor %}
     </div>

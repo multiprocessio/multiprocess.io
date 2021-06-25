@@ -233,7 +233,9 @@ footer .container > * {
     font-weight: bold;
 }
 
-.post-tags {
+.post-tag {
+    display: inline-block;
+    margin-right: 5px;
     background: #696969;
     padding: 5px;
     border-color: 1px solid #696969;
@@ -260,6 +262,19 @@ p {
 
 .event-title, .event-title:visited {
     color: black;
+}
+
+.code, p code {
+    background: #fcfcff;
+    font-size: 1rem;
+    border: 1px solid #f1f1f1;
+}
+
+.code {
+    width: 900px;
+    padding: 15px;
+    overflow: auto;
+    max-width: 100%;
 }
 
 @media only screen and (max-width: 600px) {

@@ -8,7 +8,7 @@
     <div class="post-subtitle">
       Published on <span class="post-date">{% block postDate %}{% endblock %}</span> by <span class="post-author">{% block postAuthor %}{% endblock %}</span>
     </div>
-    <span class="post-tags">{% block postTags %}{% endblock %}</span>
+    <span class="post-tags">{% for tag in tags %}<span class="post-tag">{{tag}}</span>{% endfor %}</span>
   </div>
 </section>
 <section class="post-body">

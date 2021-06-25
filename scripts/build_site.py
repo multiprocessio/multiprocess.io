@@ -34,12 +34,13 @@ for file in glob.glob(base+"/*.*")+glob.glob(base+"/**/*.*"):
     # Accumulate blog posts
     if file.startswith(base+"/blog/") and not file.endswith("index.html"):
         title = get_block(tmpl, "postTitle")
-        content = tmpl.render({ "events": events, "title": title })
+        tags = [t.strip() for t in get_block(tmpl, "postTags").split(',')]
+        content = tmpl.render({ "events": events, "title": title, "tags": tags })
         blog_posts.append({
             "title": title,
             "author": get_block(tmpl, "postAuthor"),
             "date": get_block(tmpl, "postDate"),
-            "tags": ', '.join([t.strip() for t in get_block(tmpl, "postTags").split(',')]),
+            "tags": tags,
             "url": file.replace(base+"/", ""),
             "content": content,
         })

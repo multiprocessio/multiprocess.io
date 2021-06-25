@@ -1,0 +1,89 @@
+{% extends "blog/layout.tmpl" %}
+
+{% block postTitle %}Controlled HTML select element in React has weird default UX{% endblock %}
+{% block postDate %}June 25, 2021{% endblock %}
+{% block postAuthor %}Phil Eaton{% endblock %}
+{% block postAuthorEmail %}phil@multiprocess.io{% endblock %}
+{% block postTags %}javascript,react{% endblock %}
+
+{% block postBody %}
+<p>
+  When you create a controlled <code>input</code> in React, if the
+  value you pass in is empty the <code>input</code> element will show
+  nothing.
+</p>
+<pre class="code"><code>function Input({ value, onChange }) {
+  return (
+    &lt;input type="text" value={value} onChange={e => onChange(e.target.value)} /&gt;
+  );
+}</code></pre>
+<p>What about for <code>select</code> elements?</p>
+<pre class="code"><code>function Select({ value, onChange, children }) {
+  return (
+    &lt;select value={value} onChange={e => onChange(e.target.value)} children={children} /&gt;
+  );
+}
+
+... in use ...
+
+const [value, setValue] = React.useState('');
+&lt;Select value={value} onChange={setValue}&gt;
+  &lt;option value="ford"&gt;Ford&lt;/option&gt;
+  &lt;option value="toyota"&gt;Toyota&lt;/option&gt;
+&lt;/Select&gt;</code></pre>
+<p>
+  If you pass this blank <code>value</code> into a
+  <code>Select</code>, the UI will look as if <code>Ford</code> is
+  selected.
+</p>
+<p>
+  And to make things more confusing (if you as a developer know that
+  it only <strong>looks</strong> like <code>Ford</code> is
+  selected), you open the dropdown and select <code>Ford</code> again,
+  the <code>onChange</code> handler is not going to get called. I am
+  not sure exactly why that happens but it points at state UI <> React
+  state being out of sync.
+</p>
+<p>
+  Basically, weird things happen if you pass in a value
+  to <code>select</code> that isn't a value of one of
+  its <code>option</code>s.
+</p>
+<p>
+  The right situation for <code>select</code> elements is that it
+  should always have a valid value. There are two ways I can think of
+  dealing with this: 1) hope every caller of <code>Select</code> picks
+  a valid initial value or 2) use an effect to trigger the passed in
+  <code>onChange</code> with a valid default value. Here's what the
+  latter could look like.
+</p>
+<pre class="code"><code>function Select({ value, onChange, children }) {
+  React.useEffect(() => {
+    if (!value || !children) return;
+
+    const values = React.Children.map(children, (i) => i ? i.props.value : null).filter(Boolean);
+    if (values.length && !values.includes(value)) {
+      onChange(values[0]);
+    }
+  }, [value]);
+
+  return (
+    &lt;select value={value} onChange={e => onChange(e.target.value)} children={children} /&gt;
+  );
+}</code></pre>
+<p>
+  This technique is what I ended up using in <a
+  href="https://github.com/multiprocessio/datastation/blob/master/ui/component-library/Select.tsx">DataStation</a>. The
+  effect is only ever called once to initialize the value. It gets rid
+  of all the out-of-sync weirdness if a blank value is passed in.
+</p>
+<p>
+  The only thing I'm not sure of is that <code>children</code> is not
+  included in the list of the effect's dependencies. I assume React
+  takes care of re-rendering the entire component if children change
+  but I am not sure.
+</p>
+<p>
+  I'm curious to hear what you think or how you've tackled this.
+</p>
+{% endblock %}
