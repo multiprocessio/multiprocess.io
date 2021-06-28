@@ -256,12 +256,24 @@ p {
 }
 
 .event {
-    padding: 15px 0;
+    padding: 15px;
     display: block;
+    border: 1px solid #ccc;
+    margin: 15px 0;
 }
 
 .event-title, .event-title:visited {
     color: black;
+}
+
+.event .post-tags {
+    margin-top: 15px;
+}
+
+.event .post-tag {
+    background: #ddd;
+    font-size: .9rem;
+    color: #333;
 }
 
 .code, p code {

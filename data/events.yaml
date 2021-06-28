@@ -1,3 +1,121 @@
+20210628:
+  - title: "Zanzibar: Google's Consistent, Global Authorization System"
+    url: 'https://www.meetup.com/papers-we-love/events/278148236/'
+    datetime: Monday, June 28 at 7PM EDT
+    by: New York City Papers We Love
+    tags:
+      - Distributed Systems
+      - Authorization
+      - Google
+  - title: 'Writing Code is Easy, Being a Great Developer Is Hard'
+    url: 'https://www.meetup.com/Jersey-City-Java-User-Group-JC-JUG/events/278300314/'
+    datetime: Tuesday, June 29 at 3PM EDT
+    by: Jersey City Java User Group
+    tags:
+      - Java
+      - Career
+      - JetBrains
+  - title: 'June ReactJS Meetup'
+    url: 'https://www.meetup.com/ReactJS-ATX/events/frbdlryccjbtb/'
+    datetime: Tuesday, June 29 at 6PM CDT
+    by: Austin Downtown ReactJS Group
+    tags:
+      - JavaScript
+      - ReactJS
+  - title: 'Distributed Systems: Expressing Code; Concurrency & Async Processing w/CI/CD'
+    by: GolangNYC
+    datetime: Wednesday, June 30 at 7PM EDT
+    url: 'https://www.meetup.com/golanguagenewyork/events/278183946/'
+    tags:
+      - Golang
+      - Distributed Systems
+      - CI/CD
+      - Concurrency
+      - Encore.dev
+      - JFrog
+  - title: 'Research Through the Practice of Visualization Design'
+    by: Data Visualization New York
+    url: 'https://www.meetup.com/DataVisualization/events/278728993/'
+    datetime: Wednesday, June 30 at 7PM EDT
+    tags:
+      - Design Study
+      - Research
+      - University of Utah
+  - title: 'Roslyn Code Generators'
+    by: Azure Community Singapore
+    datetime: Wednesday, June 30 at 4AM PDT
+    url: 'https://www.meetup.com/dotnet-virtual-user-group/events/278942466/'
+    tags:
+      - Compilers
+      - C# 9
+      - .NET
+      - Microsoft
+  - title: Postgres on Kubernetes Hands-On-Lab
+    url: 'https://www.meetup.com/Data-on-Kubernetes-community/events/278833473/'
+    datetime: Wednesday, June 30 at 9AM PDT
+    by: 'Data On Kubernetes Community'
+    tags:
+      - Databases
+      - PostgreSQL
+      - Kubernetes
+      - OnGres.com
+  - title: 'Shell UI in Xamarin Forms'
+    url: 'https://www.meetup.com/dotnet-virtual-user-group/events/279051706/'
+    by: .NET Virtual User Group
+    datetime: Wednesday, June 30 at 3:30PM PDT
+    tags:
+      - .NET
+      - Xamarin
+      - Microsoft
+  - title: 'Using Go to naturally express higher-level distributed systems concepts'
+    url: 'https://www.meetup.com/golangsg/events/278787994/'
+    by: Go Singapore
+    datetime: Wednesday, June 30 at 6:45PM GMT+8
+    tags:
+      - Golang
+      - Distributed Systems
+      - Code Maintenance
+      - Encore.dev
+      - Quincus.com
+  - title: Spotlight on MLOps
+    url: 'https://www.meetup.com/PyData-Cambridge-Meetup/events/278916017/'
+    by: PyData Cambridge
+    datetime: Wednesday, June 30 at 7PM GMT+1
+    tags:
+      - Python
+      - Machine Learning
+  - title: Intro to Kubernetes
+    by: Data on Kubernetes Community
+    url: 'https://www.meetup.com/Data-on-Kubernetes-community/events/279016805/'
+    datetime: Thursday, July 1 at 7:30AM PDT
+    tags:
+      - Kubernetes
+      - Docker
+  - title: Perfecting Machine Learning Workloads on Kubernetes
+    url: 'https://www.meetup.com/Data-on-Kubernetes-community/events/278774780/'
+    by: Data on Kubernetes Community
+    datetime: Thursday, July 1 at 9AM PDT
+    tags:
+      - Machine Learning
+      - Kubernetes
+      - Deeploy.me
+  - title: Using Source Generators for Fun (and Maybe Profit)
+    url: 'https://www.meetup.com/dotnet-virtual-user-group/events/279088005/'
+    by: .NET Virtual User Group
+    datetime: Thursday, July 1 at 4PM PDT
+    tags:
+      - Compilers
+      - C# 9
+      - .NET
+      - Microsoft
+  - title: Seattle SRE Coffee Hours
+    url: 'https://www.meetup.com/sre-meetup/events/279015608/'
+    datetime: Friday, July 2 at 9AM PDT
+    by: Seattle SRE Group
+    tags:
+      - SRE
+      - Career
+
 20210621:
   - title: Modeling and Partitioning for Azure Cosmos DB
     by: .NET Virtual User Group
