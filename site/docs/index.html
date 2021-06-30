@@ -6,7 +6,82 @@
 <section>
   <div class="container">
     <h1>Documentation</h1>
-    <p>Coming soon!</p>
+</section>
+<section class="post-body">
+  <div class="container">
+    <h2 id="installation">Installation</h2>
+    <p>
+      Visit
+      the <a href="https://github.com/multiprocessio/datastation/releases/tag/0.0.1-alpha">0.0.1-alpha</a>
+      release page. If you are on Mac, download
+      the <code>darwin-x64-0.0.1-alpha.zip</code> file. If you are on
+      Windows, download the <code>win64-x64-0.0.1-alpha.zip</code> file.
+    </p>
+    <p>
+      Once you have downloaded and unzipped the file, the application
+      will be inside the <code>releases</code> folder.
+    </p>
+    <p>
+      If you are on Mac you will need to right-click the application to
+      click <code>Open</code> so you can run the untrusted application.
+    </p>
+  </div>
+  <div class="container">
+    <h2>Usage</h2>
+    <p>
+      DataStation is organized into Projects which consist of zero or
+      more pages. Each page has zero or more panels that can interact
+      with each other.
+    </p>
+    <p>
+      In general, every panel is edited separately from being
+      run. While it might be convenient to automatically run panels
+      when they change, it becomes a problem when making large
+      requests or when making requests that modify external data.
+    </p>
+  </div>
+  <div class="container">
+    <h2>SQL Panels</h2>
+    <p>
+      SQL panels allow you to write SQL against databases like
+      PostgreSQL or MySQL. SQL panels can refer to the results of
+      other panels by using <code>DM_getPanel($number)</code>
+      where <code>$number</code> is the zero-indexed panel you want to
+      grab.
+    </p>
+    <p>
+      <code>DM_getPanel($number)</code> should only be called
+      once. After that it can be referred to by the
+      alias <code>t$number</code>. For example: <code>SELECT * FROM
+      DM_getPanel(0) WHERE t0.age < 12></code> will fetch all results
+      from the first panel (zero-indexed) and filter out rows where
+      the <code>age</code> column is less than <code>12</code>.
+    </p>
+    <h3>In-Memory SQL</h3>
+    <p>
+      In-memory SQL is a way of running SQL queries solely against
+      other panels without a running database. It is useful in
+      situations where you don't have a database but the most natural
+      way to express a join or filter is in SQL rather than code.
+    </p>
+  </div>
+  <div class="container">
+    <h2>Code Panels</h2>
+    <p>
+      Code panels allow you to use Python or JavaScript to produce
+      data for or manipulate data from other panels.
+    </p>
+    <p>
+      Use <code>DM_getPanel($number)</code> to pull the results from
+      another panel where <code>$number</code> is the zero-indexed
+      panel you want to grab. And use <code>DM_setPanel($var)</code>
+      to set the current panel's result.
+    </p>
+    <p>
+      The online environment uses in-browser implementations of
+      JavaScript and Python. But the desktop application uses your
+      existing JavaScript and Python install.
+    </p>
   </div>
 </section>
 {% endblock %}
