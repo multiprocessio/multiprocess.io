@@ -134,15 +134,19 @@ header a.try-it-online:hover {
     border: 1px solid white;
 }
 
-.online-environment-description {
+.picture-text-description:nth-child(1) {
+    padding-right: 30px;
+}
+
+.picture-text-description:nth-child(2) {
     padding-left: 30px;
 }
 
-.online-environment-picture img {
+.picture-text-picture img {
     box-shadow: 0 0 3px 0 black;
 }
 
-.online-environment-picture a {
+.picture-text-picture a {
     padding: 10px 0;
     display: block;
 }
@@ -160,7 +164,6 @@ header a.try-it-online:hover {
 
 table {
     border-collapse: collapse;
-    color: white;
     width: 100%;
 }
 
@@ -180,6 +183,7 @@ table tbody tr {
 
 table td:nth-of-type(3), table th:nth-of-type(3) {
     background: #6b199e;
+    color: white;
 }
 
 table tbody tr td:first-of-type {
@@ -187,7 +191,6 @@ table tbody tr td:first-of-type {
 }
 
 table tbody tr td:first-of-type, .coming-soon {
-    color: #ddd;
     font-size: .7rem;
     text-transform: uppercase;
 }
@@ -325,7 +328,7 @@ p {
 	width: initial;
     }
 
-    .online-environment-description {
-	padding-left: 0;
+    .picture-text-description {
+	padding: 0;
     }
 }
