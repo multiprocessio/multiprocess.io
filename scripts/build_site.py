@@ -5,6 +5,11 @@ import yaml
 from feedgen.feed import FeedGenerator
 from jinja2 import Environment, FileSystemLoader
 
+DEFAULT_DATA = {
+    "latest_version": '0.0.2-alpha',
+    "title": "DataStation | The Data IDE for Developers",
+}
+
 blog_posts = []
 
 def load_template(file, base):
@@ -28,14 +33,14 @@ for file in glob.glob(base+"/*.*")+glob.glob(base+"/**/*.*"):
         continue
     tmpl = load_template(file, base)
     out = file.replace(base+"/", out_base+"/")
-    title = get_block(tmpl, "title") or "DataStation | The Data IDE for Developers"
-    content = tmpl.render({ "events": events, "title": title })
+    title = get_block(tmpl, "title")
+    content = tmpl.render({ **DEFAULT_DATA, "events": events })
 
     # Accumulate blog posts
     if file.startswith(base+"/blog/") and not file.endswith("index.html"):
         title = get_block(tmpl, "postTitle")
         tags = [t.strip() for t in get_block(tmpl, "postTags").split(',')]
-        content = tmpl.render({ "events": events, "title": title, "tags": tags })
+        content = tmpl.render({ **DEFAULT_DATA, "events": events, "title": title, "tags": tags })
         blog_posts.append({
             "title": title,
             "author": get_block(tmpl, "postAuthor"),
@@ -51,7 +56,7 @@ for file in glob.glob(base+"/*.*")+glob.glob(base+"/**/*.*"):
 tmpl = load_template(base+"/blog/index.html", base)
 blog_posts.sort(key=lambda post: datetime.strptime(post["date"], "%B %d, %Y"), reverse=True)
 with open(out_base+"/blog/index.html", "w") as fw:
-    fw.write(tmpl.render(posts=blog_posts))
+    fw.write(tmpl.render(**DEFAULT_DATA, posts=blog_posts))
 
 url_base = "https://datastation.multiprocess.io"
 
