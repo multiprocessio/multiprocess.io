@@ -254,6 +254,17 @@ p {
     padding-left: 0;
 }
 
+.post-body .product-picture {
+    width: 650px;
+    max-width: 100%;
+}
+
+.caption {
+    font-size: .9rem;
+    text-align: center;
+    color: #999;
+}
+
 .post-footer p {
     font-size: .9rem;
 }

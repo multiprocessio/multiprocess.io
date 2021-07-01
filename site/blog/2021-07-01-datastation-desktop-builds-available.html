@@ -1,0 +1,61 @@
+{% extends "blog/layout.tmpl" %}
+
+{% block postTitle %}Windows and Mac builds available for DataStation, the open-source data IDE{% endblock %}
+{% block postDate %}June 30, 2021{% endblock %}
+{% block postAuthor %}Phil Eaton{% endblock %}
+{% block postAuthorEmail %}phil@multiprocess.io{% endblock %}
+{% block postTags %}release{% endblock %}
+
+{% block postBody %}
+<div class="product-picture">
+  <a href="/desktop-screenshot.png">
+    <img src="/desktop-screenshot.png" />
+    <div class="caption">Screenshot of DataStation on Mac</div>
+  </a>
+</div>
+<p>
+  Recapping from
+  the <a href="https://datastation.multiprocess.io/blog/2021-06-12-introducing-datastation-the-data-ide-for-developers.html">first
+  post</a> introducing this project, DataStation is an IDE for
+  manipulating data (from HTTP servers, SQL databases, local files,
+  and so on) via scripting languages and visualizing the result -- all
+  in a single application. Before today the best way to try
+  DataStation out was through
+  the <a href="https://app.datastation.multiprocess.io">in-browser
+  environment</a>.
+</p>
+<p>
+  Today you
+  can <a href="https://datastation.multiprocess.io/docs/">try out
+  DataStation</a> on Mac and Windows. Builds for Linux and non-x86
+  architectures (ARM, basically) will follow shortly. Importantly, the
+  desktop application gives you full access to querying your SQL
+  databases and making unrestricted HTTP requests. Since the scripting
+  panels use your native Python or Node.js install the error messages
+  on desktop are as useful as you'd expect them to be.
+</p>
+<p>
+  If you'd still prefer to try the application out before installing
+  it, you can still do so via
+  the <a href="http://app.datastation.multiprocess.io/">online
+  environment</a>.
+</p>
+<p>
+  DataStation remains an early-stage alpha. Do not use it for any
+  critical data unless you are backing up the .dsproj files it saves
+  in <code>~/DataStationProjects/</code>. Bug reports are extremely
+  welcome when accompanied by details for
+  reproduction. Our <a href="https://discord.gg/f2wQBc4bXX">Discord is
+  open</a>.
+</p>
+<p>
+  I'm looking forward to hearing from you!
+</p>
+<p>
+  <a href="https://twitter.com/hashtag/ReplaceYourSqlEditor">#ReplaceYourSqlEditor</a>
+</p>
+<div class="product-picture">
+  <iframe src="https://www.youtube.com/embed/C-4YKFq0h9Q" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <div class="caption">A quick getting started guide on DataStation</div>
+</div>
+{% endblock %}
