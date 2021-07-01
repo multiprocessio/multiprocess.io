@@ -273,7 +273,7 @@ p {
     margin-top: 15px;
 }
 
-.event .post-tag {
+.posts .post-tag, .event .post-tag {
     background: #ddd;
     font-size: .9rem;
     color: #333;

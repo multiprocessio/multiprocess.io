@@ -1,1 +1,1 @@
-cat /usr/share/nginx/logs/$1.access.log |jq --unbuffered -r 'select(.status = 200 )|.request' | grep GET | grep -v '.xml\|.css\|.txt\|.ico\|.png\|.php' | sort | uniq | cut -d ' ' -f 2
+cat /usr/share/nginx/logs/$1.access.log | grep -vi bot | grep Mozilla |jq --unbuffered -r 'select(.status = 200 )|.request' | grep GET | grep -v '.xml\|.css\|.txt\|.ico\|.png\|.php' | sort | cut -d ' ' -f 2 | uniq -c | sort -nr
