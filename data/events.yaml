@@ -1,3 +1,62 @@
+20210705:
+  - title: "Exploiting a Kubernetes cluster"
+    by: "Data on Kubernetes Community"
+    url: "https://www.meetup.com/Data-on-Kubernetes-community/events/279145637/"
+    datetime: Tuesday, July 6 at 10AM PDT
+    tags:
+      - Kubernetes
+      - Exploit
+      - Snyk
+  - title: "Aggregating Big Topic Models At Scale; Anacode's AI Trends & News Monitor"
+    by: "Natural Language Processing NYC"
+    datetime: Tuesday, July 2 at 12PM EDT
+    url: "https://www.meetup.com/NY-NLP/events/278322010/"
+    tags:
+      - AI
+      - NLP
+      - Apache Spark
+      - Flatiron Health
+      - Anacode
+  - title: "Automated Installation of Jitsi Server; OpenSUSE Leap 15.3, an alternative to CentOS; Replacing Hyper-V and VMWare with KVM/QEMU"
+    datetime: "Tuesday, July 6 at 5:30PM EDT"
+    by: "Linux-Meetup Montreal"
+    url: "https://www.meetup.com/Linux-Montreal/events/htstdsycckbjb/"
+    tags:
+      - Linux
+      - Jitsi
+      - OpenSUSE
+      - CentOS
+      - KVM/QEMU
+      - Samba
+      - Active Directory
+      - Windows Server 2019
+  - title: "Making N Populations Work in 1 Model Architecture; Contextual Bandit for Pricing; Offline Metrics for Recommendation"
+    datetime: "Tuesday, July 6 at 6PM GMT+3"
+    url: "https://www.meetup.com/PyData-Tel-Aviv/events/278830929/"
+    by: PyData Tel Aviv
+    tags:
+      - Python
+      - Taboola
+      - Fyber
+      - Argmax
+  - title: "The Upcoming Fuzz Testing API; Go's time.Time Format() vs C's strftime()"
+    by: "Boston Golang Group"
+    datetime: "Tuesday, July 6 at 6:30PM EDT"
+    url: "https://www.meetup.com/bostongo/events/278843046/"
+    tags:
+      - Golang
+      - C
+      - Fuzzing
+      - Square
+  - title: "Basic Accessibility Testing Methods and Tools"
+    by: "Princeton Accessibility Meetup"
+    datetime: "Thursday, July 8 at 12:30PM EDT"
+    url: "https://www.meetup.com/A11YPrinceton/events/275686204/"
+    tags:
+      - Accesibility
+      - Web Development
+      - Princeton University
+
 20210628:
   - title: "Zanzibar: Google's Consistent, Global Authorization System"
     url: 'https://www.meetup.com/papers-we-love/events/278148236/'
