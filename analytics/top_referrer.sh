@@ -1,1 +1,1 @@
-./analytics/top_pages.sh | xargs -I {} bash -c 'cat /usr/share/nginx/logs/datastation.access.log | grep {} | jq -r ".http_referer"' | sort | uniq -c | sort -nr
+cat /usr/share/nginx/logs/datastation.access.log | grep -vi bot | grep Mozilla | grep GET | grep -v '.xml\|.css\|.txt\|.ico\|.png\|.php' | jq --unbuffered -r 'select(.status=="200")|.request' | grep -v '~' | sort | cut -d ' ' -f 2 | cut -d '?' -f 1 | xargs -I {} bash -c 'cat /usr/share/nginx/logs/datastation.access.log | grep {} | jq -r ".http_referer"' | sort | uniq -c | sort -nr

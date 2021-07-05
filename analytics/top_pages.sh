@@ -1,1 +1,1 @@
-cat /usr/share/nginx/logs/$1.access.log | grep -vi bot | grep Mozilla |jq --unbuffered -r 'select(.status = 200 )|.request' | grep GET | grep -v '.xml\|.css\|.txt\|.ico\|.png\|.php' | sort | cut -d ' ' -f 2 | uniq -c | sort -nr
+cat /usr/share/nginx/logs/datastation.access.log | grep -vi bot | grep Mozilla | grep GET | grep -v '.xml\|.css\|.txt\|.ico\|.png\|.php' | jq --unbuffered -r 'select(.status=="200")|.request' | grep -v '~' | sort | cut -d ' ' -f 2 | cut -d '?' -f 1 | uniq -c | sort -nr
