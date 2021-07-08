@@ -2,6 +2,7 @@ html, body {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
+    background: #fbfbfb;
 }
 
 h1 {
@@ -237,11 +238,13 @@ footer .container > * {
 }
 
 .post-tag {
+    margin-top: 15px;
+    font-size: .9rem;
     display: inline-block;
     margin-right: 5px;
-    background: #696969;
-    padding: 5px;
-    border-color: 1px solid #696969;
+    background: #473c56;
+    padding: 0 5px;
+    border: 1px solid #7b6b90;
 }
 
 p {
@@ -280,20 +283,21 @@ p {
     color: black;
 }
 
-.event .post-tags {
-    margin-top: 15px;
+.posts .post-tag, .event .post-tag {
+    background: #ece7f3;
+    color: #333;
+    border-color: #dad1e6;
 }
 
-.posts .post-tag, .event .post-tag {
-    background: #ddd;
-    font-size: .9rem;
-    color: #333;
+.hljs code,
+.hljs.code {
+    background: white;
 }
 
 .code, p code {
-    background: #fcfcff;
+    background: white;
     font-size: 1rem;
-    border: 1px solid #f1f1f1;
+    border: 1px solid #ebebeb;
 }
 
 .code {
@@ -301,6 +305,13 @@ p {
     padding: 15px;
     overflow: auto;
     max-width: 100%;
+}
+
+.code-caption {
+    font-size: .8rem;
+    color: #777;
+    display: block;
+    margin-bottom: -1.5em;
 }
 
 @media only screen and (max-width: 600px) {

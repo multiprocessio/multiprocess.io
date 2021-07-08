@@ -1,5 +1,9 @@
 {% extends 'layout.tmpl' %}
 
+{% block head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css" />
+{% endblock %}
+
 {% block body %}
 <section class="post-header">
   <div class="container">
@@ -27,4 +31,6 @@
     </p>
   </div>
 </section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 {% endblock %}

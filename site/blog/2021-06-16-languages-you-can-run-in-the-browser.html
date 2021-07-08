@@ -32,7 +32,7 @@
   in the browser using Brython, just add the following JavaScript
   files:
 </p>
-<pre class="code"><code>&lt;script src="https://cdn.jsdelivr.net/npm/brython@3.9/brython.min.js"&gt;&lt;/script&gt;
+<pre class="hljs code"><code>&lt;script src="https://cdn.jsdelivr.net/npm/brython@3.9/brython.min.js"&gt;&lt;/script&gt;
 &lt;script src="https://cdn.jsdelivr.net/npm/brython@3.9/brython_stdlib.js"&gt;&lt;/script&gt;</code></pre>
 <p>
   The Brython docs assume you are going to script your app in Python
@@ -42,7 +42,7 @@
   can call <code>window.__BRYTHON__.python_to_js(program)</code> and
   then <code>eval</code> the result. Here's some React pseudo-code:
 </p>
-<pre class="code"></code>function PythonEditor() {
+<pre class="hljs code"><code>function PythonEditor() {
   const [code, setCode] = React.useState('');
   const [pythonResult, setPythonResult] = React.useState('');
   React.useEffect(() => {
@@ -82,14 +82,14 @@
   sql.js</code>. Then copy sql-wasm.js and sql-wasm.wasm into wherever
   you will host it:
 </p>
-<pre class="code"><code>cp node_modules/sql.js/dist/sql-wasm.js build
+<pre class="hljs code"><code>cp node_modules/sql.js/dist/sql-wasm.js build
 cp node_modules/sql.js/dist/sql-wasm.wasm build</code></pre>
 <p>
   Now you can follow the rest of the SQL.js tutorials pretty
   easily. Here's another pseudo-code React component for running SQL
   in-memory:
 </p>
-<pre class="code"><code>function SQLEditor() {
+<pre class="hljs code"><code>function SQLEditor() {
   const [code, setCode] = React.useState('SELECT 1');
   const [sqlResult, setSqlResult] = React.useState('');
   let sql = React.useRef(null);

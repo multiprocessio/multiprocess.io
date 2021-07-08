@@ -11,13 +11,13 @@
   When you create a controlled <code>input</code> in React with a
   blank <code>value</code>, the UI will show nothing in the textbox.
 </p>
-<pre class="code"><code>function Input({ value, onChange }) {
+<pre class="hljs code"><code>function Input({ value, onChange }) {
   return (
     &lt;input type="text" value={value} onChange={e => onChange(e.target.value)} /&gt;
   );
 }</code></pre>
 <p>What about <code>select</code> elements?</p>
-<pre class="code"><code>function Select({ value, onChange, children }) {
+<pre class="hljs code"><code>function Select({ value, onChange, children }) {
   return (
     &lt;select value={value} onChange={e => onChange(e.target.value)} children={children} /&gt;
   );
@@ -56,7 +56,7 @@ const [value, setValue] = React.useState('');
   <code>onChange</code> with a valid default value. Here's what the
   latter could look like.
 </p>
-<pre class="code"><code>function Select({ value, onChange, children }) {
+<pre class="hljs code"><code>function Select({ value, onChange, children }) {
   React.useEffect(() => {
     if (!value || !children) return;
 
