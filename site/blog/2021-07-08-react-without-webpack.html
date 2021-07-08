@@ -223,11 +223,11 @@ header {
 &lt;script src="/app.js"&gt;&lt;/script&gt;</code></pre>
 <p>
   Now we can break the React code up into three separate
-  files: <code>index.js</code>, <code>body.js</code>,
-  and <code>header.js</code>. And we can switch to
+  files: <code>index.jsx</code>, <code>body.jsx</code>,
+  and <code>header.jsx</code>. And we can switch to
   using <code>import</code> to include React.
 </p>
-<span class="code-caption">header.js</span>
+<span class="code-caption">header.jsx</span>
 <pre class="code hljs"><code>import React from 'react';
 
 export function Header() {
@@ -239,7 +239,7 @@ export function Header() {
     &lt;/header&gt;
   );
 }</code></pre>
-<span class="code-caption">body.js</span>
+<span class="code-caption">body.jsx</span>
 <pre class="code hljs"><code>import React from 'react';
 
 export function Body() {
@@ -252,7 +252,7 @@ export function Body() {
     &lt;/main&gt;
   );
 }</code></pre>
-<span class="code-caption">app.js</span>
+<span class="code-caption">index.jsx</span>
 <pre class="code hljs"><code>import React from 'react';
 import ReactDOM from 'react-dom';
 
