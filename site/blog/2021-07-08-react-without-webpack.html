@@ -273,17 +273,17 @@ ReactDOM.render(&lt;App /&gt;, document.getElementById('root'));
   And that's it! Now we need to set up <code>package.json</code> with
   all the necessary packages.
 </p>
-<pre><code>$ yarn init
+<pre class="hljs code"><code>$ yarn init
 $ yarn add --dev esbuild
 $ yarn add react react-dom</code></pre>
 <p>
   Calling <code>esbuild</code> will make the bundle.
 </p>
-<pre><code>yarn esbuild --bundle index.jsx --outfile=build/app.js && cp index.html style.css build</code></pre>
+<pre class="hljs code"><code>yarn esbuild --bundle index.jsx --outfile=build/app.js && cp index.html style.css build</code></pre>
 <p>
   And then using a simple HTTP server will make all of the site accessible.
 </p>
-<pre><code>python3 -m http.server --directory build</code></pre>
+<pre class="hljs code"><code>python3 -m http.server --directory build</code></pre>
 <p>
   And you're done! If you want to make it even more developer-friendly
   you can
