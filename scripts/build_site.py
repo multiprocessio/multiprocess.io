@@ -31,6 +31,7 @@ events = yaml.load(open('data/events.yaml'))
 for file in glob.glob(base+"/*.*")+glob.glob(base+"/**/*.*"):
     if file.endswith(".tmpl"):
         continue
+    print('Rendering ' + file)
     tmpl = load_template(file, base)
     out = file.replace(base+"/", out_base+"/")
     title = get_block(tmpl, "title")
@@ -56,6 +57,7 @@ for file in glob.glob(base+"/*.*")+glob.glob(base+"/**/*.*"):
 tmpl = load_template(base+"/blog/index.html", base)
 blog_posts.sort(key=lambda post: datetime.strptime(post["date"], "%B %d, %Y"), reverse=True)
 with open(out_base+"/blog/index.html", "w") as fw:
+    print('Rendering blog index')
     fw.write(tmpl.render(**DEFAULT_DATA, posts=blog_posts))
 
 url_base = "https://datastation.multiprocess.io"

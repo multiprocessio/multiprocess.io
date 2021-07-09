@@ -1,0 +1,45 @@
+{% set doctitle = 'SQL Panel Documentation' %}
+
+{% extends 'docs/layout.tmpl' %}
+
+{% block docbody %}
+<p>
+  SQL panels allow you to write SQL against databases like PostgreSQL
+  or MySQL. Aside from the <a href="#in-memory-sql">In-Memory</a>
+  engine, you will pick from the <a href="/docs/data-source.html">Data
+  Sources</a> that you set up after you select a SQL vendor.
+</p>
+<h2>Reading from another panel</h2>
+<p>
+  SQL panels can refer to the results of other panels by
+  using <code>DM_getPanel($number)</code> where <code>$number</code>
+  is the zero-indexed panel you want to grab.
+</p>
+<p>
+  <code>DM_getPanel($number)</code> should only be called
+  once. After that it can be referred to by the
+  alias <code>t$number</code>. For example: <code>SELECT * FROM
+    DM_getPanel(0) WHERE t0.age < 12></code> will fetch all results
+  from the first panel (zero-indexed) and filter out rows where
+  the <code>age</code> column is less than <code>12</code>.
+</p>
+<h2>With Server</h2>
+<p>
+  SQL queries can be proxied through an SSH tunnel by checking
+  the <code>With Server</code> option. Once selected, you will be
+  prompted to pick from one of the SSH Connections you set up
+  previously.
+</p>
+<h2>In-Memory SQL</h2>
+<p>
+  In-memory SQL is a way of running SQL queries solely against
+  other panels without a running database. It is useful in
+  situations where you don't have a database but the most natural
+  way to express a join or filter is in SQL rather than code.
+</p>
+<h2>Online Environment Caveats</h2>
+<p>
+  In the online environment only In-Memory SQL is available since
+  there is no server.
+</p>
+{% endblock %}

@@ -1,87 +1,27 @@
-{% set title = 'Documentation | DataStation' %}
+{% set doctitle = 'Documentation' %}
 
-{% extends 'layout.tmpl' %}
+{% extends 'docs/layout.tmpl' %}
 
-{% block body %}
-<section>
-  <div class="container">
-    <h1>Documentation</h1>
-</section>
-<section class="post-body">
-  <div class="container">
-    <h2 id="installation">Installation</h2>
-    <p>
-      Visit
-      the <a href="https://github.com/multiprocessio/datastation/releases/tag/{{latest_version}}">{{latest_version}}</a>
-      release page. If you are on Mac, download
-      the <code>darwin-x64-{{latest_version}}.zip</code> file. If you are on
-      Windows, download the <code>win64-x64-{{latest_version}}.zip</code> file.
-    </p>
-    <p>
-      Once you have downloaded and unzipped the file, the application
-      will be inside the <code>releases</code> folder.
-    </p>
-    <p>
-      If you are on Mac you will need to right-click the application to
-      click <code>Open</code> so you can run the untrusted application.
-    </p>
-  </div>
-  <div class="container">
-    <h2>Usage</h2>
-    <p>
-      DataStation is organized into Projects which consist of zero or
-      more pages. Each page has zero or more panels that can interact
-      with each other.
-    </p>
-    <p>
-      In general, every panel is edited separately from being
-      run. While it might be convenient to automatically run panels
-      when they change, it becomes a problem when making large
-      requests or when making requests that modify external data.
-    </p>
-  </div>
-  <div class="container">
-    <h2>SQL Panels</h2>
-    <p>
-      SQL panels allow you to write SQL against databases like
-      PostgreSQL or MySQL. SQL panels can refer to the results of
-      other panels by using <code>DM_getPanel($number)</code>
-      where <code>$number</code> is the zero-indexed panel you want to
-      grab.
-    </p>
-    <p>
-      <code>DM_getPanel($number)</code> should only be called
-      once. After that it can be referred to by the
-      alias <code>t$number</code>. For example: <code>SELECT * FROM
-      DM_getPanel(0) WHERE t0.age < 12></code> will fetch all results
-      from the first panel (zero-indexed) and filter out rows where
-      the <code>age</code> column is less than <code>12</code>.
-    </p>
-    <h3>In-Memory SQL</h3>
-    <p>
-      In-memory SQL is a way of running SQL queries solely against
-      other panels without a running database. It is useful in
-      situations where you don't have a database but the most natural
-      way to express a join or filter is in SQL rather than code.
-    </p>
-  </div>
-  <div class="container">
-    <h2>Code Panels</h2>
-    <p>
-      Code panels allow you to use Python or JavaScript to produce
-      data for or manipulate data from other panels.
-    </p>
-    <p>
-      Use <code>DM_getPanel($number)</code> to pull the results from
-      another panel where <code>$number</code> is the zero-indexed
-      panel you want to grab. And use <code>DM_setPanel($var)</code>
-      to set the current panel's result.
-    </p>
-    <p>
-      The online environment uses in-browser implementations of
-      JavaScript and Python. But the desktop application uses your
-      existing JavaScript and Python install.
-    </p>
-  </div>
-</section>
+{% block docbody %}
+<p>
+  DataStation is an IDE for fetching data, combining it, and
+  visualizing it. You can make HTTP requests, SQL queries, read from
+  files. You can script in major languages like Python, Ruby, Julia,
+  and more.
+</p>
+<ul>
+  <li><a href="/docs/installation.html">Installation</a></li>
+  <li><a href="/docs/video-guides.html">Video Guides</a>
+  <li>
+    <span>Panels</span>
+    <ul>
+      <li><a href="/docs/sql-panel.html">SQL Panels</a></li>
+      <li><a href="/docs/code-panel.html">Code Panels</a></li>
+      <li><a href="/docs/http-panel.html">HTTP Panels</a></li>
+      <li><a href="/docs/file-panel.html">File Panels</a></li>
+    </ul>
+  </li>
+  <li><a href="/docs/data-source.html">Data Sources</a>
+  <li><a href="/docs/ssh-connection.html">SSH Connections</a>
+</ul>
 {% endblock %}

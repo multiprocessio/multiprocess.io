@@ -30,6 +30,15 @@ a:visited {
     color: blue;
 }
 
+
+a.header-link {
+    text-decoration: none;
+    color: black;
+    font-size: 15px;
+    padding: 10px;
+    margin-left: -35px;
+}
+
 .button {
     border-radius: 3px;
     padding: 5px 15px;

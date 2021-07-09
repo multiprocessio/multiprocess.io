@@ -1,0 +1,21 @@
+{% set doctitle = 'Installation' %}
+
+{% extends 'docs/layout.tmpl' %}
+
+{% block docbody %}
+<p>
+  Visit
+  the <a href="https://github.com/multiprocessio/datastation/releases/tag/{{latest_version}}">{{latest_version}}</a>
+  release page. If you are on Mac, download
+  the <code>darwin-x64-{{latest_version}}.zip</code> file. If you are on
+  Windows, download the <code>win64-x64-{{latest_version}}.zip</code> file.
+</p>
+<p>
+  Once you have downloaded and unzipped the file, the application
+  will be inside the <code>releases</code> folder.
+</p>
+<p>
+  If you are on Mac you will need to right-click the application to
+  click <code>Open</code> so you can run the untrusted application.
+</p>
+{% endblock %}

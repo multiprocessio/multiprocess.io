@@ -100,4 +100,17 @@
       showMobile[i].className = showMobile[i].className.replace('show-mobile', '');
     }
   }
+
+  const headers = document.querySelectorAll('h2,h3,h4,h5,h6');
+  for (let i = 0; i < headers.length; i++) {
+    const id = headers[i].innerHTML.replaceAll(' ', '-').toLowerCase();
+    headers[i].id = id;
+    if (!isMobile) {
+      const headerLink = document.createElement('a');
+      headerLink.className = 'header-link material-icons';
+      headerLink.innerHTML = 'link';
+      headerLink.href = window.location.pathname + '#' + id;
+      headers[i].prepend(headerLink);
+    }
+  }
 </script>

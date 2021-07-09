@@ -1,0 +1,15 @@
+{% set title = doctitle + ' | DataStation' %}
+
+{% extends 'layout.tmpl' %}
+
+{% block body %}
+<section>
+  <div class="container">
+    <h1>{{doctitle}}</h1>
+</section>
+<section class="post-body">
+  <div class="container">
+  {% block docbody %}{% endblock %}
+  </div>
+</section>
+{% endblock %}
