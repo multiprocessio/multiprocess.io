@@ -1,0 +1,15 @@
+{% set doctitle = 'Video Guides' %}
+
+{% extends 'docs/layout.tmpl' %}
+
+{% block docbody %}
+<div class="videos">
+  {% for video in videos %}
+  <div class="video">
+    <iframe src="https://www.youtube.com/embed/{{ video.id }}?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <div class="video-name">{{ video.name }}</div>
+    <div class="video-date">{{ video.date }}</div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

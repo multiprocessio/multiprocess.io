@@ -26,6 +26,7 @@ def get_block(tmpl, name):
 base = "site"
 out_base = "build"
 
+videos = yaml.load(open('data/videos.yaml'))
 events = yaml.load(open('data/events.yaml'))
 
 for file in glob.glob(base+"/*.*")+glob.glob(base+"/**/*.*"):
@@ -35,7 +36,7 @@ for file in glob.glob(base+"/*.*")+glob.glob(base+"/**/*.*"):
     tmpl = load_template(file, base)
     out = file.replace(base+"/", out_base+"/")
     title = get_block(tmpl, "title")
-    content = tmpl.render({ **DEFAULT_DATA, "events": events })
+    content = tmpl.render({ **DEFAULT_DATA, "events": events, "videos": videos })
 
     # Accumulate blog posts
     if file.startswith(base+"/blog/") and not file.endswith("index.html"):
