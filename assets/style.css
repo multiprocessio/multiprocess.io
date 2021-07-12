@@ -259,17 +259,21 @@ footer .container > * {
 
 p, li {
     line-height: 2rem;
+}
+
+p {
     padding: 15px 0;
 }
 
 .post-body .product-picture {
     padding-top: 15px;
     padding-left: 0;
-}
-
-.post-body .product-picture {
     width: 650px;
     max-width: 100%;
+}
+
+.post-body .product-picture img {
+    box-shadow: 0 0 3px 0 black;
 }
 
 .caption {
