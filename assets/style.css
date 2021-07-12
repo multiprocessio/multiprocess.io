@@ -54,6 +54,7 @@ a.header-link {
     margin: 0 auto;
     max-width: 100%;
     width: 1200px;
+    padding: 0 50px;
 }
 
 .flex {
@@ -226,7 +227,7 @@ footer .container > * {
 }
 
 .posts .post {
-    margin: 30px 0;
+    margin: 60px 0;
 }
 
 .post-body  p, .post-header p, .post-footer p {
@@ -286,6 +287,10 @@ p {
     display: block;
     border: 1px solid #ccc;
     margin: 15px 0;
+}
+
+.event-title {
+    font-size: 1.5rem;
 }
 
 .event-title, .event-title:visited {
