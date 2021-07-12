@@ -1,0 +1,53 @@
+{% set doctitle = '0.0.3-alpha Release Notes' %}
+
+{% extends 'docs/layout.tmpl' %}
+
+{% block docbody %}
+<p>
+  There are three big parts of this release: support for proxying
+  certain panels through an SSH server, support for three new
+  scripting languages, and usability improvements when working with
+  many megabytes of data.
+</p>
+<h2>New features</h2>
+<ul>
+  <li>
+    You can now <strong>proxy SQL and HTTP requests through an SSH
+    server</strong>. This makes it more practical to use DataStation
+    to connect to production systems. Read more in
+    the <a href="/docs/http-panel.html">HTTP panel</a>
+    and <a href="/docs/sql-panel.html">SQL panel</a> documentation.
+  </li>
+  <li>
+    You can now <strong>read remote files by attaching an SSH server
+    to a File panel</strong>. This is useful for pulling server logs
+    into DataStation. Read more in
+    the <a href="/docs/file-panel.html">File panel</a> documentation.
+  </li>
+  <li>
+    You can now <strong>script in Code panels using Ruby, Julia, and
+    R</strong> in addition to Python and JavaScript. Read more in
+    the <a href="/docs/code-panel.html">Code panel</a> documentation.
+  </li>
+</ul>
+<h2>Fixes</h2>
+<ul>
+  <li>
+    You can now easily load tens of megabytes worth of data in
+    DataStation due to an improved algorithm for showing panel result
+    previews.
+  </li>
+  <li>
+    The Table panel is easier to read due to alternate row coloring
+    and column alignment.
+  </li>
+  <li>
+    The default MySQL port when not specified is correctly set to
+    3306.
+  </li>
+  <li>
+    Correctly change UI when a panel is being run to show that
+    evaluation is happening.
+  </li>
+</ul>
+{% endblock %}
