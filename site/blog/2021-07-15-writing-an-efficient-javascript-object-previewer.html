@@ -102,10 +102,11 @@
 </p>
 <p>
   Finally, the most important part is that we're severely limiting the
-  number of keys we iterate over. If we had no limits, this code would
-  be much slower than <code>JSON.stringify</code>, which is actually
-  really fast. Again, the benefit is that we show a very small subset
-  of the whole object. This is exactly what we want: just a preview.
+  number of keys we iterate over. If we had no limits this code would
+  be much slower than <code>JSON.stringify</code> (which is
+  surprisingly fast). But again, this preview only needs to show a
+  small subset of the object being previewed. So showing only a few
+  keys is a great tradeoff.
 </p>
 <p>
   When I swapped this implementation out for the slice-JSON-stringifiy
