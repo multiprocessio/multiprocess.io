@@ -307,6 +307,10 @@ p {
     border-color: #dad1e6;
 }
 
+.code {
+    max-height: 800px;
+}
+
 .hljs code,
 .hljs.code {
     background: white;
