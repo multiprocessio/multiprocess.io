@@ -9,7 +9,9 @@
 {% block postBody %}
 <p>
   In an earlier version of DataStation, previews of panel results were
-  converted to JSON and then sliced to the first 100 characters.
+  converted to JSON and then sliced to the first 100 characters. It
+  was to give the user some simple feedback about the result of
+  running a panel.
 </p>
 <div class="product-picture">
   <a href="/0.0.1-alpha-preview-screenshot.jpeg">
@@ -31,7 +33,7 @@
 <p>
   This was an easy enough solution and it worked alright at first. But
   as soon as you tried to preview large objects (at least a megabyte
-  or so), the entire app would hang will calculating the preview.
+  or so), the entire app would hang while calculating the preview.
 </p>
 <p>
   This makes sense. It's a huge waste to convert the entire object to
