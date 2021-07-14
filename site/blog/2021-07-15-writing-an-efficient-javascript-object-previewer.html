@@ -109,18 +109,23 @@
   keys is a great tradeoff.
 </p>
 <p>
-  When I swapped this implementation out for the slice-JSON-stringifiy
-  version I saw an immediate performance improvement. DataStation
-  could handle many tens of megabytes of data loaded into the app now.
+  When I replaced the <code>JSON.stringify().slice()</code>
+  implementation with the custom algorithm, there was an immediate
+  performance improvement. DataStation could handle many tens of
+  megabytes of data loaded into the app now.
 </p>
 <h2>Getting more user-friendly</h2>
 <p>
-  After getting this preview helper working, I wanted to make it more
+  After getting this custom preview working, I wanted to make it more
   friendly. I wanted to have key-value and array elements show up on a
-  newline if the top-level object was an array or object. I wanted to
-  show that keys, elements, and cutoff string values were modified if
-  they indeed were. (It isn't very important that the output becomes
-  not-JSON.)
+  newline if the top-level object was an array or object. This would
+  make better use of the horizontal space available in the preview box
+  in DataStation.
+</p>
+<p>
+  I also wanted to show that keys, elements, and cutoff string values
+  were modified if they indeed were. (It isn't very important that the
+  output becomes not-JSON.)
 </p>
 <p>
   Here is the
@@ -241,6 +246,9 @@ export function previewObject(obj: any, nKeys = 20, stringMax = 200): string {
     <div class="caption">More efficient preview</div>
   </a>
 </div>
+<p>
+  It looks pretty good!
+</p>
 <p>
   If this is useful to you, steal it
   (with <a href="https://github.com/multiprocessio/datastation/blob/master/LICENSE.md">the
