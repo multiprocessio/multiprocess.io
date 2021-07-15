@@ -355,6 +355,15 @@ p {
     color: #555;
 }
 
+.post-footer .subscribe {
+    margin: 0 5px;
+    background: #9f04ff;
+    display: inline-block;
+    padding: 5px 15px;
+    text-decoration: none;
+    border: 1px solid #d9bbec;
+}
+
 @media only screen and (max-width: 600px) {
     .container {
 	padding: 0 15px;
