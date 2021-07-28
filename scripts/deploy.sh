@@ -5,7 +5,7 @@ set -eux
 git clean -xid
 ./scripts/build_site.sh
 
-git clone git@gitlab.com:multiprocessio/datastation workspace || true
+git clone git@github.com:multiprocessio/datastation workspace || true
 ( cd workspace && git pull && yarn && yarn build-ui )
 
 echo "
