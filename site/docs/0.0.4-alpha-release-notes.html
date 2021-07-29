@@ -3,177 +3,184 @@
 {% extends 'docs/layout.tmpl' %}
 
 {% block docbody %}
+<p>
+  <a href="https://github.com/multiprocessio/datastation/releases/tag/0.0.4-alpha">Get the 0.0.4-alpha now!</a>
+</p>
 <h2>Features and improvements</h2>
-<ul>
-  <li>
-    <h3>File, HTTP and Literal panels</h3>
-    <h4>New log parsers</h4>
-    <p>
-      You can now override the content type of content panels and
-      select from a number of useful builtin parsers (in addition to
-      Excel, CSV, JSON): JSON newline, Apache2 error and access logs,
-      Nginx access logs, Syslog logs, or specify a custom regex to
-      apply to each line.
-    </p>
-    <p>
-      <strong>Upshot?</strong> In addition to just being able to
-      import logs for joining with other datasets, you can now use
-      DataStation as a primitive alternative to a Splunk or ELK setup
-      for working with your logs.
-    </p>
-    <h4>Importing Parquet content</h4>
-    <p>
-      DataStation can now read Parquet files from File and HTTP
-      panels. (Since it's a binary format it won't work in the Literal
-      panel which is plain-text.)
-    </p>
-    <p>
-      <strong>Upshot?</strong> By importing a Parquet file or hitting
-      an HTTP endpoint returning Parquet, you can use DataStation to
-      run SQL queries against your Parquet data by adding a SQL Code
-      panel reading from the File or HTTP panel.
-    </p>
-    <h4>Improvements to Excel importing</h4>
-    <p>
-      Excel files now only import the actual sheets rather than all
-      metadata about the Excel file. Additionally, when there is only
-      one sheet in the Excel file, the result of the panel is
-      flattened down as if you imported a CSV of that single sheet
-      (rather than the result being a dictionary mapping sheet name to
-      CSV-like result). Finally, DataStation will automatically trim
-      whitespace in Excel column headers.
-    </p>
-  </li>
-  <li>
-    <h3>Program and SQL panels</h3>
-    <h4>Cancel running processes</h4>
-    <p>
-      Before this release you could not cancel a running process. This
-      meant it was impossible to debug an infinite loop a Program
-      panel. In this release you can now hit Pause after running a
-      program to kill the running process.
-    </p>
-    <h4>SQLite</h4>
-    <p>
-      You can now query SQLite databases, locally or remote.
-    </p>
-    <h4>In-memory SQL</h4>
-    <p>
-      By switching
-      from <a href="https://github.com/sql-js/sql.js">sql.js</a>
-      (SQLite compiled to WebAssembly)
-      to <a href="https://github.com/agershun/alasql">alasql</a>
-      DataStation can now handle running over much larger
-      results. WebAssembly in contrast seems to have very tight
-      restrictions on how much memory it is able to use.
-    </p>
-    <p>
-      Additionally, the in-memory SQL panel has moved from the SQL
-      panel into the Program panel since it's more like a script than
-      a connection to a real database.
-    </p>
-    <p>
-      <strong>Upshot?</strong> You can now run SQL queries against
-      at least 10s of megabytes of data.
-    </p>
-    <h4>CockroachDB</h4>
-    <p>
-      This release confirms support for querying CockroachDB databases
-      by setting up a PostgreSQL connection pointed at your
-      CockroachDB database.
-    </p>
-    <h4>More useful in-memory Python for online environment</h4>
-    <p>
-      <a href="https://brython.info/">Brython was the original
-      in-memory Python implementation used in the online
-      environment. It is small and efficient but wraps all native
-      Python objects in a way that makes it very inconvenient to
-      use. This release swaps out Brython
-      for <a href="https://github.com/pyodide/pyodide">Pyodide</a> to
-      make the in-memory Python experience as easy as you'd expect.
-    </p>
-  </li>
-  <li>
-    <h3>General panel improvements</h3>
-    <h4>Panel success/failure</h4>
-    <p>
-      When a panel is running, its background will oscillate between a
-      purple tinge and white. Additionally, "Success" or "Failure" is
-      shown at the top of the panel near the play button in green or
-      red.
-    </p>
-    <h4>Inferred shape of results</h4>
-    <p>
-      Thanks to
-      a <a href="https://github.com/multiprocessio/shape">newly
-      released open-source library</a> DataStation will show you an
-      inferred schema for the results after you run a panel.
-    </p>
-    <p>
-      <strong>Upshot?</strong> In addition to making it easier to
-      explore your own data, DataStation uses the shape of panels to
-      make it easier to fill out other panels. For example, the Graph
-      panel can now default to loading a Y-axis field that is a number
-      and an X-axis field that is a string.
-    </p>
-    <h4>Additional results metadata</h4>
-    <p>
-      After a panel is run, DataStation will show you the assumed
-      content-type used while parsing the results and will also show
-      you the size in bytes, kilobytes, or megabytes of the result
-      stored on disk.
-    </p>
-  </li>
-  <li>
-    <h3>Misc improvements</h3>
-    <h4>Efficient results storage</h4>
-    <p>
-      Prior to this release, panel results were stored both on disk
-      and in browser memory. In this release, results are no longer
-      stored in browser memory. This keeps the UI fast as you load
-      larger data into DataStation.
-    </p>
-    <h4>Run all panels on page</h4>
-    <p>
-      Each page now has a global run button that will trigger all
-      panels to run in sequence top to bottom. This will only work if
-      panels depend on panels above them.
-    </p>
-    <h4>Global undo</h4>
-    <p>
-      You can now use Ctrl- or Cmd- z to undo changes like deleting a
-      page or panel.
-    </p>
-    <h4>Project improvements</h4>
-    <p>
-      You can now open multiple projects at the same time (in
-      different windows). You can also create new projects if one
-      already exists (a silly limitation before).
-    </p>
-  </li>
-  <li>
-    <h3>Test and release improvements</h3>
-    <h4>End-to-end tests</h4>
-    <p>
-      End-to-end tests are now run automatically in Github Actions for
-      Windows, Linux and macOS on amd64/x86_64.
-    </p>
-    <h4>Linux binaries</h4>
-    <p>
-      Pre-built Linux binaries are now provided in the release
-      artifacts page on Github!
-    </p>
-    <h4>Automated release builds</h4>
-    <p>
-      Before this release, release artifacts were hand-built on
-      different laptops. Now they are built and uploaded by Github
-      Actions for Linux, Windows, and macOS.
-    </p>
-  </li>
-</ul>
+<p>
+  There is so much in this release it is difficult to summarize! Here
+  are a few cool parts: you can now use DataStation like a rudimentary
+  ELK or Splunk instance with its new log parsers. You can load larger
+  data into DataStation due to a number of efficiency
+  improvements. You can run SQL over much larger datasets due to a
+  more efficient SQL implementation. And much more!
+</p>
+<p>
+  Read on for details and screenshots.
+</p>
+<h3>File, HTTP and Literal panels</h3>
+<h4>New log parsers</h4>
+<p>
+  You can now override the content type of content panels and
+  select from a number of useful builtin parsers (in addition to
+  Excel, CSV, JSON): JSON newline, Apache2 error and access logs,
+  Nginx access logs, Syslog logs, or specify a custom regex to
+  apply to each line.
+</p>
+<p>
+  <strong>Upshot?</strong> In addition to just being able to
+  import logs for joining with other datasets, you can now use
+  DataStation as a primitive alternative to a Splunk or ELK setup
+  for working with your logs.
+  <img class="pb-4" src="/0.0.4-log-parsers.png" alt="New log parsers" />
+</p>
+<h4>Importing Parquet content</h4>
+<p>
+  DataStation can now read Parquet files from File and HTTP
+  panels. (Since it's a binary format it won't work in the Literal
+  panel which is plain-text.)
+</p>
+<p>
+  <strong>Upshot?</strong> By importing a Parquet file or hitting
+  an HTTP endpoint returning Parquet, you can use DataStation to
+  run SQL queries against your Parquet data by adding a SQL Code
+  panel reading from the File or HTTP panel.
+</p>
+<h4>Improvements to Excel importing</h4>
+<p>
+  Excel files now only import the actual sheets rather than all
+  metadata about the Excel file. Additionally, when there is only
+  one sheet in the Excel file, the result of the panel is
+  flattened down as if you imported a CSV of that single sheet
+  (rather than the result being a dictionary mapping sheet name to
+  CSV-like result). Finally, DataStation will automatically trim
+  whitespace in Excel column headers.
+</p>
+<h3>Program and SQL panels</h3>
+<h4>Cancel running processes</h4>
+<p>
+  Before this release you could not cancel a running process. This
+  meant it was impossible to debug an infinite loop a Program
+  panel. In this release you can now hit Pause after running a
+  program to kill the running process.
+  <img class="pb-4" src="/0.0.4-cancel-process.png" alt="Cancel a running Python process" />
+</p>
+<h4>SQLite</h4>
+<p>
+  You can now query SQLite databases, locally or remote.
+</p>
+<h4>In-memory SQL</h4>
+<p>
+  By switching
+  from <a href="https://github.com/sql-js/sql.js">sql.js</a>
+  (SQLite compiled to WebAssembly)
+  to <a href="https://github.com/agershun/alasql">alasql</a>
+  DataStation can now handle running over much larger
+  results. WebAssembly in contrast seems to have very tight
+  restrictions on how much memory it is able to use.
+</p>
+<p>
+  Additionally, the in-memory SQL panel has moved from the SQL
+  panel into the Program panel since it's more like a script than
+  a connection to a real database.
+</p>
+<p>
+  <strong>Upshot?</strong> You can now run SQL queries against
+  at least 10s of megabytes of data.
+</p>
+<h4>CockroachDB</h4>
+<p>
+  This release confirms support for querying CockroachDB databases
+  by setting up a PostgreSQL connection pointed at your
+  CockroachDB database.
+</p>
+<h4>More useful in-memory Python for online environment</h4>
+<p>
+  <a href="https://brython.info/">Brython was the original
+    in-memory Python implementation used in the online
+    environment. It is small and efficient but wraps all native
+    Python objects in a way that makes it very inconvenient to
+    use. This release swaps out Brython
+    for <a href="https://github.com/pyodide/pyodide">Pyodide</a> to
+    make the in-memory Python experience as easy as you'd expect.
+</p>
+<h3>General panel improvements</h3>
+<h4>Panel success/failure</h4>
+<p>
+  When a panel is running, its background will oscillate between a
+  purple tinge and white. Additionally, "Success" or "Failure" is
+  shown at the top of the panel near the play button in green or
+  red.
+</p>
+<h4>Inferred shape of results</h4>
+<p>
+  DataStation will now show you an inferred schema for the results
+  after you run a panel.  As it happens, the library powering this
+  is also available
+  on <a href="https://github.com/multiprocessio/shape">MultiProcess
+    Github</a> for standalone use in JavaScript/Node.js programs.
+</p>
+<p>
+  <strong>Upshot?</strong> In addition to making it easier to
+  explore your own data, DataStation uses the shape of panels to
+  make it easier to fill out other panels. For example, the Graph
+  panel can now default to loading a Y-axis field that is a number
+  and an X-axis field that is a string.
+  <img class="pb-4" src="/0.0.4-shape.png" alt="Inferred shape of ngixn logs" />
+</p>
+<h4>Additional results metadata</h4>
+<p>
+  After a panel is run, DataStation will show you the assumed
+  content-type used while parsing the results and will also show
+  you the size in bytes, kilobytes, or megabytes of the result
+  stored on disk.
+  <img class="pb-4" src="/0.0.4-results-metadata.png" alt="Size and assumed content-type of results" />
+</p>
+<h3>Misc improvements</h3>
+<h4>Efficient results storage</h4>
+<p>
+  Prior to this release, panel results were stored both on disk
+  and in browser memory. In this release, results are no longer
+  stored in browser memory. This keeps the UI fast as you load
+  larger data into DataStation.
+</p>
+<h4>Run all panels on page</h4>
+<p>
+  Each page now has a global run button that will trigger all
+  panels to run in sequence top to bottom. This will only work if
+  panels depend on panels above them.
+</p>
+<h4>Global undo</h4>
+<p>
+  You can now use Ctrl- or Cmd- z to undo changes like deleting a
+  page or panel.
+</p>
+<h4>Project improvements</h4>
+<p>
+  You can now open multiple projects at the same time (in
+  different windows). You can also create new projects if one
+  already exists (a silly limitation before).
+</p>
+<h3>Test and release improvements</h3>
+<h4>End-to-end tests</h4>
+<p>
+  End-to-end tests are now run automatically in Github Actions for
+  Windows, Linux and macOS on amd64/x86_64.
+</p>
+<h4>Linux binaries</h4>
+<p>
+  Pre-built Linux binaries are now provided in the release
+  artifacts page on Github!
+</p>
+<h4>Automated release builds</h4>
+<p>
+  Before this release, release artifacts were hand-built on
+  different laptops. Now they are built and uploaded by Github
+  Actions for Linux, Windows, and macOS.
+</p>
 <p>
   <a href="https://github.com/multiprocessio/datastation/releases/tag/0.0.4-alpha">Get the 0.0.4-alpha now!</a>
 </p>
 <h4>Share</h4>
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">What&#39;s new in DataStation 0.0.3-alpha? 🍾 Big improvements on usability w/ larger data; you can now script in Julia, Ruby, and R; and builtin support for proxying SQL, HTTP, and file reads over SSH.<br><br>Read more and check out the demo in the release notes!<a href="https://t.co/0YUgbuv0GL">https://t.co/0YUgbuv0GL</a> <a href="https://t.co/qqk0PyBC6I">pic.twitter.com/qqk0PyBC6I</a></p>&mdash; DataStation (@multiprocessio) <a href="https://twitter.com/multiprocessio/status/1414951433632469001?ref_src=twsrc%5Etfw">July 13, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 {% endblock %}

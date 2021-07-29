@@ -32,11 +32,19 @@ a:visited {
 
 
 a.header-link {
+    display: none;
     text-decoration: none;
     color: black;
     font-size: 15px;
     padding: 10px;
     margin-left: -35px;
+}
+
+h1:hover .header-link,
+h2:hover .header-link,
+h3:hover .header-link,
+h4:hover .header-link {
+    display: initial;
 }
 
 .button {
@@ -362,6 +370,10 @@ p {
     padding: 5px 15px;
     text-decoration: none;
     border: 1px solid #d9bbec;
+}
+
+.pb-4 {
+    padding-bottonm: 20px;
 }
 
 @media only screen and (max-width: 600px) {
