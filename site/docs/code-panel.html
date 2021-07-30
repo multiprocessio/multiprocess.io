@@ -1,0 +1,61 @@
+{% set doctitle = 'Code Panel Documentation' %}
+
+{% extends 'docs/layout.tmpl' %}
+
+{% block docbody %}
+<p>
+  Code panels allow you to use Python, JavaScript, Ruby, R, or Julia
+  to produce data for or manipulate data from other panels. The
+  language must be installed on your laptop already. R and Julia have
+  some additional requirements documented below.
+</p>
+<h2>Importing 3rd party libraries</h2>
+<p>
+  Since DataStation uses the language already installed, you can
+  import any libraries you already have installed too.
+</p>
+<h2>Communicating between panels</h2>
+<p>
+  Use <code>DM_getPanel($number)</code> to pull the results from
+  another panel where <code>$number</code> is the zero-indexed
+  panel you want to grab. And use <code>DM_setPanel($var)</code>
+  to set the current panel's result.
+</p>
+<p>
+  Panel results can be of any format. But when setting a panel you
+  intend to have read from a Table or Graph panel, there is a single
+  accepted data format.
+</p>
+<h2>Table and Graph panel data format</h2>
+<p>
+  Table and Graph panels must read from a panel that formats data as
+  an array of objects. Each object-element must be a mapping of column
+  name to column value. For example: <code>[{ "age": 1, "name":
+  "Eliza" }, { "age": 3, "name": "Javier" }]</code>.
+</p>
+<h2>Julia</h2>
+<p>
+  After you have installed Julia, you must also
+  install <a href="https://github.com/JuliaIO/JSON.jl">JSON.jl</a> for
+  Code panels to work.
+</p>
+<h2>R</h2>
+<p>
+  After you have installed R, you must also
+  install <a href="https://mail.rfaqs.com/reading-and-writing-json-files-in-r/">rjson</a>.
+</p>
+<h2>Overriding program path</h2>
+<p>
+  If you want to use a version of the language that is not in
+  your <code>PATH</code> or not the default, you can
+  modify <code>$HOME/DataStationProjects/.settings</code> and modify
+  the <code>${language}Path</code> variable like <code>rPath</code>
+  or <code>pythonPath</code> to point at the program you'd like to be
+  run.
+</p>
+<h2>Online Environment</h2>
+<p>
+  The online environment uses in-browser implementations of JavaScript
+  and Python. Other languages are not available.
+</p>
+{% endblock %}

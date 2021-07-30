@@ -1,0 +1,258 @@
+{% extends "blog/layout.tmpl" %}
+
+{% block postTitle %}Writing an efficient object previewer for JavaScript{% endblock %}
+{% block postDate %}July 15, 2021{% endblock %}
+{% block postAuthor %}Phil Eaton{% endblock %}
+{% block postAuthorEmail %}phil@multiprocess.io{% endblock %}
+{% block postTags %}javascript,json{% endblock %}
+
+{% block postBody %}
+<p>
+  In an earlier version of DataStation, previews of panel results were
+  converted to JSON and then sliced to the first 100 characters. The
+  point of these previews was to give the user feedback about the
+  result of running a panel.
+</p>
+<div class="product-picture">
+  <a href="/0.0.1-alpha-preview-screenshot.jpeg">
+    <img src="/0.0.1-alpha-preview-screenshot.jpeg" alt="JSON.stringify()-based preview" />
+    <div class="caption">JSON.stringify()-based preview</div>
+  </a>
+</div>
+<p>
+  The code looked like this:
+</p>
+<pre class="hljs code"><code>function previewObject(obj: any, length: number): string {
+  let str = JSON.stringify(obj, null, 2);
+  if (str.length > length) {
+    str = str.slice(0, length) + '...';
+  }
+  return str;
+}</code></pre>
+<h2>Performance implications</h2>
+<p>
+  This was an easy enough solution and it worked alright at first. But
+  as soon as you tried to preview large objects (at least a megabyte
+  or so), the entire app would hang while calculating the preview.
+</p>
+<p>
+  This makes sense. It's a huge waste to convert the entire object to
+  a JSON string just to show the first N characters.
+</p>
+<p>
+  My first instinct was to find a custom JSON stringifier library that
+  would allow me to control the recursion depth. But when I couldn't
+  find any, I started think about what "controlling the recursion
+  depth" could mean.
+</p>
+<p>
+  The most obvious solution I could think of was showing a decreasing
+  number of keys and array entries as you recurse through an
+  object. The first version along these lines looked like this:
+</p>
+<pre class="hljs code"><code>function previewObject(obj, limit = 10) {
+  if (!obj) {                                                            
+    return String(obj);
+  }           
+
+  // Go down to zero at some point                                       
+  const nextLimit = (limit / 2 < 1) ? 0 : (limit / 2);
+  if (!nextLimit) {
+    return "";
+  }
+
+  if (Array.isArray(obj)) {
+    const previewedChildren = obj.slice(0, limit).map(c => previewObject(c, nextLimit));
+    return '[ ' + previewedChildren.join(', ') + ' ]';
+  }
+
+  if (typeof obj === 'object') {
+    const keys = Object.keys(obj).slice(0, limit);
+    const previewedChildren = keys.map(k => '"' + k + '": ' + previewObject(obj[k], nextLimit));
+    return '{ ' + previewedChildren.join(', ') + ' }';
+  }
+
+  let str = obj;
+  if (typeof obj === 'string') {
+    str = '"' + str + '"';
+  }
+
+  return String(obj).slice(0, 200);
+}</code></pre>
+<p>
+  Some key aspects of this are that we use <code>String(thing)</code>
+  rather than <code>thing.toString()</code> so that if
+  <code>thing</code> is ever <code>null</code> or
+  <code>undefined</code> it will be properly stringified (and not
+  throw an exception).
+</p>
+<p>
+  We also need to check if <code>obj</code> is an array
+  <strong>before</strong> checking if it is an object since all arrays
+  are objects in JavaScript. And we don't care about looking
+  at <code>hasOwnProperty</code> in this case because the objects
+  we're previewing in DataStation are always simple data objects.
+</p>
+<p>
+  One nice property of this implementation
+  (unlike <code>JSON.stringify</code>) is that this is circular-object
+  safe. If you pass a circular object to <code>JSON.stringify</code>
+  it will throw an exception. This will not, since the number of keys
+  looked at when recurse always goes to zero.
+</p>
+<p>
+  Finally, the most important part is that we're severely limiting the
+  number of keys we iterate over. If we had no limits this code would
+  be much slower than <code>JSON.stringify</code> (which is
+  surprisingly fast). But again, this preview only needs to show a
+  small subset of the object being previewed. So showing only a few
+  keys is a great tradeoff.
+</p>
+<p>
+  When I replaced the <code>JSON.stringify().slice()</code>
+  implementation with the custom algorithm, there was an immediate
+  performance improvement. DataStation could handle many tens of
+  megabytes of data loaded into the app now.
+</p>
+<h2>Getting more user-friendly</h2>
+<p>
+  After getting this custom preview working, I wanted to make it more
+  friendly. I wanted to have key-value and array elements show up on a
+  newline if the top-level object was an array or object. This would
+  make better use of the horizontal space available in the preview box
+  in DataStation.
+</p>
+<p>
+  I also wanted to show that keys, elements, and cutoff string values
+  were modified if they indeed were. (It isn't very important that the
+  output becomes not-JSON.)
+</p>
+<p>
+  Here is the
+  <a href="https://github.com/multiprocessio/datastation/blob/master/ui/preview.ts">current
+  implementation</a> (I won't say final since it's likely there'll be
+  even more improvements as time goes on):
+</p>
+<pre class="hljs code"><code>function unsafePreviewArray(
+  obj: any,
+  nKeys: number,
+  stringMax: number,
+  nextNKeys: number,
+  prefixChar: string,
+  joinChar: string
+) {
+  const keys = obj.slice(0, nKeys);
+  const childPreview = keys.map(
+    (o: string) => prefixChar + unsafePreview(o, nextNKeys, stringMax)
+  );
+  if (obj.length > nKeys) {
+    childPreview.push(prefixChar + '...');
+  }
+  return ['[', childPreview.join(',' + joinChar), ']'].join(joinChar);
+}
+
+function unsafePreviewObject(
+  obj: any,
+  nKeys: number,
+  stringMax: number,
+  nextNKeys: number,
+  prefixChar: string,
+  joinChar: string
+) {
+  const keys = Object.keys(obj);
+  keys.sort();
+  const firstKeys = keys.slice(0, nKeys);
+  const preview: Array<any> = [];
+  firstKeys.forEach((k) => {
+    const formattedKey = `"${k.replaceAll('"', '\\"')}"`;
+    preview.push(
+      prefixChar +
+        formattedKey +
+        ': ' +
+        unsafePreview(obj[k], nextNKeys, stringMax)
+    );
+  });
+
+  if (keys.length > nKeys) {
+    preview.push(prefixChar + '...');
+  }
+
+  return ['{', preview.join(',' + joinChar), '}'].join(joinChar);
+}
+
+function unsafePreview(
+  obj: any,
+  nKeys: number,
+  stringMax: number,
+  topLevel = false
+): string {
+  if (!obj) {
+    return String(obj);
+  }
+
+  // Decrease slightly slower than (nKeys / 2) each time
+  const nextNKeys = nKeys < 1 ? 0 : Math.floor(nKeys * 0.6);
+  const joinChar = topLevel ? '\n' : ' ';
+  const prefixChar = topLevel ? '  ' : '';
+
+  if (Array.isArray(obj)) {
+    return unsafePreviewArray(
+      obj,
+      nKeys,
+      stringMax,
+      nextNKeys,
+      prefixChar,
+      joinChar
+    );
+  }
+
+  if (typeof obj === 'object') {
+    return unsafePreviewObject(
+      obj,
+      nKeys,
+      stringMax,
+      nextNKeys,
+      prefixChar,
+      joinChar
+    );
+  }
+
+  let res = String(obj).slice(0, stringMax);
+  if (String(obj).length > stringMax) {
+    res += '...';
+  }
+
+  if (typeof obj === 'string' && !topLevel) {
+    res = `"${res.replace('"', '\\"')}"`;
+  }
+
+  return res;
+}
+
+export function previewObject(obj: any, nKeys = 20, stringMax = 200): string {
+  try {
+    return unsafePreview(obj, nKeys, stringMax, true);
+  } catch (e) {
+    console.error(e);
+    return String(obj).slice(0, stringMax);
+  }
+}</code></pre>
+<p>
+  Which ends up producing previews that look like this:
+</p>
+<div class="product-picture">
+  <a href="/latest-preview-screenshot.png">
+    <img src="/latest-preview-screenshot.png" alt="More efficient preview" />
+    <div class="caption">More efficient preview</div>
+  </a>
+</div>
+<p>
+  Not too bad!
+</p>
+<p>
+  If you have a better solution or find a major issue, I'd love to
+  hear about it!
+</p>
+<h4>Share</h4>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Have you ever wanted to preview large JavaScript objects? Have you run into performance issues trying to do so? Here&#39;s a walkthrough of a few ways to do so and how DataStation now does it efficiently and usefully<a href="https://t.co/ekdqP2c45F">https://t.co/ekdqP2c45F</a> <a href="https://t.co/22l6ZY1DKa">pic.twitter.com/22l6ZY1DKa</a></p>&mdash; DataStation (@multiprocessio) <a href="https://twitter.com/multiprocessio/status/1415691275903328257?ref_src=twsrc%5Etfw">July 15, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{% endblock %}

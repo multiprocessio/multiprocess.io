@@ -1,9 +1,13 @@
 {% extends 'layout.tmpl' %}
 
+{% block head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css" />
+{% endblock %}
+
 {% block body %}
 <section class="post-header">
   <div class="container">
-    <h3><a href="/blog">Blog</a></h3>
+    <div><a href="/blog">Blog</a></div>
     <h1>{% block postTitle %}{% endblock %}</h1>
     <div class="post-subtitle">
       Published on <span class="post-date">{% block postDate %}{% endblock %}</span> by <span class="post-author">{% block postAuthor %}{% endblock %}</span>
@@ -22,9 +26,11 @@
       Questions? Feedback? Feel free to reach the author at {% block postAuthorEmail %}{% endblock %}.
     </p>
     <p style="padding-top: 15px">
-      Or <a href="https://forms.gle/wH5fdxrxXwZHoNxk8">Subscribe</a> to stay
+      Or <a class="subscribe" href="https://forms.gle/wH5fdxrxXwZHoNxk8">Subscribe</a> to stay
       in the loop about future posts!
     </p>
   </div>
 </section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 {% endblock %}

@@ -1,0 +1,297 @@
+{% extends "blog/layout.tmpl" %}
+
+{% block postTitle %}React without webpack: fast path to a working app from scratch{% endblock %}
+{% block postDate %}July 8, 2021{% endblock %}
+{% block postAuthor %}Phil Eaton{% endblock %}
+{% block postAuthorEmail %}phil@multiprocess.io{% endblock %}
+{% block postTags %}javascript,react,webpack,esbuild,parcel{% endblock %}
+
+{% block postBody %}
+<p>
+  Many people use <a href="https://webpack.js.org/">Webpack</a>
+  because it's
+  popular. <a href="https://create-react-app.dev/">create-react-app</a>
+  makes it even easier. But what if you prefer zero configuration?
+  How minimal can your configuration for a React app get? This post
+  contains my two favorite recipes for prototyping and shipping
+  production React apps.
+</p>
+<h2>Truly single page application</h2>
+<p>
+  These days I start every React project (including DataStation) the
+  same way: a single HTML file.
+</p>
+<p>
+  First import React from a CDN.
+</p>
+<span class="code-caption">index.html</span>
+<pre class="code hljs"><code>&lt;script src="https://unpkg.com/react@17/umd/react.development.js"&gt;&lt;/script&gt;
+&lt;script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"&gt;&lt;/script&gt;
+</code></pre>
+<p>
+  Then import Babel so we can use JSX.
+</p>
+<span class="code-caption">index.html</span>
+<pre class="code hljs"><code>&lt;script src="https://unpkg.com/babel-standalone@6/babel.min.js"&gt;&lt;/script&gt;
+</code></pre>
+<p>
+  Make a basic app with a few components:
+</p>
+<span class="code-caption">index.html</span>
+<pre class="code hljs"><code>&lt;div id="root"&gt;&lt;/div&gt;
+&lt;script type="text/babel"&gt;
+  function Header() {
+    return (
+      &lt;header&gt;
+        &lt;div className="container"&gt;
+          My great app
+        &lt;/div&gt;
+      &lt;/header&gt;
+    );
+  }
+
+  function Body() {
+    return (
+      &lt;main&gt;
+        &lt;div className="container"&gt;
+          &lt;h1&gt;Home&lt;/h1&gt;
+          &lt;p&gt;This is one great app.&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/main&gt;
+    );
+  }
+
+  function App() {
+    return (
+      &lt;div&gt;
+        &lt;Header /&gt;
+        &lt;Body /&gt;
+      &lt;/div&gt;
+    );
+  }
+  ReactDOM.render(&lt;App /&gt;, document.getElementById('root'));
+&lt;/script&gt;
+</code></pre>
+<p>
+  Add some styles:
+</p>
+<span class="code-caption">index.html</span>
+<pre class="code hljs"><code>&lt;style&gt;
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 1200px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+header {
+  background: black;
+  color: white;
+  padding: 15px 0;
+}
+&lt;/style&gt;
+</code></pre>
+<p>
+  Put it all together:
+</p>
+<span class="code-caption">index.html</span>
+<pre class="code hljs"><code>&lt;script src="https://unpkg.com/react@17/umd/react.development.js"&gt;&lt;/script&gt;
+&lt;script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"&gt;&lt;/script&gt;
+&lt;script src="https://unpkg.com/babel-standalone@6/babel.min.js"&gt;&lt;/script&gt;
+
+&lt;style&gt;
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 1200px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+header {
+  background: black;
+  color: white;
+  padding: 15px 0;
+}
+&lt;/style&gt;
+
+&lt;div id="root"&gt;&lt;/div&gt;
+&lt;script type="text/babel"&gt;
+  function Header() {
+    return (
+      &lt;header&gt;
+        &lt;div className="container"&gt;
+          My great app
+        &lt;/div&gt;
+      &lt;/header&gt;
+    );
+  }
+
+  function Body() {
+    return (
+      &lt;main&gt;
+        &lt;div className="container"&gt;
+          &lt;h1&gt;Home&lt;/h1&gt;
+          &lt;p&gt;This is one great app.&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/main&gt;
+    );
+  }
+
+  function App() {
+    return (
+      &lt;div&gt;
+        &lt;Header /&gt;
+        &lt;Body /&gt;
+      &lt;/div&gt;
+    );
+  }
+  ReactDOM.render(&lt;App /&gt;, document.getElementById('root'));
+&lt;/script&gt;
+</code></pre>
+<div class="product-picture">
+  <a href="/browser-react-site.png">
+    <img src="/browser-react-site.png" alt="Truly single page application" />
+    <div class="caption">Truly single page application</div>
+  </a>
+</div>
+<p>
+  I was able to build a fairly complex but working prototype of
+  DataStation using this single file approach. It is very simple.
+</p>
+<h2>Downsides and alternatives</h2>
+<p>
+  There are a few downsides to this approach. Breaking out this file
+  into separate CSS with <code>link</code> tags and multiple
+  JavaScript with or without esmodules is easy enough. But all
+  non-esmodule libraries will be in the global <code>window</code>
+  namespace. And it's easier to manage dependencies
+  through <code>package.json</code> rather than
+  in <code>index.html</code> referencing a CDN URL.
+</p>
+<p>
+  Recently there have been a number of projects that have tried to
+  solve the complexity of Webpack by providing zero
+  configuration. <a href="https://parceljs.org/">Parcel</a>
+  and <a href="https://esbuild.github.io/">esbuild</a> are two I've
+  used. Esbuild is one of the fastest bundlers today, and is the one I
+  now default to.
+</p>
+<h2>Esbuild</h2>
+<p>
+  All esbuild does is bundle and "browserify" all JavaScript files
+  imported by some entrypoint script. So in this form we'll have three
+  separate parts of the project: a 1) <code>index.html</code> file
+  that references a 2) CSS file and a 3) single JavaScript file.
+</p>
+<p>
+  The CSS file is easy:
+</p>
+<span class="code-caption">style.css</span>
+<pre class="code hljs"><code>body {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 1200px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+header {
+  background: black;
+  color: white;
+  padding: 15px 0;
+}</pre></code>
+<p>
+  The HTML entrypoint will no longer need to include React or Babel
+  since esbuild will handle that when imported from our JavaScript
+  file. All it needs to do now is contain the "root" <code>div</code>
+  and reference the CSS and JavaScript files:
+</p>
+<span class="code-caption">index.html</span>
+<pre class="code hljs"><code>&lt;link rel="stylesheet" type="text/css" href="/style.css"&gt;
+&lt;div id="root"&gt;&lt;/div&gt;
+&lt;script src="/app.js"&gt;&lt;/script&gt;</code></pre>
+<p>
+  Now we can break the React code up into three separate
+  files: <code>index.jsx</code>, <code>body.jsx</code>,
+  and <code>header.jsx</code>. And we can switch to
+  using <code>import</code> to include React.
+</p>
+<span class="code-caption">header.jsx</span>
+<pre class="code hljs"><code>import React from 'react';
+
+export function Header() {
+  return (
+    &lt;header&gt;
+      &lt;div className="container"&gt;
+          My great app
+        &lt;/div&gt;
+    &lt;/header&gt;
+  );
+}</code></pre>
+<span class="code-caption">body.jsx</span>
+<pre class="code hljs"><code>import React from 'react';
+
+export function Body() {
+  return (
+    &lt;main&gt;
+      &lt;div className="container"&gt;
+        &lt;h1&gt;Home&lt;/h1&gt;
+        &lt;p&gt;This is one great app.&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/main&gt;
+  );
+}</code></pre>
+<span class="code-caption">index.jsx</span>
+<pre class="code hljs"><code>import React from 'react';
+import ReactDOM from 'react-dom';
+
+import { Header } from './header';
+import { Body } from './body';
+
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;Header /&gt;
+      &lt;Body /&gt;
+    &lt;/div&gt;
+  );
+}
+ReactDOM.render(&lt;App /&gt;, document.getElementById('root'));
+</code></pre>
+<p>
+  And that's it! Now we need to set up <code>package.json</code> with
+  all the necessary packages.
+</p>
+<pre class="hljs code"><code>$ yarn init
+$ yarn add --dev esbuild
+$ yarn add react react-dom</code></pre>
+<p>
+  Calling <code>esbuild</code> will make the bundle.
+</p>
+<pre class="hljs code"><code>$ yarn esbuild --bundle index.jsx --outfile=build/app.js && cp index.html style.css build</code></pre>
+<p>
+  And then using a simple HTTP server will make all of the site accessible.
+</p>
+<pre class="hljs code"><code>$ python3 -m http.server --directory build</code></pre>
+<p>
+  And you're done! If you want to make it even more developer-friendly
+  you can
+  install <a href="https://github.com/emcrisostomo/fswatch">fswatch</a>
+  like we do
+  in <a href="https://github.com/multiprocessio/datastation/blob/master/ui/scripts/watch_and_serve.sh">DataStation
+  development</a>.
+</p>
+<h4>Share</h4>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">New post is up on building React apps without Webpack, a fast path and a good path from scratch!<a href="https://twitter.com/hashtag/javascript?src=hash&amp;ref_src=twsrc%5Etfw">#javascript</a> <a href="https://twitter.com/hashtag/webpack?src=hash&amp;ref_src=twsrc%5Etfw">#webpack</a> <a href="https://twitter.com/hashtag/reactjs?src=hash&amp;ref_src=twsrc%5Etfw">#reactjs</a> <a href="https://twitter.com/hashtag/esbuild?src=hash&amp;ref_src=twsrc%5Etfw">#esbuild</a><a href="https://t.co/eXNEMTU0b4">https://t.co/eXNEMTU0b4</a> <a href="https://t.co/wgCQZVGkDk">pic.twitter.com/wgCQZVGkDk</a></p>&mdash; DataStation (@multiprocessio) <a href="https://twitter.com/multiprocessio/status/1413240058413453318?ref_src=twsrc%5Etfw">July 8, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{% endblock %}

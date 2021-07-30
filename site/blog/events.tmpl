@@ -14,7 +14,7 @@
 <div class="events">
   {% for event in week_events %}
   <a class="event" href="{{ event.url }}">
-    <h2 class="event-title">{{ event.title }}</h2>
+    <div class="event-title">{{ event.title }}</div>
     <div class="event-subtitle">By {{ event.by }} on {{ event.datetime }}</div>
     <div class="post-tags">{% for tag in event.tags %}<span class="post-tag">{{ tag }}</span>{% endfor %}</div>
   </a>

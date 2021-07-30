@@ -5,7 +5,7 @@ set -eux
 git clean -xid
 ./scripts/build_site.sh
 
-git clone git@gitlab.com:multiprocessio/datastation workspace || true
+git clone git@github.com:multiprocessio/datastation workspace || true
 ( cd workspace && git pull && yarn && yarn build-ui )
 
 echo "
@@ -35,4 +35,6 @@ remote_copy "build/*" $REMOTE_HOME/site
 remote_copy scripts/setup_tls.sh $REMOTE_HOME/setup_tls.sh
 remote_copy config/nginx.conf $REMOTE_HOME/nginx.conf
 remote_copy config/selinux.conf $REMOTE_HOME/selinux.conf
-remote_run "sudo dnf install -y nginx && sudo mkdir -p /run && sudo mkdir -p /usr/share/nginx/logs && sudo mv $REMOTE_HOME/nginx.conf /etc/nginx && sudo nginx -t && sudo setenforce permissive && sudo service nginx restart && sudo mv $REMOTE_HOME/selinux.conf /etc/selinux/config"
+remote_run "sudo dnf install -y nginx && sudo systemctl enable nginx && sudo firewall-cmd --add-service=http && sudo firewall-cmd --add-service=https && sudo service firewalld restart && sudo mkdir -p /run && sudo mkdir -p /usr/share/nginx/logs && sudo mv $REMOTE_HOME/nginx.conf /etc/nginx && sudo nginx -t && sudo setenforce permissive && sudo service nginx restart && sudo mv $REMOTE_HOME/selinux.conf /etc/selinux/config"
+
+# TODO: https://fedoramagazine.org/protect-your-system-with-fail2ban-and-firewalld-blacklists/

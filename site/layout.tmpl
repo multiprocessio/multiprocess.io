@@ -1,6 +1,9 @@
 <link href="/style.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/modern-css-reset/dist/reset.min.css" />
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="shortcut icon" type="image/png" href="/favicon.png" />
+
+{% block head %}{% endblock %}
 
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>{{ title }}</title>
@@ -95,6 +98,19 @@
     var showMobile = document.querySelectorAll('.show-mobile');
     for (var i = 0; i < showMobile.length; i++) {
       showMobile[i].className = showMobile[i].className.replace('show-mobile', '');
+    }
+  }
+
+  const headers = document.querySelectorAll('h2,h3,h4,h5,h6');
+  for (let i = 0; i < headers.length; i++) {
+    const id = headers[i].innerHTML.replaceAll(' ', '-').toLowerCase();
+    headers[i].id = id;
+    if (!isMobile) {
+      const headerLink = document.createElement('a');
+      headerLink.className = 'header-link material-icons';
+      headerLink.innerHTML = 'link';
+      headerLink.href = window.location.pathname + '#' + id;
+      headers[i].prepend(headerLink);
     }
   }
 </script>

@@ -1,3 +1,157 @@
+20210712:
+  - title: "Migrating from YARN to Kubernetes; Apache Kafka for streaming machine learning initiatives"
+    by: "Cleveland Big Data Meetup"
+    datetime: Monday, July 12 at 6PM EDT
+    url: "https://www.meetup.com/Cleveland-Hadoop/events/276966269/"
+    tags:
+      - Kubernetes
+      - YARN
+      - Kafka
+      - Spark
+      - Confluent
+  - title: "Input Methods & Cursorless Keyboards"
+    by: "New York Emacs Meetup"
+    datetime: Monday, July 12 at 7PM EDT
+    url: "https://www.meetup.com/New-York-Emacs-Meetup/events/279289020/"
+    tags:
+      - Emacs
+  - title: "Airflow and CWL-powered bioinformatics platform; Orchestrating ELT with Fivetran and Airflow; and more"
+    by: "Bay Area Apache Airflow Meetup"
+    url: "https://www.meetup.com/Bay-Area-Apache-Airflow-Incubating-Meetup/events/278860605/"
+    datetime: Tuesday, July 13 at 12PM EDT
+    tags:
+      - Airflow
+      - Fivetran
+      - ELT
+  - title: "A Practical Starter Guide to SQL Notebooks"
+    url: "https://www.meetup.com/dotnet-virtual-user-group/events/278642975/"
+    by: "Tech Valley .NET User Group"
+    datetime: Tuesday, July 13 at 9PM EDT
+    tags:
+      - SQL Server
+      - Azure Data Studio
+  - title: "TLS Mastery"
+    url: "https://www.meetup.com/Michigan-usr-group-Linux-Users-Group-in-Farmington-Hills/events/ltwhksycckbrb/"
+    by: "Michigan UNIX/Linux User Group"
+    datetime: Tuesday, July 13 at 6:30PM EDT
+    tags:
+      - TLS
+      - Linux
+      - FreeBSD
+  - title: "When Do We Actually Need Causal Inference?"
+    url: "https://www.meetup.com/nyhackr/events/279069296/"
+    datetime: Tuesday, July 13 at 7PM EDT
+    by: New York Open Statistical Programming Meetup
+    tags:
+      - Data Science
+      - Lyft
+  - title: "Explore Data Careers with IBM Experts"
+    by: "Toronto - Cognitive, AI & Data Science Meetup"
+    datetime: Wednesday, July 14 at 2PM EDT
+    url: "https://www.meetup.com/Cognitive-Toronto/events/279364316/"
+    tags:
+      - Data Science
+      - IBM
+  - title: "Panel Discussion 2 - Sandi Metz's Practical Object-Oriented Design in Ruby"
+    by: "NYC Ruby Meetup"
+    datetime: Wednesday, July 14 at 5:30PM EDT
+    url: "https://www.meetup.com/NYC-rb/events/jghpgsycckbsb/"
+    tags:
+      - Ruby
+      - Object-Oriented Programming
+  - title: "PXE Boot = Remotely boot Linux from The Net.; LibreOffice DataForm in Calc"
+    by: "St. Louis Linux/UNIX User Group"
+    datetime: Wednesday, July 14 at 7PM EDT
+    url: "https://www.meetup.com/Saint-Louis-Unix-Users-Group/events/mpmgfsycckbsb/"
+    tags:
+      - F/OSS
+      - LibreOffice
+      - PXE
+      - Linux
+  - title: "Optimization (Linear & Mixed Integer Programming) for Pythonistas"
+    url: "https://www.meetup.com/pythonireland/events/kqwjvrycckbsb/"
+    datetime: Wednesday, July 14 at 1:30PM EDT
+    by: "Python Ireland"
+    tags:
+      - Data Science
+      - Machine Learning
+      - Python
+  - title: "Pyodide: CPython in the web browser; Click: command line interfaces with Python"
+    url: "https://www.meetup.com/austinpython/events/lgrbmqycckbsb/"
+    datetime: Wednesday, July 14 at 8PM EDT
+    by: "Austin Python Meetup"
+    tags:
+      - Emscripten
+      - Web Browsers
+      - Python
+      - UCLA
+  - title: "Using Kubernetes and ClickHouse to enable high performance app analytics"
+    url: "https://www.meetup.com/Data-on-Kubernetes-community/events/278905776/"
+    datetime: Thursday, July 15 at 12PM EDT
+    by: "Data on Kubernetes Community"
+    tags:
+      - Kubernetes
+      - Clickhouse
+      - SQL
+  - title: "Insights into Data Engineering Part 1"
+    url: "https://www.meetup.com/Women-Who-Code-SF/events/grxzksycckbtb/"
+    by: Women Who Code SF
+    datetime: Thursday, July 15 at 7PM EDT
+    tags:
+      - Data Science
+      - Machine Learning
+      - Career
+  - title: "Developing Great Web APIs Architectures with ASPNET5"
+    by: "Orland .NET User Group"
+    datetime: Thursday, July 15 at 7PM EDT
+    url: "https://www.meetup.com/dotnet-virtual-user-group/events/279088072/"
+    tags:
+      - .NET
+      - Windows
+      - Linux
+      - Quicken Loans
+  - title: "Kafka Streams Windowing: Behind the Curtain"
+    by: "Apache Kafka NYC"
+    datetime: Thursday, July 15 at 5PM EDT
+    url: "https://www.meetup.com/Apache-Kafka-NYC/events/279339722/"
+    tags:
+      - Kafka
+      - Kafka Streams
+      - RocksDB
+  - title: "Statistical Paradoxes & Logical Fallacies: Don't Believe the Lies your Data Tell"
+    by: "Data Science Philadelphia"
+    url: "https://www.meetup.com/DataPhilly/events/278459876/"
+    datetime: Thursday, July 15 at 6PM EDT
+    tags:
+      - Statistics
+      - Data Science
+  - title: "Making sense of scales in graphs"
+    url: "https://www.meetup.com/DataVisualization/events/278709189/"
+    datetime: Thursday, July 15 at 6PM EDT
+    by: Data Visualization New York
+    tags:
+      - Data Visualization
+      - User Experience
+  - title: "Having fun with Azure Functions"
+    url: "https://www.meetup.com/NycPowershellMeetup/events/278640321/"
+    datetime: Thursday, July 15 at 6:30PM EDT
+    by: New York Powershell Meetup
+    tags:
+      - Azure Functions
+      - Microsoft
+  - title: "Hardware Open Mic Night"
+    url: "https://www.meetup.com/NY-Hardware/events/279129593/"
+    by: NY Hardware Meetup & SF Hardware Meetup
+    datetime: Thursday, July 15 at 7PM EDT
+    tags:
+      - Hardware
+  - title: "Borg Backup 2/2: You will be assimilated"
+    by: Dutch Linux/UNIX User Group
+    datetime: Thursday, July 15 at 2:30PM EDT
+    url: "https://www.meetup.com/NLUUG-Dutch-Unix-Linux-user-group/events/279417496/"
+    tags:
+      - Backups
+
 20210705:
   - title: "Exploiting a Kubernetes cluster"
     by: "Data on Kubernetes Community"

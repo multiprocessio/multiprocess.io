@@ -2,6 +2,7 @@ html, body {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
+    background: #fbfbfb;
 }
 
 h1 {
@@ -29,6 +30,23 @@ a:visited {
     color: blue;
 }
 
+
+a.header-link {
+    display: none;
+    text-decoration: none;
+    color: black;
+    font-size: 15px;
+    padding: 10px;
+    margin-left: -35px;
+}
+
+h1:hover .header-link,
+h2:hover .header-link,
+h3:hover .header-link,
+h4:hover .header-link {
+    display: initial;
+}
+
 .button {
     border-radius: 3px;
     padding: 5px 15px;
@@ -44,6 +62,7 @@ a:visited {
     margin: 0 auto;
     max-width: 100%;
     width: 1200px;
+    padding: 0 50px;
 }
 
 .flex {
@@ -216,10 +235,10 @@ footer .container > * {
 }
 
 .posts .post {
-    margin: 30px 0;
+    margin: 60px 0;
 }
 
-.post-body  p, .post-header p, .post-footer p {
+.post-body  p, .post-header p, .post-footer p, .post-body li {
     width: 650px;
     max-width: 100%;
 }
@@ -237,26 +256,32 @@ footer .container > * {
 }
 
 .post-tag {
+    margin-top: 15px;
+    font-size: .9rem;
     display: inline-block;
     margin-right: 5px;
-    background: #696969;
-    padding: 5px;
-    border-color: 1px solid #696969;
+    background: #473c56;
+    padding: 0 5px;
+    border: 1px solid #7b6b90;
+}
+
+p, li {
+    line-height: 2rem;
 }
 
 p {
-    line-height: 2rem;
     padding: 15px 0;
 }
 
 .post-body .product-picture {
     padding-top: 15px;
     padding-left: 0;
-}
-
-.post-body .product-picture {
     width: 650px;
     max-width: 100%;
+}
+
+.post-body .product-picture img {
+    box-shadow: 0 0 3px 0 black;
 }
 
 .caption {
@@ -276,24 +301,33 @@ p {
     margin: 15px 0;
 }
 
+.event-title {
+    font-size: 1.5rem;
+}
+
 .event-title, .event-title:visited {
     color: black;
 }
 
-.event .post-tags {
-    margin-top: 15px;
+.posts .post-tag, .event .post-tag {
+    background: #ece7f3;
+    color: #333;
+    border-color: #dad1e6;
 }
 
-.posts .post-tag, .event .post-tag {
-    background: #ddd;
-    font-size: .9rem;
-    color: #333;
+.code {
+    max-height: 800px;
+}
+
+.hljs code,
+.hljs.code {
+    background: white;
 }
 
 .code, p code {
-    background: #fcfcff;
+    background: white;
     font-size: 1rem;
-    border: 1px solid #f1f1f1;
+    border: 1px solid #ebebeb;
 }
 
 .code {
@@ -301,6 +335,45 @@ p {
     padding: 15px;
     overflow: auto;
     max-width: 100%;
+}
+
+.code-caption {
+    font-size: .8rem;
+    color: #777;
+    display: block;
+    margin-bottom: -1.5em;
+}
+
+.videos {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.video {
+    flex: 0 1 calc(50% - 20px);
+    text-align: center;
+    margin: 30px 0;
+}
+
+.video-name {
+    font-size: 1.2rem;
+}
+
+.video-date {
+    color: #555;
+}
+
+.post-footer .subscribe {
+    margin: 0 5px;
+    background: #9f04ff;
+    display: inline-block;
+    padding: 5px 15px;
+    text-decoration: none;
+    border: 1px solid #d9bbec;
+}
+
+.pb-4 {
+    padding-bottonm: 20px;
 }
 
 @media only screen and (max-width: 600px) {

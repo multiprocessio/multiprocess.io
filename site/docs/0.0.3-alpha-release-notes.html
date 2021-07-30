@@ -1,0 +1,62 @@
+{% set doctitle = '0.0.3-alpha Release Notes' %}
+
+{% extends 'docs/layout.tmpl' %}
+
+{% block docbody %}
+<div class="product-picture">
+  <iframe src="https://www.youtube.com/embed/GnJP0zPMlek?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+<p>
+  There are three big parts
+  of <a href="https://github.com/multiprocessio/datastation/releases/tag/0.0.3-alpha">this
+  release</a>: support for proxying certain panels through an SSH
+  server, support for three new scripting languages, and usability
+  improvements when working with many megabytes of data.
+</p>
+<h2>New features</h2>
+<ul>
+  <li>
+    You can now <strong>proxy SQL and HTTP requests through an SSH
+    server</strong>. This makes it more practical to use DataStation
+    to connect to production systems. Read more in
+    the <a href="/docs/http-panel.html">HTTP panel</a>
+    and <a href="/docs/sql-panel.html">SQL panel</a> documentation.
+  </li>
+  <li>
+    You can now <strong>read remote files by attaching an SSH server
+    to a File panel</strong>. This is useful for pulling server logs
+    into DataStation. Read more in
+    the <a href="/docs/file-panel.html">File panel</a> documentation.
+  </li>
+  <li>
+    You can now <strong>script in Code panels using Ruby, Julia, and
+    R</strong> in addition to Python and JavaScript. Read more in
+    the <a href="/docs/code-panel.html">Code panel</a> documentation.
+  </li>
+</ul>
+<h2>Fixes</h2>
+<ul>
+  <li>
+    You can now easily load tens of megabytes worth of data in
+    DataStation due to an improved algorithm for showing panel result
+    previews.
+  </li>
+  <li>
+    The Table panel is easier to read due to alternate row coloring
+    and column alignment.
+  </li>
+  <li>
+    The default MySQL port when not specified is correctly set to
+    3306.
+  </li>
+  <li>
+    Correctly change UI when a panel is being run to show that
+    evaluation is happening.
+  </li>
+</ul>
+<p>
+  <a href="https://github.com/multiprocessio/datastation/releases/tag/0.0.3-alpha">Get the 0.0.3-alpha now!</a>
+</p>
+<h4>Share</h4>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">What&#39;s new in DataStation 0.0.3-alpha? 🍾 Big improvements on usability w/ larger data; you can now script in Julia, Ruby, and R; and builtin support for proxying SQL, HTTP, and file reads over SSH.<br><br>Read more and check out the demo in the release notes!<a href="https://t.co/0YUgbuv0GL">https://t.co/0YUgbuv0GL</a> <a href="https://t.co/qqk0PyBC6I">pic.twitter.com/qqk0PyBC6I</a></p>&mdash; DataStation (@multiprocessio) <a href="https://twitter.com/multiprocessio/status/1414951433632469001?ref_src=twsrc%5Etfw">July 13, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{% endblock %}
