@@ -1,0 +1,14 @@
+{% extends "blog/layout.tmpl" %}
+
+{% block postTitle %}Writing an efficient type inference system for JSON data{% endblock %}
+{% block postDate %}August 3, 2021{% endblock %}
+{% block postAuthor %}Phil Eaton{% endblock %}
+{% block postAuthorEmail %}phil@multiprocess.io{% endblock %}
+{% block postTags %}javascript,json,type-inference{% endblock %}
+
+{% block postBody %}
+<p>
+c  
+</p>
+<h4>Share</h4>
+{% endblock %}
