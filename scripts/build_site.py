@@ -6,7 +6,7 @@ from feedgen.feed import FeedGenerator
 from jinja2 import Environment, FileSystemLoader
 
 DEFAULT_DATA = {
-    "latest_version": '0.0.4-alpha',
+    "latest_version": '0.0.5-alpha',
     "title": "DataStation | The Data IDE for Developers",
 }
 

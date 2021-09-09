@@ -3,19 +3,29 @@
 {% extends 'docs/layout.tmpl' %}
 
 {% block docbody %}
+<h2>{{latest_version}}</h2>
 <p>
-  Visit
-  the <a href="https://github.com/multiprocessio/datastation/releases/tag/{{latest_version}}">{{latest_version}}</a>
-  release page. If you are on Mac, download
-  the <code>darwin-x64-{{latest_version}}.zip</code> file. If you are on
-  Windows, download the <code>win64-x64-{{latest_version}}.zip</code> file.
+  Pre-built binaries are provided for 64-bit x86 machines running
+  macOS, Windows, and Linux.
 </p>
+<h3>MacOS</h3>
 <p>
-  Once you have downloaded and unzipped the file, the application
-  will be inside the <code>releases</code> folder.
-</p>
-<p>
-  If you are on Mac you will need to right-click the application to
+  Download <a href="https://github.com/multiprocessio/datastation/releases/download/{{latest_version}}/darwin-x64-{{latest_version}}.zip">darwin-x64-{{latest_version}}.zip</a> and unzip.
+  You will need to right-click the application to
   click <code>Open</code> so you can run the untrusted application.
+</p>
+<h3>Windows</h3>
+<p>
+  Download <a href="https://github.com/multiprocessio/datastation/releases/download/{{latest_version}}/win32-x64-{{latest_version}}.zip">win32-x64-{{latest_version}}.zip</a> and unzip.
+</p>
+<h3>Linux</h3>
+<p>
+  Download <a href="https://github.com/multiprocessio/datastation/releases/download/{{latest_version}}/linux-x64-{{latest_version}}.zip">linux-x64-{{latest_version}}.zip</a> and unzip.
+</p>
+<h3>Other</h3>
+<p>
+  Other systems and architectures may be supported but you will need
+  to build them yourself. Follow <a href="https://github.com/multiprocessio/datastation/blob/master/HACKING.md">instructions in the
+  repo</a>.
 </p>
 {% endblock %}
