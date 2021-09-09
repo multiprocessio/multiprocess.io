@@ -280,6 +280,11 @@ p {
     box-shadow: 0 0 3px 0 black;
 }
 
+.post-body h2,
+.post-body h3 {
+    margin-top: 30px;
+}
+
 .caption {
     font-size: .9rem;
     text-align: center;

@@ -1,4 +1,5 @@
 {% set doctitle = '0.0.5-alpha Release Notes' %}
+{% set subtitle = 'September 9, 2021' %}
 
 {% extends 'docs/layout.tmpl' %}
 
@@ -13,20 +14,20 @@
 <p>
   This release adds a number of features, bug fixes, and usability improvements.
 </p>
-<h3>Multiple series support for bar and pie graphs</h3>
+<h3>Multiple series in bar and pie graphs</h3>
 <p>
   You can now graph multiple series in bar charts and create nested
   pie graphs.
   <img class="pb-4" src="/0.0.5-multiple-series.png" alt="Multiple series in bar charts" />
 </p>
-<h3>Panel results stored/recovered on exit</h3>
+<h3>Panel results stored on exit, recovered on startup</h3>
 <p>
   When you run a panel, the results are now stored and recovered when
   you exit the application and comeback. This is especially useful
   when dealing with long-running scripts or queries. You don't need to
   re-run them until you want to.
 </p>
-<h3>Support for MS SQL Server</h3>
+<h3>SQL Server</h3>
 <p>
   You can now create SQL Server connectors and run queries against
   your SQL Server databases. Just like with all other databases you
