@@ -1,0 +1,45 @@
+{% set doctitle = '0.0.5-alpha Release Notes' %}
+
+{% extends 'docs/layout.tmpl' %}
+
+{% block docbody %}
+<p>
+  <a href="/docs/installation.html">Get the 0.0.5-alpha now!</a>
+</p>
+<h3>Multiple series support for bar and pie graphs</h3>
+<p>
+  You can now graph multiple series in bar charts and create nested
+  pie graphs.
+</p>
+<h3>Panel results stored/recovered on exit</h3>
+<p>
+  When you run a panel, the results are now stored and recovered when
+  you exit the application and comeback. This is especially useful
+  when dealing with long-running scripts or queries. You don't need to
+  re-run them until you want to.
+</p>
+<h3>Support for MS SQL Server</h3>
+<p>
+  You can now create SQL Server connectors and run queries against
+  your SQL Server databases. Just like with all other databases you
+  can connect to a local database or you can connect to a remote one
+  via SSH.
+</p>
+<h3>Guided warnings when dependent panels have not been run</h3>
+<p>
+  DataStation is built around one panel pulling data from another
+  panel. If a panel references another panel that hasn't been run, a
+  warning will now be shown telling you that the dependent panel has
+  not yet been run.
+</p>
+<h3>Preview widget improvements</h3>
+<p>
+  All tabs in the preview area are now syntax highlighted. And you can
+  resize the entire area by grabbing the resize handler in the bottom
+  left and dragging it left or right.
+</p>
+<p>
+  <a href="/docs/installation.html">Get the 0.0.5-alpha now!</a>
+</p>
+<h4>Share</h4>
+{% endblock %}
