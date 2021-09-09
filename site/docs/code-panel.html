@@ -4,7 +4,7 @@
 
 {% block docbody %}
 <p>
-  Code panels allow you to use Python, JavaScript, Ruby, R, or Julia
+  Code panels allow you to use Python, JavaScript, Ruby, R, Julia or an in-memory SQL engine
   to produce data for or manipulate data from other panels. The
   language must be installed on your laptop already. R and Julia have
   some additional requirements documented below.
@@ -25,6 +25,26 @@
   Panel results can be of any format. But when setting a panel you
   intend to have read from a Table or Graph panel, there is a single
   accepted data format.
+</p>
+<h2>In-Memory SQL</h2>
+<p>
+  In-memory SQL is a way of running SQL queries solely against
+  other panels without a running database. It is useful in
+  situations where you don't have a database but the most natural
+  way to express a join or filter is in SQL rather than code.
+</p>
+<p>
+  SQL panels can refer to the results of other panels by
+  using <code>DM_getPanel($number)</code> where <code>$number</code>
+  is the zero-indexed panel you want to grab.
+</p>
+<p>
+  <code>DM_getPanel($number)</code> should only be called
+  once. After that it can be referred to by the
+  alias <code>t$number</code>. For example: <code>SELECT * FROM
+    DM_getPanel(0) WHERE t0.age < 12></code> will fetch all results
+  from the first panel (zero-indexed) and filter out rows where
+  the <code>age</code> column is less than <code>12</code>.
 </p>
 <h2>Table and Graph panel data format</h2>
 <p>
