@@ -1,0 +1,60 @@
+{% set doctitle = '0.1.0 Release Notes' %}
+{% set subtitle = 'September 20, 2021' %}
+
+{% extends 'docs/layout.tmpl' %}
+
+{% block docbody %}
+<p>
+  DataStation is a data IDE for developers. It allows you to easily
+  pull data from SQL, HTTP APIs, and files (CSV, Parquet, Excel, nginx
+  access logs, syslog, etc.); script against these files (in Python,
+  JavaScript, Ruby, R, or Julia); and generate beautiful graphs. All
+  in one application.
+</p>
+<p>
+  This release adds a number of features, bug fixes, and usability improvements.
+</p>
+* 
+<h3>Query Snowflake, Clickhouse, and Oracle databases</h3>
+<p>
+  In addition to existig support for SQLite, PostgreSQL, MS SQL
+  Server, and MySQL compatible databases; you can now also query
+  Oracle, Snowflake, and Clickhouse databases.
+  <img class="pb-4" src="/0.1.0-snowflake.png" alt="Snowflake support" />
+  <img class="pt-4" src="/0.1.0-oracle.png" alt="Oracle support" />
+</p>
+<h3>Filter, group, sort, and limit without code using the new Visual Transform panel</h3>
+<p>
+  Having code panels to facilitate all kinds of data transformations
+  is awesome. But for the simple tasks, setting up the code is a
+  hasle. The Visual Transform panel allows you to click to filter,
+  group, sort, and limit against another panel. This makes it even
+  faster to get basic projects set up.
+  <img class="pt-4" src="/0.1.0-transform.png" alt="Visual Transform results without code" />
+</p>
+<p>
+  Since Visual Transform panels are panels like any other, you can
+  stack Visual Transform panels or read them from Code panels and so
+  on.
+</p>
+<h3>Encrypted credentials</h3>
+<p>
+  This release now automatically generates a signing key on
+  install. It is unique to your computer. It is used to encrypt and
+  decrypt database and SSH passwords as needed. Under the hood
+  DataStation uses the <a href="https://tweetnacl.js.org/#/">TweetNaCL
+    library</a>.
+</p>
+<h3>Server mode with openid-connect authentication</h3>
+<p>
+  One of the most exciting things happening in DataStation right now
+  is the option to run it on a server. Not only does this make it
+  easier to share code and data with other people, it also makes it
+  possible for DataStation to support recurring, scheduled runs and
+  exports of projects.
+</p>
+<p>
+  <a href="/docs/installation.html">Get the 0.1.0 now!</a>
+</p>
+<h4>Share</h4>
+{% endblock %}

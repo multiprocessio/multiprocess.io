@@ -1,0 +1,56 @@
+{% set doctitle = '0.0.5-alpha Release Notes' %}
+{% set subtitle = 'September 9, 2021' %}
+
+{% extends 'docs/layout.tmpl' %}
+
+{% block docbody %}
+<p>
+  DataStation is a data IDE for developers. It allows you to easily
+  pull data from SQL, HTTP APIs, and files (CSV, Parquet, Excel, nginx
+  access logs, syslog, etc.); script against these files (in Python,
+  JavaScript, Ruby, R, or Julia); and generate beautiful graphs. All
+  in a single application.
+</p>
+<p>
+  This release adds a number of features, bug fixes, and usability improvements.
+</p>
+<h3>Multiple series in bar and pie graphs</h3>
+<p>
+  You can now graph multiple series in bar charts and create nested
+  pie graphs.
+  <img class="pb-4" src="/0.0.5-multiple-series.png" alt="Multiple series in bar charts" />
+</p>
+<h3>Panel results stored on exit, recovered on startup</h3>
+<p>
+  When you run a panel, the results are now stored and recovered when
+  you exit the application and comeback. This is especially useful
+  when dealing with long-running scripts or queries. You don't need to
+  re-run them until you want to.
+</p>
+<h3>SQL Server</h3>
+<p>
+  You can now create SQL Server connectors and run queries against
+  your SQL Server databases. Just like with all other databases you
+  can connect directly to a database or you can connect to one via an SSH proxy.
+  <img class="pb-4" src="/0.0.5-sql-server.png" alt="SQL Server support" />
+</p>
+<h3>Guided warnings when dependent panels have not been run</h3>
+<p>
+  DataStation is built around one panel pulling data from another
+  panel. If a panel references another panel that hasn't been run, a
+  warning will now be shown telling you that the dependent panel has
+  not yet been run.
+  <img class="pb-4" src="/0.0.5-dependent-error.png" alt="Warning about dependent panel not run" />
+</p>
+<h3>Preview widget improvements</h3>
+<p>
+  All tabs in the preview area are now syntax highlighted. And you can
+  resize the entire preview area by grabbing the resize handler in the bottom
+  left and dragging it left or right.
+  <img class="pb-4" src="/0.0.5-syntax-highlight.png" alt="Syntax highlighting in preview panel" />
+</p>
+<p>
+  <a href="/docs/installation.html">Get the 0.0.5-alpha now!</a>
+</p>
+<h4>Share</h4>
+{% endblock %}
