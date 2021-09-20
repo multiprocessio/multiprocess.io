@@ -6,7 +6,7 @@ git clean -xid
 ./scripts/build_site.sh
 
 git clone git@github.com:multiprocessio/datastation workspace || true
-( cd workspace && git pull && yarn && yarn build-ui )
+( cd workspace && git pull && yarn && UI_ESBUILD_ARGS="--minify" yarn build-ui )
 
 echo "
 <script async src=\"https://www.googletagmanager.com/gtag/js?id=G-0YH69RMKWK\"></script>
