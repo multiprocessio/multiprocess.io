@@ -112,6 +112,7 @@
 	  <th></th>
 	  <th>Online Environment</th>
 	  <th>Desktop (Community Edition)</th>
+	  <th>Server (Community Edition)</th>
 	</tr>
       </thead>
       <tbody>
@@ -119,9 +120,11 @@
 	  <td>License</td>
 	  <td>Open Source (Apache 2.0)</td>
 	  <td>Open Source (Apache 2.0)</td>
+	  <td>Open Source (Apache 2.0)</td>
 	</tr>
 	<tr>
 	  <td>Price</td>
+	  <td>Free</td>
 	  <td>Free</td>
 	  <td>Free</td>
 	</tr>
@@ -129,38 +132,77 @@
 	  <td>Availability</td>
 	  <td><a href="https://app.datastation.multiprocess.io">Try it now!</a></td>
 	  <td><a href="/docs/installation.html">Install now!</span></td>
+          <td>In testing</td>
 </tr>
 <tr>
   <td>Storage Location</td>
   <td>Your browser</td>
   <td>Your computer</td>
+  <td>Your server</td>
 </tr>
 <tr>
-  <td>HTTP Support</td>
-  <td>Only servers that set CORS headers</td>
+  <td>Visual Transform</td>
+  <td>No limitations</td>
+  <td>No limitations</td>
   <td>No limitations</td>
 </tr>
 <tr>
-  <td>SQL Support</td>
+  <td>HTTP Support</td>
+  <td>Servers must set CORS headers</td>
+  <td>No limitations</td>
+  <td>No limitations</td>
+</tr>
+<tr>
+  <td>Database Support</td>
   <td>Not supported</td>
   <td>
-    <ul class="checks">
-      <li>PostgreSQL</li>
-      <li>MySQL</li>
-      <li>SQL Server</li>
-      <li>Oracle</li>
-      <li>SQLite</li>
-      <li>MariaDB</li>
-      <li>CockroachDB</li>
-      <li>Snowflake</li>
-      <li>ClickHouse</li>
+    <ul>
+      <li>
+	Traditional SQL
+	<ul class="checks">
+	  <li>PostgreSQL</li>
+	  <li>MySQL</li>
+	  <li>SQL Server</li>
+	  <li>Oracle</li>
+	  <li>SQLite</li>
+	  <li>MariaDB</li>
+	</ul>
+      </li>
+      <li>
+	Analytics
+	<ul class="checks">
+	  <li>CockroachDB</li>
+	  <li>Snowflake</li>
+	  <li>ClickHouse</li>
+	</ul>
+      </li>
+      <li>
+	Document-oriented: <span class="coming-soon">Coming soon</span>
+      </li>
+      <li>
+	Time-series: <span class="coming-soon">Coming soon</span>
+      </li>
     </ul>
   </td>
+  <td>Same as Desktop</td>
 </tr>
 <tr>
   <td>SSH Proxies</td>
   <td>Not supported</td>
-  <td>SSH proxying supported for HTTP requests, SQL queries, and SFTP file access</td>
+  <td>
+    <ul class="checks">
+      <li>HTTP requests</li>
+      <li>SQL queries</li>
+      <li>File access (using SFTP)</li>
+    </ul>
+  </td>
+  <td>Same as Desktop</td>
+</tr>
+<tr>
+  <td>Encrypted SSH and Database Credentials</td>
+  <td>Not supported</td>
+  <td>Encrypted for single desktop</td>
+  <td>Encrypted for entire server</td>
 </tr>
 <tr>
   <td>Scripting Support</td>
@@ -180,11 +222,25 @@
       <li>In-memory SQL</li>
     </ul>
   </td>
+  <td>Same as Desktop</td>
 </tr>
 <tr>
   <td>Visualization Support</td>
   <td>No limitations</td>
   <td>No limitations</td>
+  <td>No limitations</td>
+</tr>
+<tr>
+  <td>Recurring, Scheduled Exports</td>
+  <td>Not supported</td>
+  <td>Not supported</td>
+  <td><span class="coming-soon">Coming soon</span></td>
+</tr>
+<tr>
+  <td>Hosted Dashboard</td>
+  <td>Not supported</td>
+  <td>Not supported</td>
+  <td><span class="coming-soon">Coming soon</span></td>
 </tr>
 </tbody>
 </table>
