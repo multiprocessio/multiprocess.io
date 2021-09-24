@@ -4,4 +4,4 @@ build:
 
 .PHONY: deploy
 deploy:
-	.scripts/deploy.sh
+	./scripts/deploy.sh
