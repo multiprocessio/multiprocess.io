@@ -235,7 +235,7 @@ footer .container > * {
 }
 
 .post-body  p, .post-header p, .post-footer p, .post-body li {
-    width: 650px;
+    width: 750px;
     max-width: 100%;
 }
 
@@ -272,7 +272,7 @@ p {
 .post-body .product-picture {
     padding-top: 15px;
     padding-left: 0;
-    width: 650px;
+    width: 750px;
     max-width: 100%;
 }
 
@@ -391,7 +391,7 @@ ul.checks li:before {
 }
 
 .pb-4 {
-    padding-botton: 20px;
+    padding-bottom: 20px;
 }
 
 @media only screen and (max-width: 600px) {

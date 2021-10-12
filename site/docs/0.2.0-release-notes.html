@@ -1,0 +1,122 @@
+{% set doctitle = '0.2.0 Release Notes' %}
+{% set subtitle = 'October 11, 2021' %}
+
+{% extends 'docs/layout.tmpl' %}
+
+{% block docbody %}
+<p>
+  DataStation is a data IDE for developers. It allows you to easily
+  build graphs and tables with data pulled from all kinds of
+  databases, HTTP servers, and files (CSV, Parquet, Excel, nginx
+  access logs, syslog, etc.). Need to join or munge data? Write
+  embedded scripts as needed in Python, JavaScript, Ruby, R, or
+  Julia. All in one application.
+</p>
+<h3>Announcements</h3>
+<p>
+  Before getting to the release notes, there are a few neat things to share:
+</p>
+<ul>
+  <li>Four months in, DataStation has passed <a href="https://github.com/multiprocessio/datastation">300 stars on Github</a></li>
+  <li>There have been over 700 downloads of the desktop application for Windows, macOS or Linux</li>
+  <li>
+    This release sees the contributor count go <a href="https://github.com/multiprocessio/datastation/pull/59">from 1 to 2</a>
+    <br />
+    <small>If you're interested in raising that contributor count, <a href="https://discord.gg/f2wQBc4bXX">join us on Discord</a> and check out the <a href="https://github.com/multiprocessio/datastation/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22">good first issue</a> label on Github</small>
+  </li>
+  <li>This release sees the first fix <a href="https://github.com/multiprocessio/datastation/issues/49">for a user-reported bug</a></li>
+  <li>This release sees the first feature added <a href="https://github.com/multiprocessio/datastation/issues/51">after a user request</a></li>
+  <li>Learn more about <a href="#how-you-can-help">how you can help</a> below</li>
+</ul>
+<h3>Query ElasticSearch, Influx, and Prometheus databases</h3>
+<p>
+  In addition to existig support for every major OLTP SQL database and
+  a few analytics databases, you can now query ElasticSearch, Influx,
+  and Prometheus databases.
+</p>
+<div class="pb-4">
+  <img src="/0.2.0-elasticsearch.png" alt="ElasticSearch support" />
+  <center>Querying ElasticSearch</center>
+</div>
+<div class="pb-4">
+  <img src="/0.2.0-influx.png" alt="Influx support" />
+  <center>Querying Influx</center>
+</div>
+<div class="pb-4">
+  <img src="/0.2.0-prometheus.png" alt="Prometheus support" />
+  <center>Querying Prometheus</center>
+</div>
+<h3>Filter by time range and group by time window in Visual Transform panel</h3>
+<p>
+  In addition to generic SQL filters you can now visually filter by
+  time range. At the moment, the field you're filtering on must be in
+  ISO8601/RFC3339 format. In the future, DataStation will be able to
+  guess and standardize time formats on ingestion. For now you'll have
+  to do any standardization yourself.
+</p>
+<p>
+  When selecting an aggregation method you can also group over a time
+  window. The field has the same restrictions as above, it must be in
+  ISO8601/RFC3339 format.
+</p>
+<div class="pb-4">
+  <img src="/0.2.0-visual.png" alt="Time range filtering and time interval grouping in Visual Transform panels" />
+</div>
+<h3>All panels are cancellable</h3>
+<p>
+  Until now, all panel evaluation happened in the same process as
+  the Electron app or server app. Program panels were the only
+  exception since they run a subprocess with the language you
+  selected.
+</p>
+<p>
+  But in this release, all panel evaluation happens in a
+  subprocess. This means all resources (open connections, SSH tunnels,
+  etc.) are guaranteed to be cleaned up when you hit Cancel on a
+  running panel.
+</p>
+<p>
+  It is especially useful to be able to kill unexpectedly long-running
+  queries.
+</p>
+<h3>Support for DM_getPanel() calls in MySQL and PostgreSQL queries</h3>
+<p>
+  Until now, only SQLite panels could call DM_getPanel() to import data from another panel. Now you can do the same when querying MySQL or PostgreSQL databases. It works by creating a temporary table and ingesting the requested panel's results. Thus you can use a panel's results in exactly the same way as.
+</p>
+<h3>Improvements to testing</h3>
+<p>
+  This release takes DataStation tests from 24% statement/line
+  coverage to 66%. All programming languages are integration tested
+  and all major open source SQL databases are now integration tested
+  as well.
+</p>
+<p>
+  This release also involved moving
+  from <a href="https://www.electronjs.org/spectron">Spectron</a>
+  to <a href="https://www.electronjs.org/docs/tutorial/using-selenium-and-webdriver">Selenium</a>
+  since Spectron is no longer maintained and doesn't support recent
+  versions of Electron.
+</p>
+<h3>Miscellaneous</h3>
+<ul>
+  <li>Re-running a panel no longer discards the previous run's Preview and Metadata display while waiting for the new run to complete</li>
+  <li>Performance improvements and correctness fixes for large objects in "Inferred schema" calculation</li>
+  <li>Stack traces on error now properly show original error (they were being masked by bad logic)</li>
+  <li>The Visual Transform panel now properly quotes all field names coming from the panel source</li>
+</ul>
+<h2>Install or upgrade</h2>
+<p>
+  <a href="/docs/installation.html">Get the 0.2.0 release now!</a>
+</p>
+<h3 id="how-you-can-help">How you can help</h4>
+<p>
+  If you are a developer or engineering manager, install DataStation
+  and start using it at work! Report bugs and usability issues (there
+  are surely many). <a href="mailto:phil@multiprocess.io">Get in
+  touch</a> if you are interested in being a design partner.
+</p>
+<p>
+  If you are an investor, <a href="mailto:phil@multiprocess.io">get in touch</a>.
+</p>
+<h4>Share</h4>
+{% endblock %}
