@@ -101,7 +101,10 @@ const asyncRPC: WindowAsyncRPC = async function <Request, Response = void>(
 
 contextBridge.exposeInMainWorld('asyncRPC', asyncRPC);</code></pre>
 <p>
-  The benefit of this is that the UI code can make a convenient call like <code>const
+  On the main process side, handlers for resources are registered <a href="https://github.com/multiprocessio/datastation/blob/master/desktop/rpc.ts#L61">here</a>.
+</p>
+<p>
+  The benefit of this wrapper is that UI code can make a convenient call like <code>const
   { projects }} = await window.asyncRPC('getProjects');</code> to fetch data
   from and send data to the main process.
 </p>
