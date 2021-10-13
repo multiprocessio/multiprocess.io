@@ -386,6 +386,18 @@ ul.checks li:before {
     border: 1px solid #d9bbec;
 }
 
+.what-is-datastation {
+    background: #fbf5ff;
+    border: 1px solid #ddd;
+    padding: 15px;
+}
+
+.what-is-datastation label {
+    display: block;
+    font-size: .9rem;
+    font-weight: bold;
+}
+
 .pt-4 {
     padding-top: 20px;
 }

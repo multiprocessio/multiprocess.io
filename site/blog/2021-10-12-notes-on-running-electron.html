@@ -1,0 +1,316 @@
+{% extends "blog/layout.tmpl" %}
+
+{% block postTitle %}Notes on running Electron{% endblock %}
+{% block postDate %}October 12, 2021{% endblock %}
+{% block postAuthor %}Phil Eaton{% endblock %}
+{% block postAuthorEmail %}phil@multiprocess.io{% endblock %}
+{% block postTags %}electron,selenium,javascript{% endblock %}
+
+{% block postBody %}
+<p>
+  DataStation is an Electron app. It runs on
+  Windows, macOS and Linux. The UI code is all React and
+  TypeScript. This is the first time I've developed a desktop
+  application, and by extension, first time I've developed an Electron
+  app. There are a few things worth sharing.
+</p>
+<h3>Architecture</h3>
+<p>
+  This is one of the first things any documentation on Electron will
+  cover but just a quick refresher. There are two processes: a render
+  process (which is Chrome) and a background Node.js process, called
+  the main process.
+</p>
+<p>
+  So coming from a web development background I think of the render
+  process like the UI and the main process like the server.
+</p>
+<h3>RPC</h3>
+<p>
+  Electron comes with only the most minimal API for communicating
+  between the render process and the main process. In fact it almost
+  doesn't even come with a system at all. You must inject a pipe
+  between the render and main process from within a privileged script.
+</p>
+<p>
+  This privileged script is often called preload. It is a script that
+  you register with Electron that has access to core Electron IPC
+  APIs. The single function you must call in the preload
+  is <code>contextBridge.exposeInMainWorld('$name-on-window-object', $object-in-preload-script)</code>.
+</p>
+<p>
+  The primary message system Electron allows you to expose in the
+  preload script is
+  called <a href="https://www.electronjs.org/docs/latest/api/ipc-renderer">ipcRenderer</a>. It
+  looks just like event passing in plain old JavaScript. That means it
+  has no builtin way to do request-response style RPC. 
+</p>
+<p>
+  So in DataStation's <a href="https://github.com/multiprocessio/datastation/blob/master/desktop/preload.ts">preload
+  script</a> it wraps the <code>ipcRenderer</code> API with routing metadata and returns a Promise that waits for a response that matches that routing metadata. Here is the code in full. It's only 50 lines of code.
+</p>
+<pre><code>import { contextBridge, ipcRenderer, IpcRendererEvent }} from 'electron';
+import { RPC_ASYNC_REQUEST, RPC_ASYNC_RESPONSE }} from '../shared/constants';
+import log from '../shared/log';
+import { Endpoint, IPCRendererResponse, WindowAsyncRPC }} from '../shared/rpc';
+
+let messageNumber = -1;
+
+const asyncRPC: WindowAsyncRPC = async function <Request, Response = void>(
+  resource: Endpoint,
+  projectId: string,
+  body: Request
+): Promise<Response> {
+  const payload = {
+    // Assign a new message number
+    messageNumber: ++messageNumber,
+    resource,
+    body,
+    projectId,
+  }};
+  ipcRenderer.send(RPC_ASYNC_REQUEST, payload);
+
+  const result = await new Promise<IPCRendererResponse<Response>>(
+    (resolve, reject) => {
+      try {
+        ipcRenderer.once(
+          `${RPC_ASYNC_RESPONSE}}:${payload.messageNumber}}`,
+          (e: IpcRendererEvent, response: IPCRendererResponse<Response>) =>
+            resolve(response)
+        );
+      }} catch (e) {
+        reject(e);
+      }}
+    }}
+  );
+
+  if (result.kind === 'error') {
+    try {
+      throw result.error;
+    }} catch (e) {
+      // The result.error object isn't a real Error at this point with
+      // prototype after going through serialization. So throw it to get
+      // a real Error instance that has full info for logs.
+      log.error(e);
+      throw e;
+    }}
+  }}
+
+  return result.body;
+}};
+
+contextBridge.exposeInMainWorld('asyncRPC', asyncRPC);</code></pre>
+<p>
+  The benefit of this is that the UI code can make a convenient call like <code>const
+  { projects }} = await window.asyncRPC('getProjects');</code> to fetch data
+  from and send data to the main process.
+</p>
+<p>
+  But it would have been nice if this were built in rather than
+  something you need to create for every Electron app. Granted it is
+  not easy to abstract into a library because how you call preload
+  scripts (and if you call them at all) is also unique to each
+  application.
+</p>
+<h3>End-to-end testing</h3>
+<p>
+  The Electron docs say <a
+  href="https://www.electronjs.org/docs/latest/tutorial/using-selenium-and-webdriver">Spectron
+  is the officially supported ChromeDriver testing framework for
+  Electron.</a> but Spectron has <a
+  href="https://github.com/electron-userland/spectron/issues/896">no
+  active maintainers</a> and Spectron only <a
+  href="https://github.com/electron-userland/spectron/issues/1038">supports
+  Electron 13 when the latest version is 15</a>.
+</p>
+<p>
+  So picking Spectron probably doesn't make much sense and in the <a
+  href="https://datastation.multiprocess.io/docs/0.2.0-release-notes.html">latest
+  version of DataStation</a> I switched to Selenium. Here's what the
+  <a
+  href="https://github.com/multiprocessio/datastation/blob/master/e2e/index.js">end-to-end
+  script</a> looks like in DataStation. It runs a very minimal test to
+  make sure the app can launch. It runs on Windows, macOS, and
+  Linux. It is basically the same as it was when using Spectron.
+</p>
+<h3>End-to-end testing in Github Actions</h3>
+<p>
+  Getting this end-to-end script working for Windows, macOS, and Linux
+  to a bit of fiddling. So of all the things here I hope you steal
+  from this most of all.
+</p>
+<h4>Windows</h4>
+<p>
+  Getting Windows set up was mildly tricky because figuring out paths in PowerShell is not my forte. <a href="https://github.com/multiprocessio/datastation/blob/master/scripts/ci/prepare_windows.ps1">Here is the script</a> that sets up <a href="https://scoop.sh/">Scoop</a> and installs all DataStation dependencies:
+</p>
+<pre><code>Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+Join-Path (Resolve-Path ~).Path "scoop\shims" >> $Env:GITHUB_PATH
+scoop install nodejs cmake python yarn zip jq curl
+yarn</code></pre>
+<p>
+  The actual Github Actions workflow is configured <a href="https://github.com/multiprocessio/datastation/blob/master/.github/workflows/pull_requests.yml#L53">here</a>:
+</p>
+<pre><code>  e2e-windows:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@master
+      with:
+        ref: {{ ' ${{ github.ref }} ' }}
+
+    - run: ./scripts/ci/prepare_windows.ps1
+      shell: pwsh
+    # Needed so we can have ./build/desktop_runner.js ready for tests
+    - run: yarn build-desktop
+    - run: yarn test --runInBand --detectOpenHandles --forceExit --verbose
+    - run: yarn release-desktop 0.0.0-e2etest
+    - run: yarn e2e-test</code></pre>
+<h4>macOS</h4>
+<p>
+  The <a href="https://github.com/multiprocessio/datastation/blob/master/scripts/ci/prepare_macos.sh">macOS setup script</a> involves installing homebrew and using it to install DataStation dependencies.
+</p>
+<pre><code>#!/usr/bin/env bash
+
+set -eux
+
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew install cmake jq
+npm install --global yarn
+yarn</code></pre>
+<p>
+  The actual Github Actions workflow is configured <a href="https://github.com/multiprocessio/datastation/blob/master/.github/workflows/pull_requests.yml#L39">here</a>:
+</p>
+<pre><code>  e2e-macos:
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@master
+      with:
+        ref: {{ ' ${{ github.ref }} ' }}
+    - run: ./scripts/ci/prepare_macos.sh
+    # Needed so we can have ./build/desktop_runner.js ready for tests
+    - run: yarn build-desktop
+    - run: yarn test --runInBand --detectOpenHandles --forceExit --verbose
+    - run: yarn release-desktop 0.0.0-e2etest
+    - run: yarn e2e-test</code></pre>
+<h4>Linux</h4>
+<p>
+  Linux is the weirdest because Xorg is weird. The <a href="https://github.com/multiprocessio/datastation/blob/master/scripts/ci/prepare_linux.sh">setup script</a> installs <code>xvfb</code> (among other DataStation dependencies) which is a virtual frame buffer. The call to <code>yarn e2e-test</code> must run within this virtual framebuffer. So the <a href="https://github.com/multiprocessio/datastation/blob/master/.github/workflows/pull_requests.yml#L24">Linux workflow configuration</a> looks like this:
+</p>
+<pre><code>  e2e-linux:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@master
+      with:
+        ref: {{ ' ${{ github.ref }} ' }}
+
+    - run: ./scripts/ci/prepare_linux.sh
+    - run: yarn release-desktop 0.0.0-e2etest
+      # Set up a virtual framebuffer so Chrome will start
+      # https://www.electronjs.org/docs/tutorial/testing-on-headless-ci
+      # https://github.com/juliangruber/browser-run/issues/147
+    - run: xvfb-run --auto-servernum yarn e2e-test</code></pre>
+<h3>Packaging</h3>
+<p>
+  DataStation uses <a href="https://github.com/electron/electron-packager">electron-packager</a> to build Linux, macOS, and Windows packages. When a release is tagged in Github, a workflow runs electron-packager on a Windows, macOS, and Linux VM and uploads the built artifact to the release page on Github. That workflow can be found <a href="https://github.com/multiprocessio/datastation/blob/master/.github/workflows/releases.yml">here</a>.
+</p>
+<p>
+  The basic invocation DataStation uses to call electron-packager is <code>yarn electron-packager --overwrite --out=releases --build-version={{arg0}} --app-version={{arg0}} . "DataStation Community Edition"</code> as part of a <a href="https://github.com/multiprocessio/datastation/blob/master/desktop/scripts/release.build">broader release build script</a>.
+</p>
+<h4>Debugging a packaged build</h4>
+<p>
+  One neat thing you can do is edit files inside of the packaged build
+  and re-run the built application. Adding console logs, alerts, or
+  exceptions to a built package is the best way I've found to debug
+  errors that leave no trace. For example in DataStation, after
+  running electron-packager, the entire code is copied into
+  <code>.\releases\DataStation Community
+  Edition-win32-x64\resources\app\</code> on Windows. Editing code in
+  this directory is editing code in the packaged application.
+</p>
+<h3>Launching subprocesses for multiprocessing</h3>
+<p>
+  Sometimes you need to create additional Node.js processes from your
+  main Electron process. DataStation does this so that panel
+  evaluation can be easily controlled and killed as needed, whether or
+  not query libraries for various databases support being killed.
+</p>
+<p>
+  I looked into <a
+  href="https://nodejs.org/api/worker_threads.html">Node.js worker
+  threads</a> but while they worked correctly on macOS they did not
+  work correctly on Windows. On Windows they kept crashing with an out
+  of bound memory access exception. This is not a known bug and I
+  couldn't minimally reproduce it. But clearly this should have not
+  been possibly for me to reach.
+</p>
+<p>
+  So now DataStation uses <a
+  href="https://github.com/multiprocessio/datastation/blob/master/desktop/panel/eval.ts#L77">process.execFile()</a>. It
+  executes a second <a
+  href="https://github.com/multiprocessio/datastation/blob/master/desktop/runner.ts">runner
+  script</a> by calling Electron on it. This is a hack around figuring
+  out if there is a local Node.js install or bundling my own in the
+  package. But it works! Calling Electron on a Node.js script just
+  executes the script.
+</p>
+<h3>Things not tackled</h3>
+<h4>Package size</h4>
+<p>
+  The package size keeps growing. It's around 200MB on Windows and
+  Linux and larger on macOS. The unbundled size on macOS is 1GB. This
+  is not standard for an Electron app. It's expected in DataStation
+  because DataStation is a data IDE that tries to help you query as
+  many databases/systems as you need.
+</p>
+<p>
+  macOS and Linux deal with this large file size acceptedly. But on
+  Windows unzipping this package takes at least 20 minutes. It only
+  takes a few minutes to zip.
+</p>
+<p>
+  The way I plan to deal with this mid/long-term is to move to a
+  plugin architecture and/or switch to have panel evaluation happen in
+  a Go or Rust or something process. But if client libraries require
+  large client binaries (like I think Oracle SQL does) then switching
+  to another language may not help that and only a plugin architecture
+  will allow the main package to be smaller.
+</p>
+<p>
+  It's also possible that other Electron packagers do a better job of
+  compressing or removing garbage. I have not spent the time to
+  evaluate others yet. But I probably should.
+</p>
+<h4>Package signing</h4>
+<p>
+  This is a <a
+  href="https://www.electronjs.org/docs/latest/tutorial/code-signing">well-documented</a>
+  <a
+  href="https://til.simonwillison.net/electron/sign-notarize-electron-macos"<a>process</a>. The
+  most complicated step is getting a Windows and macOS developer
+  account and adding credentials to Github Actions secret store.
+</p>
+<p>
+  That is to say, it's just a matter of time before DataStation signs
+  packages and I'm not very concerned it will be a problem in an
+  Electron app.
+</p>
+<h4>Automatic updates</h4>
+<p>
+  I haven't figured this out at all. Right now project files in
+  DataStation are backwards compatible so upgrading DataStation just
+  means downloading the latest version and running it. Ideally you
+  could opt into automatic updates and never worry about
+  downloading/unzipping again.
+</p>
+<h3>Summary</h3>
+<p>
+  I hope this braindump of learning around Electron apps helps you
+  out! Please steal whatever code is helpful to you (with
+  attribution). If you are interested in DataStation, try it out! If
+  you are interested in contributing, join our Discord and check out
+  the good-first-issue label on Github.
+</p>
+<h4>Share</h4>
+{% endblock %}
