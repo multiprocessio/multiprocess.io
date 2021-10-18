@@ -28,7 +28,7 @@ base = "site"
 out_base = "build"
 
 videos = yaml.load(open('data/videos.yaml'), yaml.Loader)
-events = yaml.load(open('data/events.yaml'))
+events = yaml.load(open('data/events.yaml'), yaml.Loader)
 
 for file in glob.glob(base+"/*.*")+glob.glob(base+"/**/*.*"):
     if file.endswith(".tmpl"):
