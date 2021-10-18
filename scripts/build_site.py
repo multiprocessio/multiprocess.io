@@ -27,7 +27,7 @@ def get_block(tmpl, name):
 base = "site"
 out_base = "build"
 
-videos = yaml.load(open('data/videos.yaml'))
+videos = yaml.load(open('data/videos.yaml'), yaml.Loader)
 events = yaml.load(open('data/events.yaml'))
 
 for file in glob.glob(base+"/*.*")+glob.glob(base+"/**/*.*"):
