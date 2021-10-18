@@ -231,7 +231,7 @@ print(table)</code></pre>
 <h3>Analysis</h3>
 <p>
   In this experiment it became clear that array of objects is the
-  least efficient representation for storage and poorest performance for every
+  least efficient representation for storage and has the poorest performance for every
   query. Array of arrays is still a row-oriented representation but it
   is more compact which is presumably why it does better than the
   array of objects representation. And it's still fairly easy to program.
@@ -261,7 +261,7 @@ print(table)</code></pre>
 <p>
   I know that some databases
   (like <a href="https://duckdb.org/2021/08/27/external-sorting.html">DuckDB
-  reports here</a>) switch to a row-oriented reprentation for some
+  reports here</a>) switch to a row-oriented representation for some
   operations like sorting to get around this inefficiency.
 </p>
 <p>
