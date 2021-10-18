@@ -1,0 +1,283 @@
+{% extends "blog/layout.tmpl" %}
+
+{% block postTitle %}Experimenting with column- and row-oriented datastructures{% endblock %}
+{% block postDate %}October 18, 2021{% endblock %}
+{% block postAuthor %}Phil Eaton{% endblock %}
+{% block postAuthorEmail %}phil@multiprocess.io{% endblock %}
+{% block postTags %}python,data structures{% endblock %}
+
+{% block postBody %}
+<p>
+  DataStation stores intermediate results as a JSON-encoded array of
+  objects (e.g. <code>[{ "a": 1, "b": "y" }, { "a": 2, "b": "z"
+  }]</code>). It uses JSON since DataStation supports scripting with
+  intermediate results in many languages and finding support for
+  other encodings is more challenging (even though I may eventually
+  switch). But the choice of storing data as an array of objects was a
+  shortcut I took despite knowing more efficient alternatives exist
+  even within JSON. The two most obvious alternatives that come to
+  mind are array of arrays (e.g. <code>[["a", "b"], [1, "y"], [2,
+  "z"]]</code>) and columnar (e.g. <code>[["a", 1, 2], ["b", "y",
+  "z"]]</code>).
+</p>
+<h3>Generating N rows in a schema</h3>
+<p>
+  Over the weekend I was thinking through what exactly I'd stand to
+  gain (or lose) if I switched representation, other than a potentially
+  more challenging programmer interface. So I pulled
+  out <a href="https://faker.readthedocs.io/en/master/">Faker</a> and
+  wrote a script to generate a schema and N rows of data, writing to
+  disk as JSON in each of the above mentioned forms.
+</p>
+<pre><code>import json
+import sys
+
+from faker import Faker
+
+fake = Faker()
+
+N = int(sys.argv[1])
+
+keys = fake.words(200)
+schema = {}
+for key in keys:
+    schema[key] = fake.random_choices((fake.iso8601, fake.paragraph, fake.random_int, fake.word), length=1)[0]
+
+array_of_objects = []
+for i in range(N):
+    obj = {}
+    if i % 10_000 == 0:
+        print(f'Done generating {i} of {N} ({i / N * 100:.0f}%)')
+    for key in keys:
+        obj[key] = schema[key]()
+    array_of_objects.append(obj)
+
+print('Generated data')
+
+with open('array_of_objects.json', 'w') as f:
+    json.dump(array_of_objects, f)
+
+print('Dumped array of objects')
+
+array_of_arrays = [keys]
+for row in array_of_objects:
+    array_row = []
+    for key in keys:
+        array_row.append(row[key])
+    array_of_arrays.append(array_row)
+
+with open('array_of_arrays.json', 'w') as f:
+    json.dump(array_of_arrays, f)
+
+print('Dumped array of arrays')
+
+columnar = [[] for key in keys]
+for row in array_of_arrays:
+    for i in range(len(keys)):
+        columnar[i].append(row[i])
+
+with open('columnar.json', 'w') as f:
+    json.dump(columnar, f)
+
+print('Dumped columnar')</code></pre>
+<h3>Benchmarking in-memory "queries"</h3>
+<p>
+  Then I sketched out a few common "queries" that might exercise
+  different aspects of the representations:
+</p>
+<ul>
+  <li>Summing an integer field</li>
+  <li>Sorting a field</li>
+  <li>Sorting a field and taking the first N elements</li>
+  <li>Grouping by a field, counting</li>
+</ul>
+<p>
+  Then I wrote a simple benchmark function and the code needed to run
+  each of these queries against each representation.
+</p>
+<pre><code>import json
+from time import time
+
+from beautifultable import BeautifulTable
+
+table = BeautifulTable()
+table.max_table_width=150
+
+tests = {}
+
+def bench_avg(storage, f, runs, name, sv=None):
+    start = time();
+    for i in range(runs):
+        res = f()
+    end = time()
+    if name not in tests:
+        tests[name] = []
+    tests[name].append({ 'time': f'{((end - start) / runs):.2f}s', 'signal': sv(res) if sv else 'N/A', 'storage': storage })
+    return res
+
+print('Testing arrays')
+
+with open('array_of_arrays.json') as f:
+    [header, *data] = bench_avg('array of arrays', lambda: json.load(f), 1, 'Read JSON')
+    first_int_column = header[0]
+    first_int_column_index = 0
+    for i, key in enumerate(header):
+        try:
+            int(data[0][i])
+            first_int_column = key
+            first_int_column_index = i
+            break
+        except:
+            pass
+    bench_avg('array of arrays', lambda: sum([row[first_int_column_index] for row in data]), 5, 'Sum int field', lambda a: a)
+    bench_avg('array of arrays', lambda: sorted(data, key=lambda r: r[0])[:100], 5, 'Sort by first field and take first 100', lambda a: a[0][0])
+    bench_avg('array of arrays', lambda: sorted(data, key=lambda r: r[0]), 5, 'Sort by first field')
+
+    def group():
+        matches = {}
+        for row in data:
+            if row[0] not in matches:
+                matches[row[0]] = 0
+            matches[row[0]] += 1
+
+        return list(matches.items())
+
+    bench_avg('array of arrays', group, 5, 'Group by first field, count', lambda g: len(g))
+
+print('Testing objects')
+
+with open('array_of_objects.json') as f:
+    data = bench_avg('array of objects', lambda: json.load(f), 1, 'Read JSON')
+    bench_avg('array of objects', lambda: sum([row[key] for row in data]), 5, 'Sum int field', lambda a: a)
+    bench_avg('array of objects', lambda: sorted(data, key=lambda r: r[header[0]])[:100], 5, 'Sort by first field and take first 100', lambda n: n[0][header[0]])
+    bench_avg('array of objects', lambda: sorted(data, key=lambda r: r[header[0]]), 5, 'Sort by first field')
+
+    def group():
+        matches = {}
+        key = header[0]
+        for row in data:
+            if row[key] not in matches:
+                matches[row[key]] = 0
+            matches[row[key]] += 1
+
+        return list(matches.items())
+
+    bench_avg('array of objects', group, 5, 'Group by first field, count', lambda g: len(g))
+
+print('Testing columnar')
+
+with open('columnar.json') as f:
+    data = bench_avg('columnar', lambda: json.load(f), 1, 'Read JSON')
+    columns = [r[0] for r in data]
+    data = [r[1:] for r in data]
+    bench_avg('columnar', lambda: sum(data[first_int_column_index]), 5, 'Sum int field', lambda a: a)
+    def data_sort(n=None):
+        guide = sorted(range(len(data[0])), key=lambda i: data[0][i])
+        return [[row[i] for i in (guide[:n] if n else guide)] for row in data]
+    bench_avg('columnar', lambda: data_sort(100), 5, 'Sort by first field and take first 100', lambda n: n[0][0])
+    bench_avg('columnar', data_sort, 5, 'Sort by first field')
+
+    def group():
+        matches = {}
+        for val in data[0]:
+            if val not in matches:
+                matches[val] = 0
+            matches[val] += 1
+
+        return list(matches.items())
+
+    bench_avg('columnar', group, 5, 'Group by first field, count', lambda g: len(g))
+
+table.columns.header = tests.keys()
+storages = [t['storage'] for t in tests[list(tests.keys())[0]]]
+
+for storage in storages:
+    row = []
+    for testname in tests.keys():
+        for t in tests[testname]:
+            if (t['storage'] == storage):
+                row.append(t['time'] + f' ({t["signal"]})')
+
+    table.rows.append(row)
+
+table.rows.header = storages
+print(table)</code></pre>
+<p>
+  After a <code>pip3 install faker beautifultable</code>, I could run
+  the generate script and then the benchmarks.
+</p>
+<pre><code>$ python3 generate_schema_data.py 1_000_000 && python3 benchmark.py
+... other stuff ...
++------------------+--------------+--------------------+----------------------------------------+---------------------+-----------------------------+
+|                  |  Read JSON   |   Sum int field    | Sort by first field and take first 100 | Sort by first field | Group by first field, count |
++------------------+--------------+--------------------+----------------------------------------+---------------------+-----------------------------+
+| array of arrays  | 40.54s (N/A) | 0.27s (4999013444) |      1.02s (1970-01-01T00:18:47)       |     1.01s (N/A)     |       0.69s (999668)        |
++------------------+--------------+--------------------+----------------------------------------+---------------------+-----------------------------+
+| array of objects | 47.35s (N/A) | 0.35s (4999013444) |      1.09s (1970-01-01T00:18:47)       |     1.09s (N/A)     |       0.72s (999668)        |
++------------------+--------------+--------------------+----------------------------------------+---------------------+-----------------------------+
+|     columnar     | 29.19s (N/A) | 0.01s (4999013444) |      0.51s (1970-01-01T00:18:47)       |    49.30s (N/A)     |       0.94s (999668)        |
++------------------+--------------+--------------------+----------------------------------------+---------------------+-----------------------------+</code></pre>
+<p>
+  And one more note before analysis, the file sizes on disk:
+</p>
+<pre><code>$ ls -lah *.json
+-rw-r--r-- 1 phil phil 6.4G Oct 18 17:49 array_of_arrays.json
+-rw-r--r-- 1 phil phil 7.6G Oct 18 17:47 array_of_objects.json
+-rw-r--r-- 1 phil phil 6.4G Oct 18 17:50 columnar.json</code></pre>
+<h3>Analysis</h3>
+<p>
+  In this experiment it became clear that array of objects is the
+  least efficient representation for storage and poorest performance for every
+  query. Array of arrays is still a row-oriented representation but it
+  is more compact which is presumably why it does better than the
+  array of objects representation. And it's still fairly easy to program.
+</p>
+<p>
+  The really interesting results though are about the columnar
+  data. It takes a meaningfully smaller amount of time to parse. But
+  it's about the same size on disk as the array of arrays. Summing a
+  single field is extremely efficient in this representation. And
+  sorting on a field and taking a few results back is twice as
+  efficient than the other representations.
+</p>
+<p>
+  Most surprising to me was how slow sorting all rows while in
+  columnar representation is compared to the row-oriented
+  representations. Maybe I'm missing an obviously better way to sort there.
+</p>
+<p>
+  But the way this terrible performance makes sense to me after seeing
+  the numbers is that sorting column-oriented data is dependent on
+  both the size of the input
+  <strong>and</strong> the number of columns since you need to move
+  data in each column around independently. In contrast, sorting in
+  row-oriented data is not dependent on the number of columns, only
+  the size of the input.
+</p>
+<p>
+  I know that some databases
+  (like <a href="https://duckdb.org/2021/08/27/external-sorting.html">DuckDB
+  reports here</a>) switch to a row-oriented reprentation for some
+  operations like sorting to get around this inefficiency.
+</p>
+<p>
+  On a sidenote, one interesting kind of query I didn't have time to look at was
+  JOINs where I expect the row-oriented database would have won out.
+</p>
+<h3>What not to take away</h3>
+<p>
+  The intent of this little script was to look at vanilla storage
+  choices keeping RAM size, the non-existence of indexes, and various
+  other tricks constant. In reality when you are examining columnar or
+  row-oriented database products (PostgreSQL, ClickHouse, DuckDB,
+  etc.) they will have many tricks that speed up these results in
+  different ways. The most obvious is the existence of indexes.
+</p>
+<p>
+  For the purposes of DataStation it would probably be best to move to
+  the array of arrays representation to save some space and time. It's
+  not immediately clear using a column-oriented store makes sense
+  given common workloads on DataStation.
+</p>
+<h4>Share</h4>
+{% endblock %}
