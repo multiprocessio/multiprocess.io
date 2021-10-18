@@ -1,10 +1,10 @@
-{% set doctitle = 'SQL Panel Documentation' %}
+{% set doctitle = 'Database Panel Documentation' %}
 
 {% extends 'docs/layout.tmpl' %}
 
 {% block docbody %}
 <p>
-  SQL panels allow you to write SQL against databases. Supported
+  Database panels allow you to write queries against databases. Supported
   databases include PostgreSQL, CockroachDB, MySQL, MariaDB, SQLite,
   Oracle, and SQL Server. After you pick a SQL vendor, you will pick
   from <a href="/docs/data-source.html">Data Sources</a> that are
@@ -12,12 +12,11 @@
 </p>
 <h2>With Server</h2>
 <p>
-  SQL queries can be proxied through an SSH tunnel by checking
+  Queries can be proxied through an SSH tunnel by checking
   the <code>With Server</code> option. Once selected, you will be
   prompted to pick from one of the SSH Connections you set up
   previously.
 </p>
-<!-- 
 <h2>Oracle</h2>
 <p>
   Oracle requires an additional setup step. You must download
@@ -25,5 +24,5 @@
   client</a> from their site and unzip it. Add the enclosed directory
   to your <code>$PATH</code> environment variable and restart
   DataStation.
-</p> -->
+</p>
 {% endblock %}
