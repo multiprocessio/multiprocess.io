@@ -1,0 +1,418 @@
+{% extends "blog/layout.tmpl" %}
+
+{% block postTitle %}Building a performant SCSS-like rule expander for CSS using fuzzy parsing in under 300 LoC{% endblock %}
+{% block postDate %}October 31, 2021{% endblock %}
+{% block postAuthor %}Phil Eaton{% endblock %}
+{% block postAuthorEmail %}phil@multiprocess.io{% endblock %}
+{% block postTags %}javascript,css,parsing,typescript,scss,less{% endblock %}
+
+{% block postBody %}
+<p>
+  The primary advantage of a CSS preprocessor is the shorthand of
+  nested rule expansion. For example in LESS or SCSS you can do:
+</p>
+<pre><code>.container {
+  h1 {
+    font-size: 15px;
+  }
+
+  a, a:visited {
+    color: blue;
+  }
+}</code></pre>
+<p>
+  And after compiling it the nested rules will be flattened and
+  expanded correctly with the right selector:
+</p>
+<pre><code>.container h1 {
+  font-size: 15px;
+}
+
+.container a, .container a:visited {
+  color: blue;
+}</code></pre>
+<p>
+  But bringing in LESS or SCSS was historically somewhat complicated,
+  the projects themselves large, and I <a
+  href="https://notes.eatonphil.com/tags/parsing.html">love a good
+  parsing project</a>.
+</p>
+<p>
+  After a few attempts at writing a full-fledged parser, I gave up and
+  decided to try something new: fuzzy parsing. Rather than trying to
+  understand every type of CSS selector and every CSS property-value
+  syntax, I'd just look for key markers like <code>{</code>,
+  <code>:</code>, <code>;</code> and <code>}</code> and assume
+  everything around them was valid CSS.
+</p>
+<p>
+  The code for this project is on <a href="https://github.com/multiprocessio/cssplus">Github</a>.
+</p>
+<h3>Parsing</h3>
+<p>
+  The core logic for parsing selectors and values is a
+  <code>parseToken</code> function that reads characters one at a time
+  until it encounters some ending marker. It needs to be aware of
+  special bracket and string pairs like in
+  <code>input[type="button"]</code> and <code>background:
+  url('../picture.jpg');</code>. So if it sees one of those pair
+  characters it reads all characters (even ending marker characters)
+  until it finds the ending character for the pair.
+</p>
+<pre><code>function parseToken(
+  input: string,
+  i: number,
+  endMarker: Array<string>
+): [string, number] {
+  let token = '';
+  i = eatWhitespace(input, i);
+  while (!endMarker.includes(input[i])) {
+    guard(input, i, 'Waiting for ' + JSON.stringify(endMarker));
+    if (input[i] === "'") {
+      token += input[i];
+      i++;
+      while (input[i] !== "'") {
+        guard(input, i, 'Waiting for closing single quote');
+        token += input[i];
+        i++;
+      }
+    } else if (input[i] === '"') {
+      token += input[i];
+      i++;
+      while (input[i] !== '"') {
+        guard(input, i, 'Waiting for closing double quote');
+        token += input[i];
+        i++;
+      }
+    } else if (input[i] === '[') {
+      token += input[i];
+      i++;
+      while (input[i] !== ']') {
+        guard(input, i, 'Waiting for closing bracket');
+        token += input[i];
+        i++;
+      }
+    }
+    token += input[i];
+    i++;
+  }
+
+  return [token.trim(), i];
+}</code></pre>
+<p>
+  This in turn is called by a fuzzy <code>parseRule</code> function
+  that looks for selectors, property-value pairs, and nested
+  selectors.
+</p>
+<pre><code>export interface Declaration {
+  type: 'declaration';
+  property: string;
+  value: string;
+}
+
+export interface Rule {
+  type: 'rule';
+  selectors: Array<string>;
+  declarations: Array<Declaration | Rule>;
+}
+
+function parseRule(input: string, i: number): [Rule, number] {
+  let token = '';
+  let rule: Rule = { selectors: [], declarations: [], type: 'rule' };
+
+  guard(input, i, 'Waiting for EOL');
+
+  i = eatWhitespace(input, i);
+
+  let prev = ',';
+  while (true) {
+    guard(input, i, 'Waiting for comma');
+    [token, i] = parseToken(input, i, ['{', ',']);
+    rule.selectors.push(token);
+
+    i = eatWhitespace(input, i);
+    prev = input[i];
+    if (prev === '{') {
+      break;
+    }
+    i++; // Skip past ,
+  }
+
+  i++; // Skip past {
+
+  while (input[i] !== '}') {
+    guard(input, i, 'Waiting for closing brace');
+    const declaration: Declaration = {
+      type: 'declaration',
+      property: '',
+      value: '',
+    };
+    i = eatWhitespace(input, i);
+
+    const possibleInnerDeclarationStartingPoint = i;
+    token = '';
+    let foundInner = false;
+    while (input[i] !== ':') {
+      guard(
+        input,
+        i,
+        'Waiting for colon ' +
+          (rule.declarations.length > 0
+            ? 'after ' +
+              JSON.stringify(
+                rule.declarations[rule.declarations.length - 1],
+                null,
+                2
+              )
+            : 'after first declaration')
+      );
+
+      if (input[i] === '{') {
+        const [nested, newI] = parseRule(
+          input,
+          possibleInnerDeclarationStartingPoint
+        );
+        rule.declarations.push(nested);
+        i = newI;
+        foundInner = true;
+        break;
+      } else {
+        token += input[i];
+        i++;
+      }
+    }
+
+    if (foundInner) {
+      i = eatWhitespace(input, i);
+      continue;
+    }
+
+    i++; // Skip past :
+
+    declaration.property = token.trim();
+
+    i = eatWhitespace(input, i);
+
+    [token, i] = parseToken(input, i, [';']);
+
+    i++; // Skip past ;
+
+    declaration.value = token.trim();
+
+    rule.declarations.push(declaration);
+    debug('Found declaration', declaration);
+
+    i = eatWhitespace(input, i);
+  }
+
+  i++; // Skip past }
+
+  debug('Found rule', rule);
+  return [rule, i];
+}</code></pre>
+<p>
+  This function in turn is called by <code>parse()</code> until we
+  find all rules.
+</p>
+<pre><code>function parse(input: string, i = 0) {
+  const rules: Rule[] = [];
+  while (i < input.length) {
+    i = eatWhitespace(input, i);
+    const [rule, newI] = parseRule(input, i);
+    rules.push(rule);
+    i = eatWhitespace(input, newI);
+  }
+
+  return rules;
+}</code></pre>
+<h3>Expanding nested rules</h3>
+<p>
+  Next we need to flatten all nested rules. When doing this we'll take
+  the cartesian product of the selectors so that we produce every
+  combination of comma-separated selectors (order matters, the outer
+  selectors must come first).
+</p>
+<p>
+  If a selector starts with <code>@</code> then we will not flatten it
+  since it is a CSS entity like media queries or keyframes that has
+  valid nested CSS rules.
+</p>
+<pre><code>function cartesian(...a: string[][]): string[][] {
+  return a.reduce(
+    (a, b) =>
+      a.map((x) => b.map((y) => x.concat(y))).reduce((c, d) => c.concat(d), []),
+    [[]] as string[][]
+  );
+}
+
+function flatten(rules: Rule[]) {
+  for (let i = 0; i < rules.length; i++) {
+    const rule = rules[i];
+
+    rule.declarations.forEach(function flattenDecl(decl, di) {
+      if (decl.type === 'rule' && !rule.selectors[0].startsWith('@')) {
+        // Insert into global rules after this one with correct selector
+        rules.splice(i + 1, 0, {
+          ...decl,
+          selectors: cartesian(rule.selectors, decl.selectors).map((inner) =>
+            inner.join(' ')
+          ),
+        });
+
+        i++; // Skip past added rule
+
+        // Remove from here
+        rule.declarations.splice(di, 1);
+      }
+    });
+  }
+}</code></pre>
+<p>
+  At the moment this only supports a single level of nesting rules but
+  that will be fixed in a future release.
+</p>
+<h3>Code generation</h3>
+<p>
+  After flattening, we can write out all rules.
+</p>
+<pre><code>function write(rules: Rule[], indent = '') {
+  const out: string[] = [];
+  rules.forEach(function writeRule(rule) {
+    const declarations = [indent + rule.selectors.join(',\n') + ' {'];
+
+    rule.declarations.forEach(function writeDecl(decl) {
+      if (decl.type === 'rule') {
+        const rules = write([decl], indent + '  ');
+        declarations.push(rules);
+      } else {
+        declarations.push(
+          indent + '  ' + decl.property + ': ' + decl.value + ';'
+        );
+      }
+    });
+
+    declarations.push(indent + '}');
+
+    out.push(declarations.join('\n'));
+  });
+
+  return out.join('\n\n');
+}</code></pre>
+<p>
+  And finally we can wrap this in a nice interface and include the
+  other helper functions we used:
+</p>
+<pre><code>export const SETTINGS = {
+  DEBUG: false,
+};
+
+function eatWhitespace(input: string, start: number) {
+  while (/\s/.test(input[start])) {
+    start++;
+  }
+
+  // Eat comments
+  if (input[start] === '/' && input[start + 1] === '*') {
+    // Skip past /*
+    start += 2;
+    while (!(input[start] === '*' && input[start + 1] === '/')) {
+      start++;
+    }
+    // Skip past */
+    start += 2;
+  }
+
+  while (/\s/.test(input[start])) {
+    start++;
+  }
+
+  return start;
+}
+
+function debug(msg: string, ...rest: Array<any>) {
+  if (SETTINGS.DEBUG) {
+    console.log('[Debug] ' + msg, ...rest);
+  }
+}
+
+function guard(input: string, i: number, msg: string) {
+  debug(msg);
+  if (input[i] === undefined) {
+    throw new Error(msg + ' failed');
+  }
+}
+
+export function transform(cssp: string) {
+  const rules = parse(cssp);
+  flatten(rules);
+  return write(rules);
+}</code></pre>
+<p>
+  Now we've got a basic CSS rule expander in <300 LoC using fuzzy
+  parsing! Let's benchmark it.
+</p>
+<h3>Benchmark</h3>
+<p>
+  This is an extremely simple benchmark to test out how long it takes
+  this library to generate a CSS file from a SCSS file compared to the
+  sass project.
+</p>
+<p>
+  We'll create a large file by repeating the following string a few 10,000 times:
+</p>
+<pre><code>$ ls -lah test.scss
+-rw-r--r-- 1 phil phil 372K Oct 31 17:27 test.scss
+
+$ head -n 7 test.scss
+div.outer {
+  color: black;
+
+  div.inner {
+    color: white;
+  }
+}</code></pre>
+<p>
+  We'll create three simple transform scripts; using this library, using sass (written in JavaScript), and node-sass (written in C++).
+</p>
+<pre><code>$ yarn add yarn add https://github.com/multiprocessio/cssplus sass node-sass
+
+$ cat cssplus.js
+const { transform } = require('cssplus');
+const fs = require('fs');
+
+const f = fs.readFileSync(process.argv[2]).toString();
+console.log(transform(f));
+
+$ cat js-scss.js
+const sass = require('sass');
+console.log(sass.renderSync({file: process.argv[2]}).css.toString());
+
+$ cat native-scss.js
+const sass = require('node-sass');
+console.log(sass.renderSync({file: process.argv[2]}).css.toString());</code></pre>
+<p>
+  Now we run and time them.
+</p>
+<pre><code>$ time node js-scss.js test.scss > js-scssout
+node js-scss.js test.scss > js-scssout  1.22s user 0.05s system 156% cpu 0.814 total
+
+$ time node native-scss.js test.scss > native-scssout
+node native-scss.js test.scss > native-scssout  0.31s user 0.03s system 101% cpu 0.333 total
+
+$ time node cssplus.js test.scss > cssout            
+node cssplus.js test.scss > cssout  0.29s user 0.02s system 134% cpu 0.234 total</code></pre>
+<p>
+  And diff the output files for proof of correctness (ignoring
+  whitespace since they differ here):
+</p>
+<pre><code>$ diff -B cssout js-scssout
+</code></pre>
+<p>
+  Nice! This library certainly does significantly less than SCSS or
+  LESS do but at least it was extremely simple to code it up and we
+  actually see a decent performance gain compared to the JavaScript
+  implementation of SCSS, probably because of how stripped down the
+  parsing is we're doing.
+</p>
+<h4>Share</h4>
+{% endblock %}

@@ -316,13 +316,11 @@ p {
     border-color: #dad1e6;
 }
 
-.code {
-    max-height: 800px;
-}
-
-.hljs code,
-.hljs.code {
+code.hljs {
     background: white;
+    border: 1px solid #ddd;
+    padding: 15px;
+    max-height: 400px;
 }
 
 .code, p code {
