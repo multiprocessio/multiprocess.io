@@ -18,20 +18,23 @@
   transformers like esbuild and swc work as bundlers too.
 </p>
 <p>
-  Historically webpack has been the most popular tool for bundling and
+  Recently <a href="https://webpack.js.org/">webpack</a> has been the most popular tool for bundling and
   babel (used by webpack) has been the most popular tool for
   transformations. But in the last few years there have been a number
   of alternative transformers and bundlers with differing performance
   characteristics. This post ignores bundling and compares the
-  performance of the four major transformers today: babel,
-  TypeScript's tsc, esbuild, and swc.
+  performance of the four major transformers
+  today: <a href="https://babeljs.io/">babel</a>,
+  <a href="https://www.typescriptlang.org/">TypeScript's
+  tsc, <a href="https://esbuild.github.io/">esbuild</a>,
+  and <a href="https://swc.rs/">swc</a>.
 </p>
 <p>
   To perform the benchmarks we run a lorum ipsum style React project
   generator to create sample React projects in three sizes, ranging
-  from a few MBs of code to 100s of MBs of code. In the end, esbuild
+  from a few MBs of code to 100s of MBs of code. <strong>In the end, esbuild
   and swc perform comparably well; between 4-25 times as fast as babel
-  and 3-9 times as fast as tsc.
+  and 3-9 times as fast as tsc.</strong>
 </p>
 <p>
   All code for the <a
@@ -46,10 +49,10 @@
   Babel was started in 2014 by Sebastian Mackenzie while he was a
   senior in high school. He has since gone on to author the npm
   alternative, yarn, and is working on a new transformer called
-  Rome. Babel is written in JavaScript and has a [hand-written
-  parser](https://github.com/babel/babel/tree/main/packages/babel-parser/src/parser)
-  (as opposed to using a parser generator like yacc or bison). It is
-  sponsored by by many commercial groups.
+  Rome. Babel is written in JavaScript and has
+  a <a href="https://github.com/babel/babel/tree/main/packages/babel-parser/src/parser">hand-written
+  parser</a> (as opposed to using a parser generator like yacc or
+  bison). It is sponsored by by many commercial groups.
 </p>
 <p>
   Its focus has never been particularly on speed but being the
