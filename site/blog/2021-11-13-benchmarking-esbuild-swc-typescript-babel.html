@@ -18,12 +18,13 @@
   transformers like esbuild and swc work as bundlers too.
 </p>
 <p>
-  Recently <a href="https://webpack.js.org/">webpack</a> has been the most popular tool for bundling and
-  babel (used by webpack) has been the most popular tool for
-  transformations. But in the last few years there have been a number
-  of alternative transformers and bundlers with differing performance
-  characteristics. This post ignores bundling and compares the
-  performance of the four major transformers
+  Recently <a href="https://webpack.js.org/">webpack</a> has been the
+  most popular tool for bundling and
+  <a href="https://babeljs.io/">babel</a> (used by webpack) has been
+  the most popular tool for transformations. But in the last few years
+  there have been a number of alternative transformers and bundlers
+  with differing performance characteristics. This post ignores
+  bundling and compares the performance of the four major transformers
   today: <a href="https://babeljs.io/">babel</a>,
   <a href="https://www.typescriptlang.org/">TypeScript's
   tsc, <a href="https://esbuild.github.io/">esbuild</a>,
@@ -46,10 +47,10 @@
 <h2>Transformers</h2>
 <h3>Babel</h3>
 <p>
-  Babel was started in 2014 by Sebastian Mackenzie while he was a
-  senior in high school. He has since gone on to author the npm
-  alternative, yarn, and is working on a new transformer called
-  Rome. Babel is written in JavaScript and has
+  <a href="https://babeljs.io/">Babel</a> was started in 2014 by Sebastian Mackenzie <a href="https://medium.com/@sebmck/2015-in-review-51ac7035e272">while he was a
+  senior in high school</a>. He has since gone on to author the npm
+  alternative, <a href="https://yarnpkg.com/">yarn</a>, and is working on a new transformer called
+  <a href="https://rome.tools/">Rome</a>. Babel is written in JavaScript and has
   a <a href="https://github.com/babel/babel/tree/main/packages/babel-parser/src/parser">hand-written
   parser</a> (as opposed to using a parser generator like yacc or
   bison). It is sponsored by by many commercial groups.
@@ -86,25 +87,24 @@ yarn babel $1 --out-dir build</code></pre>
 </p>
 <h3>TypeScript's tsc</h3>
 <p>
-  TypeScript is a typed superset of JavaScript by Microsoft. It was
+  <a href="https://www.typescriptlang.org/">TypeScript</a> is a typed superset of JavaScript by Microsoft. It was
   made public in 2012 and developed primarily by Anders Hejlsberg, who
   created Turbo Pascal, led the development of Delphi, and then led
   the development of C#. (You'd think someone like that might be more
-  of a figurehead or management type at this point (no judgement
-  either way of course). But he's still the top <a
-  href="https://github.com/microsoft/TypeScript/graphs/contributors">contributor</a>
+  of a figurehead or management type at this point; no judgement
+  either way of course. But he's still the <a
+  href="https://github.com/microsoft/TypeScript/graphs/contributors">top contributor</a>
   to TypeScript by a large margin.)
 </p>
 <p>
   TypeScript is written in TypeScript and supports transforming both
   TypeScript and regular JavaScript. In this benchmark we'll only
   really explore its support for JavaScript and JSX, not
-  TypeScript. Like Babel it has a hand-written parser
-  (https://github.com/microsoft/TypeScript/blob/main/src/compiler/parser.ts).
+  TypeScript. Like babel it has a hand-written <a href="https://github.com/microsoft/TypeScript/blob/main/src/compiler/parser.ts">parser</a>.
 </p>
 <h4>Settings</h4>
 <p>
-  For tsc we need to set --allowJs, pass --rootDir $dir so that it retains the directory structure of the input project, and pass it all .jsx files in the project:
+  For tsc we need to set <code>--allowJs</code>, pass <code>--rootDir $dir</code> so that it retains the directory structure of the input project, and pass it all .jsx files in the project:
 </p>
 <pre><code>$ cat typescript/run.sh
 #!/usr/bin/env bash
@@ -114,14 +114,14 @@ set -e
 yarn tsc --outDir build --allowJs --rootDir $1 $(find $1 -name '*.jsx')</code></pre>
 <p>
   This was relatively one of the more annoying set of flags to figure
-  out. The `yarn tsc --help` doesn't even include --rootDir as an
+  out. The <code>yarn tsc --help</code> doesn't even include <code>--rootDir</code> as an
   option. Without it all output files get put in the same flat output
   directory, disrespecting input directory structure.
 </p>
 <h3>SWC</h3>
 <p>
-  SWC was released in 2019 by Kang Dong Yoon. Its development is
-  sponsored by Vercel (creators of Next.js), among others, where Dong
+  <a href="https://swc.rs">SWC</a> was released in 2019 by Kang Dong Yoon. Its development is
+  sponsored by Vercel (creators of <a href="https://nextjs.org/">Next.js</a>), among others, where Dong
   Yoon now works. SWC is written in Rust and the parser is
   <a href="https://github.com/swc-project/swc/tree/master/crates/swc_ecma_parser/src/parser">hand-written</a>.
 </p>
@@ -130,7 +130,7 @@ yarn tsc --outDir build --allowJs --rootDir $1 $(find $1 -name '*.jsx')</code></
   Given how recent SWC came out, it also surprisingly didn't work
   without some basic configuration. You need to tell it you're
   compiling JavaScript and that JSX is enabled and that the output
-  should be commonjs (module.exports, require()).
+  should be commonjs (e.g. <code>module.exports</code>, <code>require('moduleX')</code>).
 </p>
 <pre><code>$ cat swc/.swcrc
 {
@@ -155,8 +155,8 @@ set -ex
 yarn swc $(find $1 -name '*.jsx') -d build</code></pre>
 <h3>esbuild</h3>
 <p>
-  esbuild was released in 2020 by Evan Wallace, the founder of
-  Figma. Esbuild is written in Go and it has a <a
+  <a href="https://esbuild.github.io/">esbuild</a> was released in 2020 by Evan Wallace, the founder of
+  Figma. esbuild is written in Go and it has a <a
   href="https://github.com/evanw/esbuild/tree/master/internal/js_parser">hand-written
   parser</a>. There's a good post on why esbuild is fast <a
   href="https://esbuild.github.io/faq/#production-readiness">here</a>.
@@ -343,11 +343,20 @@ babel,large,70.57572</code></pre>
 </p>
 <h3>Final caveats</h3>
 <p>
+  Babel and TypeScript both seem to do more source code validation
+  than esbuild or swc does. In one version of the project generator I
+  was generating components with duplicate names and babel blew up
+  while esbuild just kept on transforming. Similarly, TypeScript
+  type-checking <a href="https://github.com/microsoft/TypeScript/issues/29651">cannot
+  be turned off at the moment</a> which certainly adds overhead that
+  esbuild and swc don't deal with.
+</p>
+<p>
   No benchmarks are perfect and being completely representative is not a
   goal of this post. And of course performance isn't the only reason to
   pick one of these projects. Maybe you embed CSS in a way esbuild
   doesn't support. I've had a really hard time sticking with esbuild for
-  unit tests and had to switch to ts-jest which uses TypeScript's tsc.
+  unit tests and had to switch to <a href="https://github.com/kulshekhar/ts-jest">ts-jest</a> which uses TypeScript's tsc.
 </p>
 <h4>Share</h4>
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Ever been curious about the performance of newer JavaScript transformation tools like esbuild and swc compared to babel and TypeScript?<br><br>esbuild and swc lead the pack by a large margin.<a href="https://t.co/cnNci3OwIq">https://t.co/cnNci3OwIq</a> <a href="https://t.co/6BmVFK1cAk">pic.twitter.com/6BmVFK1cAk</a></p>&mdash; DataStation (@multiprocessio) <a href="https://twitter.com/multiprocessio/status/1459587741843394569?ref_src=twsrc%5Etfw">November 13, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
