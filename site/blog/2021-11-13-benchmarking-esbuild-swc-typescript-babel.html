@@ -1,0 +1,344 @@
+{% extends "blog/layout.tmpl" %}
+
+{% block postTitle %}Benchmarking esbuild, swc, tsc, and babel for React/JSX projects{% endblock %}
+{% block postDate %}November 13, 2021{% endblock %}
+{% block postAuthor %}Phil Eaton{% endblock %}
+{% block postAuthorEmail %}phil@multiprocess.io{% endblock %}
+{% block postTags %}javascript,parsing,typescript,esbuild,swc,tsc,babel{% endblock %}
+
+{% block postBody %}
+<p>
+  JavaScript developers use transformers and bundlers to simplify
+  building large JavaScript applications and to make it possible to
+  use modern JavaScript language features that aren't yet universally
+  supported across JavaScript runtimes. Transformers need to parse and
+  translate JavaScript (and/or TypeScript). Bundlers typically use a
+  transformer under the hood and handle turning multiple JavaScript
+  source files into one JavaScript file (a bundle). Some newer
+  transformers like esbuild and swc work as bundlers too.
+</p>
+<p>
+  Historically webpack has been the most popular tool for bundling and
+  babel (used by webpack) has been the most popular tool for
+  transformations. But in the last few years there have been a number
+  of alternative transformers and bundlers with differing performance
+  characteristics. This post ignores bundling and compares the
+  performance of the four major transformers today: babel,
+  TypeScript's tsc, esbuild, and swc.
+</p>
+<p>
+  To perform the benchmarks we run a lorum ipsum style React project
+  generator to create sample React projects in three sizes, ranging
+  from a few MBs of code to 100s of MBs of code. In the end, esbuild
+  and swc perform comparably well; between 4-25 times as fast as babel
+  and 3-9 times as fast as tsc.
+</p>
+<p>
+  All code for the <a
+  href="https://github.com/multiprocessio/react-benchmark-generator">React
+  project generator</a> and for the <a
+  href="https://github.com/multiprocessio/react-transformer-benchmarks">benchmarks</a>
+  themselves are available on Github.
+</p>
+<h2>Transformers</h2>
+<h3>Babel</h3>
+<p>
+  Babel was started in 2014 by Sebastian Mackenzie while he was a
+  senior in high school. He has since gone on to author the npm
+  alternative, yarn, and is working on a new transformer called
+  Rome. Babel is written in JavaScript and has a [hand-written
+  parser](https://github.com/babel/babel/tree/main/packages/babel-parser/src/parser)
+  (as opposed to using a parser generator like yacc or bison). It is
+  sponsored by by many commercial groups.
+</p>
+<p>
+  Its focus has never been particularly on speed but being the
+  largest, oldest, and most mature pure-JavaScript transformer, nobody
+  ever got fired for using it.
+</p>
+<h4>Settings</h4>
+<p>
+  Babel doesn't support JSX out of the box so we need to add
+  <code>@babel/preset-react</code> in babel.config.json:
+</p>
+<pre><code>$ cat babel/babel.config.json
+{
+  "presets": ["@babel/preset-react"]
+}</code></pre>
+<p>
+  To run the project we just pass the directory to babel:
+</p>
+<pre><code>$ cat babel/run.sh
+#!/usr/bin/env bash
+
+set -e
+
+yarn babel $1 --out-dir build</code></pre>
+<p>
+  Caveat: this setting does not output commonjs modules like every
+  other system does. But given how slowly Babel performs I figured I'd
+  give it a pass on this one point because it meant another preset and
+  performance could only get worse if I ask it for another
+  transformation.
+</p>
+<h3>TypeScript's tsc</h3>
+<p>
+  TypeScript is a typed superset of JavaScript by Microsoft. It was
+  made public in 2012 and developed primarily by Anders Hejlsberg, who
+  created Turbo Pascal, led the development of Delphi, and then led
+  the development of C#. (You'd think someone like that might be more
+  of a figurehead or management type at this point (no judgement
+  either way of course). But he's still the top <a
+  href="https://github.com/microsoft/TypeScript/graphs/contributors">contributor</a>
+  to TypeScript by a large margin.)
+</p>
+<p>
+  TypeScript is written in TypeScript and supports transforming both
+  TypeScript and regular JavaScript. In this benchmark we'll only
+  really explore its support for JavaScript and JSX, not
+  TypeScript. Like Babel it has a hand-written parser
+  (https://github.com/microsoft/TypeScript/blob/main/src/compiler/parser.ts).
+</p>
+<h4>Settings</h4>
+<p>
+  For tsc we need to set --allowJs, pass --rootDir $dir so that it retains the directory structure of the input project, and pass it all .jsx files in the project:
+</p>
+<pre><code>$ cat typescript/run.sh
+#!/usr/bin/env bash
+
+set -e
+
+yarn tsc --outDir build --allowJs --rootDir $1 $(find $1 -name '*.jsx')</code></pre>
+<p>
+  This was relatively one of the more annoying set of flags to figure
+  out. The `yarn tsc --help` doesn't even include --rootDir as an
+  option. Without it all output files get put in the same flat output
+  directory, disrespecting input directory structure.
+</p>
+<h3>SWC</h3>
+<p>
+  SWC was released in 2019 by Kang Dong Yoon. Its development is
+  sponsored by Vercel (creators of Next.js), among others, where Dong
+  Yoon now works. SWC is written in Rust and the parser is
+  <a href="https://github.com/swc-project/swc/tree/master/crates/swc_ecma_parser/src/parser">hand-written</a>.
+</p>
+<h4>Settings</h4>
+<p>
+  Given how recent SWC came out, it also surprisingly didn't work
+  without some basic configuration. You need to tell it you're
+  compiling JavaScript and that JSX is enabled and that the output
+  should be commonjs (module.exports, require()).
+</p>
+<pre><code>$ cat swc/.swcrc
+{
+  "jsc":{
+    "parser":{
+      "jsx": true,
+      "syntax": "ecmascript"
+    }
+  },
+  "module":{
+    "type":"commonjs"
+  }
+}</code></pre>
+<p>
+  Then to run we just pass it all files to compile and the output directory.
+</p>
+<pre><code>$ cat swc/run.sh
+#!/usr/bin/env bash
+
+set -ex
+
+yarn swc $(find $1 -name '*.jsx') -d build</code></pre>
+<h3>esbuild</h3>
+<p>
+  esbuild was released in 2020 by Evan Wallace, the founder of
+  Figma. Esbuild is written in Go and it has a <a
+  href="https://github.com/evanw/esbuild/tree/master/internal/js_parser">hand-written
+  parser</a>. There's a good post on why esbuild is fast <a
+  href="https://esbuild.github.io/faq/#production-readiness">here</a>.
+</p>
+<h4>Settings</h4>
+<p>
+  esbuild is by far my favorite among these because it requires no
+  configuration or tricky flags. We just pass it the list of files to
+  compile and the output directory.
+</p>
+<pre><code>$ cat esbuild/run.sh
+#!/usr/bin/env bash
+
+set -ex
+
+yarn esbuild --outdir=build $(find $1 -name '*.jsx')</code></pre>
+<h3>Omitted</h3>
+<p>
+  <a href="https://rome.tools/">Rome</a> and <a
+  href="https://bun.sh/">Bun</a> look promising. But Rome is only a
+  linter at the moment and being rewritten; and Bun isn't public
+  yet. In the future when they become available I'll add them to this
+  repo.
+</p>
+<p>
+  Is there another transformer I'm missing? Let me know and I'll add
+  it. Keep in mind that projects like webpack and parcel are not
+  transformers themselves and use swc or babel under the hood.
+</p>
+<h2>Benchmark Methodology</h2>
+<h3>Project Generator</h3>
+<p>
+  The esbuild <a href="https://esbuild.github.io/">site</a> benchmarks
+  esbuild against webpack and parcel (both use babel under the hood as
+  the transformer) on the three.js project. Using a real-world project
+  like this makes a lot of sense. But it can be difficult and
+  time-consuming to set up real-world projects on multiple
+  bundlers/transformers. So I took the approach of writing a React
+  project generator using <a
+  href="https://github.com/marak/Faker.js/">Faker.js</a>.
+</p>
+<p>
+  I wrote <a
+  href="https://github.com/multiprocessio/react-benchmark-generator">react-benchmark-generator</a>
+  to generate files with React components that render random JSX and
+  can reference other generated files/components. But there are big
+  major caveats to call out though about this generator at the moment.
+</p>
+<p>
+  First, it generates extremely simple render-only React
+  components. It doesn't generate code that does API calls or
+  React.useEffect. So if there were edge-cases in parsers that only
+  show up in gigantic operator expressions or heavily nested
+  callbacks, we wouldn't be expressing those cases in using this
+  generator.
+</p>
+<p>
+  Second, it doesn't really generate TypeScript. Since the components
+  are render-only I could just rename the files to .tsx instead of
+  .jsx and I may choose to do that. But it's my guess that expressing
+  the TypeScript paths of these four transformers won't be
+  significantly different from the pure-JavaScript paths.
+</p>
+<h3>Sizes and Number of Samples</h3>
+<p>
+  Inside the benchmark repo, prepare.sh calls the generator with
+  arguments to generate 5 projects of three different sizes.
+</p>
+<pre><code>$ du -h --max-depth 2 tests
+2.4M    tests/small/sample1
+2.6M    tests/small/sample2
+2.3M    tests/small/sample3
+2.4M    tests/small/sample4
+2.5M    tests/small/sample5
+12M     tests/small
+51M     tests/medium/sample1
+54M     tests/medium/sample2
+52M     tests/medium/sample3
+55M     tests/medium/sample4
+53M     tests/medium/sample5
+263M    tests/medium
+314M    tests/large/sample1
+307M    tests/large/sample2
+309M    tests/large/sample3
+309M    tests/large/sample4
+310M    tests/large/sample5
+1.6G    tests/large
+1.8G    tests</code></pre>
+<p>
+  And just to demonstrate the basic structure within a sample project:
+</p>
+<pre><code>$ ls tests/small/sample1
+EumInciduntIusto0.jsx  MagnamVel60.jsx     QuodVoluptatemAbMagnamIllo80.jsx
+index.jsx              QuiaExpedita20.jsx  VoluptatumRepellendusUtConsequaturIn40.jsx</code></pre>
+<p>
+  And within test/small/sample1/index.jsx:
+</p>
+<pre><code>$ cat tests/small/sample1/index.jsx
+import React from "react";
+import { EumInciduntIusto0 } from './EumInciduntIusto0.jsx';
+import { QuiaExpedita20 } from './QuiaExpedita20.jsx';
+import { VoluptatumRepellendusUtConsequaturIn40 } from './VoluptatumRepellendusUtConsequaturIn40.jsx';
+import { MagnamVel60 } from './MagnamVel60.jsx';
+import { QuodVoluptatemAbMagnamIllo80 } from './QuodVoluptatemAbMagnamIllo80.jsx';
+
+export function Ut100() {
+  return (
+    <QuiaExpedita20 className="porro-illum-occaecati" id="velit" title="tempore">
+Voluptatem eos assumenda. Ut quo porro autem voluptas. Velit id consequuntur facilis minus itaque aliquid velit quisquam sint. Et voluptatum aspernatur fugiat non quos odit. Ratione quo quia ducimus rerum laborum vero. Reiciendis quam id molestias illo. Accusantium provident nobis sit aut voluptatum. Alias sint atque. Dolor possimus illum ab possimus velit velit minima est.
+      <div className="exercitationem-ratione-sunt" id="et-quasi-molestiae-natus-quas" title="voluptatem sint voluptas">
+Sunt possimus non et id veniam. Reiciendis ea cumque. Sit dolorum odit dolor sunt consequatur aut sed. Esse rem reprehenderit ullam consequatur sed ut. Dignissimos ea quia corporis repudiandae vel quam. Numquam dolor enim.
+        <MagnamVel60 className="eum-itaque-aut-qui">
+Voluptatibus et non. Est ut praesentium praesentium possimus beatae est ipsa laudantium vero. Et necessitatibus deleniti cum magnam fugiat modi quaerat. Eum sequi consequuntur error tenetur ut distinctio in. Fuga deleniti repellat voluptatum et. In ipsam aut tenetur repellat. Omnis qui sit qui aut autem provident eveniet consequatur. Et aut aut dolores consequatur. Nihil esse inventore vel autem ut rem porro dignissimos quidem.
+        </MagnamVel60>
+      </div>
+      <p className="maxime-facere" id="eius-qui-omnis-aut-perspiciatis">
+        <div className="est-necessitatibus" id="vel-numquam-maiores" title="hic rerum officiis fugit">
+Laboriosam omnis qui ea. Rem dolore delectus illo aut placeat consequatur nemo facilis. Aliquid mollitia perferendis cupiditate in porro sint voluptas autem. Molestiae quos adipisci non illo modi eos. Et qui omnis et perspiciatis dolores perferendis. Aspernatur tenetur est. Exercitationem quae molestiae quia. Est ab at accusantium. Labore et aut perspiciatis placeat ut quae est et. Et blanditiis laboriosam voluptatum minus libero minima voluptatem dicta. Odit vel ut alias. Qui vero vel velit quaerat quo autem et esse. Et error consectetur rerum cumque consectetur eos. Veniam mollitia et facilis animi architecto reprehenderit voluptate ipsam ea. Et quibusdam consequatur unde atque est. Enim vel aperiam earum dolor repellat beatae. Quasi enim eos est tempora cumque sit voluptatem. Id voluptate veritatis blanditiis velit et.
+        </div>
+Molestias qui et mollitia dolores dolores et commodi. Quo voluptatem voluptatem dolor quo. Soluta sint itaque quaerat voluptatem unde dolor vitae. Soluta delectus veniam qui. Deleniti ipsa et id aut expedita omnis maxime quis. Iste in non.
+      </p>
+      <div className="numquam" id="maiores">
+In molestias minima magnam. Quibusdam magni incidunt sed recusandae laudantium omnis est est. Atque quos sit id voluptas omnis. Et numquam perspiciatis quia consectetur nobis. Earum odit alias minus error qui eius. Nam praesentium nihil reprehenderit. Labore molestiae aut nemo rerum ea reiciendis doloribus nostrum qui. Enim non vel cumque enim cumque laborum nobis. Odio praesentium unde voluptas. Occaecati fuga deleniti vel qui qui quos. Perferendis adipisci expedita perferendis repudiandae qui vel officiis est eveniet.
+      </div>
+      <span className="nesciunt-perspiciatis-ipsam-beatae">
+Sapiente dolores ipsam harum est asperiores non et. Aut suscipit ipsam quia. At eos minus veritatis voluptates dolorem blanditiis. Facilis quae nihil omnis quidem ut. Sed est laudantium eius rerum nam eligendi distinctio quisquam. Consequuntur quidem dolor rerum corrupti. Accusantium perspiciatis similique non sed qui non quia ipsam. Quia magnam magnam ut explicabo consequatur et eum dolor soluta. Molestias sequi eum vel accusantium molestias voluptas. Et velit ut et.
+      </span>
+    </QuiaExpedita20>
+  );
+}</code></pre>
+<h3>Caching</h3>
+<p>
+  None of the results for any transformer should be cached. This may
+  be more aggressive than in your configuration since some
+  transformers can do caching.
+</p>
+<h3>Running</h3>
+<pre>
+  After you've run <code>./prepare.sh</code> you can run
+  <code>./run.sh</code> to run all tests for all transformers on all
+  sizes and samples. It emits a CSV. I do <code>./run.sh | tee
+  results.csv</code> so it is saved to a CSV and I can follow the
+  progress.
+</p>
+<p>
+  Running everything takes a while. Do the above in tmux/screen and go
+  watch Spiderverse.
+</p>
+<h3>Analysis</h3>
+<p>
+  Once the runs are done we can import the results CSV into SQLite for easy analysis.
+</p>
+<pre><code>$ sqlite3 bench.db
+sqlite> .mode csv
+sqlite> .import results.csv results
+sqlite> SELECT name, size, AVG(time) FROM results GROUP BY name, size ORDER BY size DESC, AVG(time) ASC
+esbuild,small,0.33284
+swc,small,0.38476
+babel,small,1.44288
+typescript,small,2.32456
+esbuild,medium,0.80556
+swc,medium,0.97588
+typescript,medium,8.2286
+babel,medium,12.8434
+esbuild,large,3.06556
+swc,large,3.8216
+typescript,large,37.28584
+babel,large,70.57572</code></pre>
+<h2>Results</h2>
+<p>
+  Loading the above results into DataStation we can get some nice graphs.
+</p>
+<h3>Small</h3>
+<img src="/react-benchmark-small.png" />
+<h3>Medium</h3>
+<img src="/react-benchmark-medium.png" />
+<h3>Large</h3>
+<img src="/react-benchmark-large.png" />
+<h3>Final caveats</h3>
+<p>
+  No benchmarks are perfect and being completely representative is not a
+  goal of this post. And of course performance isn't the only reason to
+  pick one of these projects. Maybe you embed CSS in a way esbuild
+  doesn't support. I've had a really hard time sticking with esbuild for
+  unit tests and had to switch to ts-jest which uses TypeScript's tsc.
+</p>
+<h4>Share</h4>
+{% endblock %}
