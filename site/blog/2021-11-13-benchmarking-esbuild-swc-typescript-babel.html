@@ -191,7 +191,7 @@ yarn esbuild --outdir=build $(find $1 -name '*.jsx')</code></pre>
 <p>
   The esbuild <a href="https://esbuild.github.io/">site</a> benchmarks
   esbuild against webpack and parcel (both use babel under the hood as
-  the transformer) on the three.js project. Using a real-world project
+  the transformer) on the <a href="https://threejs.org/">three.js project</a>. Using a real-world project
   like this makes a lot of sense. But it can be difficult and
   time-consuming to set up real-world projects on multiple
   bundlers/transformers. So I took the approach of writing a React
@@ -202,7 +202,7 @@ yarn esbuild --outdir=build $(find $1 -name '*.jsx')</code></pre>
   I wrote <a
   href="https://github.com/multiprocessio/react-benchmark-generator">react-benchmark-generator</a>
   to generate files with React components that render random JSX and
-  can reference other generated files/components. But there are big
+  can reference other generated files/components. But there are
   major caveats to call out though about this generator at the moment.
 </p>
 <p>
