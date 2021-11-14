@@ -7,11 +7,11 @@
       <div class="product-description">
         <div class="product-name">The Data IDE for Developers</div>
         <ul class="product-features">
-          <li><span class="material-icons">search</span>Query <strong>all</strong> your data (not just SQL)</li>
+	  <li><span class="material-icons">bar_chart</span>Create beautiful dashboards, schedule recurring exports</li>
+          <li><span class="material-icons">search</span>Query <strong>all</strong> your data, whether database, REST API, or file)</li>
           <li><span class="material-icons">code</span>Script in your favorite language</li>
-          <li><span class="material-icons">bar_chart</span>Create beautiful visualizations</li>
-	  <li><span class="material-icons">groups</span>Share with your team</li>
-	  <li><span class="material-icons">favorite</span>All in one application</li>
+	  <li><span class="material-icons">groups</span>Work with your team</li>
+	  <li><span class="material-icons color">favorite</span>All in one application</li>
         </ul>
       </div>
       <div class="product-picture">
@@ -64,6 +64,10 @@
     <div id="file-panel" class="picture-text flex flex--horizontal flex-mobile--column">
       <div class="picture-text-description">
 	<h1>Import files, local or remote</h1>
+	<p>
+          Builtin support for JSON, CSV, Parquet, and Excel; as well
+          as many common log file formats.
+        </p>
       </div>
       <div class="picture-text-picture">
 	<a href="/file-panel.png">
@@ -112,9 +116,9 @@
       <thead>
 	<tr>
 	  <th></th>
-	  <th>Online Environment</th>
 	  <th>Desktop (Community Edition)</th>
 	  <th>Server (Community Edition)</th>
+	  <th>In-memory App</th>
 	</tr>
       </thead>
       <tbody>
@@ -132,15 +136,15 @@
 	</tr>
 	<tr>
 	  <td>Availability</td>
-	  <td><a href="https://app.datastation.multiprocess.io">Try it now!</a></td>
 	  <td><a href="/docs/installation.html">Install now!</span></td>
-          <td>In testing</td>
+<td>In testing</td>
+<td><a href="https://app.datastation.multiprocess.io">Try it now!</a></td>
 </tr>
 <tr>
   <td>Storage Location</td>
-  <td>Your browser</td>
   <td>Your computer</td>
   <td>Your server</td>
+  <td>Your browser</td>
 </tr>
 <tr>
   <td>Visual Transform</td>
@@ -150,13 +154,12 @@
 </tr>
 <tr>
   <td>HTTP Support</td>
+  <td>No limitations</td>
+  <td>No limitations</td>
   <td>Servers must set CORS headers</td>
-  <td>No limitations</td>
-  <td>No limitations</td>
 </tr>
 <tr>
   <td>Database Support</td>
-  <td>Not supported</td>
   <td>
     <ul>
       <li>
@@ -194,10 +197,10 @@
     </ul>
   </td>
   <td>Same as Desktop</td>
+  <td>Not supported</td>
 </tr>
 <tr>
   <td>SSH Proxies</td>
-  <td>Not supported</td>
   <td>
     <ul class="checks">
       <li>HTTP requests</li>
@@ -206,21 +209,16 @@
     </ul>
   </td>
   <td>Same as Desktop</td>
+  <td>Not supported</td>
 </tr>
 <tr>
   <td>Encrypted SSH and Database Credentials</td>
-  <td>Not supported</td>
   <td>Encrypted for single desktop</td>
   <td>Encrypted for entire server</td>
+  <td>Not supported</td>
 </tr>
 <tr>
   <td>Scripting Support</td>
-  <td>
-    <ul class="checks">
-      <li>JavaScript</li>
-      <li>Python</li>
-    </ul>
-  </td>
   <td>
     <ul class="checks">
       <li>JavaScript</li>
@@ -232,6 +230,13 @@
     </ul>
   </td>
   <td>Same as Desktop</td>
+    <td>
+    <ul class="checks">
+      <li>JavaScript</li>
+      <li>Python</li>
+      <li>In-memory SQL</li>
+    </ul>
+  </td>
 </tr>
 <tr>
   <td>Visualization Support</td>
@@ -242,14 +247,14 @@
 <tr>
   <td>Recurring, Scheduled Exports</td>
   <td>Not supported</td>
-  <td>Not supported</td>
   <td><span class="coming-soon">Coming soon</span></td>
+  <td>Not supported</td>
 </tr>
 <tr>
   <td>Hosted Dashboard</td>
   <td>Not supported</td>
-  <td>Not supported</td>
   <td><span class="coming-soon">Coming soon</span></td>
+  <td>Not supported</td>
 </tr>
 </tbody>
 </table>
@@ -260,17 +265,16 @@
     <div class="picture-text flex flex--horizontal flex-mobile--column">
       <div class="picture-text-picture">
 	<a href="/screenshot.png">
-	  <img src="/screenshot.png" alt="Screenshot of DataStation online environment" />
+	  <img src="/screenshot.png" alt="Screenshot of DataStation in-memory app" />
 	</a>
 	<div class="text-center hide-mobile">
 	  <a href="https://app.datastation.multiprocess.io">app.multiprocess.datastation.io</a>
 	</div>
       </div>
       <div class="picture-text-description">
-	<h1>Online Environment</h1>
+	<h1>In-memory App</h1>
 	<p>
-	  The <a href="https://app.datastation.multiprocess.io">online
-	    environment</a> is freely available for data exploration in the
+	  The <a href="https://app.datastation.multiprocess.io">in-memory app</a> is freely available for data exploration in the
 	  browser. No account required!
 	</p>
 	<h2>Entirely in-memory</h2>
@@ -292,7 +296,7 @@
 	<h2 class="show-mobile">Great for desktop</h2>
 	<div class="show-mobile warn">
 	  <p>
-	    The online environment is for use on desktop computers, so
+	    The in-memory app is for use on desktop computers, so
 	    you'll have to try it out on another device.
 	  </p>
 	</div>

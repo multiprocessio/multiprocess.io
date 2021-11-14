@@ -6,7 +6,7 @@ html, body {
 }
 
 h1 {
-    font-size: 2rem;
+    font-size: 3rem;
 }
 
 h2 {
@@ -61,7 +61,7 @@ h4:hover .header-link {
 .container {
     margin: 0 auto;
     max-width: 100%;
-    width: 1200px;
+    width: 1300px;
     padding: 0 50px;
 }
 
@@ -76,11 +76,11 @@ h4:hover .header-link {
 }
 
 section {
-    padding: 50px 0;
+    padding: 100px 0;
 }
 
 section:nth-of-type(odd) {
-    background: #131313;
+    background: #24272d;
     color: white;
 }
 
@@ -91,24 +91,28 @@ section:nth-of-type(odd) a {
 
 section.header {
     margin: 0;
-    padding: 50px 0;
 }
 
 header, footer {
-    padding: 15px 0;
+    padding: 15px;
 }
 
 .site-name, .site-name:visited {
-    color: black;
+    color: #34383e !important;
     font-size: 1.5rem;
+    font-weight: 600;
 }
 
 header {
     border-bottom: 1px solid #190029;
 }
 
+a.header-item, a.header-item:visited {
+    color: #223;
+}
+
 .header-item:not(:last-of-type) {
-    padding-right: 15px;
+    padding-right: 30px;
 }
 
 .header-item:nth-last-child(2) {
@@ -117,6 +121,7 @@ header {
 
 header a.try-it-online {
     background: #9f04ff;
+    font-weight: 600;
     color: white;
 }
 
@@ -124,9 +129,10 @@ header a.try-it-online:hover {
     background: #6400a2;
 }
 
-.product-name {
+.product-name, .large-text {
     font-size: 4rem;
     padding-bottom: 15px;
+    font-weight: 600;
 }
 
 .product-features {
@@ -141,6 +147,10 @@ header a.try-it-online:hover {
 
 .product-features li .material-icons {
     padding-right: 15px;
+}
+
+.product-features li .material-icons.color {
+    color: #fd5b5b;
 }
 
 .product-picture {
@@ -232,6 +242,14 @@ footer .container > * {
 
 .posts .post {
     margin: 60px 0;
+}
+
+.posts .post:first-of-type {
+    margin-top: 0;
+}
+
+.posts .post:last-of-type {
+    margin-bottom: 0;
 }
 
 .post-body  p, .post-header p, .post-footer p, .post-body li {
@@ -379,9 +397,21 @@ ul.checks li:before {
     margin: 0 5px;
     background: #9f04ff;
     display: inline-block;
-    padding: 5px 15px;
+    padding: 15px;
     text-decoration: none;
-    border: 1px solid #d9bbec;
+    font-weight: 600;
+    border: 0;
+    color: white;
+}
+
+.post-footer input {
+    border: 0;
+    padding: 15px;
+    min-width: 500px;
+}
+
+.post-footer form {
+    margin-top: 15px;
 }
 
 .what-is-datastation {

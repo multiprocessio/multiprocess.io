@@ -19,17 +19,14 @@
   <div class="container">
     <p class="what-is-datastation"><label>What is DataStation?</label><small>{{ description }}</small></p>
     {% block postBody%}{% endblock %}
+    <p>
+      Questions? Feedback? Feel free to reach the author at {% block postAuthorEmail %}{% endblock %}.
+    </p>
   </div>
 </section>
 <section class="post-footer">
   <div class="container">
-    <p>
-      Questions? Feedback? Feel free to reach the author at {% block postAuthorEmail %}{% endblock %}.
-    </p>
-    <p style="padding-top: 15px">
-      Or <a class="subscribe" href="https://forms.gle/wH5fdxrxXwZHoNxk8">Subscribe</a> to stay
-      in the loop about future posts!
-    </p>
+    <h1><a href="https://forms.gle/wH5fdxrxXwZHoNxk8">Subscribe</a> for more posts like this!</h1>
   </div>
 </section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
