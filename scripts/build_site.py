@@ -1,9 +1,47 @@
+import os
 import glob
 from datetime import datetime, timezone
 
 import yaml
 from feedgen.feed import FeedGenerator
 from jinja2 import Environment, FileSystemLoader
+import marko
+
+base = "site"
+out_base = "build"
+
+DOCS_TEMPLATE = """{# DO NOT EDIT -- THIS FILE IS AUTO-GENERATED #}
+
+{% set doctitle = 'Documentation' %}
+
+{% extends 'docs/layout.tmpl' %}
+/
+{% block docbody %}
+BODY
+{% endblock %}"""
+for file in glob.glob("datastation-documentation/*.md") + glob.glob("datastation-documentation/**/*.md", recursive=True):
+    newfile = '/'.join(file.split('/')[1:]).replace('.md', '.html').replace('README', 'index')
+    if "LICENSE" in newfile:
+        continue
+    docs_root = "site/docs/"
+    directory = docs_root + os.path.dirname(newfile)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+    with open(docs_root + newfile, 'w') as f:
+        with open(file) as original:
+            original_file = []
+            for line in original:
+                # Downgrade all headers
+                if line.startswith('#'):
+                    line = "#" + line
+                original_file.append(line)
+
+            html = marko.convert(''.join(original_file)).replace('.md', '.html')
+
+            if newfile == 'index.html':
+                html = html[html.index('<h3>'):]
+            f.write(DOCS_TEMPLATE.replace("BODY", html))
 
 DEFAULT_DATA = {
     "latest_version": '0.2.0',
@@ -24,13 +62,10 @@ def get_block(tmpl, name):
 
     return None
 
-base = "site"
-out_base = "build"
-
 videos = yaml.load(open('data/videos.yaml'), yaml.Loader)
 events = yaml.load(open('data/events.yaml'), yaml.Loader)
 
-for file in glob.glob(base+"/*.*")+glob.glob(base+"/**/*.*"):
+for file in glob.glob(base+"/*.*")+glob.glob(base+"/**/*.*", recursive=True):
     if file.endswith(".tmpl"):
         continue
     print('Rendering ' + file)
@@ -52,6 +87,10 @@ for file in glob.glob(base+"/*.*")+glob.glob(base+"/**/*.*"):
             "url": file.replace(base+"/", ""),
             "content": content,
         })
+
+    directory = os.path.dirname(out)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
 
     with open(out, "w") as fw:
         fw.write(content)

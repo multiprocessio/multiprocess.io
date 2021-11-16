@@ -1,0 +1,93 @@
+{# DO NOT EDIT -- THIS FILE IS AUTO-GENERATED #}
+
+{% set doctitle = 'Documentation' %}
+
+{% extends 'docs/layout.tmpl' %}
+/
+{% block docbody %}
+<h2>Installation</h2>
+<h3>0.3.0</h3>
+<p>DataStation can run as either a desktop application or as a server
+application. You will need to have an OIDC provider if you want to run
+the server application. The server application comes with the ability
+to run and email reports daily, weekly, or monthly. It also comes with
+support for read-only dashboards.</p>
+<h4>Server</h4>
+<p>Prerequisites:</p>
+<ul>
+<li>x86_64 Linux machine</li>
+<li>Nodejs 16+</li>
+<li>PostgreSQL 11+</li>
+</ul>
+<p>Download <a href="https://github.com/multiprocessio/datastation/releases/download/0.3.0-rc1/datastation-server-x64-0.3.0-rc1.zip">datastation-server-x64-0.3.0.zip</a>.</p>
+<pre><code>curl -LO https://github.com/multiprocessio/datastation/releases/download/0.3.0-rc1/datastation-server-x64-0.3.0-rc1.zip
+unzip datastation-server-*.zip
+./build/release/install.sh
+</code></pre>
+<p>This install script will create a new <code>datastation</code> Linux user if it
+does not exist and will create a systemd service for DataStation and a
+systemd timer for DataStation exports.</p>
+<h5>Configuration</h5>
+<p>Next edit <code>/etc/datastation/config.json</code> and replace the defaults with your own settings.</p>
+<pre><code class="language-json">{
+  &quot;auth&quot;: {
+    &quot;sessionSecret&quot;: &quot;&quot;, // Any strong random string for signing sessions
+    &quot;openId&quot;: {
+      &quot;realm&quot;: &quot;https://accounts.google.com&quot;, // Or some other realm
+      &quot;clientId&quot;: &quot;my id&quot;,
+      &quot;clientSecret&quot;: &quot;my secret&quot;
+    }
+  },
+
+  &quot;server&quot;: {
+    &quot;port&quot;: 443,
+    &quot;address&quot;: &quot;localhost&quot;,
+    &quot;publicUrl&quot;: &quot;https://datastation.mydomain.com&quot; // The address users will enter into the browser to use the app
+    &quot;tlsKey&quot;: &quot;/home/server/certs/datastation.key.pem&quot;, // Can be left blank and set at the reverse-proxy level if desired
+    &quot;tlsCert&quot;: &quot;/home/server/certs/datastation.cert.pem&quot;,
+  },
+
+  &quot;database&quot;: {
+    &quot;address&quot;: &quot;localhost&quot;, // Address of your PostgreSQL instance
+    &quot;username&quot;: &quot;datastation&quot;, // Should be a dedicated PostgreSQL user for DataStation
+    &quot;password&quot;: &quot;some good password&quot;,
+    &quot;database&quot;: &quot;datastation&quot; // Should be a dedicated database within PostgreSQL for DataStation
+  }
+}
+</code></pre>
+<p>And then restart the systemd service: <code>sudo systemctl restart datastation</code>.</p>
+<h4>Desktop</h4>
+<p>Pre-built binaries are provided for 64-bit x86 machines running macOS,
+Windows, and Linux.</p>
+<h4>MacOS</h4>
+<p>Download <a href="https://github.com/multiprocessio/datastation/releases/download/0.3.0/darwin-x64-0.3.0.zip">darwin-x64-0.3.0.zip</a> and unzip. You will need to right-click
+the application to click Open so you can run the untrusted
+application.</p>
+<h4>Windows</h4>
+<p>Download <a href="https://github.com/multiprocessio/datastation/releases/download/0.3.0/win32-x64-0.3.0.zip">win32-x64-0.3.0.zip</a> and unzip. If you get a warning saying
+&quot;Don't run&quot;, click &quot;More info&quot; and click &quot;Run anyway&quot;. There may be a
+few second long security scan the first time you run.</p>
+<h4>Linux</h4>
+<p>Download <a href="https://github.com/multiprocessio/datastation/releases/download/0.3.0/linux-x64-0.3.0.zip">linux-x64-0.3.0.zip</a> and unzip.</p>
+<h4>Other</h4>
+<p>Other systems and architectures may be supported but you will need to
+build them yourself. Follow <a href="https://github.com/multiprocessio/datastation/blob/master/HACKING.html">instructions in the repo</a>.</p>
+<h3>Older Versions</h3>
+<h4>0.2.0</h4>
+<p>Pre-built binaries are provided for 64-bit x86 machines running macOS,
+Windows, and Linux.</p>
+<h5>MacOS</h5>
+<p>Download <a href="https://github.com/multiprocessio/datastation/releases/download/0.2.0/darwin-x64-0.2.0.zip">darwin-x64-0.2.0.zip</a> and unzip. You will need to right-click
+the application to click Open so you can run the untrusted
+application.</p>
+<h5>Windows</h5>
+<p>Download <a href="https://github.com/multiprocessio/datastation/releases/download/0.2.0/win32-x64-0.2.0.zip">win32-x64-0.2.0.zip</a> and unzip. If you get a warning saying
+&quot;Don't run&quot;, click &quot;More info&quot; and click &quot;Run anyway&quot;. There may be a
+few second long security scan the first time you run.</p>
+<h5>Linux</h5>
+<p>Download <a href="https://github.com/multiprocessio/datastation/releases/download/0.2.0/linux-x64-0.2.0.zip">linux-x64-0.2.0.zip</a> and unzip.</p>
+<h5>Other</h5>
+<p>Other systems and architectures may be supported but you will need to
+build them yourself. Follow <a href="https://github.com/multiprocessio/datastation/blob/master/HACKING.html">instructions in the repo</a>.</p>
+
+{% endblock %}
