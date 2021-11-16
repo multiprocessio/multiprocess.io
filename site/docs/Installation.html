@@ -20,15 +20,15 @@ support for read-only dashboards.</p>
 <li>PostgreSQL 11+</li>
 </ul>
 <p>Download <a href="https://github.com/multiprocessio/datastation/releases/download/0.3.0-rc1/datastation-server-x64-0.3.0-rc1.zip">datastation-server-x64-0.3.0.zip</a>.</p>
-<pre><code>curl -LO https://github.com/multiprocessio/datastation/releases/download/0.3.0-rc1/datastation-server-x64-0.3.0-rc1.zip
+<pre><code class="hljs">curl -LO https://github.com/multiprocessio/datastation/releases/download/0.3.0-rc1/datastation-server-x64-0.3.0-rc1.zip
 unzip datastation-server-*.zip
 ./build/release/install.sh
 </code></pre>
-<p>This install script will create a new <code>datastation</code> Linux user if it
+<p>This install script will create a new <code class="hljs">datastation</code> Linux user if it
 does not exist and will create a systemd service for DataStation and a
 systemd timer for DataStation exports.</p>
 <h5>Configuration</h5>
-<p>Next edit <code>/etc/datastation/config.json</code> and replace the defaults with your own settings.</p>
+<p>Next edit <code class="hljs">/etc/datastation/config.json</code> and replace the defaults with your own settings.</p>
 <pre><code class="language-json">{
   &quot;auth&quot;: {
     &quot;sessionSecret&quot;: &quot;&quot;, // Any strong random string for signing sessions
@@ -55,7 +55,7 @@ systemd timer for DataStation exports.</p>
   }
 }
 </code></pre>
-<p>And then restart the systemd service: <code>sudo systemctl restart datastation</code>.</p>
+<p>And then restart the systemd service: <code class="hljs">sudo systemctl restart datastation</code>.</p>
 <h4>Desktop</h4>
 <p>Pre-built binaries are provided for 64-bit x86 machines running macOS,
 Windows, and Linux.</p>

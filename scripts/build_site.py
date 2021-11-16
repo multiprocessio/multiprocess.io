@@ -36,8 +36,11 @@ for file in glob.glob("datastation-documentation/*.md") + glob.glob("datastation
                 if line.startswith('#'):
                     line = "#" + line
                 original_file.append(line)
+            raw = ''.join(original_file)
+            raw = raw.replace('.md', '.html')
 
-            html = marko.convert(''.join(original_file)).replace('.md', '.html')
+            html = marko.convert(raw)
+            html = html.replace('<code>', '<code class="hljs">')
 
             if newfile == 'index.html':
                 html = html[html.index('<h3>'):]
