@@ -73,7 +73,7 @@
     }
   }
 
-  const headers = document.querySelectorAll('h2,h3,h4,h5,h6');
+  const headers = document.querySelectorAll('h2, h3, h4, h5, h6, .post-body h1, .post-body h2, .post-body h3, .post-body h4, .post-body h5, .post-body h6');
   for (let i = 0; i < headers.length; i++) {
     const id = headers[i].innerHTML.replaceAll(' ', '-').toLowerCase();
     headers[i].id = id;

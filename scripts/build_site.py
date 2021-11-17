@@ -18,9 +18,14 @@ DOCS_TEMPLATE = """{# DO NOT EDIT -- THIS FILE IS AUTO-GENERATED #}
 /
 {% block docbody %}
 BODY
+<h3>Page Source</h3>
+<p>
+  See an error in the documentation or want to add a clarification? This <a href="PAGE">page source is on Github</a>.
+</p>
 {% endblock %}"""
 for file in glob.glob("datastation-documentation/*.md") + glob.glob("datastation-documentation/**/*.md", recursive=True):
-    newfile = '/'.join(file.split('/')[1:]).replace('.md', '.html').replace('README', 'index')
+    source = '/'.join(file.split('/')[1:])
+    newfile = source.replace('.md', '.html').replace('README', 'index')
     if "LICENSE" in newfile:
         continue
     docs_root = "site/docs/"
@@ -42,8 +47,9 @@ for file in glob.glob("datastation-documentation/*.md") + glob.glob("datastation
             html = html[html.index('</h1>') + len('</h1>'):]
             if newfile == "index.html":
                 title = "Documentation"
+            page = 'https://github.com/multiprocessio/datastation-documentation/blob/main/' + source
 
-            f.write(DOCS_TEMPLATE.replace('TITLE', title).replace("BODY", html))
+            f.write(DOCS_TEMPLATE.replace('TITLE', title).replace('PAGE', page).replace("BODY", html))
 
 DEFAULT_DATA = {
     "latest_version": '0.2.0',
