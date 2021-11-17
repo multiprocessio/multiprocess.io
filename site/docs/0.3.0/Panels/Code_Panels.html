@@ -1,0 +1,62 @@
+{# DO NOT EDIT -- THIS FILE IS AUTO-GENERATED #}
+
+{% set doctitle = 'Code Panels' %}
+
+{% extends 'docs/layout.tmpl' %}
+/
+{% block docbody %}
+
+<p>These panels allow you to write any kind of program with no
+limitations. You can read values from previous panels and set your own
+value for the code panel result. You can run custom calculations</p>
+<h1>Supported languages</h1>
+<ul>
+<li>JavaScript</li>
+<li>Python</li>
+<li>Ruby</li>
+<li>R</li>
+<li>Julia</li>
+</ul>
+<h1>Importing 3rd party libraries</h1>
+<p>Since DataStation uses the language already installed, you can import
+any libraries you already have installed too.</p>
+<p>This means that even when DataStation doesn't support a particular API
+or database, you can install a language-level package on your system
+so you can write your own custom code to make requests or queries to
+any system.</p>
+<h1>Communicating between panels</h1>
+<p>Use <code class="hljs">DM_getPanel($number)</code> or <code class="hljs">DM_getPanel(&#x27;$panelName&#x27;)</code> to pull the
+results from another panel where <code class="hljs">$number</code> is the index of the panel
+(starting from zero) or <code class="hljs">$panelName</code> is the name of the panel you want
+to grab. Similarly, use <code class="hljs">DM_setPanel($var)</code> to set the current panel's
+result.</p>
+<p>Panel results can be of any format. But when setting a panel you
+intend to have read from a Table or Graph panel, there is a <a href="#table-and-graph-panel-data-format">single
+accepted data format</a>.</p>
+<h1>In-Memory SQL</h1>
+<p>In-memory SQL is a way of running SQL queries solely
+against other panels without a running database. It is useful in
+situations where you don't have a database but the most natural way to
+express a join or filter is in SQL rather than code.</p>
+<p>SQL panels can refer to the results of other panels by using
+<code class="hljs">DM_getPanel($number)</code> where <code class="hljs">$number</code> is the zero-indexed panel you
+want to grab. Or, like other languages, you can also refer by name
+<code class="hljs">DM_getPanel(&#x27;$panelName&#x27;)</code> where <code class="hljs">$panelName</code> is the name of the
+panel you want to grab.</p>
+<p><code class="hljs">DM_getPanel</code> should only be called once. After that it can be
+referred to by the alias <code class="hljs">t_$number</code> or <code class="hljs">&quot;t_$panelName&quot;</code>. For example:
+<code class="hljs">SELECT * FROM DM_getPanel(0) WHERE t_0.age &lt; 12</code> will fetch all
+results from the first panel (zero-indexed) and filter out rows where
+the age column is less than 12.</p>
+<h1>Table and Graph panel data format</h1>
+<p>Table and Graph panels must read from a panel that formats data as an
+array of objects. Each object-element must be a mapping of column name
+to column value. For example: <code class="hljs">[{ &quot;age&quot;: 1, &quot;name&quot;: &quot;Eliza&quot; }, { &quot;age&quot;: 3, &quot;name&quot;: &quot;Javier&quot; }]</code>.</p>
+<h1>Overriding program path</h1>
+<p>If you want to use a version of the language that is not in your <code class="hljs">$PATH</code>
+or not the default, you can modify
+<code class="hljs">$HOME/DataStationProjects/.settings</code> and modify the <code class="hljs">${language}Path</code>
+variable (e.g. <code class="hljs">rPath</code>, <code class="hljs">pythonPath</code>) to point at the program you'd
+like to be run.</p>
+
+{% endblock %}

@@ -12,7 +12,7 @@ out_base = "build"
 
 DOCS_TEMPLATE = """{# DO NOT EDIT -- THIS FILE IS AUTO-GENERATED #}
 
-{% set doctitle = 'Documentation' %}
+{% set doctitle = 'TITLE' %}
 
 {% extends 'docs/layout.tmpl' %}
 /
@@ -30,21 +30,20 @@ for file in glob.glob("datastation-documentation/*.md") + glob.glob("datastation
 
     with open(docs_root + newfile, 'w') as f:
         with open(file) as original:
-            original_file = []
-            for line in original:
-                # Downgrade all headers
-                if line.startswith('#'):
-                    line = "#" + line
-                original_file.append(line)
+            original_file = original.read()
             raw = ''.join(original_file)
             raw = raw.replace('.md', '.html')
 
             html = marko.convert(raw)
             html = html.replace('<code>', '<code class="hljs">')
 
-            if newfile == 'index.html':
-                html = html[html.index('<h3>'):]
-            f.write(DOCS_TEMPLATE.replace("BODY", html))
+            title = html[:html.index('</h1>')].split('<h1>')[1].strip()
+            # Drop first header
+            html = html[html.index('</h1>') + len('</h1>'):]
+            if newfile == "index.html":
+                title = "Documentation"
+
+            f.write(DOCS_TEMPLATE.replace('TITLE', title).replace("BODY", html))
 
 DEFAULT_DATA = {
     "latest_version": '0.2.0',
@@ -69,7 +68,7 @@ videos = yaml.load(open('data/videos.yaml'), yaml.Loader)
 events = yaml.load(open('data/events.yaml'), yaml.Loader)
 
 for file in glob.glob(base+"/*.*")+glob.glob(base+"/**/*.*", recursive=True):
-    if file.endswith(".tmpl"):
+    if not file.endswith('.html'):
         continue
     print('Rendering ' + file)
     tmpl = load_template(file, base)
