@@ -1,0 +1,90 @@
+{% set doctitle = '0.3.0 Release Notes' %}
+{% set subtitle = 'November 18, 2021' %}
+
+{% extends 'docs/layout.tmpl' %}
+
+{% block docbody %}
+<h2>Release Notes</h2>
+<h3>Server Mode</h3>
+<p>
+  It is now fully supported and documentation to run DataStation as a
+  server application. This is useful if you frequently switch devices
+  or if you are working on a team. The projects you edit on the server
+  can be shared/viewed/edited by the entire team.
+</p>
+<p>
+  To run the server mode, you will need a PostgreSQL database and an OIDC-compatible
+  authentication service such as Google Accounts. The install steps
+  and provided script are for systems that use systemd (so recent
+  Ubuntu, Fedora, CentOS, RHEL, Amazon Linux, etc.) but you could
+  manually adjust the steps for running in a containerized
+  environment. Read
+  the <a href="/docs/0.3.0/Installation.html">install guide</a> for
+  complete details.
+</p>
+<h2>Read-Only Dashboards</h2>
+<p>
+  <strong>When running the server</strong> there is now a tab for
+  showing all graphs and tables for the page in read-only mode. This
+  makes it easy for you to share the results of an exploration with
+  folks who may not want to make modifications. In the future there
+  will be a concept of user permissions where some users will only be
+  able to view the dashboard tab and not make edits to the project.
+</p>
+<div class="pb-4">
+  <img src="/0.3.0-dashboard.png" alt="Read-only dashboards" />
+</div>
+<h2>Scheduled Recurring Email Exports</h2>
+<p>
+  <strong>When running the server</strong> there is now a tab for
+  scheduling daily, weekly, or monthly runs of a project page and
+  having the resulting tables and graphs sent as an HTML email to
+  recipients of your choice. You will need to configure an SMTP server
+  for this to work.
+</p>
+<div class="pb-4">
+  <img src="/0.3.0-exports.png" alt="Scheduled email exports" />
+</div>
+<h2>Scheduled Recurring Email Exports</h2>
+<p>
+  <strong>When running the server</strong> there is now a tab for
+  scheduling daily, weekly, or monthly runs of a project page and
+  having the resulting tables and graphs sent as an HTML email to
+  recipients of your choice. You will need to configure an SMTP server
+  for this to work.
+</p>
+<div class="pb-4">
+  <img src="/0.3.0-exports.png" alt="Scheduled email exports" />
+</div>
+<h2>Misc Improvements</h2>
+<ul>
+  <li>You can now configure the display width of graphs to improve readability</li>
+  <li>You can now refer to the results of other panels by panel name (e.g. <code>prev = DM_getPanel('fetch csv results')</code>)</li>
+  <li>All panel details are collapsible</li>
+  <li>You can toggle between unique colors or one color in graph mode</li>
+  <li>You can now create line graphs in addition to bar graphs and pie charts</li>
+  <li>Panels run significantly faster by lazily loading code for evaluation during each run</li>
+</ul>
+<div class="pb-4">
+  <img src="/0.3.0-graph-view.png" alt="Improved readability on graphs" />
+</div>
+<div class="pb-4">
+  <img src="/0.3.0-graph-settings.png" alt="More controls for graphs" />
+</div>
+<h2>Install or upgrade</h2>
+<p>
+  <a href="/docs/0.3.0/Installation.html">Get the 0.3.0 release now!</a>
+</p>
+<h3 id="how-you-can-help">How you can help</h4>
+<p>
+  If you are a developer or engineering manager, install DataStation
+  and start using it at work! Report bugs and usability issues (there
+  are surely many). <a href="mailto:phil@multiprocess.io">Get in
+  touch</a> if you are interested in being a design partner.
+</p>
+<p>
+  If you are an investor, <a href="mailto:phil@multiprocess.io">get in touch</a>.
+</p>
+<h4>Share</h4>
+
+{% endblock %}
