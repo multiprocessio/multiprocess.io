@@ -1,316 +1,374 @@
-{% extends "layout.tmpl" %}
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+  /* https://elad2412.github.io/the-new-css-reset/ */
+  /*** The new CSS Reset - version 1.4.0 (last updated 16.11.2021) ***/
 
-{% block body %}
-<section class="header">
+  /*
+    Remove all the styles of the "User-Agent-Stylesheet", except for the 'display' property
+    - The "symbol *" part is to solve Firefox SVG sprite bug
+ */
+  *:where(:not(iframe, canvas, img, svg, video):not(svg *, symbol *)) {
+      all: unset;
+      display: revert;
+  }
+
+  /* Preferred box-sizing value */
+  *,
+  *::before,
+  *::after {
+      box-sizing: border-box;
+  }
+
+  /* Remove list styles (bullets/numbers) */
+  ol, ul {
+      list-style: none;
+  }
+
+  /* For images to not be able to exceed their container */
+  img {
+      max-width: 100%;
+  }
+
+  /* removes spacing between cells in tables */
+  table {
+      border-collapse: collapse;
+  }
+
+  /* revert the 'white-space' property for textarea elements on Safari */
+  textarea {
+      white-space: revert;
+  }
+
+  /* revert for bug in Chromium browsers
+   - fix for the content editable attribute will work properly. */
+  :where([contenteditable]){
+      -webkit-user-modify: read-write;
+      overflow-wrap: break-word;
+      -webkit-line-break: after-white-space;
+  }
+</style>
+<style>
+  * {
+      transition: border .5s, background-color .5s;
+  }
+
+  strong {
+      font-weight: bold;
+  }
+
+  a {
+      cursor: pointer;
+      cursor: hand;
+  }
+
+  #title {
+      font-size: 1.5rem;
+  }
+
+  #subtitle {
+      font-size: .75rem;
+      display: block;
+  }
+
+  #subheader {
+      background: #dbdbdb;
+  }
+
+  #subheader a {
+      margin-right: 50px;
+      display: inline-block;
+      border-bottom: 3px solid transparent;
+  }
+
+  #subheader a:hover {
+      border-bottom-color: black;
+  }
+
+  header, #hero {
+      font-family: sans-serif;
+  }
+
+  #hero {
+      color: white;
+      background: #252529;
+  }
+
+  #hero h1 {
+      font-size: 4rem;
+      font-weight: bold;
+  }
+
+  #hero h2 {
+      font-size: 2rem;
+      padding-top: 15px;
+  }
+
+  #hero-footer {
+      padding: 15px 0;
+  }
+
+  .product-features {
+      padding-top: 15px;
+  }
+
+  .product-features li {
+      display: flex;
+      align-items: center;
+      padding-bottom: 10px;
+      font-size: 1.2rem;
+  }
+
+  .product-features li .material-icons {
+      padding-right: 15px;
+  }
+
+  .tabs-body {
+      display: none;
+  }
+
+  .tabs-controls-container {
+      background: #dbdbdb;
+  }
+
+  .tabs-controls-container .container {
+      padding: 0;
+  }
+
+  .tabs-controls {
+      display: flex;
+  }
+
+  .tabs-controls .tab-control {
+      padding: 30px 60px;
+      color: black;
+  }
+
+  .tabs-controls .tab-control.selected,
+  .tabs-controls .tab-control:hover {
+      background: #252529;
+      color: white;
+  }
+
+  .tabs-controls .tab-control:hover:not(.selected) {
+      background: #393939;
+  }
+
+  .tabs-container {
+      padding: 50px 0;
+  }
+
+  .container {
+      padding: 15px;
+      margin: 0 auto;
+      width: 1200px;
+      max-width: 100%;
+  }
+
+  .d-flex {
+      display: flex;
+  }
+
+  .flex-right {
+      flex: auto;
+  }
+
+  .text-right {
+      text-align: right;
+  }
+
+  .text-center {
+      text-align: center;
+  }
+
+  .vertical-align-center {
+      display: flex;
+      align-items: center;
+  }
+
+  .d-flex-center {
+      justify-content: center;
+  }
+
+  .width-50 {
+      width: 50%;
+  }
+
+  .color-red {
+      color: #fd5b5b;
+  }
+
+  .color-light-purple {
+      color: #b442fc;
+  }
+
+  .color-light-pink {
+      color: #fd36af;
+  }
+
+  .color-light-blue {
+      color: #734EFD;
+  }
+
+  .color-green {
+      color: #b0ff00;
+  }
+
+  .color-yellow {
+      color: #ffd100;
+  }
+
+  .btn {
+      padding: 10px;
+      display: inline-block;
+  }
+
+  .btn.btn--primary {
+      color: white;
+      background: #9f04ff;
+      border: 1px solid #9f04ff;
+  }
+
+  .btn.btn--primary:hover,
+  .btn.btn--primary:active {
+      background: transparent;
+      color: black;
+  }
+</style>
+<header>
   <div class="container">
-    <div class="product flex flex--horizontal flex-mobile--column">
-      <div class="product-description">
-        <div class="product-name">The Data IDE for Developers</div>
-        <ul class="product-features">
-	  <li>
-	    <span class="material-icons">bar_chart</span>
-	    <span>Create beautiful dashboards, schedule recurring exports</span>
-	  </li>
-          <li>
-	    <span class="material-icons">search</span>
-	    <span>Query <strong>all</strong> your data, whether database, REST API, or file)</span>
-	  </li>
-          <li>
-	    <span class="material-icons">code</span>
-	    <span>Script in your favorite language</span>
-	  </li>
-	  <li>
-	    <span class="material-icons">groups</span>
-	    <span>Work with your team</span>
-	  </li>
-	  <li>
-	    <span class="material-icons color">favorite</span>
-	    <span>All in one application</span>
-	  </li>
-        </ul>
+    <div class="vertical-align-center">
+      <div>
+	<a id="title" href="/">DataStation</a>
+	<span id="subtitle">The Open-Source Data IDE for Developers</span>
       </div>
-      <div class="product-picture">
-	<iframe src="https://www.youtube.com/embed/sCx2mF2jyUQ?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <div class="flex-right text-right">
+	<a href="/docs/Installation.html" class="btn btn--primary">Install now</a>
       </div>
     </div>
   </div>
-</section>
-<section>
-  <div class="container">
-    <div id="http-panel" class="picture-text flex flex--horizontal flex-mobile--column">
-      <div class="picture-text-description">
-	<h1>Make HTTP requests</h1>
-        <p>
-          Use alone as a GUI HTTP client. Or use along with SQL,
-          scripting and visualization panels to combine and visualize
-          data from multiple sources.
-        </p>
-      </div>
-      <div class="picture-text-picture">
-	<a href="/http-panel.png">
-	  <img src="/http-panel.png" alt="Screenshot of an HTTP panel in DataStation" />
-	</a>
+  <div id="subheader">
+    <div class="container">
+      <div class="vertical-align-center">
+	<a href="/docs/">Documentation</a>
+	<a href="/blog/">Blog</a>
+	<a href="/blog/">Community</a>
+	<a href="/blog/">Twitter</a>
+	<a href="/blog/">Github</a>
       </div>
     </div>
   </div>
-</section>
-<section>
-  <div class="container">
-    <div id="sql-panel" class="picture-text flex flex--horizontal flex-mobile--column">
-      <div class="picture-text-picture">
-	<a href="/sql-panel.png">
-	  <img src="/sql-panel.png" alt="Screenshot of a SQL panel in DataStation" />
-	</a>
-      </div>
-      <div class="picture-text-description">
-	<h1>Fetch data from SQL and NoSQL databases</h1>
-        <p>
-          Use alone as a GUI query system for databases as diverse as
-          Elasticsearch, Prometheus, and PostgreSQL. Or use with
-          scripting and visualization panels for easy, advanced data
-          analysis.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-<section>
-  <div class="container">
-    <div id="file-panel" class="picture-text flex flex--horizontal flex-mobile--column">
-      <div class="picture-text-description">
-	<h1>Import files, local or remote</h1>
-	<p>
-          Builtin support for JSON, CSV, Parquet, and Excel; as well
-          as many common log file formats.
-        </p>
-      </div>
-      <div class="picture-text-picture">
-	<a href="/file-panel.png">
-	  <img src="/file-panel.png" alt="Screenshot of a file panel in DataStation" />
-	</a>
-      </div>
-    </div>
-  </div>
-</section>
-<section>
-  <div class="container">
-    <div id="code-panel" class="picture-text flex flex--horizontal flex-mobile--column">
-      <div class="picture-text-picture">
-	<a href="/code-panel.png">
-	  <img src="/code-panel.png" alt="Screenshot of a code panel in DataStation" />
-	</a>
-      </div>
-      <div class="picture-text-description">
-	<h1>Script against data</h1>
-        <p>
-          Use your favorite scripting languages to generate data for or
-          manipulate data from other panels.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-<section>
-  <div class="container">
-    <div id="code-panel" class="picture-text flex flex--horizontal flex-mobile--column">
-      <div class="picture-text-description">
-	<h1>Visualize results</h1>
-      </div>
-      <div class="picture-text-picture">
-	<a href="/visualize-panel.png">
-	  <img src="/visualize-panel.png" alt="Screenshot of a graph panel in DataStation" />
-	</a>
-      </div>
-    </div>
-  </div>
-</section>
-<section>
-  <div class="container">
-    <h1 id="features">Features</h1>
-    <table>
-      <thead>
-	<tr>
-	  <th></th>
-	  <th>Desktop (Community Edition)</th>
-	  <th>Server (Community Edition)</th>
-	  <th>In-memory App</th>
-	</tr>
-      </thead>
-      <tbody>
-	<tr>
-	  <td>License</td>
-	  <td>Open Source (Apache 2.0)</td>
-	  <td>Open Source (Apache 2.0)</td>
-	  <td>Open Source (Apache 2.0)</td>
-	</tr>
-	<tr>
-	  <td>Price</td>
-	  <td>Free</td>
-	  <td>Free</td>
-	  <td>Free</td>
-	</tr>
-	<tr>
-	  <td>Availability</td>
-	  <td><a href="/docs/installation.html">Install now!</span></td>
-<td>In testing</td>
-<td><a href="https://app.datastation.multiprocess.io">Try it now!</a></td>
-</tr>
-<tr>
-  <td>Storage Location</td>
-  <td>Your computer</td>
-  <td>Your server</td>
-  <td>Your browser</td>
-</tr>
-<tr>
-  <td>Visual Transform</td>
-  <td>No limitations</td>
-  <td>No limitations</td>
-  <td>No limitations</td>
-</tr>
-<tr>
-  <td>HTTP Support</td>
-  <td>No limitations</td>
-  <td>No limitations</td>
-  <td>Servers must set CORS headers</td>
-</tr>
-<tr>
-  <td>Database Support</td>
-  <td>
-    <ul>
-      <li>
-	Traditional SQL
-	<ul class="checks">
-	  <li>PostgreSQL</li>
-	  <li>MySQL</li>
-	  <li>SQL Server</li>
-	  <li>Oracle</li>
-	  <li>SQLite</li>
-	  <li>MariaDB</li>
-	  <li>CockroachDB</li>
-	</ul>
-      </li>
-      <li>
-	Analytics
-	<ul class="checks">
-	  <li>Snowflake</li>
-	  <li>ClickHouse</li>
-	</ul>
-      </li>
-      <li>
-	Document-oriented:
-	<ul class="checks">
-	  <li>Elasticsearch</li>
-	</ul>
-      </li>
-      <li>
-	Time-series:
-	<ul class="checks">
-	  <li>InfluxDB</li>
-	  <li>Prometheus</li>
-	</ul>
-      </li>
-    </ul>
-  </td>
-  <td>Same as Desktop</td>
-  <td>Not supported</td>
-</tr>
-<tr>
-  <td>SSH Proxies</td>
-  <td>
-    <ul class="checks">
-      <li>HTTP requests</li>
-      <li>Database queries</li>
-      <li>File access (using SFTP)</li>
-    </ul>
-  </td>
-  <td>Same as Desktop</td>
-  <td>Not supported</td>
-</tr>
-<tr>
-  <td>Encrypted SSH and Database Credentials</td>
-  <td>Encrypted for single desktop</td>
-  <td>Encrypted for entire server</td>
-  <td>Not supported</td>
-</tr>
-<tr>
-  <td>Scripting Support</td>
-  <td>
-    <ul class="checks">
-      <li>JavaScript</li>
-      <li>Python</li>
-      <li>Ruby</li>
-      <li>Julia</li>
-      <li>R</li>
-      <li>In-memory SQL</li>
-    </ul>
-  </td>
-  <td>Same as Desktop</td>
-    <td>
-    <ul class="checks">
-      <li>JavaScript</li>
-      <li>Python</li>
-      <li>In-memory SQL</li>
-    </ul>
-  </td>
-</tr>
-<tr>
-  <td>Visualization Support</td>
-  <td>No limitations</td>
-  <td>No limitations</td>
-  <td>No limitations</td>
-</tr>
-<tr>
-  <td>Recurring, Scheduled Exports</td>
-  <td>Not supported</td>
-  <td><span class="coming-soon">Coming soon</span></td>
-  <td>Not supported</td>
-</tr>
-<tr>
-  <td>Hosted Dashboard</td>
-  <td>Not supported</td>
-  <td><span class="coming-soon">Coming soon</span></td>
-  <td>Not supported</td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="online-environment">
-  <div class="container">
-    <div class="picture-text flex flex--horizontal flex-mobile--column">
-      <div class="picture-text-picture">
-	<a href="/screenshot.png">
-	  <img src="/screenshot.png" alt="Screenshot of DataStation in-memory app" />
-	</a>
-	<div class="text-center hide-mobile">
-	  <a href="https://app.datastation.multiprocess.io">app.multiprocess.datastation.io</a>
+</header>
+<section id="hero">
+  <div class="tabs">
+    <div class="tabs-controls-container">
+      <div class="container">
+	<div class="tabs-controls">
+	  <a href="#hero-desktop" class="tab-control">Desktop</a>
+	  <a href="#hero-server" class="tab-control">Server</a>
 	</div>
       </div>
-      <div class="picture-text-description">
-	<h1>In-memory App</h1>
-	<p>
-	  The <a href="https://app.datastation.multiprocess.io">in-memory app</a> is freely available for data exploration in the
-	  browser. No account required!
-	</p>
-	<h2>Entirely in-memory</h2>
-	<p>
-	  HTTP requests happen from the browser without any proxy (so
-	  your server must set CORS headers). SQL, JavaScript, and
-	  Python are available and interpreted within the browser.
-	</p>
-	<h2>Own your data</h2>
-	<p>
-	  Since there is no server, you can safely use it at work or
-	  home. The data never leaves your computer.
-	</p>
-	<h2>Share projects safely</h2>
-	<p>
-	  Project state can be serialized to a shareable URL by
-	  clicking the Share button in the top right.
-	</p>
+    </div>
+    <div class="tabs-container">
+      <div class="container">
+	<div id="hero-desktop" class="tabs-body">
+	  <div class="d-flex">
+	    <div class="width-50">
+	      <h1>Query <span class="color-green">all</span> your data.</h1>
+	      <h2>No ETL required.</h2>
+	      <ul class="product-features">
+		<li>
+		  <span class="material-icons">search</span>
+		  <span>Load from databases, REST APIs and files</span>
+		</li>
+		<li>
+		  <span class="material-icons">code</span>
+		  <span>Script in your favorite language</span>
+		</li>
+		<li>
+		  <span class="material-icons">bar_chart</span>
+		  <span>Create beautiful visualizations</span>
+		</li>
+		<li>
+		  <span class="material-icons">lock</span>
+		  <span>Data never leaves your machine</span>
+		</li>
+		<li>
+		  <span class="material-icons color-light-purple">favorite</span>
+		  <span>All in one application</span>
+		</li>
+              </ul>
+	    </div>
+	    <div class="width-50">
+	      <div class="carousel">
+		<img src="https://github.com/multiprocessio/datastation/blob/main/screenshot.png?raw=true" />
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<div id="hero-server" class="tabs-body">
+	  <div class="d-flex">
+	    <div class="width-50">
+	      <h1>Turn scripts into <span class="color-green">dashboards</span> and <span class="color-yellow">exports</span>.</h1>
+	      <ul class="product-features">
+		<li>
+		  <span class="material-icons">bar_chart</span>
+		  <span>Create beautiful dashboards, schedule recurring exports</span>
+		</li>
+		<li>
+		  <span class="material-icons">search</span>
+		  <span>Load from databases, REST APIs and files</span>
+		</li>
+		<li>
+		  <span class="material-icons">code</span>
+		  <span>Script in your favorite language</span>
+		</li>
+		<li>
+		  <span class="material-icons">groups</span>
+		  <span>Work as a team</span>
+		</li>
+		<li>
+		  <span class="material-icons color-light-purple">favorite</span>
+		  <span>All in one application</span>
+		</li>
+              </ul>
+	    </div>
+	    <div class="width-50">
+	      <div class="carousel">
+		<img src="https://github.com/multiprocessio/datastation/blob/main/screenshot.png?raw=true" />
+	      </div>
+	    </div>
+	  </div>
+	</div>
       </div>
     </div>
   </div>
-</div>
 </section>
-{% endblock %}
+<script>
+  let currentHash = null;
+  function reloadHero() {
+      if (location.hash === currentHash) {
+	  return;
+      }
+
+      currentHash = location.hash;
+
+      const selected = currentHash === '#hero-server' ? 'hero-server' : 'hero-desktop';
+      const tabs = document.querySelectorAll(".tabs-body");
+      for (let i = 0; i < tabs.length; i++) {
+	  const tab = tabs[i];
+	  const tabControl = document.querySelector(`.tab-control[href="#${tab.id}"]`);
+	  if (tab.id === selected) {
+	      tab.style.display = 'initial';
+	      tabControl.className= "tab-control selected";
+	  } else {
+	      tab.style.display = 'none';
+	      tabControl.className= "tab-control";
+	  }
+      }
+  }
+
+  window.onload = function() {
+      reloadHero();
+      setInterval(reloadHero, 500);
+  }
+</script>
