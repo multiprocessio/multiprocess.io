@@ -5,6 +5,10 @@ html, body {
     background: #fbfbfb;
 }
 
+h1, h2, h3, h4, h5, h6, table {
+    font-family: sans-serif;
+}
+
 h1 {
     font-size: 3rem;
 }
@@ -19,25 +23,18 @@ h3 {
 
 strong {
     padding: 0 5px;
+    font-weight: bold;
 }
 
 a {
+    cursor: pointer;
+    cursor: hand;
     text-decoration: none;
     color: blue;
 }
 
 a:visited {
     color: blue;
-}
-
-
-a.header-link {
-    display: none;
-    text-decoration: none;
-    color: black;
-    font-size: 15px;
-    padding: 10px;
-    margin-left: -35px;
 }
 
 h1:hover .header-link,
@@ -59,10 +56,10 @@ h4:hover .header-link {
 }
 
 .container {
+    padding: 15px;
     margin: 0 auto;
+    width: 1600px;
     max-width: 100%;
-    width: 1300px;
-    padding: 0 50px;
 }
 
 .flex {
@@ -89,44 +86,33 @@ section:nth-of-type(odd) a {
     text-decoration: underline;
 }
 
-section.header {
-    margin: 0;
-}
-
-header, footer {
+footer {
     padding: 15px;
 }
 
-.site-name, .site-name:visited {
-    color: #34383e !important;
-    font-size: 1.5rem;
-    font-weight: 600;
+#title {
+    font-size: 2rem;
+    color: black;
 }
 
-header {
-    border-bottom: 1px solid #190029;
+#subtitle {
+    font-size: .75rem;
+    display: block;
 }
 
-a.header-item, a.header-item:visited {
-    color: #223;
+#subheader {
+    background: #dbdbdb;
 }
 
-.header-item:not(:last-of-type) {
-    padding-right: 30px;
+#subheader a {
+    margin-right: 50px;
+    display: inline-block;
+    border-bottom: 3px solid transparent;
+    color: black;
 }
 
-.header-item:nth-last-child(2) {
-    flex: 1;
-}
-
-header a.try-it-online {
-    background: #9f04ff;
-    font-weight: 600;
-    color: white;
-}
-
-header a.try-it-online:hover {
-    background: #6400a2;
+#subheader a:hover {
+    border-bottom-color: black;
 }
 
 .product-name, .large-text {
@@ -194,7 +180,6 @@ header a.try-it-online:hover {
 table {
     border-collapse: collapse;
     width: 100%;
-    color: white
 }
 
 table td, table th {
@@ -238,6 +223,146 @@ footer {
 
 footer .container > * {
     margin-top: 5px;
+}
+
+.tabs-body {
+    display: none;
+}
+
+.tabs-controls-container {
+    background: #dbdbdb;
+}
+
+.tabs-controls-container .container {
+    padding: 0;
+}
+
+.tabs-controls {
+    display: flex;
+}
+
+.tabs-controls .tab-control {
+    padding: 30px 60px;
+    color: black;
+    text-decoration: none;
+}
+
+.tabs-controls .tab-control.selected,
+.tabs-controls .tab-control:hover {
+    background: #252529;
+    color: white;
+}
+
+.tabs-controls .tab-control:hover:not(.selected) {
+    background: #393939;
+}
+
+.tabs-container {
+    padding: 100px 0;
+}
+
+.flex-right {
+    flex: auto;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.vertical-align-center {
+    display: flex;
+    align-items: center;
+}
+
+.flex-center {
+    justify-content: center;
+}
+
+.width-50 {
+    width: 50%;
+}
+
+.color-red {
+    color: #fd5b5b;
+}
+
+.color-light-purple {
+    color: #b442fc;
+}
+
+.color-light-pink {
+    color: #fd36af;
+}
+
+.color-light-blue {
+    color: #734EFD;
+}
+
+.color-green {
+    color: #b0ff00;
+}
+
+.color-yellow {
+    color: #ffd100;
+}
+
+.btn {
+    padding: 10px;
+    display: inline-block;
+}
+
+.btn.btn--primary {
+    color: white;
+    background: #9f04ff;
+}
+
+.btn.btn--primary:hover,
+.btn.btn--primary:active {
+    background: #fd36af;
+}
+
+.carousel-image {
+    height: 0;
+    width: 0;
+    opacity: 0;
+}
+
+.carousel-image small {
+    text-align: center;
+    padding-top: 5px;
+    display: none;
+}
+
+.carousel-image.selected {
+    height: 100%;
+    width: initial;
+    opacity: 1;
+}
+
+.carousel-image.selected small {
+    display: block;
+}
+
+.carousel-selectors {
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+}
+
+.carousel-selector {
+    background: rgba(255, 255, 255,.5);
+    height: 10px;
+    width: 10px;
+    border-radius: 100%;
+    margin: 0 5px;
+}
+
+.carousel-selector.selected {
+    background: rgba(255, 255, 255, .8);
 }
 
 .posts .post {

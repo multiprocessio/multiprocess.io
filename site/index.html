@@ -1,4 +1,5 @@
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+{% extends "layout.tmpl" %}
+{% block body %}
 <style>
   /* https://elad2412.github.io/the-new-css-reset/ */
   /*** The new CSS Reset - version 1.4.0 (last updated 16.11.2021) ***/
@@ -27,6 +28,7 @@
   /* For images to not be able to exceed their container */
   img {
       max-width: 100%;
+      max-height: 100%;
   }
 
   /* removes spacing between cells in tables */
@@ -49,46 +51,66 @@
 </style>
 <style>
   * {
-      transition: border .5s, background-color .5s;
+      transition: border .5s, background-color .5s, opacity 3s;
   }
 
-  strong {
+  h1 {
+      font-size: 3rem;
       font-weight: bold;
+      margin-bottom: 30px;
   }
 
-  a {
-      cursor: pointer;
-      cursor: hand;
+  section:not(:first-of-type) {
+      padding: 100px 0;
   }
 
-  #title {
-      font-size: 1.5rem;
+  section:not(:first-of-type) a {
+      text-decoration: underline;
   }
 
-  #subtitle {
+  tbody td:first-of-type,
+  thead th:first-of-type {
+      text-transform: uppercase;
+      font-weight: bold;
       font-size: .75rem;
-      display: block;
+      color: #777;
+      text-align: right;
   }
 
-  #subheader {
-      background: #dbdbdb;
+  thead th {
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: .75rem;
   }
 
-  #subheader a {
-      margin-right: 50px;
-      display: inline-block;
-      border-bottom: 3px solid transparent;
+  tbody td:not(:first-of-type) {
+      font-size: 1.2rem;
+      color: black;
   }
 
-  #subheader a:hover {
-      border-bottom-color: black;
+  tbody td:nth-of-type(2),
+  thead th:nth-of-type(2) {
+      background: #b442fc;
+      color: white;
+      border-bottom: solid 1px #b442fc;
   }
+
+  tbody td:nth-of-type(2) a,
+  thead th:nth-of-type(2) a {
+      color: white;
+  }
+
+  td, th {
+      padding: 15px;
+  }
+
 
   header, #hero {
       font-family: sans-serif;
   }
 
-  #hero {
+  section#hero {
+      padding: 0;
       color: white;
       background: #252529;
   }
@@ -96,15 +118,40 @@
   #hero h1 {
       font-size: 4rem;
       font-weight: bold;
+      margin-bottom: 0;
   }
 
   #hero h2 {
-      font-size: 2rem;
+      font-size: 1.8rem;
       padding-top: 15px;
   }
 
-  #hero-footer {
-      padding: 15px 0;
+  #hero .carousel {
+      height: 474px;
+  }
+
+  #hero .carousel-images {
+      height: 100%;
+  }
+
+  .hero-text {
+      flex: 0 0 550px;
+  }
+
+  .hero-picture {
+      flex: auto;
+      text-align: center;
+  }
+
+  .hero-footer {
+      padding-top: 50px;
+      text-align: center;
+  }
+
+  .foss {
+      padding-top: 15px;
+      display: inline-block;
+      text-decoration: underline;
   }
 
   .product-features {
@@ -115,166 +162,28 @@
       display: flex;
       align-items: center;
       padding-bottom: 10px;
-      font-size: 1.2rem;
   }
 
   .product-features li .material-icons {
-      padding-right: 15px;
-  }
-
-  .tabs-body {
-      display: none;
-  }
-
-  .tabs-controls-container {
-      background: #dbdbdb;
-  }
-
-  .tabs-controls-container .container {
-      padding: 0;
-  }
-
-  .tabs-controls {
-      display: flex;
-  }
-
-  .tabs-controls .tab-control {
-      padding: 30px 60px;
-      color: black;
-  }
-
-  .tabs-controls .tab-control.selected,
-  .tabs-controls .tab-control:hover {
-      background: #252529;
-      color: white;
-  }
-
-  .tabs-controls .tab-control:hover:not(.selected) {
-      background: #393939;
-  }
-
-  .tabs-container {
-      padding: 50px 0;
-  }
-
-  .container {
-      padding: 15px;
-      margin: 0 auto;
-      width: 1200px;
-      max-width: 100%;
-  }
-
-  .d-flex {
-      display: flex;
-  }
-
-  .flex-right {
-      flex: auto;
-  }
-
-  .text-right {
-      text-align: right;
-  }
-
-  .text-center {
-      text-align: center;
-  }
-
-  .vertical-align-center {
-      display: flex;
-      align-items: center;
-  }
-
-  .d-flex-center {
-      justify-content: center;
-  }
-
-  .width-50 {
-      width: 50%;
-  }
-
-  .color-red {
-      color: #fd5b5b;
-  }
-
-  .color-light-purple {
-      color: #b442fc;
-  }
-
-  .color-light-pink {
-      color: #fd36af;
-  }
-
-  .color-light-blue {
-      color: #734EFD;
-  }
-
-  .color-green {
-      color: #b0ff00;
-  }
-
-  .color-yellow {
-      color: #ffd100;
-  }
-
-  .btn {
-      padding: 10px;
-      display: inline-block;
-  }
-
-  .btn.btn--primary {
-      color: white;
-      background: #9f04ff;
-      border: 1px solid #9f04ff;
-  }
-
-  .btn.btn--primary:hover,
-  .btn.btn--primary:active {
-      background: transparent;
-      color: black;
+      padding-right: 10px;
   }
 </style>
-<header>
-  <div class="container">
-    <div class="vertical-align-center">
-      <div>
-	<a id="title" href="/">DataStation</a>
-	<span id="subtitle">The Open-Source Data IDE for Developers</span>
-      </div>
-      <div class="flex-right text-right">
-	<a href="/docs/Installation.html" class="btn btn--primary">Install now</a>
-      </div>
-    </div>
-  </div>
-  <div id="subheader">
-    <div class="container">
-      <div class="vertical-align-center">
-	<a href="/docs/">Documentation</a>
-	<a href="/blog/">Blog</a>
-	<a href="/blog/">Community</a>
-	<a href="/blog/">Twitter</a>
-	<a href="/blog/">Github</a>
-      </div>
-    </div>
-  </div>
-</header>
 <section id="hero">
   <div class="tabs">
     <div class="tabs-controls-container">
       <div class="container">
 	<div class="tabs-controls">
-	  <a href="#hero-desktop" class="tab-control">Desktop</a>
-	  <a href="#hero-server" class="tab-control">Server</a>
+	  <a href="#hero-desktop" class="tab-control">For Developers</a>
+	  <a href="#hero-server" class="tab-control">For Business</a>
 	</div>
       </div>
     </div>
     <div class="tabs-container">
       <div class="container">
 	<div id="hero-desktop" class="tabs-body">
-	  <div class="d-flex">
-	    <div class="width-50">
-	      <h1>Query <span class="color-green">all</span> your data.</h1>
-	      <h2>No ETL required.</h2>
+	  <div class="flex flex--horizontal">
+	    <div class="hero-text">
+	      <h1><span class="color-yellow">SQL IDE</span> meets <span class="color-green">Computational Notebook</span>.</h1>
 	      <ul class="product-features">
 		<li>
 		  <span class="material-icons">search</span>
@@ -294,53 +203,127 @@
 		</li>
 		<li>
 		  <span class="material-icons color-light-purple">favorite</span>
-		  <span>All in one application</span>
+		  <span>Desktop app on Windows, macOS, or Linux</span>
 		</li>
               </ul>
 	    </div>
-	    <div class="width-50">
+	    <div class="hero-picture">
 	      <div class="carousel">
-		<img src="https://github.com/multiprocessio/datastation/blob/main/screenshot.png?raw=true" />
+		<div class="carousel-images">
+		  <div class="carousel-image" id="carousel-database">
+		    <img loading="lazy" src="/database-panel.png" />
+		    <small>Query SQL and non-SQL databases</small>
+		  </div>
+		  <div class="carousel-image" id="carousel-http">
+		    <img loading="lazy" src="/http-panel.png" />
+		    <small>Query REST APIs</small>
+		  </div>
+		  <div class="carousel-image" id="carousel-file">
+		    <img loading="lazy" src="/file-panel.png" />
+		    <small>Read local and remote files</small>
+		  </div>
+		  <div class="carousel-image" id="carousel-script">
+		    <img loading="lazy" src="/code-panel.png" />
+		    <small>Script in Python, JavaScript, Ruby, R, Julia</small>
+		  </div>
+		  <div class="carousel-image" id="carousel-visualize">
+		    <img loading="lazy" src="/visualize-panel.png" />
+		    <small>Visualize results</small>
+		  </div>
+		</div>
+		<div class="carousel-selectors"></div>
 	      </div>
 	    </div>
 	  </div>
 	</div>
 	<div id="hero-server" class="tabs-body">
-	  <div class="d-flex">
-	    <div class="width-50">
-	      <h1>Turn scripts into <span class="color-green">dashboards</span> and <span class="color-yellow">exports</span>.</h1>
+	  <div class="flex">
+	    <div class="hero-text">
+	      <h1>Turn scripts into <span class="color-yellow">dashboards</span> and <span class="color-green">exports</span>.</h1>
+	      <h2></h2>
 	      <ul class="product-features">
 		<li>
 		  <span class="material-icons">bar_chart</span>
-		  <span>Create beautiful dashboards, schedule recurring exports</span>
+		  <span>Create reports on your data, wherever it is</span>
 		</li>
 		<li>
-		  <span class="material-icons">search</span>
-		  <span>Load from databases, REST APIs and files</span>
+		  <span class="material-icons">schedule</span>
+		  <span>Schedule recurring exports of reports</span>
 		</li>
 		<li>
 		  <span class="material-icons">code</span>
-		  <span>Script in your favorite language</span>
+		  <span>Customize everything through scripts</span>
 		</li>
 		<li>
 		  <span class="material-icons">groups</span>
-		  <span>Work as a team</span>
+		  <span>Work on projects as a team</span>
 		</li>
 		<li>
 		  <span class="material-icons color-light-purple">favorite</span>
-		  <span>All in one application</span>
+		  <span>It's easy! No ETL processes required</span>
 		</li>
               </ul>
 	    </div>
-	    <div class="width-50">
+	    <div class="hero-picture">
 	      <div class="carousel">
-		<img src="https://github.com/multiprocessio/datastation/blob/main/screenshot.png?raw=true" />
+		<div class="carousel-images">
+		  <div class="carousel-image">
+		    <img loading="lazy" src="/0.3.0-dashboard.png" />
+		    <small>Share read-only dashboard views</small>
+		  </div>
+		  <div class="carousel-image">
+		    <img loading="lazy" src="/0.3.0-exports.png" />
+		    <small>Schedule email exports of projects</small>
+		  </div>
+		</div>
+		<div class="carousel-selectors"></div>
 	      </div>
 	    </div>
 	  </div>
 	</div>
       </div>
     </div>
+  </div>
+</section>
+<section>
+  <div class="container">
+    <h1 id="pricing">Pricing</h1>
+    <table>
+      <thead>
+	<tr>
+	  <th>Edition</th>
+	  <th>Professional</th>
+	  <th>Community</th>
+	</tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td>Deployment</td>
+	  <td>Desktop, Server</td>
+	  <td>Desktop, Server</td>
+	</tr>
+	<tr>
+	  <td>Hosting</td>
+	  <td>Self-hosted</td>
+	  <td>Self-hosted</td>
+	</tr>
+	<tr>
+	  <td>Pricing</td>
+	  <td><a href="mailto:phil@multiprocess.io">Contact us</a></td>
+	  <td>Free</td>
+	</tr>
+	<tr>
+	  <td>Support</td>
+	  <td>Guaranteed<br />M-F, 9-7pm ET</td>
+	  <td>Best effort</td>
+	</tr>
+	<tr>
+	  <td>Get started</td>
+	  <td><a href="mailto:phil@multiprocess.io">Contact us</a></td>
+	  <td><a href="/docs/">Install now</a></td>
+	</tr>
+      </tbody>
+    </table>
   </div>
 </section>
 <script>
@@ -367,8 +350,51 @@
       }
   }
 
+  function spinCarousel(c) {
+      const carouselBase = '.carousel-image';
+      const images = [...c.querySelectorAll(carouselBase)];
+      if (!images.length) {
+	  return;
+      }
+
+      const selectors = c.querySelector('.carousel-selectors');
+      if (!selectors.querySelectorAll('.carousel-selector').length) {
+	  for (let i = 0; i < images.length; i++) {
+	      const sel = document.createElement('div');
+	      sel.className = "carousel-selector" + (i === 0 ? ' selected' : '');
+	      selectors.appendChild(sel);
+	  }
+      }
+
+      let selected = false;
+      for (let i = 0; i < images.length; i++) {
+	  const img = images[i];
+	  if (!selected && img.className.includes('selected')) {
+	      selected = true;
+	      img.className = carouselBase.slice(1);
+	      const nextIndex = (i + 1) % images.length;
+	      console.log(i, nextIndex, c);
+	      images[nextIndex].className = img.className + " selected";
+	      c.querySelectorAll('.carousel-selector')[i].className = "carousel-selector";
+	      c.querySelectorAll('.carousel-selector')[nextIndex].className = "carousel-selector selected";
+	  }
+      }
+
+      if (!selected) {
+	  images[0].className = carouselBase.slice(1) + " selected";
+      }
+  }
+
   window.onload = function() {
       reloadHero();
       setInterval(reloadHero, 500);
+
+      const carousels = [...document.querySelectorAll('.carousel')];
+      for (const carousel of carousels) {
+	  spinCarousel(carousel);
+	  const c = carousel;
+	  setInterval(() => spinCarousel(c), 7000);
+      }
   }
 </script>
+{% endblock %}
