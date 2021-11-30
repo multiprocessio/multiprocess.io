@@ -121,24 +121,6 @@ footer {
     font-weight: 600;
 }
 
-.product-features {
-    line-height: 1.5rem;
-}
-
-.product-features li {
-    list-style: none;
-    display: flex;
-    padding: 5px;
-}
-
-.product-features li .material-icons {
-    padding-right: 15px;
-}
-
-.product-features li .material-icons.color {
-    color: #fd5b5b;
-}
-
 .product-picture {
     padding-left: 50px;
 }

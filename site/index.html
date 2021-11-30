@@ -164,7 +164,7 @@
       padding-right: 10px;
   }
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1100px) {
       header, section:not(:first-of-type), #hero .tabs-container {
 	  padding: 15px 0;
       }
@@ -174,7 +174,23 @@
       }
 
       #hero h1 {
-	  font-size: 3rem;
+	  font-size: 2.5rem;
+      }
+
+      #hero .product-features li {
+	  font-size: .8rem;
+      }
+
+      #hero .tabs-controls .tab-control {
+	  padding: 30px;
+	  width: 50%;
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+      }
+
+      .hide-mobile {
+	  display: none;
       }
   }
 </style>
