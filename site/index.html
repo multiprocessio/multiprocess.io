@@ -398,7 +398,6 @@
 	      selected = true;
 	      img.className = carouselBase.slice(1);
 	      const nextIndex = (i + 1) % images.length;
-	      console.log(i, nextIndex, c);
 	      images[nextIndex].className = img.className + " selected";
 	      c.querySelectorAll('.carousel-selector')[i].className = "carousel-selector";
 	      c.querySelectorAll('.carousel-selector')[nextIndex].className = "carousel-selector selected";
