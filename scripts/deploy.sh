@@ -38,6 +38,6 @@ remote_copy config/crontab $REMOTE_HOME/crontab
 remote_copy config/selinux.conf $REMOTE_HOME/selinux.conf
 
 SLEEPTIME="$(awk 'BEGIN{srand(); print int(rand()*(3600+1))}')"
-remote_run "sudo dnf update -y && sudo dnf install -y nginx cronie cronie-anacron && sudo systemctl enable nginx && sudo firewall-cmd --add-service=http && sudo firewall-cmd --add-service=https && sudo service firewalld restart && sudo mkdir -p /run && sudo mkdir -p /usr/share/nginx/logs && sudo mv $REMOTE_HOME/nginx.conf /etc/nginx && sudo nginx -t && sudo setenforce permissive && sudo service nginx restart && sudo mv $REMOTE_HOME/selinux.conf /etc/selinux/config && sudo mv $REMOTE_HOME/crontab /etc/crontab"
+remote_run "sudo dnf update -y && sudo dnf install -y nginx cronie cronie-anacron && sudo systemctl enable nginx && sudo firewall-cmd --add-service=http && sudo firewall-cmd --add-service=https && sudo service firewalld restart && sudo mkdir -p /run && sudo mkdir -p /usr/share/nginx/logs && sudo mv $REMOTE_HOME/nginx.conf /etc/nginx && sudo nginx -t && (sudo setenforce permissive || echo selinux disabled) && sudo service nginx restart && sudo mv $REMOTE_HOME/selinux.conf /etc/selinux/config && sudo mv $REMOTE_HOME/crontab /etc/crontab"
 
 # TODO: https://fedoramagazine.org/protect-your-system-with-fail2ban-and-firewalld-blacklists/
