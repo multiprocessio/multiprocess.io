@@ -126,12 +126,8 @@
       padding-top: 15px;
   }
 
-  #hero .carousel {
-      height: 474px;
-  }
-
-  #hero .carousel-images {
-      height: 100%;
+  #hero .carousel-image.selected {
+      height: 470px;
   }
 
   .hero-text {
@@ -166,6 +162,20 @@
 
   .product-features li .material-icons {
       padding-right: 10px;
+  }
+
+  @media only screen and (max-width: 600px) {
+      header, section:not(:first-of-type), #hero .tabs-container {
+	  padding: 15px 0;
+      }
+
+      #hero .hero-text {
+	  flex: 1;
+      }
+
+      #hero h1 {
+	  font-size: 3rem;
+      }
   }
 </style>
 <section id="hero">
@@ -207,7 +217,7 @@
 		</li>
               </ul>
 	    </div>
-	    <div class="hero-picture">
+	    <div class="hero-picture hide-mobile">
 	      <div class="carousel">
 		<div class="carousel-images">
 		  <div class="carousel-image" id="carousel-database">
@@ -263,7 +273,7 @@
 		</li>
               </ul>
 	    </div>
-	    <div class="hero-picture">
+	    <div class="hero-picture hide-mobile">
 	      <div class="carousel">
 		<div class="carousel-images">
 		  <div class="carousel-image">
