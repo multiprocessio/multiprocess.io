@@ -1,0 +1,52 @@
+{# DO NOT EDIT -- THIS FILE IS AUTO-GENERATED #}
+
+{% set doctitle = 'Database Panels' %}
+
+{% extends 'docs/layout.tmpl' %}
+/
+{% block docbody %}
+
+<p>These panels allow you to query databases either locally or through an
+SSH proxy. You must first configure a <a href="../Data_Sources.html">data source</a> for the database you want to connect to. Then you can
+create a new panel and select the Database type and data source you
+created.</p>
+<h1>Supported Databases</h1>
+<p>Traditional SQL</p>
+<ul>
+<li>MySQL</li>
+<li><a href="#oracle">Oracle</a></li>
+<li>Microsoft SQL Server</li>
+<li>PostgreSQL</li>
+<li>SQLite</li>
+</ul>
+<p>Analytics</p>
+<ul>
+<li>Snowflake</li>
+<li>ClickHouse</li>
+</ul>
+<p>Document</p>
+<ul>
+<li>Elasticsearch</li>
+</ul>
+<p>Metrics</p>
+<ul>
+<li>Prometheus</li>
+<li>Influx</li>
+</ul>
+<h1>Connecting via SSH proxy</h1>
+<p>Queries can be proxied through an SSH tunnel by checking the <strong>With
+Server</strong> option on the data source definition or panel details. Once
+selected, you will be prompted to pick from one of the <a href="../SSH_Connections.html">SSH
+connections</a> you set up previously.</p>
+<h1>Oracle</h1>
+<p>Oracle requires an additional setup step. You must download the
+<a href="https://www.oracle.com/database/technologies/instant-client/winx64-64-downloads.html">instant
+client</a>
+from their site and unzip it. Add the enclosed directory to your
+<code class="hljs">$PATH</code> environment variable and restart DataStation.</p>
+
+<h3>Page Source</h3>
+<p>
+  See an error in the documentation or want to add a clarification? This <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/latest/Panels/Database_Panels.md">page source is on Github</a>.
+</p>
+{% endblock %}
