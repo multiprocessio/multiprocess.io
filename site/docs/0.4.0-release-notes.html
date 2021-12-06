@@ -1,0 +1,58 @@
+{% set doctitle = '0.4.0 Release Notes' %}
+{% set subtitle = 'December 6, 2021' %}
+
+{% extends 'docs/layout.tmpl' %}
+
+{% block docbody %}
+<p class="what-is-datastation"><label>What is DataStation?</label><small>{{ description }}</small></p>
+<h2>Release Notes</h2>
+<h3>UI Updates (and dark mode)</h3>
+<p>
+  The primary change in this release is an updated UI and a dark
+  mode. You can try out both in in
+  the <a href="https://app.datastation.multiprocess.io/">online
+  demo</a>.
+</p>
+<p>
+  The desktop app dark mode setting is turned on by editing the JSON
+  file `~/DataStationProjects/.settings`, adding `"theme": "dark"`
+  to the top level, and restarting DataStation.
+</p>
+<div class="pb-4">
+  <img src="/0.4.0-light.png" alt="Light mode" />
+</div>
+<div class="pb-4">
+  <img src="/0.4.0-dark.png" alt="Dark mode" />
+</div>
+<h2>Confirmed processing files up to 512mb</h2>
+<p>
+  DataStation can now definitely process individual files up to 512mb
+  in size and likely much larger. Exactly how much larger has not yet
+  been tested.
+</p>
+<p>
+  There were two limiting factors here. One was the size of a single
+  string in Node.js. This was fixed by writing array data out to files
+  element-at-a-time rather than <code>JSON.stringify</code>-ing the
+  entire array once. The other limiting factor was discovering the
+  shape of large files. This was fixed by building a partial-JSON
+  parser that stops reading a file after a certain number of bytes and
+  closes all open arrays/objects to create a valid JSON object.
+</p>
+<h2>Install or upgrade</h2>
+<p>
+  <a href="/docs/0.4.0/Installation.html">Get the 0.4.0 release now!</a>
+</p>
+<h3 id="how-you-can-help">How you can help</h4>
+<p>
+  If you are a developer or engineering manager, install DataStation
+  and start using it at work! Report bugs and usability issues (there
+  are surely many). <a href="mailto:phil@multiprocess.io">Get in
+  touch</a> if you are interested in being a design partner.
+</p>
+<p>
+  If you are an investor, <a href="mailto:phil@multiprocess.io">get in touch</a>.
+</p>
+<h4>Share</h4>
+
+{% endblock %}

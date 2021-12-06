@@ -52,7 +52,6 @@ for file in glob.glob("datastation-documentation/*.md") + glob.glob("datastation
             f.write(DOCS_TEMPLATE.replace('TITLE', title).replace('PAGE', page).replace("BODY", html))
 
 DEFAULT_DATA = {
-    "latest_version": '0.2.0',
     "title": "DataStation | The Data IDE for Developers",
     "description": "DataStation is an open-source data IDE for developers. It allows you to easily build graphs and tables with data pulled from SQL databases, logging databases, metrics databases, HTTP servers, and all kinds of text and binary files. Need to join or munge data? Write embedded scripts as needed in Python, JavaScript, Ruby, R, or Julia. All in one application."
 }
