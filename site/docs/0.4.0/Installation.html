@@ -1,0 +1,86 @@
+{# DO NOT EDIT -- THIS FILE IS AUTO-GENERATED #}
+
+{% set doctitle = 'Installation' %}
+
+{% extends 'docs/layout.tmpl' %}
+/
+{% block docbody %}
+
+<p>DataStation can run as either a desktop application or as a server
+application. You will need to have an OIDC provider if you want to run
+the server application. The server application comes with the ability
+to run and email reports daily, weekly, or monthly. It also comes with
+support for read-only dashboards.</p>
+<h1>Desktop</h1>
+<p>Pre-built binaries are provided for 64-bit x86 machines running macOS,
+Windows, and Linux.</p>
+<h2>MacOS</h2>
+<p>Download <a href="https://github.com/multiprocessio/datastation/releases/download/0.4.0/datastation-darwin-x64-0.4.0.zip">datastation-darwin-x64-0.4.0.zip</a> and unzip. You will need to right-click
+the application to click Open so you can run the untrusted
+application.</p>
+<h2>Windows</h2>
+<p>Download <a href="https://github.com/multiprocessio/datastation/releases/download/0.4.0/datastation-win32-x64-0.4.0.zip">datastation-win32-x64-0.4.0.zip</a> and unzip. If you get a warning saying
+&quot;Don't run&quot;, click &quot;More info&quot; and click &quot;Run anyway&quot;. There may be a
+few second long security scan the first time you run.</p>
+<h2>Linux</h2>
+<p>Download <a href="https://github.com/multiprocessio/datastation/releases/download/0.4.0/datastation-linux-x64-0.4.0.zip">datastation-linux-x64-0.4.0.zip</a> and unzip.</p>
+<h2>Other</h2>
+<p>Other systems and architectures may be supported but you will need to
+build them yourself. Follow <a href="https://github.com/multiprocessio/datastation/blob/master/HACKING.html">instructions in the repo</a>.</p>
+<h2>Light mode/Dark mode</h2>
+<p>To toggle light or dark mode in the desktop application, you'll need
+to edit <code class="hljs">~/DataStation/.settings</code> and add a new <code class="hljs">theme</code> key to the
+top-level JSON structure: <code class="hljs">, &quot;theme&quot;: &quot;dark&quot;</code>. Then restart the application.</p>
+<p>Since it must be valid JSON make sure the key-value pairs in the
+settings file do not end in a comma. You can use a JSON validator like
+<a href="https://jsonlint.com/">jsonlint.com</a> to check the syntax.</p>
+<h1>Server</h1>
+<p>Prerequisites:</p>
+<ul>
+<li>x86_64 Linux machine</li>
+<li>Nodejs 16+</li>
+<li>PostgreSQL 11+</li>
+</ul>
+<p>Download <a href="https://github.com/multiprocessio/datastation/releases/download/0.4.0/datastation-server-x64-0.4.0.zip">datastation-server-x64-0.4.0.zip</a>.</p>
+<pre><code class="hljs">curl -LO https://github.com/multiprocessio/datastation/releases/download/0.4.0/datastation-server-x64-0.4.0.zip
+unzip datastation-server-*.zip
+./build/release/install.sh
+</code></pre>
+<p>This install script will create a new <code class="hljs">datastation</code> Linux user if it
+does not exist and will create a systemd service for DataStation and a
+systemd timer for DataStation exports.</p>
+<h2>Configuration</h2>
+<p>Next edit <code class="hljs">/etc/datastation/config.json</code> and replace the defaults with your own settings.</p>
+<pre><code class="hljs">{
+  &quot;auth&quot;: {
+    &quot;sessionSecret&quot;: &quot;&quot;, // Any strong random string for signing sessions
+    &quot;openId&quot;: {
+      &quot;realm&quot;: &quot;https://accounts.google.com&quot;, // Or some other realm
+      &quot;clientId&quot;: &quot;my id&quot;,
+      &quot;clientSecret&quot;: &quot;my secret&quot;
+    }
+  },
+
+  &quot;server&quot;: {
+    &quot;port&quot;: 443,
+    &quot;address&quot;: &quot;localhost&quot;,
+    &quot;publicUrl&quot;: &quot;https://datastation.mydomain.com&quot; // The address users will enter into the browser to use the app
+    &quot;tlsKey&quot;: &quot;/home/server/certs/datastation.key.pem&quot;, // Can be left blank and set at the reverse-proxy level if desired
+    &quot;tlsCert&quot;: &quot;/home/server/certs/datastation.cert.pem&quot;,
+  },
+
+  &quot;database&quot;: {
+    &quot;address&quot;: &quot;localhost&quot;, // Address of your PostgreSQL instance
+    &quot;username&quot;: &quot;datastation&quot;, // Should be a dedicated PostgreSQL user for DataStation
+    &quot;password&quot;: &quot;some good password&quot;,
+    &quot;database&quot;: &quot;datastation&quot; // Should be a dedicated database within PostgreSQL for DataStation
+  }
+}
+</code></pre>
+<p>And then restart the systemd service: <code class="hljs">sudo systemctl restart datastation</code>.</p>
+
+<h3>Page Source</h3>
+<p>
+  See an error in the documentation or want to add a clarification? This <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/0.4.0/Installation.md">page source is on Github</a>.
+</p>
+{% endblock %}
