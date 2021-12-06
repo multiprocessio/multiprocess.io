@@ -37,11 +37,17 @@ a:visited {
     color: blue;
 }
 
+.header-link.material-icons {
+    display: none;
+}
+
 h1:hover .header-link,
 h2:hover .header-link,
 h3:hover .header-link,
-h4:hover .header-link {
-    display: initial;
+h4:hover .header-link,
+h5:hover .header-link,
+h6:hover .header-link {
+    display: inline-block;
 }
 
 .button {
@@ -358,6 +364,10 @@ footer .container > * {
 
 .posts .post:last-of-type {
     margin-bottom: 0;
+}
+
+.post-body .container {
+    width: 1200px;
 }
 
 .post-body  p, .post-header p, .post-footer p, .post-body li {
