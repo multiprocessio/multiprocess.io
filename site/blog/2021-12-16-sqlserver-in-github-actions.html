@@ -1,0 +1,53 @@
+{% extends "blog/layout.tmpl" %}
+
+{% block postTitle %}Running SQL Server in a container on Github Actions{% endblock %}
+{% block postDate %}December 16, 2021{% endblock %}
+{% block postAuthor %}Phil Eaton{% endblock %}
+{% block postAuthorEmail %}phil@multiprocess.io{% endblock %}
+{% block postTags %}sqlserver,github actions,docker,containers{% endblock %}
+
+{% block postBody %}
+<p>
+  In building out integration tests for DataStation recently I set up
+  SQL Server. I didn't think this would be possible because Microsoft
+  (and Oracle and IBM) normally require you to manually sign in to
+  download their databases. However, Microsoft provides <a href="https://hub.docker.com/_/microsoft-mssql-server">Docker images</a>
+  and allows you to accept their UELA in the command line.
+</p>
+<p>
+  So in my <a href="https://github.com/multiprocessio/datastation/blob/833d8eba83abfba458a5e33ad1716f2ede391aac/.github/workflows/pull_requests.yml#L29">Github Actions run steps</a> I added a call to Docker run:
+</p>
+<pre><code class="hljs">
+    # Start up sqlserver
+    - run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=1StrongPwd!!" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2019-latest</code></pre>
+<p>
+  Now
+  the <a href="https://hub.docker.com/_/microsoft-mssql-server">Docker
+  image docs</a> say to set a <code>SA_PASSWORD</code> environment
+  variable instead of <code>MSSQL_SA_PASSWORD</code> but I tried that
+  and couldn't connect when setting that or
+  both <code>SA_PASSWORD</code> and <code>MSSQ_SA_PASSWORD</code>.
+</p>
+<p>
+  Once this Docker image is running you'll be able to connect to
+  the <code>master</code> database with the <code>sa</code> user and
+  the above password. It's important that if you use a different
+  password it fulfills all the complexity requirements listed on the
+  Docker image documentation.
+</p>
+<p>
+  Now in Go code you can connect
+  using <a href="https://github.com/denisenkom/go-mssqldb">go-mssqldb</a>
+  with the connection
+  string <code>sa:1StrongPwd!!@tcp(localhost:1433)/master</code>.
+</p>
+<p>
+  The only difficult part of this recipe once is that it's hard to
+  debug when you've set up the password incorrectly (not fulfilling
+  complexity requirements) or if you mistype an environment
+  variable. Maybe if I checked the Docker logs for the SQL Server
+  container it would have given me useful information. Instead I
+  stumbled toward a working setup through guess and check.
+</p>
+<h4>Share</h4>
+{% endblock %}
