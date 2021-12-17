@@ -20,11 +20,6 @@
       box-sizing: border-box;
   }
 
-  /* Remove list styles (bullets/numbers) */
-  ol, ul {
-      list-style: none;
-  }
-
   /* For images to not be able to exceed their container */
   img {
       max-width: 100%;
@@ -62,10 +57,6 @@
 
   section:not(:first-of-type) {
       padding: 100px 0;
-  }
-
-  section:not(:first-of-type) a {
-      text-decoration: underline;
   }
 
   tbody td:first-of-type,
@@ -312,43 +303,129 @@
 </section>
 <section>
   <div class="container">
-    <h1 id="pricing">Pricing</h1>
-    <table>
-      <thead>
-	<tr>
-	  <th>Edition</th>
-	  <th>Professional</th>
-	  <th>Community</th>
-	</tr>
-      </thead>
-      <tbody>
-	<tr>
-	  <td>Deployment</td>
-	  <td>Desktop, Server</td>
-	  <td>Desktop, Server</td>
-	</tr>
-	<tr>
-	  <td>Hosting</td>
-	  <td>Self-hosted</td>
-	  <td>Self-hosted</td>
-	</tr>
-	<tr>
-	  <td>Pricing</td>
-	  <td><a href="mailto:phil@multiprocess.io">Contact us</a></td>
-	  <td>Free</td>
-	</tr>
-	<tr>
-	  <td>Support</td>
-	  <td>Guaranteed<br />M-F, 9-7pm ET</td>
-	  <td>Best effort</td>
-	</tr>
-	<tr>
-	  <td>Get started</td>
-	  <td><a href="mailto:phil@multiprocess.io">Contact us</a></td>
-	  <td><a href="/docs/">Install now</a></td>
-	</tr>
-      </tbody>
-    </table>
+    <h1 id="supported">Supported ____</h1>
+    <div class="features flex flex--horizontal">
+      <div>
+	<h2>Databases</h2>
+	<ul>
+	  <li>SQLite</li>
+	  <li>PostgreSQL</li>
+	  <li>MySQL</li>
+	  <li>SQL Server</li>
+	  <li>Oracle</li>
+	  <li>ClickHouse</li>
+	  <li>Snowflake</li>
+	  <li>Elasticsearch</li>
+	  <li>InfluxDB</li>
+	  <li>Prometheus</li>
+	</ul>
+      </div>
+      <div>
+	<h2>Languages</h2>
+	<ul>
+	  <li>Python</li>
+	  <li>Node.js</li>
+	  <li>Ruby</li>
+	  <li>R</li>
+	  <li>Julia</li>
+	</ul>
+      </div>
+      <div>
+	<h2>File Types</h2>
+	<ul>
+	  <li>Excel</li>
+	  <li>CSV</li>
+	  <li>JSON</li>
+	  <li>JSON Newline</li>
+	  <li>Parquet</li>
+	  <li>Apache Access Logs</li>
+	  <li>Apache Error Logs</li>
+	  <li>NGINX Access Logs</li>
+	  <li>Custom Regex</li>
+	</ul>
+      </div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="container">
+    <h1 id="why">Why use DataStation over ____</h1>
+    <div class="features flex flex--horizontal">
+      <div>
+	<h2>a SQL GUI?</h2>
+	<ul>
+	  <li>Query non-SQL databases</li>
+	  <li>Query REST servers</li>
+	  <li>Import files from disk</li>
+	  <li>Script against results in your favorite scripting language</li>
+	  <li>Host dashboards (in Server mode)</li>
+	  <li>Recurring email exports (in Server mode)</li>
+	</ul>
+      </div>
+      <div>
+	<h2>Jupyter?</h2>
+	<ul>
+	  <li>Easy installation. No server needed (unless you want it!)</li>
+	  <li>Built-in integrations with databases, REST servers, files local or over SSH</li>
+	  <li>Focus on the business logic of your reports, not connection code</li>
+	</ul>
+      </div>
+      <div>
+	<h2>custom scripts?</h2>
+	<ul>
+	  <li>No need to look up how to connect to your database</li>
+	  <li>No need to look up how to generate graphs</li>
+	  <li>No need to figure out how to host every new report</li>
+	  <li>No need to figure out how to set up recurring email exports of reports</li>
+	  <li>Focus on the business logic of your reports</li>
+	</ul>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="post-body">
+  <div class="container">
+    <h1 id="background">Background</h1>
+    <p>
+      DataStation is built by Multiprocess Labs, run by
+      myself, <a href="https://twitter.com/phil_eaton">Phil
+      Eaton</a>. As a developer and engineering manager at Oracle and
+      elsewhere, I found myself repeatedly creating custom scripts to
+      pull data from multiple sources to produce useful reports for
+      product and business teams. It always took me a long time to
+      remember how to connect to all the different databases, how to
+      graph results, how to host a new site for the report, how to
+      send recurring exports of the report.
+    </p>
+    <p>
+      One way to solve this is to make sure all your data goes into a
+      data warehouse. Then you can just use the data warehouses
+      dashboarding system to do all your work. But this requires
+      entire organization buy-in both up front and for every new data
+      source you want to add. And the warehouse software and ETL
+      maintenance can be cost prohibitive for small organizations.
+    </p>
+    <p>
+      In contrast, DataStation gives you a smart, open-source data IDE
+      where you can easily combine data using your existing
+      credentials or API keys with no new ETL process. For truly
+      massive reports, this may fall over. But the majority of
+      business reports can be run without pulling terabytes (let alone
+      gigabytes) of data onto a single machine. DataStation helps you
+      out with those.
+    </p>
+    <p>
+      DataStation can be run as an easy-to-install desktop application
+      on a single laptop. Or it can be run as a server instance where
+      all data and scripts can be shared across teams. Either way,
+      your credentials are always encrypted.
+    </p>
+    <p class="signature">
+      - Phil <a href="mailto:phil@multiprocess.io">phil@multiprocess.io</a>
+    </p>
+    <p>
+      <h2><a href="https://forms.gle/wH5fdxrxXwZHoNxk8">Subscribe</a> to stay in touch!</h2>
+    </p>
   </div>
 </section>
 <script>

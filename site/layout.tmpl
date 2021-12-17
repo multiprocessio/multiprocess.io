@@ -15,9 +15,10 @@
 	<a id="title" href="/">DataStation</a>
 	<span id="subtitle">The Open-Source Data IDE</span>
       </div>
-      <div class="flex-right text-right">
+      <div class="flex-right header-right">
 	<iframe src="/stars.html" frameborder="0" scrolling="0" width="100" height="20" title="Stars"></iframe>
 	<a href="/docs/" class="btn btn--primary hide-mobile">Install the App</a>
+	<a href="https://forms.gle/wH5fdxrxXwZHoNxk8">Subscribe</a>
       </div>
     </div>
   </div>
@@ -26,9 +27,8 @@
       <div class="vertical-align-center">
 	<a href="/docs">Documentation</a>
 	<a href="/blog">Blog</a>
+	<a href="/#background">About</a>
 	<a href="https://discord.gg/f2wQBc4bXX">Community</a>
-	<a href="https://twitter.com/multiprocessio">Twitter</a>
-	<a href="https://github.com/multiprocessio/datastation">Github</a>
 	<a href="https://app.datastation.multiprocess.io">Online Demo</a>
       </div>
     </div>
@@ -56,6 +56,12 @@
     </div>
     <div>
       <a href="https://github.com/multiprocessio/datastation">Github</a>
+    </div>
+    <div>
+      <a href="mailto:phil@multiprocess.io">Contact</a>
+    </div>
+    <div>
+    &copy; 2021 Multiprocess Labs LLC
     </div>
   </div>
 </footer>
@@ -85,6 +91,7 @@
     }
   }
 
+if (location.pathname !== '/') {
   const headers = document.querySelectorAll('h2, h3, h4, h5, h6, .post-body h1, .post-body h2, .post-body h3, .post-body h4, .post-body h5, .post-body h6');
   for (let i = 0; i < headers.length; i++) {
     const id = headers[i].innerHTML.replaceAll(' ', '-').toLowerCase();
@@ -96,5 +103,6 @@
       headerLink.href = window.location.pathname + '#' + id;
       headers[i].prepend(headerLink);
     }
+  }
   }
 </script>

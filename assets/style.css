@@ -37,6 +37,10 @@ a:visited {
     color: blue;
 }
 
+header .header-right > * {
+    margin-left: 8px;
+}
+
 .header-link.material-icons {
     display: none;
 }
@@ -78,6 +82,16 @@ h6:hover .header-link {
     align-items: center;
 }
 
+.features {
+    align-items: baseline;
+    justify-content: space-evenly;
+}
+
+.features > div {
+    align-self: stretch;
+    padding: 15px 30px;
+}
+
 section {
     padding: 100px 0;
 }
@@ -87,8 +101,7 @@ section:nth-of-type(odd) {
     color: white;
 }
 
-section:nth-of-type(odd) a {
-    color: white;
+p a {
     text-decoration: underline;
 }
 
@@ -251,6 +264,9 @@ footer .container > * {
 
 .flex-right {
     flex: auto;
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .text-right {
@@ -595,5 +611,9 @@ ul.checks li:before {
 
     .picture-text-description {
 	padding: 0;
+    }
+
+    .features {
+	display: block;
     }
 }
