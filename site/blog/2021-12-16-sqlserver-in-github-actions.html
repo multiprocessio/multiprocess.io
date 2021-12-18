@@ -17,8 +17,7 @@
 <p>
   So in my <a href="https://github.com/multiprocessio/datastation/blob/833d8eba83abfba458a5e33ad1716f2ede391aac/.github/workflows/pull_requests.yml#L29">Github Actions run steps</a> I added a call to Docker run:
 </p>
-<pre><code class="hljs">
-    # Start up sqlserver
+<pre><code class="hljs">    # Start up sqlserver
     - run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=1StrongPwd!!" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2019-latest</code></pre>
 <p>
   Now

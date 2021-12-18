@@ -386,9 +386,14 @@ footer .container > * {
     width: 1200px;
 }
 
-.post-body  p, .post-header p, .post-footer p, .post-body li {
+.post-body  p, .post-header p, .post-footer p, .post-body li, .post-body pre {
     width: 750px;
     max-width: 100%;
+}
+
+.post-header a, .post-footer a {
+    color: white;
+    text-decoration: underline;
 }
 
 .post-subtitle {
@@ -615,5 +620,26 @@ ul.checks li:before {
 
     .features {
 	display: block;
+    }
+
+    .header-right {
+	flex-direction: column;
+	align-items: end;
+    }
+
+    .header-right > * {
+	margin-left: 0;
+    }
+
+    .header-subscribe {
+	padding-top: 8px;
+    }
+
+    section {
+	padding: 30px 0;
+    }
+
+    header {
+	padding: 15px 0;
     }
 }
