@@ -1,0 +1,99 @@
+{% set doctitle = '0.5.0 Release Notes' %}
+{% set subtitle = 'December 23, 2021' %}
+
+{% extends 'docs/layout.tmpl' %}
+
+{% block docbody %}
+<p class="what-is-datastation"><label>What is DataStation?</label><small>{{ description }}</small></p>
+<h2>Release Notes</h2>
+<p>
+  This release is very exciting for the massive performance
+  improvements and improvements for handling large amounts of data;
+  primarily through a port of key code from Node.js to Go. If you have
+  tried out DataStation before and were frustrated at slow run times,
+  consider trying it again with this release.
+</p>
+<div class="pb-4">
+  <img src="https://raw.githubusercontent.com/multiprocessio/datastation/main/screenshot.png" alt="DataStation" />
+</div>
+<h3>8-12x panel evaluation faster via Go port</h3>
+<p>
+  The primary change in this release is that the panel evaluation code
+  has been mostly ported to Go. This reduces the 8-12 second overhead
+  (especially on Windows) when running even simple program and literal
+  panels to around 1 second.
+</p>
+<p>
+  Since existing integration tests applied to the Go code covers many
+  cases, there is reason to believe that even this drastic and fast of
+  a rewrite is generally ok. However, it is a rewrite so there's
+  always a greater than usual risk of bugs. If you prefer stability,
+  stick with 0.4.0 for now. If you want performance, try this release
+  out.
+</p>
+<h3>15x faster reading remote files</h3>
+<p>
+  Remote files are now compressed with gzip before copying/reading (if
+  gzip is available on the remote machine). For a 100mb file this
+  brought down total ingest time from 60 seconds to 4 seconds.
+</p>
+<h3>SQLite for SQL program panel engine</h3>
+<p>
+  Before this release, DataStation
+  used <a href="https://github.com/agershun/alasql">AlaSQL</a> as the
+  SQL engine for the SQL program panel. This implementation (and/or
+  the DataStation wrapper code around it) could not handle ingesting
+  more than 4MB of data. This case arises when you have a large file
+  and you want to run SQL over it: <code>SELECT COUNT(1) FROM
+  DM_getPanel('some large panel')</code>.
+</p>
+<p>
+  But in this release the engine has been swiched to SQLite which has
+  been tested to be able to handle ingesting at least 500MB of data.
+</p>
+<h3>Large file shape analysis</h3>
+<p>
+  Many panels would crash after ingesting more than 4MB of data just
+  while trying to get shape and preview information. This release
+  introduces a partial JSON parser (dedicated blog post on this to
+  come) that reads only a small amount of initial data (for example at
+  most 100KB of data) and does shape and preview analysis based on
+  that partial JSON data.
+</p>
+<h3>Improvements to automated testing</h3>
+<p>
+  This release adds additional automated integration testing for
+  SQLite, SQL Server, and Oracle database panels; file panels over
+  SSH; HTTP panels over SSH; and file panels reading log data (like
+  Apache access logs). The integration tests for databases works by
+  running entire databases (including Oracle and SQL Server) in
+  containers in Github Actions so that real queries can be run against
+  the real databases.
+</p>
+<p>
+  Additionally, this release improves on JavaScript (frontend and
+  backend) line coverage at around 68% and Go line coverage at around
+  72%.
+</p>
+<h2>Install or upgrade</h2>
+<p>
+  <a href="/docs/0.5.0/Installation.html">Get the 0.5.0 release now!</a>
+</p>
+<h3 id="how-you-can-help">How you can help</h4>
+<p>
+  If you are a developer or engineering manager, install DataStation
+  and start using it at work! Report bugs and usability issues (there
+  are surely many). <a href="https://discord.gg/f2wQBc4bXX">Join the
+  Discord</a>
+  and <a href="https://forms.gle/wH5fdxrxXwZHoNxk8">subscribe to
+  updates</a>.
+</p>
+<p>
+  If you are an investor, <a href="mailto:phil@multiprocess.io">get in
+  touch</a>
+  and <a href="https://forms.gle/wH5fdxrxXwZHoNxk8">subscribe to
+  updates</a>.
+</p>
+<h4>Share</h4>
+
+{% endblock %}
