@@ -37,6 +37,19 @@ a:visited {
     color: blue;
 }
 
+.notification {
+    line-height: 0;
+    color: white;
+    font-size: .9rem;
+    background: #9f05ff;
+    background: linear-gradient(90deg, rgba(28,144,222,1) 0%, rgba(23,122,198,1) 21%, rgba(159,5,240,1) 95%)
+}
+
+.notification a {
+    color: white;
+    text-decoration: underline;
+}
+
 header .header-right > * {
     margin-left: 8px;
 }
