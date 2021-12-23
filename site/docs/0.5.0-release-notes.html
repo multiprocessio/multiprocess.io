@@ -15,13 +15,15 @@
 </p>
 <div class="pb-4">
   <img src="https://raw.githubusercontent.com/multiprocessio/datastation/main/screenshot.png" alt="DataStation" />
-</div>
-<h3>8-12x panel evaluation faster via Go port</h3>
+</d
+  iv>
+<h3>Fast panel evaluation via Go port</h3>
 <p>
   The primary change in this release is that the panel evaluation code
-  has been mostly ported to Go. This reduces the 8-12 second overhead
-  (especially on Windows) when running even simple program and literal
-  panels to around 1 second.
+  has been mostly ported to Go. This reduces the eliminates the 8-12
+  second overhead (especially on Windows) when running even simple
+  program and literal panels. The panel evaluation overhead
+  (initialization of libraries, etc.) is less than 1 second now.
 </p>
 <p>
   Since existing integration tests applied to the Go code covers many
@@ -31,7 +33,7 @@
   stick with 0.4.0 for now. If you want performance, try this release
   out.
 </p>
-<h3>15x faster reading remote files</h3>
+<h3>Up to 15x faster remote file reads</h3>
 <p>
   Remote files are now compressed with gzip before copying/reading (if
   gzip is available on the remote machine). For a 100mb file this
@@ -76,6 +78,10 @@
   run <code>dsq users.csv "SELECT COUNT(DISTINCT name) FROM {}"</code>
   to count all the distinct names in your users.csv file. Under the
   hood dsq uses SQLite for queries just like the rest of DataStation.
+</p>
+<p>
+  You can read more about dsq in
+  its <a href="https://github.com/multiprocessio/datastation/tree/main/runner/cmd/dsq">README</a>.
 </p>
 <h3>Improvements to automated testing</h3>
 <p>
