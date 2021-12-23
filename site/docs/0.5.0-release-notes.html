@@ -50,6 +50,8 @@
 <p>
   But in this release the engine has been swiched to SQLite which has
   been tested to be able to handle ingesting at least 500MB of data.
+  This is a breaking change since AlaSQL has some PostgreSQL features
+  like the <code>col::TEXT</code> cast syntax that is not ANSI SQL.
 </p>
 <h3>Large file shape analysis</h3>
 <p>
@@ -59,6 +61,21 @@
   come) that reads only a small amount of initial data (for example at
   most 100KB of data) and does shape and preview analysis based on
   that partial JSON data.
+</p>
+<h3>Standalone CLI for SQL queries on JSON, CSV, Parquet, etc.</h3>
+<p>
+  The port to Go also made it easier to build a small CLI on top of
+  existing DataStation behavior. You can
+  install <a href="https://github.com/multiprocessio/datastation/tree/main/runner/cmd/dsq">dsq</a>
+  on your laptop or server and use it to run SQL queries on every kind
+  of file that DataStation supports. It does not require the full
+  DataStation app to run.
+</p>
+<p>
+  For example if you have a CSV file with user information, you can
+  run <code>dsq users.csv "SELECT COUNT(DISTINCT name) FROM {}"</code>
+  to count all the distinct names in your users.csv file. Under the
+  hood dsq uses SQLite for queries just like the rest of DataStation.
 </p>
 <h3>Improvements to automated testing</h3>
 <p>
