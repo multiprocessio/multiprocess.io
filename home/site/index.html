@@ -1,0 +1,219 @@
+<style>
+  *,
+  *::before,
+  *::after {
+      box-sizing: border-box;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+      margin: 0;
+  }
+
+  h1 {
+      font-size: 3rem;
+      padding: 30px 0;
+  }
+
+  h2 {
+      padding: 25px 0;
+  }
+
+  html, body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+  }
+
+  .container {
+      max-width: 1200px;
+      margin: 0 auto;
+  }
+
+  header {
+      background: black;
+      color: white;
+      padding: 5px 0;
+  }
+
+  header a {
+      color: white;
+      text-decoration: none;
+  }
+
+  .header-name {
+      padding-left: 5px;
+      font-size: 1.2rem;
+  }
+
+  .flex {
+      display: flex;
+      flex-direction: column;
+  }
+
+  .flex--horizontal {
+      flex-direction: row;
+      align-items: center;
+  }
+
+  section {
+      margin: 0;
+      padding: 30px 0;
+  }
+
+  section:nth-of-type(1) {
+      background: #5b5699;
+      color: white;
+      min-height: 600px;
+  }
+
+  section:nth-of-type(3) {
+      background: #308d8d;
+      color: white;
+  }
+
+  section:nth-of-type(5) {
+      background: #fbba42;
+      color: white;
+      min-height: 600px;
+  }
+
+  .features {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      padding-top: 15px;
+  }
+
+  .feature {
+      color: white;
+      background: rgba(0,0,0, .5);
+      padding: 30px;
+      margin: 0 15px;
+      padding-bottom: 60px;
+      font-size: 1.2rem;
+      line-height: 2rem;
+  }
+
+  .feature a {
+      color: white;
+      text-decoration: none;
+      padding-bottom: 2px;
+      border-bottom: 3px solid white;
+  }
+
+  .feature iframe {
+      display: block;
+      margin-bottom: 15px;
+  }
+</style>
+
+<header>
+  <div class="container">
+    <a href="/" class="flex flex--horizontal">
+      <img src="https://avatars.githubusercontent.com/u/85761715?s=30&u=dd80613f0af757d82c24089d031978701ddb0e58" />
+      <span class="header-name">Multiprocess Labs</span>
+    </a>
+  </div>
+</header>
+<section>
+  <div class="container">
+    <h1>Products</h1>
+    <div class="features">
+      <div class="feature">
+	<h2>DataStation</h2>
+	<p>Open-source data IDE. Easily query, script, and visualize data from every database, file, and API.</p>
+	<a href="https://datastation.multiprocess.io/">Go</a>
+      </div>
+      <div class="feature">
+	<h2>dsq</h2>
+	<p>Run SQL queries against JSON, CSV, Excel, Parquet, and more.</p>
+	<a href="https://github.com/multiprocessio/datastation/tree/main/runner/cmd/dsq">Go</a>
+      </div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="container">
+    <h1>Research</h1>
+    <div class="features">
+      <div class="feature">
+	<h2>Benchmarking esbuild, swc, tsc, and babel for React/JSX projects</h2>
+	<p>November 23, 2021</p>
+	<a href="https://datastation.multiprocess.io/blog/2021-11-13-benchmarking-esbuild-swc-typescript-babel.html">Go</a>
+      </div>
+      <div class="feature">
+	<h2>Building a fast SCSS-like rule expander for CSS using fuzzy parsing</h2>
+	<p>July 15, 2021</p>
+	<a href="https://datastation.multiprocess.io/blog/2021-10-31-building-a-nested-css-rule-expander.html">Go</a>
+      </div>
+      <div class="feature">
+	<h2>Writing an efficient object previewer for JavaScript</h2>
+	<p>July 15, 2021</p>
+	<a href="https://datastation.multiprocess.io/blog/2021-07-15-writing-an-efficient-javascript-object-previewer.html">Go</a>
+      </div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="container">
+    <h1>Libraries</h1>
+    <div class="features">
+      <div class="feature">
+	<h2>cssplus</h2>
+	<p>Fast nested CSS rule expander in JavaScript.</p>
+	  <iframe src="https://ghbtns.com/github-btn.html?user=multiprocessio&repo=cssplus&type=star&count=true" frameborder="0" scrolling="0" width="150" height="20" title="GitHub"></iframe>
+	<a href="https://github.com/multiprocessio/cssplus">Go</a>
+      </div>
+      <div class="feature">
+	<h2>shape</h2>
+	<p>Basic schema inference for arbitrary JavaScript data objects.</p>
+	<iframe src="https://ghbtns.com/github-btn.html?user=multiprocessio&repo=shape&type=star&count=true" frameborder="0" scrolling="0" width="150" height="20" title="GitHub"></iframe>
+	<a href="https://github.com/multiprocessio/shape">Go</a>
+      </div>
+      <div class="feature">
+	<h2>preview</h2>
+	<p>A large-object previewer for JavaScript.</p>
+	<iframe src="https://ghbtns.com/github-btn.html?user=multiprocessio&repo=preview&type=star&count=true" frameborder="0" scrolling="0" width="150" height="20" title="GitHub"></iframe>
+	<a href="https://github.com/multiprocessio/preview">Go</a>
+      </div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="container">
+    <h1>Community</h1>
+    <div class="features">
+      <div class="feature">
+	<h2>#hacking</h2>
+	<p>
+	  Multiprocess hosts a Discord community for developers
+	  working on or interested in challenging programming projects
+	  like compilers, databases, emulators, etc. Come to share and
+	  learn from other folks!
+	</p>
+	<a href="https://discord.gg/f2wQBc4bXX">Go</a>
+      </div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="container">
+    <h1>What else?</h1>
+    <div class="features">
+    <div class="feature">
+      <h2>You</h2>
+      <p>Support Multiprocess Labs by <a href="https://datastation.multiprocess.io">running DataStation</a>, joining the Multiprocess <a href="https://discord.gg/f2wQBc4bXX">Discord community</a>, and subscribing to the Multiprocess <a href="https://forms.gle/wH5fdxrxXwZHoNxk8">mailing list</a>.</p>
+    </div>
+    <div class="feature">
+      <h2>About</h2>
+      <p>
+	<a href="https://twitter.com/phil_eaton">Phil Eaton</a> left
+	Oracle to found Multiprocess Labs in 2021.
+      </p>
+    </div>
+    <div class="feature">
+      <h2>Contact</h2>
+      <p>Say hi! <a href="mailto:hey@multiprocess.io">hey@multiprocess.io</a></p>
+    </div>
+    </div>
+  </div>
+</section>
