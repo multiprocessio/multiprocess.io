@@ -11,5 +11,8 @@ python3 -m venv .env
 cp assets/* build
 
 # Update stars count
-stars="$(curl -L https://api.github.com/repos/multiprocessio/datastation | jq '.stargazers_count')"
-sed -i 's/STARS/'"$stars"'/g' build/stars.html
+projects="datastation preview shape cssplus"
+for project in $projects; do
+    stars="$(curl -L https://api.github.com/repos/multiprocessio/$project | jq '.stargazers_count')"
+    sed -i 's/STARS/'"$stars"'/g' build/stars/$project.html
+done
