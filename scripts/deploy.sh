@@ -51,6 +51,7 @@ function remote_run () {
 remote_run "sudo dnf install rsync"
 remote_copy "workspace/build/*" $REMOTE_HOME/ui
 remote_copy "build/*" $REMOTE_HOME/site
+remote_copy "home/*" $REMOTE_HOME/home
 remote_copy scripts/setup_tls.sh $REMOTE_HOME/setup_tls.sh
 remote_copy config/nginx.conf $REMOTE_HOME/nginx.conf
 remote_copy config/crontab $REMOTE_HOME/crontab
