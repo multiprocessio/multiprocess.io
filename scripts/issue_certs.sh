@@ -3,4 +3,5 @@
 sudo certbot certonly \
      -d datastation.multiprocess.io \
      -d multiprocess.io \
-     -d discord.multiprocess.io
+     -d discord.multiprocess.io \
+     -d app.datastation.multiprocess.io
