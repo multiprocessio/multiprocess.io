@@ -60,6 +60,10 @@
       align-items: center;
   }
 
+  .space-between {
+      justify-content: space-between;
+  }
+
   section {
       margin: 0;
       padding: 30px 0;
@@ -172,10 +176,13 @@
 
 <header>
   <div class="container">
-    <a href="/" class="flex flex--horizontal">
-      <img src="/assets/icon_xsmall_white.png" />
-      <span class="header-name">Multiprocess Labs</span>
-    </a>
+    <div class="flex flex--horizontal space-between">
+      <a href="/" class="flex flex--horizontal">
+	<img src="/assets/icon_xsmall_white.png" />
+	<span class="header-name">Multiprocess Labs</span>
+      </a>
+      <a href="https://forms.gle/wH5fdxrxXwZHoNxk8">Subscribe</a>
+    </div>
   </div>
 </header>
 <section>
