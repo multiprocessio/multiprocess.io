@@ -26,3 +26,7 @@ directory.
 ```
 ./scripts/deploy.sh
 ```
+
+## Add certs for a new domain
+
+Add the domain to scripts/issue_certs.sh and run that script on the server. TODO: automate this in the deploy.
