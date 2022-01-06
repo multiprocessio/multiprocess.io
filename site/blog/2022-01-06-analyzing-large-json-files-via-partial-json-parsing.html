@@ -1,0 +1,221 @@
+{% extends "blog/layout.tmpl" %}
+
+{% block postTitle %}Analyzing large JSON files via partial JSON parsing{% endblock %}
+{% block postDate %}January 6, 2022{% endblock %}
+{% block postAuthor %}Phil Eaton{% endblock %}
+{% block postAuthorEmail %}phil@multiprocess.io{% endblock %}
+{% block postTags %}javascript,parsing{% endblock %}
+
+{% block postBody %}
+<p>
+  Multiprocess's <a href="https://github.com/multiprocessio/shape">shape</a>
+  library allows you to get a schema for arbitrary data. But what
+  happens when you're trying to analyze the schema of a JSON file that
+  can't be loaded into memory? The naive approach will fail once your
+  JSON file is greater than 4Mb large.
+</p>
+<pre><code class="hljs">import fs from 'fs';
+
+const f = fs.readFileSync('myfile.json');
+JSON.parse(f.toString()); // Fails once myfile.json > 4Mb</code></pre>
+<p>
+  One option is to switch from the
+  builtin <code>JSON.parse</code> function to a streaming
+  parser. Another option is to sample the JSON file using partial JSON
+  parsing. This post explores how DataStation uses partial JSON
+  parsing to solve this problem.
+</p>
+<h2>Finding a valid subset of JSON</h2>
+<p>
+  In an arbitrary JSON object, you can't just select the first N bytes
+  of a file or even the first N lines of a file and get a meaningful
+  string. Even if you know your JSON object is an array of some kind
+  of object you can't select N lines because there could be lines
+  within a JSON object.
+</p>
+<pre><code>// Annoying JSON examples
+$ cat notanarray.json
+{
+  "a": [
+    "my value1",
+  ], "b": "some more stuff"
+}
+$ cat arrayofobjects.json
+[
+  {
+    "a": "some value"
+  },
+  { "b": "some more stuff" }
+]</code></pre>
+<p>
+  But JSON grammar is pretty simple. There are only a few kind of
+  state delimiters: <code>""</code>, <code>[]</code>
+  and <code>{}</code>. If we could keep track of opening markers as we
+  read the first N bytes of a JSON file, we could add all the
+  appropriate closing markers once we hit the Nth byte. Then we'd have
+  a well-formed subset of the JSON file that is just over N bytes long
+  (since the closing markers get added after the Nth byte).
+</p>
+<p>
+  Of course there's the caveat that this subset may or may not be
+  meaningful since who knows if the first M parts of a JSON file are
+  representative of the rest of the JSON in the file. But for now
+  we'll ignore the possibility of unrepresentative sampling.
+</p>
+<p>
+  Two additional restrictions we'll add is that if we hit N bytes and
+  are still in a string, we'll keep reading until the end of a
+  string. And similarly if we're in the middle of an array or object
+  we won't stop reading until we reach the end of that last array or
+  object. This let's us deal with the case of stopping after an object
+  key but before the value.
+</p>
+<p>
+  After we hit the last object or array in the first N bytes we pop
+  off the opening marker stack and add the corresponding closing
+  marker to create a valid JSON string. Now we have a string we can
+  pass to <code>JSON.parse</code>. That's a little wasteful as an
+  algorithm but it saves some code for now. And thankfully the
+  performance of this algorithm is not related to the size of the
+  input once the input is beyond N bytes long.
+</p>
+<p>
+  Here's the algorithm in full (<a href="https://github.com/multiprocessio/datastation/blob/d0531b9c5f9009a45bd4b1e26d11ea9a08a0cd07/desktop/partial.ts">link to source</a>):
+</p>
+<pre><code class="hljs">import fs from 'fs';
+import { preview } from 'preview';
+import { shape } from 'shape';
+import { NoResultError } from '../shared/errors';
+
+export function parsePartialJSONFile(
+  file: string,
+  maxBytesToRead: number = 100_000
+) {
+  let fd: number;
+  try {
+    fd = fs.openSync(file, 'r');
+  } catch (e) {
+    throw new NoResultError();
+  }
+
+  const { size } = fs.statSync(file);
+
+  if (size < maxBytesToRead) {
+    const f = fs.readFileSync(file).toString();
+    const value = JSON.parse(f);
+    return {
+      size,
+      value,
+      arrayCount: Array.isArray(value) ? value.length : null,
+      shape: shape(value),
+      preview: preview(value),
+      skipWrite: true,
+      contentType: 'application/json',
+    };
+  }
+
+  try {
+    let done = false;
+    let f = '';
+    const incomplete = [];
+    let inString = false;
+
+    while (!done) {
+      const bufferSize = 1024;
+      const b = Buffer.alloc(bufferSize);
+      const bytesRead = fs.readSync(fd, b);
+
+      // To be able to iterate over code points
+      let bs = Array.from(b.toString());
+      outer: for (let i = 0; i < bs.length; i++) {
+        const c = bs[i];
+        if (c !== '"' && inString) {
+          continue;
+        }
+
+        switch (c) {
+          case '"':
+            const previous =
+              i + bs.length === 0
+                ? ''
+                : i > 0
+                ? bs[i - 1]
+                : f.charAt(f.length - 1);
+            const isEscaped = previous === '\\';
+            if (!isEscaped) {
+              inString = !inString;
+            }
+            break;
+          case '{':
+          case '[':
+            incomplete.push(c);
+            break;
+          case ']':
+          case '}':
+            if (f.length + bufferSize >= maxBytesToRead) {
+              bs = bs.slice(0, i);
+              // Need to not count additional openings after this
+              done = true;
+              break outer;
+            }
+
+            // Otherwise, pop it
+            incomplete.pop();
+            break;
+        }
+      }
+
+      f += bs.join('');
+      if (bytesRead < bufferSize) {
+        break;
+      }
+    }
+
+    while (incomplete.length) {
+      if (incomplete.pop() === '{') {
+        f += '}';
+      } else {
+        f += ']';
+      }
+    }
+
+    const value = JSON.parse(f);
+
+    let arrayCount = null;
+    if (Array.isArray(value)) {
+      let averageRowSize = 0;
+      const n = 100;
+      for (const row of value.slice(0, n)) {
+        averageRowSize += JSON.stringify(row).length;
+      }
+
+      arrayCount = Math.ceil(size / (averageRowSize / n));
+    }
+
+    return {
+      size,
+      value,
+      shape: shape(value),
+      preview: preview(value),
+      arrayCount,
+      skipWrite: true,
+      contentType: 'application/json',
+    };
+  } finally {
+    fs.closeSync(fd);
+  }
+}</code></pre>
+<p>
+  It is similar to the common interview question about counting and
+  validating parenthesis in a string. You'll notice that this
+  implementation doesn't handle malformed JSON at all. For the moment
+  that's ok since DataStation internally guarantees that the JSON that
+  goes into this algorithm will be well-formed.
+</p>
+<p>
+  Thanks to this algorithm, DataStation can easily analyze the schema
+  of files as large as 600Mb. It's possible it can handle larger I
+  just haven't tested larger files yet.
+</p>
+<h4>Share</h4>
+{% endblock %}
