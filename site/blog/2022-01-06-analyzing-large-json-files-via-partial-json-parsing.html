@@ -9,15 +9,22 @@
 {% block postBody %}
 <p>
   Multiprocess's <a href="https://github.com/multiprocessio/shape">shape</a>
-  library allows you to get a schema for arbitrary data. But what
-  happens when you're trying to analyze the schema of a JSON file that
-  can't be loaded into memory? The naive approach will fail once your
-  JSON file is greater than 4Mb large.
+  library allows you to get a schema for arbitrary data. It does some
+  sampling on its own internally. But what happens when you're trying
+  to analyze the schema of a JSON file that can't be loaded into
+  memory? The naive approach will fail once your JSON file is greater
+  than 4Mb large because Node.js strings can only be that large.
 </p>
 <pre><code class="hljs">import fs from 'fs';
 
 const f = fs.readFileSync('myfile.json');
 JSON.parse(f.toString()); // Fails once myfile.json > 4Mb</code></pre>
+<p>
+  Interestingly, Python has no such low limit on string size. Which
+  goes to explain yet another reason why it's the goto for data
+  scientists. But (this part of) DataStation is written in
+  JavaScript/Node.js.
+</p>
 <p>
   One option is to switch from the
   builtin <code>JSON.parse</code> function to a streaming
