@@ -1,0 +1,120 @@
+{% extends "blog/layout.tmpl" %}
+
+{% block postTitle %}Analyzing large JSON files via partial JSON parsing{% endblock %}
+{% block postDate %}January 6, 2022{% endblock %}
+{% block postAuthor %}Phil Eaton{% endblock %}
+{% block postAuthorEmail %}phil@multiprocess.io{% endblock %}
+{% block postTags %}javascript,parsing{% endblock %}
+
+{% block postBody %}
+<p>
+  <a href="https://github.com/multiprocessio/dsq">dsq</a> is a commandline tool for running SQL queries against all the
+  data file types that <a href="https://github.com/multiprocessio/datastation">DataStation</a> supports (JSON, CSV, Parquet,
+  Excel, etc.). Here is a simple example:
+</p>
+<pre><code class="hljs sql">$ cat users.csv
+name,age
+Jorge,30
+Nina,32
+Cal,28
+Mona,27
+$ dsq users.csv "SELECT * FROM {} ORDER BY CAST(age AS INT) DESC" | jq
+[
+  {
+    "age": "32",
+    "name": "Nina"
+  },
+  {
+    "age": "30",
+    "name": "Jorge"
+  },
+  {
+    "age": "28",
+    "name": "Cal"
+  },
+  {
+    "age": "27",
+    "name": "Mona"
+  }
+]</pre>
+<p>
+  dsq
+  uses <a href="https://github.com/multiprocessio/datastation">DataStation</a>
+  libraries under-the-hood and DataStation in turn uses SQLite for
+  these kinds of queries.
+</p>
+<p>
+  The dsq source code
+  is <a href="https://github.com/multiprocessio/dsq">available on
+  Github</a>.
+</p>
+<h2>Install</h2>
+<p>
+  dsq originated as a subproject in the DataStation repo but now
+  exists <a href="https://github.com/multiprocessio/dsq">on its
+  own</a>. You can install it with Go 1.17+:
+</p>
+<pre><code class="hljs bash">$ go install github.com/multiprocessio/dsq@latest</code></pre>
+<h2>Multiple files and joins</h2>
+<p>
+  If you pass multiple files to dsq, they become available under the
+  alias <code>{N}</code> where <code>N</code> is the 0-based index of
+  the list of files passed on the commandline. <code>{}</code> is an
+  alias for <code>{0}</code>. For example:
+</p>
+<pre><code class="hljs bash">$ cat ids.json
+cat ids.json
+[
+  {"id": 1, "name": "Jorge"},
+  {"id": 2, "name": "Mona"},
+  {"id": 3, "name": "Cal"},
+  {"id": 4, "name": "Nina"}
+]
+$ dsq users.csv ids.json "SELECT id, {0}.name FROM {0} JOIN {1} ON {0}.name = {1}.name" | jq
+[
+  {
+    "id": 1,
+    "name": "Jorge"
+  },
+  {
+    "id": 4,
+    "name": "Nina"
+  },
+  {
+    "id": 3,
+    "name": "Cal"
+  },
+  {
+    "id": 2,
+    "name": "Mona"
+  }
+]</code></pre>
+<h2>File type support</h2>
+<p>
+  As of today dsq supports: JSON, CSV, TSV, Excel, Parquet, OpenOffice
+  Sheets, and Apache2 and nginx logs. This list will continue to grow
+  over time.
+</p>
+<h2>Comparison to other tools</h2>
+<p>
+  There are a number of existing tools
+  like <a href="http://harelba.github.io/q/">q</a>, <a href="https://github.com/dinedal/textql">textql</a>
+  and <a href="https://github.com/cube2222/octosql">octosql</a>. These
+  are mature tools and there wouldn't be a need for dsq. But
+  DataStation already supports the core logic so exposing this CLI is
+  very simple. Moreover DataStation supports more file types than
+  these existing tools.
+</p>
+<p>
+  A detailed comparison table is available in
+  the <a href="https://github.com/multiprocessio/dsq#comparisons">repo
+  README here</a>.
+</p>
+<h2>Try it out!</h2>
+<p>
+  Give it a go, share any bugs or feedback! The code
+  is <a href="https://github.com/multiprocessio/dsq">available on
+  Github</a>.
+</p>
+<h4>Share</h4>
+{% endblock %}
