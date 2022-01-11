@@ -63,7 +63,6 @@ $ dsq users.csv "SELECT * FROM {} ORDER BY CAST(age AS INT) DESC" | jq
   alias for <code>{0}</code>. For example:
 </p>
 <pre><code class="hljs bash">$ cat ids.json
-cat ids.json
 [
   {"id": 1, "name": "Jorge"},
   {"id": 2, "name": "Mona"},
@@ -94,6 +93,11 @@ $ dsq users.csv ids.json "SELECT id, {0}.name FROM {0} JOIN {1} ON {0}.name = {1
   As of today dsq supports: JSON, CSV, TSV, Excel, Parquet, OpenOffice
   Sheets, and Apache2 and nginx logs. This list will continue to grow
   over time.
+</p>
+<p>
+  The complete list of file extensions and mimetypes
+  is <a href="https://github.com/multiprocessio/dsq#supported-data-types">in
+  the README here</a>.
 </p>
 <h2>Comparison to other tools</h2>
 <p>
