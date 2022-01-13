@@ -11,8 +11,8 @@ python3 -m venv .env
 cp assets/* build
 
 # Update stars count
-projects="datastation preview shape cssplus"
-for project in $projects; do
+for starfile in $(find build/stars/*.html); do
+    project="$(basename $starfile .html)"
     stars="$(curl -L https://api.github.com/repos/multiprocessio/$project | jq '.stargazers_count')"
-    sed -i 's/STARS/'"$stars"'/g' build/stars/$project.html
+    sed -i 's/STARS/'"$stars"'/g' "$starfile"
 done
