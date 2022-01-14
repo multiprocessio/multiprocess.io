@@ -1,3 +1,7 @@
+#!/usr/bin/env bash
+
+set -e
+
 find . -name '*~' -delete
 
 # Grab docs repo
@@ -10,9 +14,11 @@ python3 -m venv .env
 .env/bin/python ./scripts/build_site.py
 cp assets/* build
 
-# Update stars count
-for starfile in $(find build/stars/*.html); do
-    project="$(basename $starfile .html)"
-    stars="$(curl -L https://api.github.com/repos/multiprocessio/$project | jq '.stargazers_count')"
-    sed -i 's/STARS/'"$stars"'/g' "$starfile"
-done
+if [[ "$1" != "--skip-stars" ]]; then
+    # Update stars count
+    for starfile in $(find build/stars/*.html); do
+	project="$(basename $starfile .html)"
+	stars="$(curl -L https://api.github.com/repos/multiprocessio/$project | jq '.stargazers_count')"
+	sed -i 's/STARS/'"$stars"'/g' "$starfile"
+    done
+fi
