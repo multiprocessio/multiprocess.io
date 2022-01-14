@@ -368,7 +368,7 @@ footer .container > * {
 .carousel-selectors {
     display: flex;
     justify-content: center;
-    padding-top: 50px;
+    padding-top: 15px;
 }
 
 .carousel-selector {
