@@ -1,0 +1,62 @@
+{% set doctitle = '0.6.0 Release Notes' %}
+{% set subtitle = 'January 17, 2021' %}
+
+{% extends 'docs/layout.tmpl' %}
+
+{% block docbody %}
+<p class="what-is-datastation"><label>What is DataStation?</label><small>{{ description }}</small></p>
+<h2>Release Notes</h2>
+<p>
+
+</p>
+<div class="pb-4">
+  <img src="https://raw.githubusercontent.com/multiprocessio/datastation/main/screenshot.png" alt="DataStation" />
+</d
+  iv>
+<h3>Release sizes shrunk 18-35%</h3>
+<p>
+  The macOS zip is down to 261Mb from 318Mb, the Windows zip is down
+  to 112Mb from 172Mb, and the Linux zip is down to 249Mb from 338. It
+  is likely that it will continue to shrink as the last remaining
+  pieces of the Node.js runner are ported to Go (particularly
+  Snowflake evaluation).
+</p>
+<h3>Modify settings in-app</h3>
+<p>
+  Before this release you had to edit a JSON file on disk to modify
+  settings like Light Mode/Dark Mode. Now you can do that within the
+  app. But you will need to restart the app for the changes to take
+  effect.
+</p>
+<h3>Support for reading TSV and ODS file types</h3>
+<p>
+  You can now load TSV (tab-separated values) and ODS (OpenOffice
+  spreadsheets) into DataStation in the File and HTTP Panels.
+</p>
+<h3>Misc fixes</h3>
+<ul>
+  <li>Querying ElasticSearch over TLS was broken, now it is fixed</li>
+  <li>Sending headers in HTTP requests were broken since 0.5.0, now it is fixed</li>
+</ul>
+<h2>Install or upgrade</h2>
+<p>
+  <a href="/docs/0.6.0/Installation.html">Get the 0.6.0 release now!</a>
+</p>
+<h3 id="how-you-can-help">How you can help</h4>
+<p>
+  If you are a developer or engineering manager, install DataStation
+  and start using it at work! Report bugs and usability issues (there
+  are surely many). <a href="https://discord.gg/f2wQBc4bXX">Join the
+  Discord</a>
+  and <a href="https://forms.gle/wH5fdxrxXwZHoNxk8">subscribe to
+  updates</a>.
+</p>
+<p>
+  If you are an investor, <a href="mailto:phil@multiprocess.io">get in
+  touch</a>
+  and <a href="https://forms.gle/wH5fdxrxXwZHoNxk8">subscribe to
+  updates</a>.
+</p>
+<h4>Share</h4>
+
+{% endblock %}
