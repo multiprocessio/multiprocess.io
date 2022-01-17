@@ -1,4 +1,4 @@
-{% set doctitle = 'DataStation 0.6.0 released: adds in-app settings editor and smaller install size' %}
+{% set doctitle = 'DataStation 0.6.0 released: adds in-app settings editor, smaller install size, and PHP scripting support' %}
 {% set subtitle = 'January 17, 2021' %}
 
 {% extends 'docs/layout.tmpl' %}
@@ -12,7 +12,7 @@
   and TSV files, and more bug fixes.
 </p>
 <div class="pb-4">
-  <img src="/code-panel.png" alt="DataStation" />
+  <img class="no-shadow" src="/code-panel.png" alt="DataStation" />
 </div>
 <h3>Release sizes shrunk 18-35%</h3>
 <p>
@@ -33,13 +33,24 @@
   <img src="/0.6.0-open-settings.png" alt="Opening settings" />
 </div>
 <div class="pb-4">
-  <img src="/0.6.0-settings.png" alt="Editing settings" />
+  <img class="no-shadow" src="/0.6.0-settings.png" alt="Editing settings" />
+</div>
+<h3>Scripting in PHP</h3>
+<p>
+  In addition to Python, JavaScript, Ruby, R and Julia you can also
+  now script in PHP.
+</p>
+<div class="pb-4">
+  <img src="/0.6.0-php.png" alt="Opening settings" />
 </div>
 <h3>Support for reading TSV and ODS file types</h3>
 <p>
   You can now load TSV (tab-separated values) and ODS (OpenOffice
   spreadsheets) into DataStation in the File and HTTP Panels.
 </p>
+<div class="pb-4">
+  <img class="no-shadow" src="/0.6.0-tsv.png" alt="Loading TSV files" />
+</div>
 <h3>Misc fixes</h3>
 <ul>
   <li>Querying ElasticSearch over TLS was broken, now it is fixed</li>
@@ -65,5 +76,5 @@
   updates</a>.
 </p>
 <h4>Share</h4>
-
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">DataStation 0.6.0 is released! Bringing a 18-35% smaller install size, an in-app settings editor, and fixes for ElasticSearch and HTTP panels, among others.<br><br>Check it out!<a href="https://t.co/F5mjbbPHyQ">https://t.co/F5mjbbPHyQ</a> <a href="https://t.co/WwHHg0qbOu">pic.twitter.com/WwHHg0qbOu</a></p>&mdash; Multiprocess Labs (@multiprocessio) <a href="https://twitter.com/multiprocessio/status/1483158528097456132?ref_src=twsrc%5Etfw">January 17, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 {% endblock %}

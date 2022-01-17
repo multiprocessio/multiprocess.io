@@ -446,7 +446,7 @@ p {
     max-width: 100%;
 }
 
-.post-body img {
+.post-body img:not(.no-shadow) {
     box-shadow: 0 0 3px 0 black;
 }
 
