@@ -1,0 +1,260 @@
+<link rel="shortcut icon" type="image/png" href="/assets/favicon.png" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<style>
+  html, body {
+      margin: 0;
+      font-family: "San Francisco", "Gadugi", sans-serif;
+      background: #d3d3d9;
+      line-height: 2rem;
+  }
+
+  * {
+      box-sizing: border-box;
+  }
+
+  h1, h2, h3, h4, h5 {
+      margin: 0;
+      font-weight: 100;
+  }
+
+  header {
+      background: #232439; /*#0C1E7F; */
+      background-image: linear-gradient(to right top, #232439, #23263d, #232841, #222b45, #212d49, #1f2c49, #1e2a48, #1c2948, #1a2443, #181f3e, #171a39, #151534);
+      text-align: center;
+      color: #5c5d81;
+  }
+
+  header h1 {
+      line-height: initial;
+      font-weight: 900;
+      font-size: 6rem;
+      color: #2dffc4;
+      text-shadow: 0 0 10px rgba(45, 255, 196, .7),
+		   0 0 40px rgba(45, 255, 196, .7),
+		   0 0 100px rgba(45, 255, 196, .7);
+      position: relative;
+      z-index: 1;
+      text-transform: uppercase;
+      margin: 100px 0;
+      transform: rotate(-7deg);
+      word-spacing: 1000000000000px;
+  }
+
+  header h1:before {
+      content: attr(data-title);
+      display: block;
+      width: 100%;
+      color: #16a37b;
+      z-index: -1;
+      position: absolute;
+      top: -3px;
+      left: -3px;
+  }
+
+  header h2 {
+      font-size: 3rem;
+      margin: 30px;
+  }
+
+  header a {
+      color: #9fa1b1;
+      text-decoration: none;
+      color: #C4AA0C;
+       text-shadow:
+          0 0 10px rgba(196, 170, 12, .7),
+          0 0 40px rgba(196, 170, 12, .7),
+          0 0 100px rgba(196, 170, 12, .7);
+  }
+
+  section.dark {
+      background: #151635;
+      background-image: linear-gradient(to right top, #232439, #23263d, #232841, #222b45, #212d49, #1f2c49, #1e2a48, #1c2948, #1a2443, #181f3e, #171a39, #151534);
+      color: white;
+  }
+
+  .container {
+      width: 1400px;
+      max-width: 100%;
+      padding: 50px 15px;
+  }
+
+  .features {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      padding-top: 15px;
+  }
+
+  .features.features--sole {
+      display: block;
+  }
+
+  a.feature {
+      text-decoration: none;
+      display: block;
+  }
+
+  .feature {
+      padding: 30px;
+      margin: 0 15px 15px 15px;
+      padding-bottom: 60px;
+      font-size: 1.2rem;
+  }
+
+  .feature a, .feature .a {
+      text-decoration: none;
+      padding-bottom: 2px;
+      border-bottom: 3px solid blue;
+  }
+
+  .feature a:hover, .feature .a:hover {
+      border-bottom-width: 5px;
+  }
+
+  .feature .feature-header {
+      justify-content: space-between;
+  }
+
+  @media only screen and (max-width: 1100px) {
+      header h1 {
+	  font-size: 4rem;
+      }
+
+      header h2 {
+	  font-size: 2rem;
+      }
+
+      .features {
+	  display: block !important;
+      }
+
+      .feature {
+	  margin: 0;
+	  margin-bottom: 15px;
+	  padding: 15px;
+      }
+
+      .feature p {
+	  height: auto !important;
+      }
+  }
+</style>
+
+<header>
+  <div class="container">
+    <h1 data-title="Hacker Nights">Hacker Nights</h1>
+    <h2>Virtual Lightning Talks</h2>
+    <h3>Hosted by <a href="https://multiprocess.io">Multiprocess Labs</a></h3>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <div class="features">
+      <div class="feature">
+	<h2>Who?</h2>
+	<p>
+	  By developers, for developers. Likely most interesting to
+	  folks who've been in the industry for a few years, but
+	  everyone is welcome.
+	</p>
+	<p>
+	  The goal is to <strong>get excited</strong>, break down mental barriers and to
+	  get exposed to deep technical work in a <strong>respectful and
+	  friendly</strong> environment.
+	</p>
+	<p>No questions are dumb!</p>
+      </div>
+      <div class="feature">
+	<h2>What?</h2>
+	<p>
+	  Short (10min max), <strong>LOW KEY</strong> talks on
+	  software or hardware internals. You shouldn't need to
+	  massively prepare or be stressed out giving these talks.
+	</p>
+	<p>
+	  Particular emphasis on topics like compilers, emulators,
+	  databases, operating systems, networking, distributed
+	  systems, and so on.
+	</p>
+	<p>
+	  Talk about your toy projects or your work on production
+	  systems.
+	</p>
+      </div>
+      <div class="feature">
+	<h2>Where?</h2>
+	<p>
+	  Virtual. <strong>Forever</strong>. Whether you're in NYC or
+	Kansas City or SF or rural Ontario; if you're working on cool
+	projects we want you to present.
+	</p>
+      </div>
+      <div class="feature">
+	<h2>When?</h2>
+	<p>
+	  Fourth Thursday of every month, 8PM-9PM America/New_York.
+	</p>
+	<p>
+	  As long as there are people attending and folks interested
+	  in sharing.
+	</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dark">
+  <div class="container">
+    <div class="features features--sole">
+      <div class="feature">
+	<h2>Topics</h2>
+	<p>
+	  Here are a few made-up (or potential) talks to illustrate
+	  where this is going:
+	</p>
+	<ul>
+	  <li>Biggest problems I faced building a PS1 emulator in C++</li>
+	  <li>Extending Golang to add a new operator to the language</li>
+	  <li>Building a mail server from scratch at the protocol level in Python</li>
+	  <li>How Kubernetes switched to a faster internal data structure to speed up listing pods by 100x</li>
+	  <li>Building a SQLite clone from scratch in C</li>
+	  <li>Implementing a JVM subset in Ruby</li>
+	  <li>Why Redis is switching to Tries for storing indexes (not a real thing)</li>
+	  <li>Building a new MySQL storage engine on Parquet files</li>
+	  <li>Switching to a new register allocation algorithm in my toy language compiler</li>
+	  <li>Implementing TCP/IP in userland in OCaml</li>
+	</ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="features">
+      <div class="feature">
+	<h2>Give a talk</h2>
+	<p>
+	  Email <a href="mailto:phil@multiprocess.io">Phil</a> with
+	  your talk idea! If you have questions feel free to ask!
+	</p>
+      </div>
+      <div class="feature">
+	<h2>RSVP to attend</h2>
+      </div>
+      <div class="feature">
+	<h2>Join #hacking on Discord</h2>
+	<p>
+	  Multiprocess hosts a Discord community for developers
+	  working on or interested in challenging programming projects
+	  like compilers, databases, emulators, etc. Come to share and
+	  learn from other folks!
+	</p>
+	<p>
+	  <a href="https://discord.multiprocess.io">Join us!</a>
+	</p>
+      </div>
+    </div>
+  </div>
+</section>
