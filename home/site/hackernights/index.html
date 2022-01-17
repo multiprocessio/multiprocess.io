@@ -26,6 +26,7 @@
   }
 
   header h1 {
+      user-select: none;
       line-height: initial;
       font-weight: 900;
       font-size: 6rem;
@@ -114,6 +115,15 @@
 
   .feature .feature-header {
       justify-content: space-between;
+  }
+
+  li {
+      padding: 5px 0;
+  }
+
+  .copyright {
+      text-align: center;
+      padding: 15px 0;
   }
 
   @media only screen and (max-width: 1100px) {
@@ -215,7 +225,7 @@
 	  where this is going:
 	</p>
 	<ul>
-	  <li>Biggest problems I faced building a PS1 emulator in C++</li>
+	  <li>Biggest challenges while building a PS1 emulator in C++</li>
 	  <li>Extending Golang to add a new operator to the language</li>
 	  <li>Building a mail server from scratch at the protocol level in Python</li>
 	  <li>How Kubernetes switched to a faster internal data structure to speed up listing pods by 100x</li>
@@ -257,5 +267,18 @@
 	</p>
       </div>
     </div>
+    <div class="copyright">
+      &copy; 2021-2022 Multiprocess Labs LLC
+    </div>
   </div>
 </section>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-195070972-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-195070972-2');
+</script>
