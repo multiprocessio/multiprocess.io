@@ -1,0 +1,69 @@
+{# DO NOT EDIT -- THIS FILE IS AUTO-GENERATED #}
+
+{% set doctitle = 'Querying Oracle with DataStation' %}
+
+{% extends 'docs/layout.tmpl' %}
+
+{% block docbody %}
+<div><a href="/docs/">Back to documentation</a></div>
+
+<h1>Querying Oracle with DataStation</h1>
+<h1>Data source setup</h1>
+<p>First create a new data source in the left sidebar.</p>
+<p><img src="/create-data-source.gif" alt="Creating a new data source" /></p>
+<p>Give it a nice name so you easily can find it later. And select Oracle
+in the Vendor dropdown.</p>
+<p><img src="/create-oracle-data-source.png" alt="Creating a Oracle data source" /></p>
+<h2>Host field</h2>
+<p>If you are connecting to <code class="hljs">localhost:1521</code> (the default), you <strong>must
+still set the field to <code class="hljs">localhost</code></strong>.</p>
+<p>Note: there is a bug before 0.7.0 where the address cannot be blank
+for Oracle data sources.</p>
+<p>If your port is 1521 then you can always omit the colon and port and
+just specify the address.</p>
+<h2>Other fields</h2>
+<p>Next set your database, username, and password.</p>
+<p><img src="/oracle-data-source-filled.png" alt="Filled out Oracle data source" /></p>
+<h2>SSH Proxy [Optional]</h2>
+<p>If you want connect to a Oracle database on a remote server through an
+SSH proxy, you will need to set up the SSH connection to that server
+first. Once you do, you can select that connection in the &quot;Via Server&quot;
+dropdown within the data source editor.</p>
+<h1>Panel setup</h1>
+<p>Now create a new panel and select the Database type.</p>
+<p><img src="/create-oracle-database-panel.gif" alt="Create database panel" /></p>
+<h2>Run a query</h2>
+<p>Enter your query and hit play!</p>
+<p>Additional notes:</p>
+<ul>
+<li>Do not include a trailing semicolon on the last statement otherwise
+the query will fail.</li>
+<li>Statements that do not return rows (like <code class="hljs">CREATE</code> or <code class="hljs">INSERT</code>
+statements) will succeed but show an error. Ignore the error. This
+is a bug. <a href="https://github.com/multiprocessio/datastation/issues/154">See
+#154</a> to
+follow the issue.</li>
+</ul>
+<p><img src="/run-oracle-query.gif" alt="Run Oracle query" /></p>
+<p>You can always download the results of a panel by hitting the download
+button. Or you can reference the results in other panels.</p>
+<p><img src="/download-oracle-panel-results.png" alt="Download panel results" /></p>
+<h1>Graph the results</h1>
+<p>Create a new panel. Change the type to Graph. Select the previous
+Database panel as the panel source. Then select the X and Y columns
+you'd like to graph.</p>
+<p>Finally, click the play button to generate the graph. You can download
+the graph as a PNG by clicking the download button.</p>
+<p><img src="/graph-oracle-database-results.gif" alt="Graph database results" /></p>
+<p>Note: Ctrl-r is a shortcut for hitting the play button when you are
+focused on one panel.</p>
+
+
+<h4 class="about-this-page">About this page</h4>
+<p>
+  See an error or want to add a clarification? This page is
+  generated from <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/tutorials/Query_Oracle_with_DataStation.md">this file on Github</a>.
+  <br /><br />
+  Last edited Jan 20, 2022.
+</p>
+{% endblock %}
