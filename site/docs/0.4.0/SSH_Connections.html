@@ -3,9 +3,11 @@
 {% set doctitle = 'SSH Connections' %}
 
 {% extends 'docs/layout.tmpl' %}
-/
-{% block docbody %}
 
+{% block docbody %}
+<div><a href="/docs/">Back to documentation</a></div>
+
+<h1>SSH Connections</h1>
 <p>An SSH connection is all the configuration needed to connect to a
 server running SSH. Once a connection is set up, it can be used in
 File panels, HTTP panels, and SQL panels to access remote data that
@@ -13,8 +15,12 @@ you wouldn't otherwise be able to.</p>
 <p>You can connect using either a username/password combination or an SSH
 private key file.</p>
 
-<h3>Page Source</h3>
+
+<h4 class="about-this-page">About this page</h4>
 <p>
-  See an error in the documentation or want to add a clarification? This <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/0.4.0/SSH_Connections.md">page source is on Github</a>.
+  See an error or want to add a clarification? This page is
+  generated from <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/0.4.0/SSH_Connections.md">this file on Github</a>.
+  <br /><br />
+  Last edited Jan 20, 2022.
 </p>
 {% endblock %}

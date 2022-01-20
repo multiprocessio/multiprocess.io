@@ -3,9 +3,11 @@
 {% set doctitle = 'HTTP Panels' %}
 
 {% extends 'docs/layout.tmpl' %}
-/
-{% block docbody %}
 
+{% block docbody %}
+<div><a href="/docs/">Back to documentation</a></div>
+
+<h1>HTTP Panels</h1>
 <p>These panels allow you to making API requests. You can make GET, POST,
 PUT, HEAD, or DELETE requests.</p>
 <h1>With Server</h1>
@@ -13,8 +15,12 @@ PUT, HEAD, or DELETE requests.</p>
 <strong>With Server</strong> option. Once selected, you will be prompted to pick from
 one of the <a href="../SSH_Connections">SSH connections</a> you set up previously.</p>
 
-<h3>Page Source</h3>
+
+<h4 class="about-this-page">About this page</h4>
 <p>
-  See an error in the documentation or want to add a clarification? This <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/0.6.0/Panels/HTTP_Panels.md">page source is on Github</a>.
+  See an error or want to add a clarification? This page is
+  generated from <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/0.6.0/Panels/HTTP_Panels.md">this file on Github</a>.
+  <br /><br />
+  Last edited Jan 20, 2022.
 </p>
 {% endblock %}

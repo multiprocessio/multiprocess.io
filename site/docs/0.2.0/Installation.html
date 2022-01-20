@@ -3,9 +3,11 @@
 {% set doctitle = 'Installation' %}
 
 {% extends 'docs/layout.tmpl' %}
-/
-{% block docbody %}
 
+{% block docbody %}
+<div><a href="/docs/">Back to documentation</a></div>
+
+<h1>Installation</h1>
 <p>Pre-built binaries are provided for 64-bit x86 machines running macOS,
 Windows, and Linux.</p>
 <h1>MacOS</h1>
@@ -22,8 +24,12 @@ few second long security scan the first time you run.</p>
 <p>Other systems and architectures may be supported but you will need to
 build them yourself. Follow <a href="https://github.com/multiprocessio/datastation/blob/master/HACKING.html">instructions in the repo</a>.</p>
 
-<h3>Page Source</h3>
+
+<h4 class="about-this-page">About this page</h4>
 <p>
-  See an error in the documentation or want to add a clarification? This <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/0.2.0/Installation.md">page source is on Github</a>.
+  See an error or want to add a clarification? This page is
+  generated from <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/0.2.0/Installation.md">this file on Github</a>.
+  <br /><br />
+  Last edited Jan 20, 2022.
 </p>
 {% endblock %}

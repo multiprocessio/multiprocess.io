@@ -1,5 +1,7 @@
 import os
 import glob
+import re
+import shutil
 from datetime import datetime, timezone
 
 import yaml
@@ -15,41 +17,77 @@ DOCS_TEMPLATE = """{# DO NOT EDIT -- THIS FILE IS AUTO-GENERATED #}
 {% set doctitle = 'TITLE' %}
 
 {% extends 'docs/layout.tmpl' %}
-/
+
 {% block docbody %}
+BACKLINK
+
 BODY
-<h3>Page Source</h3>
+
+<h4 class="about-this-page">About this page</h4>
 <p>
-  See an error in the documentation or want to add a clarification? This <a href="PAGE">page source is on Github</a>.
+  See an error or want to add a clarification? This page is
+  generated from <a href="PAGE">this file on Github</a>.
+  <br /><br />
+  Last edited LAST_EDITED.
 </p>
 {% endblock %}"""
-for file in glob.glob("datastation-documentation/*.md") + glob.glob("datastation-documentation/**/*.md", recursive=True):
+
+DOCS_SOURCE = "datastation-documentation"
+DOCS_SITE_ROOT = "site/docs/"
+
+def make_docs_glob(*suffixes):
+    all = []
+    for suffix in suffixes:
+        all += glob.glob(f"{DOCS_SOURCE}/{suffix}") + glob.glob(f"{DOCS_SOURCE}/**/{suffix}", recursive=True)
+    return all
+
+# Copy any images/gifs over
+for file in make_docs_glob("*.png", "*.gif"):
+    shutil.copy(file, os.path.join(out_base, os.path.basename(file)))
+
+# Rewrite md files from docs repo into HTML files for the site.
+for file in make_docs_glob("*.md"):
+    # Drops the first directory (the DOCS_SITE_ROOT)
     source = '/'.join(file.split('/')[1:])
     newfile = source.replace('.md', '.html').replace('README', 'index')
     if "LICENSE" in newfile:
         continue
-    docs_root = "site/docs/"
-    directory = docs_root + os.path.dirname(newfile)
+    directory = DOCS_SITE_ROOT + os.path.dirname(newfile)
     if not os.path.exists(directory):
         os.makedirs(directory)
 
-    with open(docs_root + newfile, 'w') as f:
+    with open(DOCS_SITE_ROOT + newfile, 'w') as f:
         with open(file) as original:
             original_file = original.read()
             raw = ''.join(original_file)
             raw = raw.replace('.md', '.html')
+            raw = re.sub(r'[a-zA-Z0-9\-_\/]*/([a-zA-Z0-9\-_]*\.(png|gif))', r'/\1', raw)
 
             html = marko.convert(raw)
             html = html.replace('<code>', '<code class="hljs">')
 
             title = html[:html.index('</h1>')].split('<h1>')[1].strip()
-            # Drop first header
-            html = html[html.index('</h1>') + len('</h1>'):]
-            if newfile == "index.html":
+            isroot = newfile == "index.html"
+            if isroot:
                 title = "Documentation"
             page = 'https://github.com/multiprocessio/datastation-documentation/blob/main/' + source
 
-            f.write(DOCS_TEMPLATE.replace('TITLE', title).replace('PAGE', page).replace("BODY", html))
+            last_edited = datetime.fromtimestamp(os.stat(file).st_mtime).strftime("%b %d, %Y")
+
+            backlink = '<div><a href="/docs/">Back to documentation</a></div>' if not isroot else ''
+
+            replaced = DOCS_TEMPLATE.replace(
+                'TITLE', title).replace(
+                    'BACKLINK', backlink).replace(
+                        'LAST_EDITED', last_edited).replace(
+                            'PAGE', page).replace(
+                                # Based on this dumb replace logic, BODY
+                                # must be replaced last otherwise the
+                                # previous replaces might match within the
+                                # actual post body.
+                                'BODY', html)
+
+            f.write(replaced)
 
 DEFAULT_DATA = {
     "title": "DataStation | The Data IDE for Developers",

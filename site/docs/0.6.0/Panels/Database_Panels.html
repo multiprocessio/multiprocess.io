@@ -3,9 +3,11 @@
 {% set doctitle = 'Database Panels' %}
 
 {% extends 'docs/layout.tmpl' %}
-/
-{% block docbody %}
 
+{% block docbody %}
+<div><a href="/docs/">Back to documentation</a></div>
+
+<h1>Database Panels</h1>
 <p>These panels allow you to query databases either locally or through an
 SSH proxy. You must first configure a <a href="../Data_Sources.html">data source</a> for the database you want to connect to. Then you can
 create a new panel and select the Database type and data source you
@@ -44,8 +46,12 @@ disable <code class="hljs">sslmode</code> in your connection. Append <code class
 database address. For example if you are running PostgreSQL locally
 you might set the database address to <code class="hljs">localhost?sslmode=disable</code>.</p>
 
-<h3>Page Source</h3>
+
+<h4 class="about-this-page">About this page</h4>
 <p>
-  See an error in the documentation or want to add a clarification? This <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/0.6.0/Panels/Database_Panels.md">page source is on Github</a>.
+  See an error or want to add a clarification? This page is
+  generated from <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/0.6.0/Panels/Database_Panels.md">this file on Github</a>.
+  <br /><br />
+  Last edited Jan 20, 2022.
 </p>
 {% endblock %}

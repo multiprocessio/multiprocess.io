@@ -1,7 +1,7 @@
 <link href="/style.css" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/modern-css-reset/dist/reset.min.css" />
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="/reset.min.css" />
 <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+<link href="/materialicons.css" rel="stylesheet">
 
 {% block head %}{% endblock %}
 
@@ -82,32 +82,79 @@
 </script>
 
 <script type="text/javascript">
-  // SOURCE: https://stackoverflow.com/a/7995898/1507139
-  var isMobile = Boolean(navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i));
-  if (isMobile) {
+// SOURCE: https://stackoverflow.com/a/7995898/1507139
+var isMobile = Boolean(navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i));
+if (isMobile) {
     var hideMobile = document.querySelectorAll('.hide-mobile');
     for (var i = 0; i < hideMobile.length; i++) {
-      hideMobile[i].remove();
+	hideMobile[i].remove();
     }
 
     var showMobile = document.querySelectorAll('.show-mobile');
     for (var i = 0; i < showMobile.length; i++) {
-      showMobile[i].className = showMobile[i].className.replace('show-mobile', '');
+	showMobile[i].className = showMobile[i].className.replace('show-mobile', '');
     }
-  }
+}
 
-if (location.pathname !== '/') {
-  const headers = document.querySelectorAll('h2, h3, h4, h5, h6, .post-body h1, .post-body h2, .post-body h3, .post-body h4, .post-body h5, .post-body h6');
-  for (let i = 0; i < headers.length; i++) {
-    const id = headers[i].innerHTML.replaceAll(' ', '-').toLowerCase();
-    headers[i].id = id;
-    if (!isMobile) {
-      const headerLink = document.createElement('a');
-      headerLink.className = 'header-link material-icons';
-      headerLink.innerHTML = 'link';
-      headerLink.href = window.location.pathname + '#' + id;
-      headers[i].prepend(headerLink);
+function makeToCElement({ name, id, level }) {
+    if (level === 0) {
+	const toc = document.createElement('div');
+	toc.level = level;
+	toc.className="toc";
+
+	const header = document.createElement('h4');
+	header.innerText = 'Contents';
+	toc.appendChild(header);
+
+	const ul = document.createElement('ul');
+	toc.appendChild(ul);
+	return toc;
     }
-  }
-  }
+
+    const li = document.createElement('li');
+    li.level = level;
+    li.className = "toc-element";
+
+    const link = document.createElement('a');
+    link.className = "toc-link";
+    link.href = "#" + id;
+    link.innerText = name;
+
+    const ul = document.createElement('ul');
+
+    li.appendChild(link);
+    li.appendChild(ul);
+
+    return li;
+}
+
+if (location.pathname.startsWith('/docs/') && location.pathname.length > '/docs/'.length) {
+    const headers = document.querySelectorAll('h2, h3, h4, h5, h6, .post-body h1, .post-body h2, .post-body h3, .post-body h4, .post-body h5, .post-body h6');
+    const tree = makeToCElement({ level: 0 });
+    const stack = [tree];
+    for (let i = 0; i < headers.length; i++) {
+	const h = headers[i]
+	const name = h.innerHTML;
+	if (name === 'About this page') {
+	    continue;
+	}
+
+	const id = name.replaceAll(' ', '-').toLowerCase();
+	h.id = id;
+
+	const level = +h.tagName.slice(1);
+
+	while (level <= stack[stack.length-1].level) {
+	    stack.pop();
+	}
+
+	const next = makeToCElement({ name, id, level });
+	// Add to tree
+	stack[stack.length-1].querySelector('ul').appendChild(next);
+	// Add to stack
+	stack.push(next);
+    }
+
+    document.querySelector('.post-body h1').after(tree);
+}
 </script>

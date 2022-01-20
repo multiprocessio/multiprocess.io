@@ -3,15 +3,27 @@
 {% set doctitle = 'Documentation' %}
 
 {% extends 'docs/layout.tmpl' %}
-/
+
 {% block docbody %}
 
+
+<h1>DataStation Documentation</h1>
 <p>DataStation is an open-source data IDE for developers. It allows you
 to easily build graphs and tables with data pulled from SQL databases,
 logging databases, metrics databases, HTTP servers, and all kinds of
 text and binary files. Need to join or munge data? Write embedded
 scripts as needed in Python, JavaScript, Ruby, R, or Julia. All in one
 application.</p>
+<h1>Tutorials</h1>
+<ul>
+<li><a href="./latest/Installation.html">Installation</a></li>
+<li>
+Query databases<ul>
+<li><a href="./tutorials/Query_MySQL_with_DataStation.html">MySQL</a></li>
+<li><a href="./tutorials/Query_PostgreSQL_with_DataStation.html">PostgreSQL</a></li>
+</ul>
+</li>
+</ul>
 <h1>Reference</h1>
 <ul>
 <li><a href="./latest/Installation.html">Installation</a></li>
@@ -39,8 +51,12 @@ Panels<ul>
 <li><a href="https://datastation.multiprocess.io/docs/0.0.3-alpha-release-notes.html">0.0.3-alpha</a></li>
 </ul>
 
-<h3>Page Source</h3>
+
+<h4 class="about-this-page">About this page</h4>
 <p>
-  See an error in the documentation or want to add a clarification? This <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/README.md">page source is on Github</a>.
+  See an error or want to add a clarification? This page is
+  generated from <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/README.md">this file on Github</a>.
+  <br /><br />
+  Last edited Jan 20, 2022.
 </p>
 {% endblock %}

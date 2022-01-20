@@ -3,9 +3,11 @@
 {% set doctitle = 'Installation' %}
 
 {% extends 'docs/layout.tmpl' %}
-/
-{% block docbody %}
 
+{% block docbody %}
+<div><a href="/docs/">Back to documentation</a></div>
+
+<h1>Installation</h1>
 <p>DataStation can run as either a desktop application or as a server
 application. You will need to have an OIDC provider if you want to run
 the server application. The server application comes with the ability
@@ -79,8 +81,12 @@ systemd timer for DataStation exports.</p>
 </code></pre>
 <p>And then restart the systemd service: <code class="hljs">sudo systemctl restart datastation</code>.</p>
 
-<h3>Page Source</h3>
+
+<h4 class="about-this-page">About this page</h4>
 <p>
-  See an error in the documentation or want to add a clarification? This <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/0.4.0/Installation.md">page source is on Github</a>.
+  See an error or want to add a clarification? This page is
+  generated from <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/0.4.0/Installation.md">this file on Github</a>.
+  <br /><br />
+  Last edited Jan 20, 2022.
 </p>
 {% endblock %}

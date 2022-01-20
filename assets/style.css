@@ -2,19 +2,21 @@ html, body {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
-    background: #fbfbfb;
+    /*background: #efefef;*/
+    background: f3f4ff;
 }
 
 h1, h2, h3, h4, h5, h6, table {
     font-family: sans-serif;
+    font-weight: 100;
 }
 
 h1 {
-    font-size: 3rem;
+    font-size: 2.5rem;
 }
 
 h2 {
-    font-size: 2rem;
+    font-size: 1.9rem;
 }
 
 h3 {
@@ -30,11 +32,11 @@ a {
     cursor: pointer;
     cursor: hand;
     text-decoration: none;
-    color: blue;
+    color: #3535d0
 }
 
 a:visited {
-    color: blue;
+    color: #3535d0
 }
 
 .notification {
@@ -48,6 +50,10 @@ a:visited {
 .notification a {
     color: white;
     text-decoration: underline;
+}
+
+header {
+    background: white;
 }
 
 header .header-right > * {
@@ -64,7 +70,10 @@ h3:hover .header-link,
 h4:hover .header-link,
 h5:hover .header-link,
 h6:hover .header-link {
-    display: inline-block;
+    display: block;
+    position: absolute;
+    top: 10px;
+    left: -30px;
 }
 
 .button {
@@ -106,12 +115,7 @@ h6:hover .header-link {
 }
 
 section {
-    padding: 100px 0;
-}
-
-section:nth-of-type(odd) {
-    background: #24272d;
-    color: white;
+    padding: 50px 0;
 }
 
 p a {
@@ -120,6 +124,7 @@ p a {
 
 footer {
     padding: 15px;
+    background: white;
 }
 
 #title {
@@ -399,9 +404,10 @@ footer .container > * {
     width: 1200px;
 }
 
-.post-body  p, .post-header p, .post-footer p, .post-body li, .post-body pre {
+.post-body {
     width: 750px;
     max-width: 100%;
+    margin: 0 auto;
 }
 
 .post-header a, .post-footer a {
@@ -421,12 +427,15 @@ footer .container > * {
     font-weight: bold;
 }
 
+.post-tags {
+    margin-bottom: 15px;
+}
+
 .post-tag {
     margin-top: 15px;
     font-size: .9rem;
     display: inline-block;
     margin-right: 5px;
-    background: #473c56;
     padding: 0 5px;
     border: 1px solid #7b6b90;
 }
@@ -550,15 +559,15 @@ ul.checks li:before {
     left: 0;
 }
 
-.post-footer .subscribe {
-    margin: 0 5px;
-    background: #9f04ff;
-    display: inline-block;
-    padding: 15px;
-    text-decoration: none;
-    font-weight: 600;
-    border: 0;
-    color: white;
+.subscribe-footer {
+    text-align: center;
+    font-size: 1.5rem;
+    padding: 50px;
+    border: 1px solid #3535d0;
+}
+
+.subscribe-footer a {
+    font-weight: 900;
 }
 
 .post-footer input {

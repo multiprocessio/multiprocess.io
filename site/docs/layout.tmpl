@@ -7,11 +7,6 @@
 {% endblock %}
 
 {% block body %}
-<section>
-  <div class="container">
-    <h1>{{doctitle}}</h1>
-    {% if subtitle %}{{ subtitle }}{% endif %}
-</section>
 <section class="post-body">
   <div class="container">
     {% block docbody %}{% endblock %}
