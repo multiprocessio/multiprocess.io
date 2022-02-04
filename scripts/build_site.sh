@@ -18,7 +18,7 @@ if [[ "$1" != "--skip-stars" ]]; then
     # Update stars count
     for starfile in $(find build/stars/*.html); do
 	project="$(basename $starfile .html)"
-	stars="$(curl -L https://api.github.com/repos/multiprocessio/$project | jq '.stargazers_count')"
+	stars="$(curl -L https://api.github.com/repos/multiprocessio/$project | jq '.stargazers_count' | ./scripts/millify.py)"
 	sed -i 's/STARS/'"$stars"'/g' "$starfile"
     done
 fi

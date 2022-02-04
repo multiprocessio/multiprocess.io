@@ -2,6 +2,7 @@ import os
 import glob
 import re
 import shutil
+import subprocess
 from datetime import datetime, timezone
 
 import yaml
@@ -72,7 +73,13 @@ for file in make_docs_glob("*.md"):
                 title = "Documentation"
             page = 'https://github.com/multiprocessio/datastation-documentation/blob/main/' + source
 
-            last_edited = datetime.fromtimestamp(os.stat(file).st_mtime).strftime("%b %d, %Y")
+            file_to_check_time = source
+            if source.startswith('latest'):
+                without_latest = source[len('latest'):]
+                file_to_check_time = os.readlink(DOCS_SOURCE + '/latest') + without_latest
+            mtime = subprocess.check_output(['git', 'log', '-1', '--pretty=format:%ct', file_to_check_time], cwd=DOCS_SOURCE)
+
+            last_edited = datetime.fromtimestamp(int(mtime.decode())).strftime("%b %d, %Y")
 
             backlink = '<div><a href="/docs/">Back to documentation</a></div>' if not isroot else ''
 
