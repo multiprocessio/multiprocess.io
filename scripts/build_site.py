@@ -42,10 +42,6 @@ def make_docs_glob(*suffixes):
         all += glob.glob(f"{DOCS_SOURCE}/{suffix}") + glob.glob(f"{DOCS_SOURCE}/**/{suffix}", recursive=True)
     return all
 
-# Copy any images/gifs over
-for file in make_docs_glob("*.png", "*.gif"):
-    shutil.copy(file, os.path.join(out_base, os.path.basename(file)))
-
 # Rewrite md files from docs repo into HTML files for the site.
 for file in make_docs_glob("*.md"):
     if '/internal/' in file:
