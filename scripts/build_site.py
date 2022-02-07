@@ -48,6 +48,8 @@ for file in make_docs_glob("*.png", "*.gif"):
 
 # Rewrite md files from docs repo into HTML files for the site.
 for file in make_docs_glob("*.md"):
+    if '/internal/' in file:
+        continue
     # Drops the first directory (the DOCS_SITE_ROOT)
     source = '/'.join(file.split('/')[1:])
     newfile = source.replace('.md', '.html').replace('README', 'index')
@@ -62,10 +64,11 @@ for file in make_docs_glob("*.md"):
             original_file = original.read()
             raw = ''.join(original_file)
             raw = raw.replace('.md', '.html')
-            raw = re.sub(r'[a-zA-Z0-9\-_\/]*/([a-zA-Z0-9\-_]*\.(png|gif))', r'/\1', raw)
+            raw = re.sub(r'([a-zA-Z0-9.\-_\/]*/([a-zA-Z0-9\-_]*\.(png|gif)))', r'https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main\1', raw)
 
             html = marko.convert(raw)
             html = html.replace('<code>', '<code class="hljs">')
+            html = re.sub(r'class="(language-[a-zA-Z0-9]+)"', r'class="hljs \1"', html)
 
             title = html[:html.index('</h1>')].split('<h1>')[1].strip()
             isroot = newfile == "index.html"
