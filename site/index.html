@@ -1,10 +1,6 @@
 {% extends "layout.tmpl" %}
 {% block body %}
 <style>
-  :root {
-      --background-dark: #252539;
-  }
-  
   /* https://elad2412.github.io/the-new-css-reset/ */
   /*** The new CSS Reset - version 1.4.0 (last updated 16.11.2021) ***/
 
@@ -49,6 +45,10 @@
   }
 </style>
 <style>
+  :root {
+      --background-dark: #252539;
+  }
+  
   * {
       transition: border .5s, background-color .5s, opacity 3s;
   }
@@ -57,6 +57,21 @@
       font-size: 3rem;
       font-weight: bold;
       margin-bottom: 30px;
+  }
+
+  ul.no-decoration {
+      margin: 0;
+  }
+
+  ul.no-decoration li {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      padding: 5px 0;
+  }
+
+  ul.no-decoration li .material-icons {
+      padding-right: 5px;
   }
 
   section:not(:first-of-type) {
@@ -110,6 +125,10 @@
       background: var(--background-dark);
   }
 
+  #hero .container {
+      padding: 50px 15px;
+  }
+
   #hero h1 {
       font-size: 2rem;
       font-weight: bold;
@@ -142,6 +161,10 @@
       text-decoration: underline;
   }
 
+  .features-3 > div {
+      max-width: 33%;
+  }
+
   .product-features {
       padding-top: 15px;
   }
@@ -165,6 +188,37 @@
       color: white;
   }
 
+  section h2 .material-icons {
+      padding-right: 10px;
+  }
+
+  section.h2-center h2 {
+      font-size: 1.5rem;
+      text-align: center;
+  }
+
+  .image-collection {
+      display: flex;
+      flex-wrap: wrap;
+  }
+
+  .image-collection .img {
+      width: 75px;
+      height: 75px;
+      margin: 10px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center center;
+  }
+
+  .image-collection .img.long {
+      width: 100px;
+  }
+
+  .hide-non-mobile {
+      display: none;
+  }
+
   @media only screen and (max-width: 1100px) {
       header, section:not(:first-of-type), #hero .tabs-container {
 	  padding: 15px 0;
@@ -178,8 +232,17 @@
 	  font-size: 2.5rem;
       }
 
+      #hero-desktop .flex--horizontal {
+	  flex-direction: column-reverse;
+      }
+
       #hero .product-features li {
 	  font-size: .8rem;
+      }
+
+      .container {
+	  max-width: 100%;
+	  width: initial;
       }
 
       #hero .tabs-controls .tab-control {
@@ -190,6 +253,14 @@
 	  align-items: center;
       }
 
+      .features-3 > div {
+	  max-width: initial;
+      }
+
+      .hide-non-mobile {
+	  display: initial;
+      }
+      
       .hide-mobile {
 	  display: none;
       }
@@ -198,9 +269,10 @@
 <section id="hero">
   <div class="container">
     <div id="hero-desktop">
+      <h1 class="hide-non-mobile">The open-source <span class="color-yellow">Data IDE</span> for <span class="color-green">Developers</span></h1>
       <div class="flex flex--horizontal">
 	<div class="hero-text">
-	  <h1>The open-source <span class="color-yellow">Data IDE</span> for <span class="color-green">Developers</span></h1>
+	  <h1 class="hide-mobile">The open-source <span class="color-yellow">Data IDE</span> for <span class="color-green">Developers</span></h1>
 	  <ul class="product-features">
 	    <li>
 	      <span class="material-icons">search</span>
@@ -224,7 +296,7 @@
 	    </li>
           </ul>
 	</div>
-	<div class="hero-picture hide-mobile">
+	<div class="hero-picture">
 	  <div class="carousel">
 	    <div class="carousel-images">
 	      <div class="carousel-image" id="carousel-database">
@@ -259,34 +331,73 @@
     </div>
   </div>
 </section>
-<section>
+<section class="h2-center">
   <div class="container">
-    <h1>Your data is all over the place</h1>
-    <div class="features flex flex--horizontal">
-      <div>
-	<h2>Databases</h2>
-	<ul>
-	  <li>PostgreSQL, MySQL, Oracle, SQL Server, SQLite</li>
-	  <li>Cassandra, Scylla, QuestDB</li>
-	  <li>Elasticsearch, CrateDB</li>
-	  <li>ClickHouse, BigQuery, Snowflake, Yugabyte, Timescale</li>
-	  <li>Influx, Prometheus</li>
-	  <li>and so on</li>
-	</ul>
-      </div>
+    <h3>You're developer at a SaaS company, trying to build reports.</h3>
+    <h1>But your data is all over the place</h1>
+    <div class="features features-3 flex flex--horizontal">
       <div>
 	<h2>REST APIs</h2>
-	<ul>
-	  <li>JIRA, Github, Gitlab, Asana</li>
-	  <li>Salesforce, HubSpot, SugarCRM</li>
-	  <li>Assorted internal systems</li>
-	</ul>
+	<div class="image-collection">
+	  <div class="img" style="background-image: url('https://wac-cdn.atlassian.com/dam/jcr:75ba14ba-5e19-46c7-98ef-473289b982a7/Jira%20Software-blue.svg?cdnVersion=199')"></div>
+	  <div class="img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Zendesk_logo.svg/2560px-Zendesk_logo.svg.png')"></div>
+	  <div class="img" style="background-image: url('https://about.gitlab.com/images/press/logo/png/gitlab-logo-gray-stacked-rgb.png')"></div>
+	  <div class="img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/2048px-Octicons-mark-github.svg.png')"></div>
+	</div>
+      </div>
+      <div>
+	<h2>Databases</h2>
+	<div class="image-collection">
+	  <div class="img long" alt="Prometheus" style="background-image: url('https://cncf-branding.netlify.app/img/projects/prometheus/horizontal/black/prometheus-horizontal-black.png')"></div>
+	  <div class="img long" style="background-image: url('https://cxl.com/wp-content/uploads/2019/10/google-bigquery-logo-1.png')"></div>
+	  <div class="img" alt="PostgreSQL" style="background-image: url('https://wiki.postgresql.org/images/3/30/PostgreSQL_logo.3colors.120x120.png')"></div>
+	  <div class="img" alt="Cassandra" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Cassandra_logo.svg/279px-Cassandra_logo.svg.png')"></div>
+	  <div class="img" alt="MySQL" style="background-image: url('https://upload.wikimedia.org/wikipedia/en/thumb/d/dd/MySQL_logo.svg/1280px-MySQL_logo.svg.png')"></div>
+	  <div class="img long" alt="Elasticsearch" style="background-image: url('https://static-www.elastic.co/v3/assets/bltefdd0b53724fa2ce/blt5ebe80fb665aef6b/5ea8c8f26b62d4563b6ecec2/brand-elasticsearch-220x130.svg')"></div>
+	  <div class="img" style="background-image: url('https://www.scylladb.com/wp-content/uploads/brand-logo-vert@2x.png')"></div>
+	  <div class="img" style="background-image: url('https://logowik.com/content/uploads/images/microsoft-sql-server4529.jpg')"></div>
+	  <div class="img long" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Snowflake_Logo.svg/1280px-Snowflake_Logo.svg.png')"></div>
+	  <div class="img long" alt="Prometheus" style="background-image: url('https://influxdata.github.io/branding/img/downloads/influxdata-logo--full-preview.svg')"></div>
+	</div>
       </div>
       <div>
 	<h2>Files</h2>
-	<ul>
-	  <li>Excel sheets from a product manager</li>
-	  <li>CSVs, Parquet files from data scientists</li>
+	<div class="image-collection">
+	  <div class="img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Microsoft_Office_Excel_%282019%E2%80%93present%29.svg/2203px-Microsoft_Office_Excel_%282019%E2%80%93present%29.svg.png')"></div>
+	  <div class="img long" style="background-image: url('https://parquet.apache.org/assets/img/parquet_logo.png')"></div>
+	  <div class="img long" style="background-image: url('https://www.nginx.com/wp-content/uploads/2018/08/NGINX-logo-rgb-large.png')"></div>
+	  <div class="img" style="background-image: url('https://storage.googleapis.com/website-dev-images/sites/default/files/Untitled%20design%20%2852%29.jpg')"></div>
+	  <div class="img long" style="background-image: url('https://www.brcline.com/wp-content/uploads/2020/06/apache-logo.png')"></div>
+	</div>
+      </div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="container">
+    <h1>Existing interfaces are limited</h1>
+    <div class="features features-4 flex flex--horizontal">
+      <div>
+	<h2>BI Tools, SQL GUIs</h2>
+	<ul class="no-decoration">
+	  <li><span class="material-icons">sentiment_very_dissatisfied</span>SQL-only</li>
+	  <li><span class="material-icons">code_off</span>No escape route to code</li>
+	  <li><span class="material-icons">contact_mail</span>Great for product managers</li>
+	</ul>
+      </div>
+      <div>
+	<h2>Data Warehouse</h2>
+	<ul class="no-decoration">
+	  <li><span class="material-icons">attach_money</span>Expensive</li>
+	  <li><span class="material-icons">support_agent</span>Hard for an individual</li>
+	  <li><span class="material-icons">groups</span>Great for mature engineering teams</li>
+	</ul>
+      </div>
+      <div>
+	<h2>HTTP GUIs</h2>
+	<ul class="no-decoration">
+	  <li><span class="material-icons">sentiment_very_dissatisfied</span>API-only</li>
+	  <li><span class="material-icons">sentiment_dissatisfied</span>Great for developers who don't use databases</li>
 	</ul>
       </div>
     </div>
@@ -294,29 +405,30 @@
 </section>
 <section>
   <div class="container">
-    <h1>Limited options for interacting with all of it</h1>
-    <div class="features flex flex--horizontal">
+    <h1>DataStation helps developers easily interact with their data</h1>
+    <div class="features features-3 flex flex--horizontal">
       <div>
-	<h2>BI Tools, SQL GUIs</h2>
-	<ul>
-	  <li>Constrained to SQL databases</li>
-	  <li>How to escape back into code for complex reports?</li>
-	</ul>
+	<h2><span class="material-icons">download</span>Try it on your laptop today</h2>
+	<p>
+	  Join the nearly 2000 folks who have installed
+	  DataStation on their laptop.
+	</p>
+	<a href="/docs/latest/Installation.html">Install the app</a>
       </div>
       <div>
-	<h2>Data Warehouse</h2>
-	<ul>
-	  <li>Expensive to purchase</li>
-	  <li>Expensive to maintain</li>
-	  <li>Expensive to set up each new data source</li>
-	  <li>Impossible for an individual developer</li>
-	</ul>
+	<h2><span class="material-icons">library_books</span>Read the docs</h2>
+	<p>
+	  Learn how to query all supported databases. How to graph and
+	  view results. And how to script and join different panels.
+	</p>
+	 <a href="/docs">Documentation</a>
       </div>
       <div>
-	<h2>Custom Scripts</h2>
-	<ul>
-	  <li>Time consuming</li>
-	  <li>Infinitely flexible</li>
+	<h2><span class="material-icons">volunteer_activism</span>Join the community</h2>
+	<ul class="no-decoration">
+	  <li><a href="https://discord.multiprocess.io">400+ members on Discord</a></li>
+	  <li><a href="https://forms.gle/wH5fdxrxXwZHoNxk8">Subscribe to email updates</a></li>
+	  <li><a href="mailto:hi@multiprocess.io">Say hi</a></li>
 	</ul>
       </div>
     </div>
