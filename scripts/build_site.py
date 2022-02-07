@@ -96,7 +96,7 @@ for file in make_docs_glob("*.md"):
             f.write(replaced)
 
 DEFAULT_DATA = {
-    "title": "DataStation | The Data IDE for Developers",
+    "title": "DataStation | The Open-Source Data IDE for Developers",
     "description": "DataStation is an open-source data IDE for developers. It allows you to easily build graphs and tables with data pulled from SQL databases, logging databases, metrics databases, HTTP servers, and all kinds of text and binary files. Need to join or munge data? Write embedded scripts as needed in Python, JavaScript, Ruby, R, or Julia. All in one application."
 }
 

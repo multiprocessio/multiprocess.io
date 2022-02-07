@@ -1,6 +1,10 @@
 {% extends "layout.tmpl" %}
 {% block body %}
 <style>
+  :root {
+      --background-dark: #252539;
+  }
+  
   /* https://elad2412.github.io/the-new-css-reset/ */
   /*** The new CSS Reset - version 1.4.0 (last updated 16.11.2021) ***/
 
@@ -103,13 +107,18 @@
   section#hero {
       padding: 0;
       color: white;
-      background: #252529;
+      background: var(--background-dark);
   }
 
   #hero h1 {
-      font-size: 4rem;
+      font-size: 2rem;
       font-weight: bold;
       margin-bottom: 0;
+      min-width: 300px;
+  }
+
+  #hero h1 .color-yellow {
+      font-size: 4rem;
   }
 
   #hero h2 {
@@ -147,12 +156,12 @@
       padding-right: 10px;
   }
 
-  #hero .tabs-container {
-      padding: 50px 0;
+  .container {
+      max-width: 1200px;
   }
-
+  
   section:nth-of-type(odd) {
-      background: #24272d;
+      background: var(--background-dark);
       color: white;
   }
 
@@ -187,119 +196,63 @@
   }
 </style>
 <section id="hero">
-  <div class="tabs">
-    <div class="tabs-controls-container">
-      <div class="container">
-	<div class="tabs-controls">
-	  <a href="#hero-desktop" class="tab-control">For Developers</a>
-	  <a href="#hero-server" class="tab-control">For Business</a>
+  <div class="container">
+    <div id="hero-desktop">
+      <div class="flex flex--horizontal">
+	<div class="hero-text">
+	  <h1>The open-source <span class="color-yellow">Data IDE</span> for <span class="color-green">Developers</span></h1>
+	  <ul class="product-features">
+	    <li>
+	      <span class="material-icons">search</span>
+	      <span>Load from databases, REST APIs and files</span>
+	    </li>
+	    <li>
+	      <span class="material-icons">code</span>
+	      <span>Script in your favorite language</span>
+	    </li>
+	    <li>
+	      <span class="material-icons">bar_chart</span>
+	      <span>Create beautiful visualizations</span>
+	    </li>
+	    <li>
+	      <span class="material-icons">lock</span>
+	      <span>Data never leaves your machine</span>
+	    </li>
+	    <li>
+	      <span class="material-icons color-light-purple">favorite</span>
+	      <span>Desktop app on Windows, macOS, or Linux</span>
+	    </li>
+          </ul>
 	</div>
-      </div>
-    </div>
-    <div class="tabs-container">
-      <div class="container">
-	<div id="hero-desktop" class="tabs-body">
-	  <div class="flex flex--horizontal">
-	    <div class="hero-text">
-	      <h1><span class="color-yellow">SQL IDE</span> meets <span class="color-green">Computational Notebook</span>.</h1>
-	      <ul class="product-features">
-		<li>
-		  <span class="material-icons">search</span>
-		  <span>Load from databases, REST APIs and files</span>
-		</li>
-		<li>
-		  <span class="material-icons">code</span>
-		  <span>Script in your favorite language</span>
-		</li>
-		<li>
-		  <span class="material-icons">bar_chart</span>
-		  <span>Create beautiful visualizations</span>
-		</li>
-		<li>
-		  <span class="material-icons">lock</span>
-		  <span>Data never leaves your machine</span>
-		</li>
-		<li>
-		  <span class="material-icons color-light-purple">favorite</span>
-		  <span>Desktop app on Windows, macOS, or Linux</span>
-		</li>
-              </ul>
-	    </div>
-	    <div class="hero-picture hide-mobile">
-	      <div class="carousel">
-		<div class="carousel-images">
-		  <div class="carousel-image" id="carousel-database">
-		    <img loading="lazy" src="/database-panel.png" />
-		    <small>Query SQL and non-SQL databases</small>
-		  </div>
-		  <div class="carousel-image" id="carousel-http">
-		    <img loading="lazy" src="/http-panel.png" />
-		    <small>Query REST APIs</small>
-		  </div>
-		  <div class="carousel-image" id="carousel-file">
-		    <img loading="lazy" src="/file-panel.png" />
-		    <small>Read local and remote files</small>
-		  </div>
-      <div class="carousel-image" id="carousel-script">
-		    <img loading="lazy" src="/visual-transform-panel.png" />
-		    <small>Apply transformations without code</small>
-		  </div>
-		  <div class="carousel-image" id="carousel-script">
-		    <img loading="lazy" src="/code-panel.png" />
-		    <small>Or script in Python, JavaScript, Ruby, R, Julia</small>
-		  </div>
-		  <div class="carousel-image" id="carousel-visualize">
-		    <img loading="lazy" src="/visualize-panel.png" />
-		    <small>Visualize results</small>
-		  </div>
-		</div>
-		<div class="carousel-selectors"></div>
+	<div class="hero-picture hide-mobile">
+	  <div class="carousel">
+	    <div class="carousel-images">
+	      <div class="carousel-image" id="carousel-database">
+		<img loading="lazy" src="/database-panel.png" />
+		<small>Query SQL and non-SQL databases</small>
+	      </div>
+	      <div class="carousel-image" id="carousel-http">
+		<img loading="lazy" src="/http-panel.png" />
+		<small>Query REST APIs</small>
+	      </div>
+	      <div class="carousel-image" id="carousel-file">
+		<img loading="lazy" src="/file-panel.png" />
+		<small>Read local and remote files</small>
+	      </div>
+	      <div class="carousel-image" id="carousel-script">
+		<img loading="lazy" src="/visual-transform-panel.png" />
+		<small>Apply transformations without code</small>
+	      </div>
+	      <div class="carousel-image" id="carousel-script">
+		<img loading="lazy" src="/code-panel.png" />
+		<small>Or script in Python, JavaScript, Ruby, R, Julia</small>
+	      </div>
+	      <div class="carousel-image" id="carousel-visualize">
+		<img loading="lazy" src="/visualize-panel.png" />
+		<small>Visualize results</small>
 	      </div>
 	    </div>
-	  </div>
-	</div>
-	<div id="hero-server" class="tabs-body">
-	  <div class="flex flex--horizontal">
-	    <div class="hero-text">
-	      <h1>Turn scripts into <span class="color-yellow">dashboards</span> and <span class="color-green">exports</span>.</h1>
-	      <ul class="product-features">
-		<li>
-		  <span class="material-icons">bar_chart</span>
-		  <span>Create reports on your data, wherever it is</span>
-		</li>
-		<li>
-		  <span class="material-icons">schedule</span>
-		  <span>Schedule recurring exports of reports</span>
-		</li>
-		<li>
-		  <span class="material-icons">code</span>
-		  <span>Customize everything through scripts</span>
-		</li>
-		<li>
-		  <span class="material-icons">groups</span>
-		  <span>Work on projects as a team</span>
-		</li>
-		<li>
-		  <span class="material-icons color-light-purple">favorite</span>
-		  <span>It's easy! No ETL processes required</span>
-		</li>
-              </ul>
-	    </div>
-	    <div class="hero-picture hide-mobile">
-	      <div class="carousel">
-		<div class="carousel-images">
-		  <div class="carousel-image">
-		    <img loading="lazy" src="/0.3.0-dashboard.png" />
-		    <small>Share read-only dashboard views</small>
-		  </div>
-		  <div class="carousel-image">
-		    <img loading="lazy" src="/0.3.0-exports.png" />
-		    <small>Schedule email exports of projects</small>
-		  </div>
-		</div>
-		<div class="carousel-selectors"></div>
-	      </div>
-	    </div>
+	    <div class="carousel-selectors"></div>
 	  </div>
 	</div>
       </div>
@@ -308,45 +261,32 @@
 </section>
 <section>
   <div class="container">
-    <h1 id="supported">Supported ____</h1>
+    <h1>Your data is all over the place</h1>
     <div class="features flex flex--horizontal">
       <div>
 	<h2>Databases</h2>
 	<ul>
-	  <li>SQLite</li>
-	  <li>PostgreSQL</li>
-	  <li>MySQL</li>
-	  <li>SQL Server</li>
-	  <li>Oracle</li>
-	  <li>ClickHouse</li>
-	  <li>Snowflake</li>
-	  <li>Elasticsearch</li>
-	  <li>InfluxDB</li>
-	  <li>Prometheus</li>
+	  <li>PostgreSQL, MySQL, Oracle, SQL Server, SQLite</li>
+	  <li>Cassandra, Scylla, QuestDB</li>
+	  <li>Elasticsearch, CrateDB</li>
+	  <li>ClickHouse, BigQuery, Snowflake, Yugabyte, Timescale</li>
+	  <li>Influx, Prometheus</li>
+	  <li>and so on</li>
 	</ul>
       </div>
       <div>
-	<h2>Languages</h2>
+	<h2>REST APIs</h2>
 	<ul>
-	  <li>Python</li>
-	  <li>Node.js</li>
-	  <li>Ruby</li>
-	  <li>R</li>
-	  <li>Julia</li>
+	  <li>JIRA, Github, Gitlab, Asana</li>
+	  <li>Salesforce, HubSpot, SugarCRM</li>
+	  <li>Assorted internal systems</li>
 	</ul>
       </div>
       <div>
-	<h2>File Types</h2>
+	<h2>Files</h2>
 	<ul>
-	  <li>Excel</li>
-	  <li>CSV</li>
-	  <li>JSON</li>
-	  <li>JSON Newline</li>
-	  <li>Parquet</li>
-	  <li>Apache Access Logs</li>
-	  <li>Apache Error Logs</li>
-	  <li>NGINX Access Logs</li>
-	  <li>Custom Regex</li>
+	  <li>Excel sheets from a product manager</li>
+	  <li>CSVs, Parquet files from data scientists</li>
 	</ul>
       </div>
     </div>
@@ -354,83 +294,32 @@
 </section>
 <section>
   <div class="container">
-    <h1 id="why">Why use DataStation over ____</h1>
+    <h1>Limited options for interacting with all of it</h1>
     <div class="features flex flex--horizontal">
       <div>
-	<h2>a SQL GUI?</h2>
+	<h2>BI Tools, SQL GUIs</h2>
 	<ul>
-	  <li>Query non-SQL databases</li>
-	  <li>Query REST servers</li>
-	  <li>Import files from disk</li>
-	  <li>Script against results in your favorite scripting language</li>
-	  <li>Host dashboards (in Server mode)</li>
-	  <li>Recurring email exports (in Server mode)</li>
+	  <li>Constrained to SQL databases</li>
+	  <li>How to escape back into code for complex reports?</li>
 	</ul>
       </div>
       <div>
-	<h2>Jupyter?</h2>
+	<h2>Data Warehouse</h2>
 	<ul>
-	  <li>Easy installation. No server needed (unless you want it!)</li>
-	  <li>Built-in integrations with databases, REST servers, files local or over SSH</li>
-	  <li>Focus on the business logic of your reports, not connection code</li>
+	  <li>Expensive to purchase</li>
+	  <li>Expensive to maintain</li>
+	  <li>Expensive to set up each new data source</li>
+	  <li>Impossible for an individual developer</li>
 	</ul>
       </div>
       <div>
-	<h2>custom scripts?</h2>
+	<h2>Custom Scripts</h2>
 	<ul>
-	  <li>No need to look up how to connect to your database</li>
-	  <li>No need to look up how to generate graphs</li>
-	  <li>No need to figure out how to host every new report</li>
-	  <li>No need to figure out how to set up recurring email exports of reports</li>
-	  <li>Focus on the business logic of your reports</li>
+	  <li>Time consuming</li>
+	  <li>Infinitely flexible</li>
 	</ul>
       </div>
     </div>
-  </div>
-</section>
-<section class="post-body">
-  <div class="container">
-    <h1 id="the-pitch">The Pitch</h1>
-    <p>
-      DataStation is built by Multiprocess Labs, run by
-      myself, <a href="https://twitter.com/phil_eaton">Phil
-      Eaton</a>. As a developer and engineering manager at Oracle and
-      elsewhere, I found myself repeatedly creating custom scripts to
-      pull data from multiple sources to produce useful reports for
-      product and business teams. It always took me a long time to
-      remember how to connect to all the different databases, how to
-      graph results, how to host a new site for the report, how to
-      send recurring exports of the report.
-    </p>
-    <p>
-      One way to solve this is to make sure all your data goes into a
-      data warehouse. Then you can just use the data warehouse's
-      dashboarding system to do all your work. But this requires
-      entire organization buy-in both up front and for every new data
-      source you want to add. And the warehouse software and ETL
-      maintenance can be cost prohibitive for small organizations.
-    </p>
-    <p>
-      In contrast, DataStation gives you a smart, open-source data IDE
-      where you can easily combine data using your existing
-      credentials or API keys with no new ETL process. For truly
-      massive reports, this may fall over. But the majority of
-      business reports can be run without pulling terabytes (let alone
-      gigabytes) of data onto a single machine. DataStation helps you
-      out with those.
-    </p>
-    <p>
-      DataStation can be run as an easy-to-install desktop application
-      on a single laptop. Or it can be run as a server instance where
-      all data and scripts can be shared across teams. Either way,
-      your credentials are always encrypted.
-    </p>
-    <p class="signature">
-      Phil <a href="mailto:phil@multiprocess.io">phil@multiprocess.io</a>
-    </p>
-    <p>
-      <h2><a href="https://forms.gle/wH5fdxrxXwZHoNxk8">Subscribe</a> to stay in touch!</h2>
-    </p>
   </div>
 </section>
 <script>

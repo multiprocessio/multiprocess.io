@@ -1,3 +1,8 @@
+:root {
+    --tabs: #dbdbe5;
+    --background-dark: #252539;
+}
+
 html, body {
     margin: 0;
     padding: 0;
@@ -32,11 +37,11 @@ a {
     cursor: pointer;
     cursor: hand;
     text-decoration: none;
-    color: #3535d0
+    color: #3535d0;
 }
 
 a:visited {
-    color: #3535d0
+    color: #3535d0;
 }
 
 .notification {
@@ -138,7 +143,7 @@ footer {
 }
 
 #subheader {
-    background: #dbdbdb;
+    background: var(--tabs);
 }
 
 #subheader a {
@@ -249,7 +254,7 @@ footer .container > * {
 }
 
 .tabs-controls-container {
-    background: #dbdbdb;
+    background: var(--tabs);
 }
 
 .tabs-controls-container .container {
@@ -268,7 +273,7 @@ footer .container > * {
 
 .tabs-controls .tab-control.selected,
 .tabs-controls .tab-control:hover {
-    background: #252529;
+    background: var(--background-dark);
     color: white;
 }
 
