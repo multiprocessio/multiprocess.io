@@ -1,0 +1,110 @@
+{% set doctitle = 'DataStation 0.7.0 release notes' %}
+{% set subtitle = 'February 7, 2021' %}
+
+{% extends 'docs/layout.tmpl' %}
+
+{% block docbody %}
+<p class="what-is-datastation"><label>What is DataStation?</label><small>{{ description }}</small></p>
+<h2>Release Notes</h2>
+<p>
+  This release includes support for new databases, explicit UI options
+  for PostgreSQL-compatible databases, improvements to the code editor
+  UX, a slight UI refresh, support for nested fields in the UI, and more!
+</p>
+<h3>UI refresh</h3>
+<p>
+  This release switches from Material Icons to Ionic fonts. More app
+  state is synced to the URL so that when you reopen the app the
+  sidebar remains open/closed as you left it, expanded panel details
+  remain expanded, and so on.
+</p>
+<h3>Code editor fixes, improvements</h3>
+<p>
+  The last few releases have had a somewhat buggy code editor
+  experience. You might have seen freezes while typing as the editor
+  synced your changes to disk. This syncing freeze has been fixed in
+  this release. Syncing now happens less frequently, without blocking,
+  and automatically flushes when you leave the input element or run a
+  panel.
+</p>
+<p>
+  Before this release, the code editor wouldn't always resize
+  correctly when nearby elements changed. This sometimes meant the
+  last lines in the editor couldn't be scrolled to. This release fixes
+  those issues by correctly, automatically resizing the code editor as
+  needed.
+</p>
+<p>
+  Finally, this release adds support for opening a panel in fullscreen
+  mode to make it easier to focus on a particular script at a time
+  with more screen real estate.
+</p>
+<h3>Nested fields</h3>
+<p>
+  Before this release you could not refer to nested fields in the
+  visual transform, graph, and table panels. You'd need to add a code
+  panel that extracted/flattened the nested fields first. This release
+  adds direct support for accessing nested fields in these three
+  panels. The only limitation is that you cannot access nested arrays
+  and you cannot access a partial path that ends in an object. All
+  columns must ultimately still be scalar.
+</p>
+<h3>Automated graph and table generation</h3>
+<p>
+  Now when you run a panel and it returns an array of objects, a table
+  icon appears below the panel. When you click the icon, a table panel
+  is generated for you that is populated from the current panel and
+  includes all its columns.
+</p>
+<p>
+  Similarly, when a panel results in data with at least one string and
+  number column, a button will appear in the same place that will
+  generate a graph panel and run it for you.
+</p>
+<h3>New databases</h3>
+<p>
+  This release adds support for querying Cassandra (and ScyllaDB),
+  FluxQL, BigQuery databases.
+</p>
+<h3>PostgreSQL-compatible databases</h3>
+<p>
+  DataStation has supported PostgreSQL since the first release.  This
+  means it supported any databases that implemented the PostgreSQL
+  wire protocol since the first release. But this release adds
+  explicit UI options so that you don't need to know or remember that
+  these databases implement the PostgreSQL wire protocol. Specifically
+  there are now UI options for: TimescaleDB, CockroachDB, Yugabyte,
+  CrateDB and QuestDB.
+</p>
+<h3>Last databases off of Node.js runner, onto Go runner</h3>
+<p>
+  Panel evaluation code was originally written in Node.js and was
+  partially ported to Go in the 0.5.0 release. The major parts
+  remaining in Node.js were support for ElasticSearch, Prometheus,
+  Influx and Snowflake. This release ported all that remaining
+  database code to Go. And for the first time adds integration tests
+  for these four databases.
+</p>
+<h3>New file formats, updates to CSV parsing</h3>
+<p>
+  This release adds support for concatenated JSON streams. It also
+  relaxes CSV parsing so panels won't error when a cell exists that
+  doesn't have a corresponding header cell.
+</p>
+<h3 id="how-you-can-help">How you can help</h4>
+<p>
+  If you are a developer or engineering manager, install DataStation
+  and start using it at work! Report bugs and usability issues (there
+  are surely many). <a href="https://discord.gg/f2wQBc4bXX">Join the
+  Discord</a>
+  and <a href="https://forms.gle/wH5fdxrxXwZHoNxk8">subscribe to
+  updates</a>.
+</p>
+<p>
+  If you are an investor, <a href="mailto:phil@multiprocess.io">get in
+  touch</a>
+  and <a href="https://forms.gle/wH5fdxrxXwZHoNxk8">subscribe to
+  updates</a>.
+</p>
+<h4>Share</h4>
+{% endblock %}
