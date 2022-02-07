@@ -1,0 +1,83 @@
+{# DO NOT EDIT -- THIS FILE IS AUTO-GENERATED #}
+
+{% set doctitle = 'Installation' %}
+
+{% extends 'docs/layout.tmpl' %}
+
+{% block docbody %}
+<div><a href="/docs/">Back to documentation</a></div>
+
+<h1>Installation</h1>
+<p>DataStation can run as either a desktop application or as a server
+application. You will need to have an OIDC provider if you want to run
+the server application. The server application comes with the ability
+to run and email reports daily, weekly, or monthly. It also comes with
+support for read-only dashboards.</p>
+<h1>Desktop</h1>
+<p>Pre-built binaries are provided for 64-bit x86 machines running macOS,
+Windows, and Linux.</p>
+<h2>MacOS</h2>
+<p>Download <a href="https://github.com/multiprocessio/datastation/releases/download/0.6.0/datastation-darwin-x64-0.6.0.zip">datastation-darwin-x64-0.6.0.zip</a> and unzip. You will need to right-click
+the application to click Open so you can run the untrusted
+application.</p>
+<h2>Windows</h2>
+<p>Download <a href="https://github.com/multiprocessio/datastation/releases/download/0.6.0/datastation-win32-x64-0.6.0.zip">datastation-win32-x64-0.6.0.zip</a> and unzip. If you get a warning saying
+&quot;Don't run&quot;, click &quot;More info&quot; and click &quot;Run anyway&quot;. There may be a
+few second long security scan the first time you run.</p>
+<h2>Linux</h2>
+<p>Download <a href="https://github.com/multiprocessio/datastation/releases/download/0.6.0/datastation-linux-x64-0.6.0.zip">datastation-linux-x64-0.6.0.zip</a> and unzip.</p>
+<h2>Other</h2>
+<p>Other systems and architectures may be supported but you will need to
+build them yourself. Follow <a href="https://github.com/multiprocessio/datastation/blob/main/HACKING.html">instructions in the repo</a>.</p>
+<h2>Light mode/Dark mode</h2>
+<p>To toggle light or dark mode in the desktop application, you'll need
+go to the View menu and click Settings. Switch to the mode you want
+and then quit DataStation and start it again.</p>
+<h1>Server</h1>
+<p>Prerequisites:</p>
+<ul>
+<li>x86_64 Linux machine</li>
+<li>Nodejs 16+</li>
+<li>PostgreSQL 11+</li>
+</ul>
+<p>Download <a href="https://github.com/multiprocessio/datastation/releases/download/0.6.0/datastation-server-x64-0.6.0.zip">datastation-server-x64-0.6.0.zip</a>.</p>
+<pre><code class="hljs">curl -LO https://github.com/multiprocessio/datastation/releases/download/0.6.0/datastation-server-x64-0.6.0.zip
+unzip datastation-server-*.zip
+./build/release/install.sh
+</code></pre>
+<p>This install script will create a new <code class="hljs">datastation</code> Linux user if it
+does not exist and will create a systemd service for DataStation and a
+systemd timer for DataStation exports.</p>
+<h2>Configuration</h2>
+<p>Next edit <code class="hljs">/etc/datastation/config.yaml</code> and replace the defaults with your own settings.</p>
+<pre><code class="hljs">auth:
+  sessionSecret: &quot;some good long random string&quot; # Any strong random string for signing sessions
+  openId:
+    realm: https://accounts.google.com # Or some other realm
+    clientId: &quot;my id&quot;
+    clientSecret: &quot;my secret&quot;
+
+server:
+  port: 443
+  address: localhost
+  publicUrl: https://datastation.mydomain.com # The address users will enter into the browser to use the app
+  tlsKey: /home/server/certs/datastation.key.pem # Can be left blank and set at the reverse-proxy level if desired
+  tlsCert: /home/server/certs/datastation.cert.pem
+
+database:
+  address: localhost # Address of your PostgreSQL instance
+  username: datastation # Should be a dedicated PostgreSQL user for DataStation
+  password: &quot;some good password&quot;
+  database: datastation # Should be a dedicated database within PostgreSQL for DataStation
+</code></pre>
+<p>And then restart the systemd service: <code class="hljs">sudo systemctl restart datastation</code>.</p>
+
+
+<h4 class="about-this-page">About this page</h4>
+<p>
+  See an error or want to add a clarification? This page is
+  generated from <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/0.7.0/Installation.md">this file on Github</a>.
+  <br /><br />
+  Last edited Feb 06, 2022.
+</p>
+{% endblock %}

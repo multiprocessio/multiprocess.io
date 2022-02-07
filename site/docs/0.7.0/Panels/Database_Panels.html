@@ -1,0 +1,78 @@
+{# DO NOT EDIT -- THIS FILE IS AUTO-GENERATED #}
+
+{% set doctitle = 'Database Panels' %}
+
+{% extends 'docs/layout.tmpl' %}
+
+{% block docbody %}
+<div><a href="/docs/">Back to documentation</a></div>
+
+<h1>Database Panels</h1>
+<p>These panels allow you to query databases either locally or through an
+SSH proxy. You must first configure a <a href="../Data_Sources.html">data
+source</a> for the database you want to connect
+to. Then you can create a new panel and select the Database type and
+data source you created.</p>
+<h1>Supported Databases</h1>
+<p>Traditional SQL</p>
+<ul>
+<li>MySQL</li>
+<li>Oracle</li>
+<li>Microsoft SQL Server</li>
+<li><a href="#postgresql">PostgreSQL</a></li>
+<li>SQLite</li>
+<li>CockroachDB</li>
+</ul>
+<p>Analytics</p>
+<ul>
+<li>Snowflake</li>
+<li>BigQuery</li>
+</ul>
+<p>Document</p>
+<ul>
+<li>Elasticsearch</li>
+<li>MongoDB</li>
+</ul>
+<p>Time Series</p>
+<ul>
+<li>ClickHouse</li>
+<li>Prometheus</li>
+<li>Influx</li>
+<li>TimescaleDB</li>
+<li>QuestDB</li>
+<li>CrateDB</li>
+<li>Cassandra</li>
+<li>ScyllaDB</li>
+</ul>
+<h1>Reading from other panels</h1>
+<p>MySQL, PostgreSQL and SQLite panels support the <code class="hljs">DM_getPanel($panel)</code>
+function. You can either pass a panel index or the panel name. If you
+pass the panel name it must be quoted as a string literal.</p>
+<p>You can only call <code class="hljs">DM_getPanel($panel)</code> on a panel that returns an
+array of objects.</p>
+<p>The result of calling <code class="hljs">DM_getPanel($panel)</code> is a temporary table is
+created with the data from that panel. You can reference that table
+with the entire <code class="hljs">DM_getPanel($panel)</code> call or with the <code class="hljs">t_$panel</code>
+table alias. Multiple <code class="hljs">DM_getPanel</code> calls for the same panel will not
+result in reloading of the panel into a temporary table.</p>
+<h2>Reading nested data from other panels</h2>
+<h1>Connecting via SSH proxy</h1>
+<p>Queries can be proxied through an SSH tunnel by checking the <strong>With
+Server</strong> option on the data source definition or panel details. Once
+selected, you will be prompted to pick from one of the <a href="../SSH_Connections.html">SSH
+connections</a> you set up previously.</p>
+<h1>PostgreSQL</h1>
+<p>If you are not running your PostgreSQL with TLS, you will need to
+disable <code class="hljs">sslmode</code> in your connection. Append <code class="hljs">?sslmode=disable</code> to the
+database address. For example if you are running PostgreSQL locally
+you might set the database address to <code class="hljs">localhost?sslmode=disable</code>.</p>
+
+
+<h4 class="about-this-page">About this page</h4>
+<p>
+  See an error or want to add a clarification? This page is
+  generated from <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/0.7.0/Panels/Database_Panels.md">this file on Github</a>.
+  <br /><br />
+  Last edited Feb 06, 2022.
+</p>
+{% endblock %}

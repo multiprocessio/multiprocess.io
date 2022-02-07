@@ -19,12 +19,51 @@ application.</p>
 <li><a href="./latest/Installation.html">Installation</a></li>
 <li>
 Query databases<ul>
-<li><a href="./tutorials/Query_MySQL_with_DataStation.html">MySQL</a></li>
-<li><a href="./tutorials/Query_PostgreSQL_with_DataStation.html">PostgreSQL</a></li>
+<li>
+Relational<ul>
+<li>
+<a href="./tutorials/Query_MySQL_with_DataStation.html">MySQL</a><ul>
+<li>Same applies for MariaDB, Percona; just swap vendor</li>
+</ul>
+</li>
+<li>
+<a href="./tutorials/Query_PostgreSQL_with_DataStation.html">PostgreSQL</a><ul>
+<li>Same applies for CockroachDB, TimescaleDB, YugaByte, CrateDB, QuestDB; just swap vendor</li>
+</ul>
+</li>
 <li><a href="./tutorials/Query_Oracle_with_DataStation.html">Oracle</a></li>
 <li><a href="./tutorials/Query_SQL_Server_with_DataStation.html">SQL Server</a></li>
+<li><a href="./tutorials/Query_SQLite_with_DataStation.html">SQLite</a></li>
+</ul>
+</li>
+<li>
+Warehouse<ul>
+<li><a href="./tutorials/Query_BigQuery_with_DataStation.html">BigQuery</a></li>
+<li>Snowflake (supported; but no tutorial yet)</li>
+</ul>
+</li>
+<li>
+Document<ul>
 <li><a href="./tutorials/Query_Elasticsearch_with_DataStation.html">Elasticsearch</a></li>
+</ul>
+</li>
+<li>
+Time Series<ul>
+<li>
+<a href="./tutorials/Query_Scylla_with_DataStation.html">Scylla</a><ul>
+<li>Same applies for Cassandra; just swap Vendor</li>
+</ul>
+</li>
 <li><a href="./tutorials/Query_ClickHouse_with_DataStation.html">ClickHouse</a></li>
+</ul>
+</li>
+<li>
+Metrics<ul>
+<li><a href="./tutorials/Query_Prometheus_with_DataStation.html">Prometheus</a></li>
+<li><a href="./tutorials/Query_Influx_(2.x)_with_DataStation_(Flux).html">Influx 2.x (Flux)</a></li>
+<li><a href="./tutorials/Query_Influx_(1.x)_with_DataStation_(InfluxQL).html">Influx 1.x (InfluxQL)</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -44,6 +83,7 @@ Panels<ul>
 </ul>
 <h1>Release Notes</h1>
 <ul>
+<li><a href="https://datastation.multiprocess.io/docs/0.7.0-release-notes.html">0.7.0</a></li>
 <li><a href="https://datastation.multiprocess.io/docs/0.6.0-release-notes.html">0.6.0</a></li>
 <li><a href="https://datastation.multiprocess.io/docs/0.5.0-release-notes.html">0.5.0</a></li>
 <li><a href="https://datastation.multiprocess.io/docs/0.4.0-release-notes.html">0.4.0</a></li>
@@ -61,6 +101,6 @@ Panels<ul>
   See an error or want to add a clarification? This page is
   generated from <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/README.md">this file on Github</a>.
   <br /><br />
-  Last edited Jan 20, 2022.
+  Last edited Feb 06, 2022.
 </p>
 {% endblock %}
