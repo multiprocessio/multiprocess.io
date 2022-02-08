@@ -12,7 +12,7 @@ rm -rf build && mkdir -p build/blog build/docs
 python3 -m venv .env
 .env/bin/pip install -r requirements.txt
 .env/bin/python ./scripts/build_site.py
-cp assets/* build
+cp -r assets/* build
 
 if [[ "$1" != "--skip-stars" ]]; then
     # Update stars count
