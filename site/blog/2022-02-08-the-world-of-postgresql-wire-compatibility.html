@@ -1,0 +1,315 @@
+{% extends "blog/layout.tmpl" %}
+
+{% block postTitle %}The world of PostgreSQL wire compatibility{% endblock %}
+{% block postDate %}February 8, 2022{% endblock %}
+{% block postAuthor %}Phil Eaton{% endblock %}
+{% block postAuthorEmail %}phil@multiprocess.io{% endblock %}
+{% block postTags %}postgres,databases,python{% endblock %}
+
+{% block postBody %}
+<p>
+  A wire protocol is the format for interactions between a database
+  server and its clients. It encompasses authentication, sending
+  queries, receiving responses, and so on. It is a description of the
+  exact bytes sent and received by servers and clients. It does NOT
+  encompass the actual query language itself, let alone database
+  semantics.
+</p>
+<p>
+  Every server-client database has a wire protocol. (SQLite is an
+  embedded database, not a server-client database, so it does not have
+  a wire protocol.) Wire protocols are important to both database
+  developers and database driver developers.
+</p>
+<p>
+  Proprietary databases like Oracle and SQL Server find value in
+  developing their own drivers. They don't tend to publish their wire
+  protocol. Among other reasons, it's just not necessary since they
+  develop their own drivers. But proprietary vendors tend to prefer a
+  monolithic driver like ODBC/JDBC rather than native drivers since
+  it's easier to develop one driver for all languages than one for
+  each language. If someone wants to develop a native driver for a
+  database without a published wire protocol they'll need to
+  reverse-engineer the wire protocol. An example of this is the go-ora
+  Oracle client for Go.
+</p>
+<p>
+  In contrast, the wire protocols for open-source databases tend to be
+  documented since it's just another part of an open-source
+  system. Due to their popularity and age, PostgreSQL and MySQL wire
+  protocols are particularly well documented. Native drivers exist for
+  both databases in every major language.
+</p>
+<p>
+  For this reason, a large number of newer database vendors just reuse
+  the PostgreSQL or MySQL wire protocol. This means that every
+  existing driver (and SQL GUI) will work with them without any
+  modification to driver code. This doesn't mean that any PostgreSQL
+  or MySQL query will work with them since, as mentioned previously,
+  query language and database semantics are independent of the wire
+  protocol.
+</p>
+<h2>In Practice</h2>
+<p>
+  If we implement the PostgreSQL server protocol then we could set up
+  our own database backend that returns results from memory. It would
+  work with any existing PostgreSQL client. That would be neat!
+</p>
+<p>
+  Thankfully someone already wrote a small library for implementing
+  the PostgreSQL server protocol. I ported it to Python3 for the sake
+  of this tutorial here. If we grab that Python3 fork's code and just
+  edit the `query` method we can write a SQL backend that looks up
+  data from JSON files on disk. Reiterating, the wire protocol doesn't
+  specify anything about the query language.
+</p>
+<p>
+  So let's support a single made-up query: `SELECT FROM x` where `x`
+  can be a valid table name. Let's create a `data` directory where all
+  the table JSON files will be stored. And let's create a few tables:
+</p>
+<pre><code class="hljs">$ cat data/users.json
+[
+    {"id": 0, "age": 100},
+    {"id": 1, "age": 45},
+    {"id": 2, "age": 52}
+]
+$ cat data/users_organization.json
+[
+    {"user_id": 0, "organization_id": 0},
+    {"user_id": 1, "organization_id": 1},
+    {"user_id": 2, "organization_id": 0}
+]</code></pre>
+<p>
+  Now let's modify the query logic to validate our single supported
+  query, pull out the table name, and read the data from on disk:
+</p>
+<pre><code class="hljs">$ diff original.py pgserver.py
+0a1
+&gt; import json
+189,190c190,202
+&lt;     fields = [IntField('a'), IntField('b')]
+&lt;     rows = [[1, 2], [3, 4], [5, 6]]
+---
+&gt;     sql = sql.decode().upper()
+&gt;     prefix = 'SELECT FROM '
+&gt;     if not sql.startswith(prefix):
+&gt;       raise Exception('Bad query.')
+&gt;
+&gt;     table = sql.strip()[len(prefix):-2].strip().lower()
+&gt;     try:
+&gt;       with open('data/'+table+'.json') as f:
+&gt;         d = json.load(f)
+&gt;         fields = [IntField(k) for k in d[0].keys()]
+&gt;         rows = [[row[field.name] for field in fields] for row in d]
+&gt;     except Exception as e:
+&gt;       raise Exception('Invalid table.') from e</code></pre>
+<p>
+  Run it:
+</p>
+<pre><code class="hljs">$ python pgserver.py
+server running, try: $ psql -h localhost -p 55432
+</code></pre>
+<p>
+  And in a separate terminal, open psql as suggested (enter any text
+  when prompted for a password, this code doesn't do anything with
+  it), and run some queries:
+</p>
+<pre><code class="hljs">$ psql -h localhost -p 55432
+Password for user phil:
+psql (13.4, server 0.0.0)
+Type "help" for help.
+
+phil=> select from users;
+ id | age
+----+-----
+  0 | 100
+  1 |  45
+  2 |  52
+(3 rows)
+
+phil=> select from users_organization;
+ user_id | organization_id
+---------+-----------------
+       0 |               0
+       1 |               1
+       2 |               0
+(3 rows)
+</code></pre>
+<p>
+  That is really neat! Incidentally this vague technique is also used
+  in testing like with <a
+  href="https://github.com/jackc/pgmock">pgmock</a>.
+</p>
+<h2>Vendors</h2>
+<p>
+  But let's get back to the real world and dig into some of the
+  databases that implement the PostgreSQL wire protocol and where else
+  they diverge. And although this mentions compatibility, don't take
+  that to be a judgement call. Just because a database implements the
+  PostgreSQL wire protocol does not mean it intends to be a dropin
+  replacement for PostgreSQL.
+</p>
+</div>
+</section>
+<table>
+  <thead>
+    <th>Name</th>
+    <th>Category</th>
+    <th>Source</th>
+    <th>Implementation language</th>
+    <th>Parser</th>
+    <th>Language compatibility</th>
+    <th>ACID?</th>
+    <th>Scaling strategy</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="https://www.postgresql.org/">PostgreSQL</a> (the control group)</td>
+      <td>Relational</td>
+      <td><a href="https://git.postgresql.org/gitweb/?p=postgresql.git">Open</a></td>
+      <td>C</td>
+      <td><a href="https://git.postgresql.org/gitweb/?p=postgresql.git;a=tree;f=src/backend/parser;h=041e702f9c97b7032a939999603e5d978b5298e4;hb=HEAD">YACC</a></td>
+      <td>N/A</td>
+      <td>Yes</td>
+      <td><a href="https://www.highgo.ca/2021/08/09/horizontal-scalability-options-in-postgresql"/>Limited</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://questdb.io/">QuestDB</a></td>
+      <td>Time series</td>
+      <td><a href="https://github.com/questdb/questdb">Open</a></td>
+      <td>Java</td>
+      <td><a href="https://github.com/questdb/questdb/blob/master/core/src/main/java/io/questdb/griffin/SqlParser.java">Custom hand-written</a></td>
+      <td><a href="https://questdb.io/docs/reference/api/postgres/">Generally compatible</a>*</td>
+      <td>No</td>
+      <td>Enterprise only, strategy unclear</td>
+    </tr>
+    <tr>
+      <td><a href="https://www.cockroachlabs.com/">CockroachDB</a></td>
+      <td>Relational</td>
+      <td><a href="https://github.com/cockroachdb/cockroach">Open</a></td>
+      <td>Go</td>
+      <td><a href="https://github.com/cockroachdb/cockroach/blob/master/pkg/sql/parser/sql.y">YACC grammar adapted from PostgreSQL</a></td>
+      <td>Unlikely to fall far behind PostgreSQL due to sharing a grammar specification</td>
+      <td>Yes</td>
+      <td><a href="https://www.cockroachlabs.com/docs/stable/architecture/life-of-a-distributed-transaction.html">Distributed using Raft</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://crate.io/products/cratedb">CrateDB</a></td>
+      <td>Document</td>
+      <td><a href="https://github.com/crate/crate">Open</a></td>
+      <td>Java</td>
+      <td><a href="https://github.com/crate/crate/blob/master/libs/sql-parser/src/main/antlr/SqlBase.g4">Custom ANTLR grammar</a></td>
+      <td><a href="https://crate.io/docs/crate/reference/en/4.7/appendices/compatibility.html">Generally compatible</a>*</td>
+      <td>No</td>
+      <td><a href="https://crate.io/docs/crate/reference/en/4.7/concepts/resiliency.html">Shared nothing, eventually consistent</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://www.yugabyte.com/">YugabyteDB</a></td>
+      <td>Relational</td>
+      <td><a href="https://github.com/yugabyte/yugabyte-db">Open</a></td>
+      <td>C, C++</td>
+      <td><a href="https://github.com/yugabyte/yugabyte-db/tree/master/src/postgres/src/backend/parser">PostgreSQL's parser as a library</a></td>
+      <td>Unlikely to fall far behind PostgreSQL due to using the PostgreSQL parser</td>
+      <td>Yes</td>
+      <td><a href="https://docs.yugabyte.com/latest/explore/linear-scalability/">Sharding on primary key</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://www.timescale.com/">Timescale</a></td>
+      <td>Relational</td>
+      <td><a href="https://github.com/timescale/timescaledb">Open</a></td>
+      <td>C</td>
+      <td>Timescale is a PostgreSQL extension, so it uses PostgreSQL's parser</td>
+      <td>Cannot fall behind PostgreSQL</td>
+      <td>Yes</td>
+      <td><a href="https://docs.timescale.com/timescaledb/latest/overview/core-concepts/distributed-hypertables/">Sharding on user-chosen column</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://codenotary.com/technologies/immudb/">immudb</a></td>
+      <td>Document</td>
+      <td><a href="https://github.com/codenotary/immudb">Open</a></td>
+      <td>Go</td>
+      <td><a href="https://github.com/codenotary/immudb/blob/master/embedded/sql/sql_grammar.y">Custom YACC grammar</a></td>
+      <td><a href="https://docs.immudb.io/master/reference/sql.html">Somewhat compatible</a>*</td>
+      <td>Yes</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td><a href="https://materialize.com">Materialize</a></td>
+      <td>Streaming</td>
+      <td><a href="https://github.com/MaterializeInc/materialize">Open</a></td>
+      <td>Rust</td>
+      <td><a href="https://github.com/MaterializeInc/materialize/tree/main/src/sql-parser">Custom hand-written</a></td>
+      <td>Custom SQL dialect</td>
+      <td>No</td>
+      <td>**</td>
+    </tr>
+    <tr>
+      <td><a href="https://ravendb.net">RavenDB</a></td>
+      <td>Document</td>
+      <td><a href="https://github.com/ravendb/ravendb">Open</a></td>
+      <td>C#</td>
+      <td><a href="https://github.com/ravendb/ravendb/blob/v5.3/src/Raven.Server/Documents/Queries/Parser/QueryParser.cs">Custom hand-written parser</a></td>
+      <td><a href="https://ravendb.net/docs/article-page/4.2/csharp/indexes/querying/what-is-rql">Not compatible</a></td>
+      <td>Yes</td>
+      <td><a href="https://ravendb.net/learn/inside-ravendb-book/reader/4.0/7-scaling-distributed-work-in-ravendb">Distributed using Raft</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://cloud.google.com/blog/topics/developers-practitioners/postgresql-interface-adds-familiarity-and-portability-cloud-spanner">Cloud Spanner</a></td>
+      <td>Relational</td>
+      <td>Proprietary</td>
+      <td>**</td>
+      <td>**</td>
+      <td><a href="https://cloud.google.com/blog/topics/developers-practitioners/postgresql-interface-adds-familiarity-and-portability-cloud-spanner">Generally compatible</a>*</td>
+      <td>Yes</td>
+      <td>**</td>
+    </tr>
+    <tr>
+      <td><a href="https://aws.amazon.com/rds/aurora/postgresql-features/">Aurora</a></td>
+      <td>Relational</td>
+      <td>Proprietary</td>
+      <td>**</td>
+      <td>**</td>
+      <td><a href="https://aws.amazon.com/rds/aurora/postgresql-features/">Generally compatible</a>*</td>
+      <td>Yes</td>
+      <td>**</td>
+    </tr>
+    <tr>
+      <td><a href="https://yellowbrick.com">Yellowbrick</a></td>
+      <td>Analytics</td>
+      <td>Proprietary</td>
+      <td>**</td>
+      <td>**</td>
+      <td>Generally compatible* **</td>
+      <td>**</td>
+      <td>**</td>
+    </tr>
+  </tbody>
+</table>
+<section class="post-body">
+<div class="container">
+<p class="asterisks">
+  * Not reusing PostgreSQL's parser does make it somewhat more likely
+    for there to be differences in complex SQL queries compared to
+    PostgreSQL
+  <br />
+  ** Unknown because I didn't take the time to look into it. Feel free
+     to message me and I'll fill it in.
+</p>
+<p>
+  And a special shoutout to ClickHouse that according to its config
+  example can <a
+  href="https://github.com/ClickHouse/ClickHouse/blob/v22.1.3.7-stable/programs/server/config.xml#L114">pretend
+  to be PostgreSQL and, separately, MySQL</a>. But since <a
+  href="https://github.com/ClickHouse/ClickHouse/discussions/29705">this
+  isn't documented</a> nor can I find the PostgreSQL parser code (but
+  I can find the <a
+  href="https://github.com/ClickHouse/ClickHouse/tree/master/src/Parsers/MySQL">MySQL
+  parser code</a>) I won't include it in this list.
+</p>
+<p>
+  I'm sure I missed some. Message me with other PostgreSQL
+  wire-compatible databases I should include here!
+</p>
+<h4>Share</h4>
+{% endblock %}

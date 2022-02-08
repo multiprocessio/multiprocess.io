@@ -411,6 +411,11 @@ footer .container > * {
     margin-bottom: 0;
 }
 
+.post-body h4 {
+    font-weight: bold;
+    margin-top: 50px;
+}
+
 .post-body .container {
     width: 1200px;
 }
@@ -511,6 +516,11 @@ code.hljs {
     border: 1px solid #ddd;
     padding: 15px;
     max-height: 400px;
+}
+
+.asterisks {
+    font-size: .9rem;
+    color: #333;
 }
 
 .code, p code {
