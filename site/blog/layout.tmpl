@@ -13,7 +13,6 @@
       Published on <span class="post-date">{% block postDate %}{% endblock %}</span> by <span class="post-author">{% block postAuthor %}{% endblock %}</span>
     </div>
     <div class="post-tags">{% for tag in tags %}<span class="post-tag">{{tag}}</span>{% endfor %}</div>
-    <p class="what-is-datastation"><label>What is DataStation?</label><small>{{ description }}</small></p>
     {% block postBody%}{% endblock %}
     <p>
       Questions? Feedback? Feel free to reach the author at {% block postAuthorEmail %}{% endblock %}.
