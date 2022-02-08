@@ -1,5 +1,5 @@
 :root {
-    --tabs: #dbdbe5;
+    --tabs: #f3f3ff;
     --background-dark: #252539;
 }
 
@@ -239,6 +239,12 @@ table ul {
 
 .show-mobile {
     display: none;
+}
+
+.about-this-page {
+    background: var(--tabs);
+    padding: 30px;
+    margin-top: 30px;
 }
 
 footer {
@@ -606,6 +612,10 @@ ul.checks li:before {
 }
 
 @media only screen and (max-width: 600px) {
+    h1, h2, h3, h4, h5, h6, table {
+	font-weight: initial;
+    }
+
     .container {
 	padding: 0 15px;
 	overflow-x : auto;

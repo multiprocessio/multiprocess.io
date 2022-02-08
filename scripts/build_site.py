@@ -24,13 +24,15 @@ BACKLINK
 
 BODY
 
-<h4 class="about-this-page">About this page</h4>
+<div class="about-this-page">
+<h4>About this page</h4>
 <p>
   See an error or want to add a clarification? This page is
   generated from <a href="PAGE">this file on Github</a>.
   <br /><br />
   Last edited LAST_EDITED.
 </p>
+</div>
 {% endblock %}"""
 
 DOCS_SOURCE = "datastation-documentation"
