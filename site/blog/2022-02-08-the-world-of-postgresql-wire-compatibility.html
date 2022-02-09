@@ -66,14 +66,14 @@
   a small library</a> implementing the PostgreSQL server
   protocol. I <a href="https://gist.github.com/eatonphil/079f8654174b9b9c1953b76008d024ae">ported
   it to Python3</a> for the sake of this tutorial here. If we grab
-  that Python3 fork's code and just edit the `query` method we can
+  that Python3 fork's code and just edit the <code>query</code> method we can
   write a SQL backend that looks up data from JSON files on
   disk. Reiterating, the wire protocol doesn't specify anything about
   the query language.
 </p>
 <p>
-  So let's support a single made-up query: `SELECT FROM x` where `x`
-  can be a valid table name. Let's create a `data` directory where all
+  So let's support a single made-up query: <code>SELECT FROM x</code> where <code>x</code>
+  can be a valid table name. Let's create a <code>data</code> directory where all
   the table JSON files will be stored. And let's create a few tables:
 </p>
 <pre><code class="hljs">$ cat data/users.json
