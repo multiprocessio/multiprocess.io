@@ -51,7 +51,7 @@
   existing driver (and SQL GUI) will work with them without any
   modification to driver code. This doesn't mean that any PostgreSQL
   or MySQL query will work with them since, as mentioned previously,
-  query language and database semantics are independent of the wire
+  <i>query</i> language and database semantics are independent of the wire
   protocol.
 </p>
 <h2>In Practice</h2>
@@ -61,12 +61,15 @@
   work with any existing PostgreSQL client. That would be neat!
 </p>
 <p>
-  Thankfully someone already wrote a small library for implementing
-  the PostgreSQL server protocol. I ported it to Python3 for the sake
-  of this tutorial here. If we grab that Python3 fork's code and just
-  edit the `query` method we can write a SQL backend that looks up
-  data from JSON files on disk. Reiterating, the wire protocol doesn't
-  specify anything about the query language.
+  Thankfully someone
+  already <a href="https://gist.github.com/matteobertozzi/7670985">wrote
+  a small library</a> implementing the PostgreSQL server
+  protocol. I <a href="https://gist.github.com/eatonphil/079f8654174b9b9c1953b76008d024ae">ported
+  it to Python3</a> for the sake of this tutorial here. If we grab
+  that Python3 fork's code and just edit the `query` method we can
+  write a SQL backend that looks up data from JSON files on
+  disk. Reiterating, the wire protocol doesn't specify anything about
+  the query language.
 </p>
 <p>
   So let's support a single made-up query: `SELECT FROM x` where `x`
