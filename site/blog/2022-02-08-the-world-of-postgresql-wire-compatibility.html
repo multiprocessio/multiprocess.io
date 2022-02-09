@@ -62,11 +62,10 @@
   work with any existing PostgreSQL client. That would be neat!
 </p>
 <p>
-  Thankfully someone
-  already <a href="https://gist.github.com/matteobertozzi/7670985">wrote
+  Someone already <a href="https://gist.github.com/matteobertozzi/7670985">wrote
   a small library</a> implementing the PostgreSQL server
-  protocol. I <a href="https://gist.github.com/eatonphil/079f8654174b9b9c1953b76008d024ae">ported
-  it to Python3</a> for the sake of this tutorial here. If we grab
+  protocol in Python2. I <a href="https://gist.github.com/eatonphil/079f8654174b9b9c1953b76008d024ae">ported
+  it to Python3</a> for the sake of this tutorial. If we grab
   that Python3 fork's code and just edit the <code>query</code> method we can
   write a SQL backend that looks up data from JSON files on
   disk. Reiterating, the wire protocol doesn't specify anything about
