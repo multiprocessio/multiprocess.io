@@ -57,40 +57,26 @@
 </p>
 <h2>In Practice</h2>
 <p>
-  If we implement the PostgreSQL server protocol then we could set up
-  our own database backend that returns results from memory. It would
-  work with any existing PostgreSQL client. That would be neat!
+  Let's write a simple program that can handle query text and read
+  data from disk. If it implements the PostgreSQL wire protocol
+  protocol, it would work with any existing PostgreSQL client. That
+  would be neat!
 </p>
 <p>
-  Someone already <a href="https://gist.github.com/matteobertozzi/7670985">wrote
-  a small library</a> implementing the PostgreSQL server
-  protocol in Python2. I <a href="https://gist.github.com/eatonphil/079f8654174b9b9c1953b76008d024ae">ported
-  it to Python3</a> for the sake of this tutorial. If we grab
-  that Python3 fork's code and just edit the <code>query</code> method we can
-  write a SQL backend that looks up data from JSON files on
-  disk. Reiterating, the wire protocol doesn't specify anything about
-  the query language.
+  Someone
+  already <a href="https://gist.github.com/matteobertozzi/7670985">wrote
+  a small library</a> implementing the PostgreSQL server protocol in
+  Python2. I <a href="https://gist.github.com/eatonphil/079f8654174b9b9c1953b76008d024ae">ported
+  it to Python3</a> for the sake of this tutorial. So we can just grab
+  that Python3 fork's code and edit the <code>query</code> method with
+  some code that handles the query text and reads data from disk, and
+  we'd be done!
 </p>
 <p>
-  So let's support a single made-up query: <code>SELECT FROM x</code> where <code>x</code>
-  can be a valid table name. Let's create a <code>data</code> directory where all
-  the table JSON files will be stored. And let's create a few tables:
-</p>
-<pre><code class="hljs">$ cat data/users.json
-[
-    {"id": 0, "age": 100},
-    {"id": 1, "age": 45},
-    {"id": 2, "age": 52}
-]
-$ cat data/users_organization.json
-[
-    {"user_id": 0, "organization_id": 0},
-    {"user_id": 1, "organization_id": 1},
-    {"user_id": 2, "organization_id": 0}
-]</code></pre>
-<p>
-  Now let's modify the query logic to validate our single supported
-  query, pull out the table name, and read the data from on disk:
+  To reiterate, the wire protocol doesn't specify anything about the
+  query language. So let's support a single made-up
+  query: <code>SELECT FROM x</code> where <code>x</code> can be a
+  valid table name:
 </p>
 <pre><code class="hljs">$ diff original.py pgserver.py
 0a1
@@ -112,6 +98,23 @@ $ cat data/users_organization.json
 &gt;         rows = [[row[field.name] for field in fields] for row in d]
 &gt;     except Exception as e:
 &gt;       raise Exception('Invalid table.') from e</code></pre>
+<p>
+  Now let's create a <code>data</code> directory where
+  all the table JSON files will be stored. And let's create a few
+  tables:
+</p>
+<pre><code class="hljs">$ cat data/users.json
+[
+    {"id": 0, "age": 100},
+    {"id": 1, "age": 45},
+    {"id": 2, "age": 52}
+]
+$ cat data/users_organization.json
+[
+    {"user_id": 0, "organization_id": 0},
+    {"user_id": 1, "organization_id": 1},
+    {"user_id": 2, "organization_id": 0}
+]</code></pre>
 <p>
   Run it:
 </p>
@@ -145,9 +148,9 @@ phil=> select from users_organization;
 (3 rows)
 </code></pre>
 <p>
-  That is really neat! Incidentally this broad technique is also used
-  in testing like with <a
-  href="https://github.com/jackc/pgmock">pgmock</a>.
+  That is really neat! Incidentally a similar technique can be used to
+  help in testing a
+  la <a href="https://github.com/jackc/pgmock">pgmock</a>.
 </p>
 <h2>Vendors</h2>
 <p>
