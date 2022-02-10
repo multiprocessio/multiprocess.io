@@ -632,9 +632,12 @@ ul.checks li:before {
 	font-weight: initial;
     }
 
-    .container {
-	padding: 0 15px;
-	overflow-x : auto;
+    .table-wrapper {
+	overflow-x: auto;
+    }
+
+    .notification {
+	line-height: initial;
     }
 
     header a:first-of-type {
