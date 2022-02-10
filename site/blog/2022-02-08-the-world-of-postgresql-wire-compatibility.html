@@ -325,6 +325,45 @@ phil=> select from users_organization;
   I'm sure I missed some. Message me with other PostgreSQL
   wire-compatible databases I should include here!
 </p>
+<h3>Syntax and engine support</h3>
+<p>
+  A parser is only the start of compatibility though. Just because a
+  parser supports some syntax doesn't mean that the engine supports it
+  too. But you can be more sure that if a parser doesn't support some
+  syntax, the engine can't support it either (unless the project keeps
+  dead code around, which isn't common).
+</p>
+<p>
+  And an implementation that falls behind on parser support is likely
+  to fall behind in other areas of compatibility. This is not to say
+  that one vendor is better or worse. Excellent engineering can almost
+  always overcome these types of obstacles. But there are always
+  implications to technical design decisions.
+</p>
+<p>
+  So just looking at parser support is not enough to talk about
+  PostgreSQL query or semantic compatibility. But it is a starting
+  point.
+</p>
+<h3>Wire protocol edge cases, another time</h3>
+<p>
+  Lastly, I said this post was about wire protocols but then I ended
+  up focusing on the query language (which as I mentioned is separate
+  from the wire protocol). The wire protocol does more than just wrap
+  queries though. It includes more complex interactions
+  like <code>COPY</code>-ing data or asynchronous requests or
+  cancelling running requests.
+</p>
+<p>
+  In this post I did not evaluate the level of completeness of each
+  database's implementation of the wire protocol. I only looked into
+  what they'd do with basic queries. More could be done on evaluating
+  the edge cases of the wire protocol in each implementation, in
+  another post.
+</p>
+<p>
+  Let me know about your ideas, questions, corrections!
+</p>
 <h4>Share</h4>
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">There&#39;s a wide world of databases implementing the Postgres wire protocol. Databases like <a href="https://twitter.com/Yugabyte?ref_src=twsrc%5Etfw">@Yugabyte</a> <a href="https://twitter.com/TimescaleDB?ref_src=twsrc%5Etfw">@TimescaleDB</a> <a href="https://twitter.com/cratedb?ref_src=twsrc%5Etfw">@cratedb</a> <a href="https://twitter.com/QuestDb?ref_src=twsrc%5Etfw">@QuestDb</a> <a href="https://twitter.com/CockroachDB?ref_src=twsrc%5Etfw">@CockroachDB</a> . But what does that mean? And where does the wire protcol end?<br><br>All this and more explored in a new blog post<a href="https://t.co/N4VnF2paCl">https://t.co/N4VnF2paCl</a> <a href="https://t.co/ypvsSXVeP5">pic.twitter.com/ypvsSXVeP5</a></p>&mdash; Multiprocess Labs (@multiprocessio) <a href="https://twitter.com/multiprocessio/status/1491164918057693185?ref_src=twsrc%5Etfw">February 8, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 {% endblock %}
