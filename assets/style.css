@@ -523,6 +523,12 @@ code.hljs {
     color: #333;
 }
 
+p.note {
+    font-size: .8rem;
+    background: vars(--tabs);
+    padding: 15px;
+}
+
 .code, p code {
     background: white;
     font-size: 1rem;

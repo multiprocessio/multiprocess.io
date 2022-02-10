@@ -27,16 +27,24 @@
   developers and database driver developers.
 </p>
 <p>
-  Proprietary databases like Oracle and SQL Server find value in
+  Proprietary databases like Oracle and IBM Db2 find value in
   developing their own drivers. They don't tend to publish their wire
   protocol. Among other reasons, it's just not necessary since they
-  develop their own drivers. But proprietary vendors tend to prefer a
+  develop their own drivers. Proprietary vendors tend to prefer a
   monolithic driver like ODBC/JDBC rather than native drivers since
   it's easier to develop one driver for all languages than one for
   each language. If someone wants to develop a native driver for a
   database without a published wire protocol they'll need to
   reverse-engineer the wire protocol. An example of this is the <a href="https://github.com/sijms/go-ora">go-ora</a>
   Oracle client for Go.
+</p>
+<p class="note">
+  Worth nothing, among proprietary vendors, SQL Server actually does
+  the opposite. Their wire protocol has
+  been <a href="https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-tds/b46a581a-39de-4745-b076-ec4dbb7d13ec">publicly
+  documented</a> for over a decade. And more native drivers exist for
+  SQL Server than for other proprietary vendors with their own wire
+  protocol.
 </p>
 <p>
   In contrast, the wire protocols for open-source databases tend to be
