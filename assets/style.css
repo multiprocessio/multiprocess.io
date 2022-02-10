@@ -525,7 +525,7 @@ code.hljs {
 
 p.note {
     font-size: .8rem;
-    background: vars(--tabs);
+    background: var(--tabs);
     padding: 15px;
 }
 
