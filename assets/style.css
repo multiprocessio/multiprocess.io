@@ -1,6 +1,8 @@
 :root {
     --tabs: #f3f3ff;
     --background-dark: #252539;
+    --color: black;
+    --link: #3535d0;
 }
 
 html, body {
@@ -37,7 +39,7 @@ a {
     cursor: pointer;
     cursor: hand;
     text-decoration: none;
-    color: #3535d0;
+    color: var(--link);
 }
 
 a:visited {
@@ -625,6 +627,36 @@ ul.checks li:before {
 
 .pb-4 {
     padding-bottom: 20px;
+}
+
+.docs-p {
+    max-width: 800px;
+}
+
+.docs-cards {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+}
+
+.docs-card, .docs-card:visited {
+    display: block;
+    margin: 15px;
+    width: calc(33% - 30px);
+    margin-bottom: 50px;
+    padding: 15px;
+    border: 1px solid #c3c3dd;
+    color: var(--color);
+}
+
+.docs-card-title {
+    font-size: 1.3rem;
+    padding-bottom: 10px;
+}
+
+.docs-card-link {
+    padding-top: 10px;
+    color: var(--link);
 }
 
 @media only screen and (max-width: 600px) {
