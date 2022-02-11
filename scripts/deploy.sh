@@ -1,25 +1,14 @@
 #!/usr/bin/env bash
 
-set -eu
+set -eux
 
-version=""
-while [[ "$#" -gt 0 ]]; do
-    case $1 in
-        -v|--datastation-version)
-	    version="$2"
-	    shift
-	    ;;
-        *) echo "Unknown parameter passed: $1"; exit 1 ;;
-    esac
-    shift
-done
-
+version="$(cat ./version)"
 if [[ -z $version ]]; then
-    echo "--datastation-version not set"
+    echo "version file is empty"
     exit 1
 fi
 
-set -x
+# TODO: validate version file
 
 git clean -xid
 ./scripts/build_site.sh

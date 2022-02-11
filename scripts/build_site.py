@@ -46,6 +46,8 @@ def make_docs_glob(*suffixes):
 
 # Rewrite md files from docs repo into HTML files for the site.
 for file in make_docs_glob("*.md"):
+    if file.lower() == DOCS_SOURCE + '/readme.md':
+        continue
     if '/internal/' in file:
         continue
     # Drops the first directory (the DOCS_SITE_ROOT)
@@ -69,9 +71,6 @@ for file in make_docs_glob("*.md"):
             html = re.sub(r'class="(language-[a-zA-Z0-9]+)"', r'class="hljs \1"', html)
 
             title = html[:html.index('</h1>')].split('<h1>')[1].strip()
-            isroot = newfile == "index.html"
-            if isroot:
-                title = "Documentation"
             page = 'https://github.com/multiprocessio/datastation-documentation/blob/main/' + source
 
             file_to_check_time = source
@@ -82,7 +81,7 @@ for file in make_docs_glob("*.md"):
 
             last_edited = datetime.fromtimestamp(int(mtime.decode())).strftime("%b %d, %Y")
 
-            backlink = '<div><a href="/docs/">Back to documentation</a></div>' if not isroot else ''
+            backlink = '<div><a href="/docs/">Back to documentation</a></div>'
 
             replaced = DOCS_TEMPLATE.replace(
                 'TITLE', title).replace(
@@ -99,7 +98,8 @@ for file in make_docs_glob("*.md"):
 
 DEFAULT_DATA = {
     "title": "DataStation | The Open-Source Data IDE for Developers",
-    "description": "DataStation is an open-source data IDE for developers. It allows you to easily build graphs and tables with data pulled from SQL databases, logging databases, metrics databases, HTTP servers, and all kinds of text and binary files. Need to join or munge data? Write embedded scripts as needed in Python, JavaScript, Ruby, R, or Julia. All in one application."
+    "description": "DataStation is an open-source data IDE for developers. It allows you to easily build graphs and tables with data pulled from SQL databases, logging databases, metrics databases, HTTP servers, and all kinds of text and binary files. Need to join or munge data? Write embedded scripts as needed in Python, JavaScript, Ruby, R, or Julia. All in one application.",
+    "version": open("version").read().strip(),
 }
 
 blog_posts = []

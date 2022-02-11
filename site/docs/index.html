@@ -1,108 +1,132 @@
-{# DO NOT EDIT -- THIS FILE IS AUTO-GENERATED #}
-
-{% set doctitle = 'Documentation' %}
+{% set doctitle = 'DataStation Documentation' %}
 
 {% extends 'docs/layout.tmpl' %}
 
 {% block docbody %}
-
-
 <h1>DataStation Documentation</h1>
 <p>DataStation is an open-source data IDE for developers. It allows you
-to easily build graphs and tables with data pulled from SQL databases,
-logging databases, metrics databases, HTTP servers, and all kinds of
-text and binary files. Need to join or munge data? Write embedded
-scripts as needed in Python, JavaScript, Ruby, R, or Julia. All in one
-application.</p>
-<h1>Tutorials</h1>
-<ul>
-<li><a href="./latest/Installation.html">Installation</a></li>
-<li>
-Query databases<ul>
-<li>
-Relational<ul>
-<li>
-<a href="./tutorials/Query_MySQL_with_DataStation.html">MySQL</a><ul>
-<li>Same applies for MariaDB, Percona; just swap vendor</li>
-</ul>
-</li>
-<li>
-<a href="./tutorials/Query_PostgreSQL_with_DataStation.html">PostgreSQL</a><ul>
-<li>Same applies for CockroachDB, TimescaleDB, YugaByte, CrateDB, QuestDB; just swap vendor</li>
-</ul>
-</li>
-<li><a href="./tutorials/Query_Oracle_with_DataStation.html">Oracle</a></li>
-<li><a href="./tutorials/Query_SQL_Server_with_DataStation.html">SQL Server</a></li>
-<li><a href="./tutorials/Query_SQLite_with_DataStation.html">SQLite</a></li>
-</ul>
-</li>
-<li>
-Warehouse<ul>
-<li><a href="./tutorials/Query_BigQuery_with_DataStation.html">BigQuery</a></li>
-<li>Snowflake (supported; but no tutorial yet)</li>
-</ul>
-</li>
-<li>
-Document<ul>
-<li><a href="./tutorials/Query_Elasticsearch_with_DataStation.html">Elasticsearch</a></li>
-</ul>
-</li>
-<li>
-Time Series<ul>
-<li>
-<a href="./tutorials/Query_Scylla_with_DataStation.html">Scylla</a><ul>
-<li>Same applies for Cassandra; just swap Vendor</li>
-</ul>
-</li>
-<li><a href="./tutorials/Query_ClickHouse_with_DataStation.html">ClickHouse</a></li>
-</ul>
-</li>
-<li>
-Metrics<ul>
-<li><a href="./tutorials/Query_Prometheus_with_DataStation.html">Prometheus</a></li>
-<li><a href="./tutorials/Query_Influx_(2.x)_with_DataStation_(Flux).html">Influx 2.x (Flux)</a></li>
-<li><a href="./tutorials/Query_Influx_(1.x)_with_DataStation_(InfluxQL).html">Influx 1.x (InfluxQL)</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h1>Reference</h1>
-<ul>
-<li><a href="./latest/Installation.html">Installation</a></li>
-<li>
-Panels<ul>
-<li><a href="./latest/Panels/Database_Panels.html">Database Panels</a></li>
-<li><a href="./latest/Panels/Code_Panels.html">Code Panels</a></li>
-<li><a href="./latest/Panels/HTTP_Panels.html">HTTP Panels</a></li>
-<li><a href="./latest/Panels/File_Panels.html">File Panels</a></li>
-</ul>
-</li>
-<li><a href="./latest/Data_Sources.html">Data Sources</a></li>
-<li><a href="./latest/SSH_Connections.html">SSH Connections</a></li>
-</ul>
+  to easily build graphs and tables with data pulled from SQL databases,
+  logging databases, metrics databases, HTTP servers, and all kinds of
+  text and binary files. Need to join or munge data? Write embedded
+  scripts as needed in Python, JavaScript, Ruby, R, or Julia. All in one
+  application.</p>
+<h1>Install</h1>
+<p>
+  Pre-built binaries are provided for 64-bit x86 machines running
+  macOS, Windows, and Linux.
+</p>
+<div class="docs-cards">
+  <div class="docs-card">
+    <div class="docs-card-title">macOS</div>
+    <div class="docs-card-body">
+      Download <a href="https://github.com/multiprocessio/datastation/releases/download/{{version}}/datastation-darwin-x64-{{version}}.zip">datastation-darwin-x64-{{version}}.zip</a>
+      and unzip. You will need to right-click the application to click
+      Open so you can run the untrusted application.
+    </div>
+  </div>
+  <div class="docs-card">
+    <div class="docs-card-title">Windows</div>
+    <div class="docs-card-body">
+      Download <a href="https://github.com/multiprocessio/datastation/releases/download/{{version}}/datastation-win32-x64-{{version}}.zip">datastation-win32-x64-{{version}}.zip</a>
+      and unzip. If you get a warning saying "Don't run", click "More
+      info" and click "Run anyway". There may be a few second long
+      security scan the first time you run.
+    </div>
+  </div>
+  <div class="docs-card">
+    <div class="docs-card-title">Linux</div>
+    <div class="docs-card-body">
+      Download <a href="https://github.com/multiprocessio/datastation/releases/download/{{version}}/datastation-linux-x64-{{version}}.zip">datastation-linux-x64-{{version}}.zip</a>
+      and unzip.
+    </div>
+  </div>
+</div>
+<h1>Relational Databases</h1>
+<div class="docs-cards">
+  <a class="docs-card" href="./tutorials/Query_PostgreSQL_with_DataStation.html">
+    <div class="docs-card-body">
+      Query PostgreSQL
+    </div>
+  </a>
+  <a class="docs-card" href="./tutorials/Query_MySQL_with_DataStation.html">
+    <div class="docs-card-body">
+      Query MySQL
+    </div>
+  </a>
+  <a class="docs-card" href="./tutorials/Query_SQLite_with_DataStation.html">
+    <div class="docs-card-body">
+      Query SQLite
+    </div>
+  </a>
+  <a class="docs-card" href="./tutorials/Query_Oracle_with_DataStation.html">
+    <div class="docs-card-body">
+      Query Oracle
+    </div>
+  </a>
+  <a class="docs-card" href="./tutorials/Query_SQL_Server_with_DataStation.html">
+    <div class="docs-card-body">
+      Query SQL Server
+    </div>
+  </a>
+</div>
+<h1>Data Warehouses</h1>
+<div class="docs-cards">
+  <a class="docs-card" href="./tutorials/Query_Big_Query_with_DataStation.html">
+    <div class="docs-card-body">
+      Query Big Query
+    </div>
+  </a>
+</div>
+<h1>Document Databases</h1>
+<div class="docs-cards">
+  <a class="docs-card" href="./tutorials/Query_Elasticsearch_with_DataStation.html">
+    <div class="docs-card-body">
+      Query Elasticsearch
+    </div>
+  </a>
+</div>
+<h1>Time Series Databases</h1>
+<div class="docs-cards">
+  <a class="docs-card" href="./tutorials/Query_Scylla_with_DataStation.html">
+    <div class="docs-card-body">
+      Query Scylla
+    </div>
+  </a>
+  <a class="docs-card" href="./tutorials/Query_ClickHouse_with_DataStation.html">
+    <div class="docs-card-body">
+      Query ClickHouse
+    </div>
+  </a>
+</div>
+<h1>Time Series Databases</h1>
+<div class="docs-cards">
+  <a class="docs-card" href="./tutorials/Query_Prometheus_with_DataStation.html">
+    <div class="docs-card-body">
+      Query Prometheus
+    </div>
+  </a>
+  <a class="docs-card" href="./tutorials/Query_Influx_(2.x)_with_DataStation_(Flux).html">
+    <div class="docs-card-body">
+      Query Influx 2.x (Flux)
+    </div>
+  </a>
+  <a class="docs-card" href="./tutorials/Query_Influx_(1.x)_with_DataStation_(InfluxQL).html">
+    <div class="docs-card-body">
+      Query Influx 1.x (InfluxQL)
+    </div>
+  </a>
+</div>
 <h1>Release Notes</h1>
 <ul>
-<li><a href="https://datastation.multiprocess.io/docs/0.7.0-release-notes.html">0.7.0</a></li>
-<li><a href="https://datastation.multiprocess.io/docs/0.6.0-release-notes.html">0.6.0</a></li>
-<li><a href="https://datastation.multiprocess.io/docs/0.5.0-release-notes.html">0.5.0</a></li>
-<li><a href="https://datastation.multiprocess.io/docs/0.4.0-release-notes.html">0.4.0</a></li>
-<li><a href="https://datastation.multiprocess.io/docs/0.3.0-release-notes.html">0.3.0</a></li>
-<li><a href="https://datastation.multiprocess.io/docs/0.2.0-release-notes.html">0.2.0</a></li>
-<li><a href="https://datastation.multiprocess.io/docs/0.1.0-release-notes.html">0.1.0</a></li>
-<li><a href="https://datastation.multiprocess.io/docs/0.0.5-alpha-release-notes.html">0.0.5-alpha</a></li>
-<li><a href="https://datastation.multiprocess.io/docs/0.0.4-alpha-release-notes.html">0.0.4-alpha</a></li>
-<li><a href="https://datastation.multiprocess.io/docs/0.0.3-alpha-release-notes.html">0.0.3-alpha</a></li>
+  <li><a href="https://datastation.multiprocess.io/docs/0.7.0-release-notes.html">0.7.0</a></li>
+  <li><a href="https://datastation.multiprocess.io/docs/0.6.0-release-notes.html">0.6.0</a></li>
+  <li><a href="https://datastation.multiprocess.io/docs/0.5.0-release-notes.html">0.5.0</a></li>
+  <li><a href="https://datastation.multiprocess.io/docs/0.4.0-release-notes.html">0.4.0</a></li>
+  <li><a href="https://datastation.multiprocess.io/docs/0.3.0-release-notes.html">0.3.0</a></li>
+  <li><a href="https://datastation.multiprocess.io/docs/0.2.0-release-notes.html">0.2.0</a></li>
+  <li><a href="https://datastation.multiprocess.io/docs/0.1.0-release-notes.html">0.1.0</a></li>
+  <li><a href="https://datastation.multiprocess.io/docs/0.0.5-alpha-release-notes.html">0.0.5-alpha</a></li>
+  <li><a href="https://datastation.multiprocess.io/docs/0.0.4-alpha-release-notes.html">0.0.4-alpha</a></li>
+  <li><a href="https://datastation.multiprocess.io/docs/0.0.3-alpha-release-notes.html">0.0.3-alpha</a></li>
 </ul>
-
-
-<div class="about-this-page">
-<h4>About this page</h4>
-<p>
-  See an error or want to add a clarification? This page is
-  generated from <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/README.md">this file on Github</a>.
-  <br /><br />
-  Last edited Feb 07, 2022.
-</p>
-</div>
 {% endblock %}
