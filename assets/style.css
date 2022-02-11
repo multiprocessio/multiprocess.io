@@ -352,12 +352,13 @@ footer .container > * {
 
 .btn.btn--primary {
     color: white;
+    transition: background .3s;
     background: #9f04ff;
 }
 
 .btn.btn--primary:hover,
 .btn.btn--primary:active {
-    background: #fd36af;
+    background: #1c8fde;
 }
 
 .carousel-image {
@@ -680,10 +681,6 @@ ul.checks li:before {
 	font-size: 3rem;
     }
 
-    .header {
-	padding: 15px 0;
-    }
-
     .flex-mobile--column {
 	flex-direction: column;
     }
@@ -727,7 +724,7 @@ ul.checks li:before {
 	padding: 30px 0;
     }
 
-    header {
-	padding: 15px 0;
+    .docs-card, .docs-card:visited {
+	width: 100%;
     }
 }
