@@ -1,0 +1,96 @@
+{# DO NOT EDIT -- THIS FILE IS AUTO-GENERATED #}
+
+{% set doctitle = 'Querying Yugabyte with DataStation' %}
+
+{% extends 'docs/layout.tmpl' %}
+
+{% block docbody %}
+<div><a href="/docs/">Back to documentation</a></div>
+
+<h1>Querying Yugabyte with DataStation</h1>
+<h1>Database initialization [Optional]</h1>
+<p>If you want to follow along with this tutorial literally, in your
+terminal start Yugabyte in Docker:</p>
+<pre><code class="hljs language-bash">$ cid=$(docker run -d -p 5433:5433 yugabytedb/yugabyte:latest bin/yugabyted start)
+</code></pre>
+<p>Yugabyte comes with some great sample data and a <a href="https://docs.yugabyte.com/latest/quick-start/explore/ysql/">great
+guide</a> for
+loading this data, so we'll follow that.</p>
+<p>First we create a database and set up some tables.</p>
+<pre><code class="hljs language-bash">$ docker exec -it $cid ysqlsh
+ysqlsh (11.2-YB-2.11.2.0-b0)
+Type &quot;help&quot; for help.
+
+yugabyte=# CREATE DATABASE yb_demo;
+CREATE DATABASE
+You are now connected to database &quot;yb_demo&quot; as user &quot;yugabyte&quot;.
+yb_demo=# \i share/schema.sql;
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+</code></pre>
+<p>Now the Yugabyte guide suggests loading data for four different tables
+but for this guide let's just load one table.</p>
+<pre><code class="hljs language-bash">yb_demo=# \i share/products.sql;
+...
+INSERT 0 1
+</code></pre>
+<p>And we're done!</p>
+<h1>Data source setup</h1>
+<p>Now inside DataStation create a new data source in the left sidebar.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/create-data-source.gif" alt="Creating a new data source" /></p>
+<p>Give it a nice name so you easily can find it later. And select Yugabyte
+in the Vendor dropdown.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/create-yugabyte-data-source.png" alt="Creating a Yugabyte data source" /></p>
+<h2>Host field</h2>
+<p>If you are connecting to <code class="hljs">localhost:5433</code> (the default), you can
+leave the host field blank. If your port is 5433 then you can always
+omit the colon and port and just specify the address.</p>
+<p>However:! when you are connecting to any PostgreSQL wire-compatible
+database in DataStation (including Yugabyte) and you are connecting
+without TLS, you must explicitly opt out of TLS by specifying the
+query argument <code class="hljs">?sslmode=disable</code>.</p>
+<h2>Other fields</h2>
+<p>The database is the one we just created, <code class="hljs">yb_demo</code>. And the default
+username and password for the Yugabyte docker image is <code class="hljs">yugabyte</code> and
+<code class="hljs">yugabyte</code>.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/yugabyte-data-source-filled.png" alt="Filled Flux data source" /></p>
+<h2>SSH Proxy [Optional]</h2>
+<p>If you want connect to a Yugabyte database on a remote server through an
+SSH proxy, you will need to set up the SSH connection to that server
+first. Once you do, you can select that connection in the &quot;Via Server&quot;
+dropdown within the data source editor.</p>
+<h1>Panel setup</h1>
+<p>Now create a new panel and select the Database type.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/create-yugabyte-database-panel.gif" alt="Create database panel" /></p>
+<h2>Run a query</h2>
+<p>Enter in <code class="hljs">SELECT category, COUNT(1) AS count FROM products GROUP BY category ORDER BY COUNT(1) DESC</code> and hit play!</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/run-yugabyte-query.gif" alt="Run Yugabyte query" /></p>
+<p>Note: Ctrl-r is a shortcut for hitting the play button when you are
+focused on one panel.</p>
+<p>You can always download the results of a panel by hitting the download
+button. Or you can reference the results in other panels.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/download-yugabyte-panel-results.png" alt="Download panel results" /></p>
+<h1>Graph the results</h1>
+<p>After running the query, a graph button will appear below the panel
+next to the New Panel button. Click it to generate a graph based on
+this panel.</p>
+<p>DataStation tries to guess which columns to graph but it doesn't
+always get it right. Select the name and age columns for the x and y
+dimensions respectively.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/graph-yugabyte-database-results.gif" alt="Graph database results" /></p>
+<p>Note: when the query panel changes in the future you'll need to
+manually re-run the graph panel.</p>
+
+
+<div class="about-this-page">
+<h4>About this page</h4>
+<p>
+  See an error or want to add a clarification? This page is
+  generated from <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/tutorials/Query_Yugabyte_with_DataStation.md">this file on Github</a>.
+  <br /><br />
+  Last edited Feb 13, 2022.
+</p>
+</div>
+{% endblock %}
