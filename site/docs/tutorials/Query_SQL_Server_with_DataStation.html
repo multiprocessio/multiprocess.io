@@ -8,18 +8,50 @@
 <div><a href="/docs/">Back to documentation</a></div>
 
 <h1>Querying SQL Server with DataStation</h1>
+<h1>Database initialization [Optional]</h1>
+<p>If you want to follow along with this tutorial literally, in your
+terminal start SQL Server in Docker:</p>
+<pre><code class="hljs language-bash">$ cid=$(docker run -d -p 1433:1433 -e &quot;ACCEPT_EULA=Y&quot; -e &quot;SA_PASSWORD=yourStrong(%)Password&quot; mcr.microsoft.com/mssql/server)
+</code></pre>
+<p>Now create a table for some address data (it may take a few retries to
+run this command while SQL Server is initializing).</p>
+<pre><code class="hljs language-bash">$ docker exec -t $cid /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P &quot;yourStrong(%)Password&quot;
+1&gt; CREATE DATABASE test
+2&gt; GO
+1&gt; USE test
+2&gt; GO
+1&gt; CREATE TABLE addresses (id BIGINT, location_id BIGINT, address_1 VARCHAR(MAX), address_2 VARCHAR(MAX), city VARCHAR(MAX), state_province VARCHAR(MAX), postal_code VARCHAR(MAX), country VARCHAR(MAX))
+2&gt; GO
+</code></pre>
+<p>Then download a <a href="https://raw.githubusercontent.com/codeforamerica/ohana-api/master/data/sample-csv/addresses.csv">CSV of sample
+addresses</a>
+from Github, copy it into the Docker container, and load the addresses
+into this new table.</p>
+<pre><code class="hljs language-bash">$ curl -LO https://raw.githubusercontent.com/codeforamerica/ohana-api/master/data/sample-csv/addresses.csv
+$ docker cp ./addresses.csv $cid:/tmp/addresses.csv
+$ docker exec -t $cid /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P &quot;yourStrong(%)Password&quot;
+1&gt; USE test
+2&gt; GO
+1&gt; BULK INSERT addresses FROM &#x27;/tmp/addresses.csv&#x27; WITH (FIRSTROW = 2, FIELDTERMINATOR = &#x27;,&#x27;, ROWTERMINATOR = &#x27;\n&#x27;, TABLOCK)
+2&gt; GO
+
+(21 rows affected)
+</code></pre>
+<p>And we're done!</p>
 <h1>Data source setup</h1>
-<p>First create a new data source in the left sidebar.</p>
+<p>Now inside DataStation create a new data source in the left sidebar.</p>
 <p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/create-data-source.gif" alt="Creating a new data source" /></p>
-<p>Give it a nice name so you easily can find it later. And select SQL Server
-in the Vendor dropdown.</p>
+<p>Give it a nice name so you can easily find it later. And select
+SQL Server in the Vendor dropdown.</p>
 <p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/create-sqlserver-data-source.png" alt="Creating a SQL Server data source" /></p>
 <h2>Host field</h2>
-<p>If you are connecting to <code class="hljs">localhost:1433</code> (the default), you can leave
-the host field blank. If your port is 1433 then you can always omit
-the colon and port and just specify the address.</p>
+<p>If you are connecting to <code class="hljs">localhost:1433</code> (the default), you can
+leave the host field blank. If your port is 1433 then you can always
+omit the colon and port and just specify the address.</p>
 <h2>Other fields</h2>
-<p>Next set your database, username, and password.</p>
+<p>Next we set the database to <code class="hljs">test</code>, the username to <code class="hljs">SA</code>, and the
+password to <code class="hljs">yourStrong(%)Password</code> (we specified this when we started
+the Docker container).</p>
 <p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/sqlserver-data-source-filled.png" alt="Filled out SQL Server data source" /></p>
 <h2>SSH Proxy [Optional]</h2>
 <p>If you want connect to a SQL Server database on a remote server through an
@@ -35,15 +67,13 @@ dropdown within the data source editor.</p>
 <p>You can always download the results of a panel by hitting the download
 button. Or you can reference the results in other panels.</p>
 <p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/download-sqlserver-panel-results.png" alt="Download panel results" /></p>
-<h1>Graph the results</h1>
-<p>Create a new panel. Change the type to Graph. Select the previous
-Database panel as the panel source. Then select the X and Y columns
-you'd like to graph.</p>
-<p>Finally, click the play button to generate the graph. You can download
-the graph as a PNG by clicking the download button.</p>
-<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/graph-sqlserver-database-results.gif" alt="Graph database results" /></p>
-<p>Note: Ctrl-r is a shortcut for hitting the play button when you are
-focused on one panel.</p>
+<h1>Display results</h1>
+<p>After running the query, a table button will appear below the panel
+next to the New Panel button. Click it to generate a table based on
+this panel.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/graph-sqlserver-database-results.gif" alt="Render results" /></p>
+<p>Note: when the query panel changes in the future you'll need to
+manually re-run the table panel.</p>
 
 
 <div class="about-this-page">
@@ -52,7 +82,7 @@ focused on one panel.</p>
   See an error or want to add a clarification? This page is
   generated from <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/tutorials/Query_SQL_Server_with_DataStation.md">this file on Github</a>.
   <br /><br />
-  Last edited Jan 20, 2022.
+  Last edited Feb 13, 2022.
 </p>
 </div>
 {% endblock %}
