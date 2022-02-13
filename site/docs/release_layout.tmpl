@@ -1,0 +1,10 @@
+{% extends 'docs/layout.tmpl' %}
+
+{% block docbody %}
+<p class="what-is-datastation"><label>What is DataStation?</label><small>{{ description }}</small></p>
+<h2>{{doctitle}}</h2>
+<div class="post-subtitle">
+  Published on <span class="post-date">{{subtitle}}</span>
+</div>
+{% block releasebody %}{% endblock %}
+{% endblock %}
