@@ -39,14 +39,25 @@
   }
 
   header {
-      background: #343841;
-      color: white;
       padding: 5px 0;
   }
 
   header a {
-      color: white;
       text-decoration: none;
+  }
+
+  header .header-name,
+  header .header-name:visited,
+  header .header-name:focus {
+      color: black;
+  }
+
+  header a.subscribe,
+  header a.subscribe:visited,
+  header a.subscribe:focus {
+      background: #2a4174;
+      color: white;
+      padding: 15px;
   }
 
   .header-name {
@@ -71,13 +82,14 @@
   section {
       margin: 0;
       padding: 30px 0;
+      padding-bottom: 60px;
   }
 
   section:nth-of-type(1) {
-      background: #308d8d;
       color: white;
       min-height: 600px;
-      background-image: linear-gradient(to right top, #308d8d, #00a990, #03c37f, #5fd95b, #a8eb12);
+      background: #232439;
+      background-image: linear-gradient(to right top, #232439, #23263d, #232841, #222b45, #212d49, #1f2c49, #1e2a48, #1c2948, #1a2443, #181f3e, #171a39, #151534);
   }
 
   section:nth-of-type(1) .features {
@@ -86,13 +98,19 @@
       padding-top: 15px;
   }
 
+  section:nth-of-type(even) .feature {
+      background: rgba(10, 10, 60,.7);
+  }
+
   section:nth-of-type(3) {
       background: #5b5699;
+      background-image: linear-gradient(to left bottom, #5b5699, #5e59a9, #625bb8, #655ec8, #6960d8);
       color: white;
   }
 
   section:nth-of-type(5) {
       background: #fbba42;
+      background-image: linear-gradient(to left bottom, #fbba42, #edad38, #e0a12e, #d29524, #c58919);
       color: white;
       min-height: 600px;
   }
@@ -110,7 +128,7 @@
 
   .feature {
       color: white;
-      background: rgba(0,0,0, .5);
+      border: 1px solid white;
       padding: 30px;
       margin: 0 15px;
       padding-bottom: 60px;
@@ -182,10 +200,10 @@
   <div class="container">
     <div class="flex flex--horizontal space-between">
       <a href="/" class="flex flex--horizontal">
-	<img src="/assets/icon_xsmall_white.png" />
+	<img src="/assets/favicon.png" />
 	<span class="header-name">Multiprocess Labs</span>
       </a>
-      <a href="https://forms.gle/wH5fdxrxXwZHoNxk8">Subscribe</a>
+      <a href="https://forms.gle/wH5fdxrxXwZHoNxk8" class="subscribe">Subscribe</a>
     </div>
   </div>
 </header>
@@ -218,6 +236,11 @@
   <div class="container">
     <h1>Research</h1>
     <div class="features">
+      <a href="https://datastation.multiprocess.io/blog/2022-02-08-the-world-of-postgresql-wire-compatibility.html" class="feature">
+	<h2>The world of PostgreSQL wire compatibility</h2>
+	<p>February 8, 2022</p>
+	<span class="a">Read</span>
+      </a>
       <a href="https://datastation.multiprocess.io/blog/2022-01-06-analyzing-large-json-files-via-partial-json-parsing.html" class="feature">
 	<h2>Analyzing large JSON files via partial JSON parsing</h2>
 	<p>January 6, 2022</p>
@@ -226,11 +249,6 @@
       <a href="https://datastation.multiprocess.io/blog/2021-11-13-benchmarking-esbuild-swc-typescript-babel.html" class="feature">
 	<h2>Benchmarking esbuild, swc, tsc, and babel for React/JSX projects</h2>
 	<p>November 23, 2021</p>
-	<span class="a">Read</span>
-      </a>
-      <a href="https://datastation.multiprocess.io/blog/2021-10-31-building-a-nested-css-rule-expander.html" class="feature">
-	<h2>Building a fast SCSS-like rule expander for CSS using fuzzy parsing</h2>
-	<p>October 31, 2021</p>
 	<span class="a">Read</span>
       </a>
     </div>
