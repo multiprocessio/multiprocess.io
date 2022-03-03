@@ -357,7 +357,7 @@ $ diff -u main.go nosort.go
 +               r, ok := row.(map[string]interface{})
 +               if !ok {
 +                       log.Println("Falling back to stdlib")
-+                       bs, err := json.Marshal(r)
++                       bs, err := json.Marshal(row)
 +                       if err != nil {
 +                               return err
 +                       }
@@ -1279,8 +1279,8 @@ $ diff -u goccy.go goccy_nosort.go
                 r, ok := row.(map[string]interface{})
                 if !ok {
                         log.Println("Falling back to stdlib")
--                       bs, err := json.Marshal(r)
-+                       bs, err := marshalFn(r)
+-                       bs, err := json.Marshal(row)
++                       bs, err := marshalFn(row)
                         if err != nil {
                                 return err
                         }
@@ -1448,6 +1448,24 @@ taxi,stdlib,12.228855201s
 That's about a 55% speed improvement on the standard library
 encoder. That's pretty good!
 
+## Validate
+
+Finally, let's pass through the nosort generated JSON and have it be
+encoded with the standard libary JSON encoder. Then if there is no
+diff between that result and the stdlib encoded JSON, we'll know that
+we have emitted correct and valid JSON.
+
+```
+$ ./main --in taxi-nosort
+sample,encoder,time
+taxi-nosort,stdlib,13.00740141s
+$ diff taxi-nosort-stdlib.json taxi-stdlib.json
+$ echo $?
+0
+```
+
+Okee doke. :)
+
 ## Fin
 
 What's neat is how much we can improve on the standard library without
@@ -1461,6 +1479,5 @@ I'm also working on breaking this out as a standalone library. You can
 [check it out on Github](https://github.com/multiprocessio/go-json).
 
 #### Share
-
 
 {% endblock %}
