@@ -1485,5 +1485,6 @@ Rise-1](https://us.ovhcloud.com/bare-metal/rise/rise-1/).
 * Processor: Intel Xeon E3-1230v6 - 4c/8t - 3.5 GHz/3.9 GHz
 
 #### Share
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">New blog post! On the slight modification we make to DataStation&#39;s JSON encoder to improve performance when writing large arrays of objects.<a href="https://t.co/wkwP7aW6HB">https://t.co/wkwP7aW6HB</a> <a href="https://t.co/y0wNDV3Bma">pic.twitter.com/y0wNDV3Bma</a></p>&mdash; Multiprocess Labs (@multiprocessio) <a href="https://twitter.com/multiprocessio/status/1499492400703619077?ref_src=twsrc%5Etfw">March 3, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 {% endblock %}
