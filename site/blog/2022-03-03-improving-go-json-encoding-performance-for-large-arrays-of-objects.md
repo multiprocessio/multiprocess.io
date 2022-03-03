@@ -16,18 +16,10 @@ DataStation and it's pretty inefficient. But the reason it's used is
 because almost every scripting language supported by DataStation has a
 builtin library for reading/writing JSON.
 
-## Machine specs
-I am running these benchmarks on a dedicated bare metal instance, [OVH
-Rise-1](https://us.ovhcloud.com/bare-metal/rise/rise-1/).
-
-* RAM: 64 GB DDR4 ECC 2,133 MHz
-* Disk: 2x450 GB SSD NVMe in Soft RAID
-* Processor: Intel Xeon E3-1230v6 - 4c/8t - 3.5 GHz/3.9 GHz
-
-## Code
-
 All code for these benchmarks are [available on
 Github](https://github.com/multiprocessio/go-json-benchmarks).
+
+The resulting JSON encoder library is also [available on Github](https://github.com/multiprocessio/go-json).
 
 ## Useful datasets
 
@@ -1477,6 +1469,20 @@ Github](https://github.com/multiprocessio/go-json-benchmarks).
 
 I'm also working on breaking this out as a standalone library. You can
 [check it out on Github](https://github.com/multiprocessio/go-json).
+
+## Caveat
+
+The results here are surprisingly good. Surprisingly good in these
+situations normally means you messed up. So, Internet, do your thing
+and correct me where I'm wrong!
+
+## Machine specs
+I am running these benchmarks on a dedicated bare metal instance, [OVH
+Rise-1](https://us.ovhcloud.com/bare-metal/rise/rise-1/).
+
+* RAM: 64 GB DDR4 ECC 2,133 MHz
+* Disk: 2x450 GB SSD NVMe in Soft RAID
+* Processor: Intel Xeon E3-1230v6 - 4c/8t - 3.5 GHz/3.9 GHz
 
 #### Share
 
