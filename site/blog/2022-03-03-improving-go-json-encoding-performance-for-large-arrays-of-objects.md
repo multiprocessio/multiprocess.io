@@ -1462,13 +1462,5 @@ I'm also working on breaking this out as a standalone library. You can
 
 #### Share
 
-If you liked this post, please
-[subscribe](https://docs.google.com/forms/d/e/1FAIpQLSfYF3AZivacRrQWanC-skd0iI23ermwPd17T_64Xc4etoL_Tw/viewform)!
-Also try out [dsq](https://github.com/multiprocessio/go-json) and
-[DataStation](https://github.com/multiprocessio/go-json).
-
-With questions, criticism or ideas, [email
-me](mailto:phil@multiprocessio.io) or [Tweet
-me](https://twitter.com/phil_eaton)!
 
 {% endblock %}

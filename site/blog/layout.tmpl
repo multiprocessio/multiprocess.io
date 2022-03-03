@@ -13,13 +13,19 @@
       Published on <span class="post-date">{% block postDate %}{% endblock %}</span> by <span class="post-author">{% block postAuthor %}{% endblock %}</span>
     </div>
     <div class="post-tags">{% for tag in tags %}<span class="post-tag">{{tag}}</span>{% endfor %}</div>
+
     {% block postBody%}{% endblock %}
-    <p>
-      Questions? Feedback? Feel free to reach the author at {% block postAuthorEmail %}{% endblock %}.
-    </p>
-    <div class="subscribe-footer">
-      <a href="https://forms.gle/wH5fdxrxXwZHoNxk8">Subscribe</a> for more posts like this!
-    </div>
+
+<!-- Markdown renders this as code because it's indented if you indent these -->
+<p>
+With questions, criticism or ideas, <a href="mailto:phil@multiprocess.io">email</a> or <a href="https://twitter.com/phil_eaton">Tweet</a> me.
+</p>
+<div class="subscribe-footer">
+  If you liked this post, please <a href="https://docs.google.com/forms/d/e/1FAIpQLSfYF3AZivacRrQWanC-skd0iI23ermwPd17T_64Xc4etoL_Tw/viewform">subscribe</a>!
+</div>
+<p>
+Also check out <a href="https://github.com/multiprocessio/datastation">DataStation</a> and <a href="https://github.com/multiprocessio/dsq">dsq</a>.
+</p>
 </section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
