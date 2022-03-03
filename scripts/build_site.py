@@ -38,14 +38,21 @@ BODY
 DOCS_SOURCE = "datastation-documentation"
 DOCS_SITE_ROOT = "site/docs/"
 
-def make_docs_glob(*suffixes):
+def make_glob(prefix, *suffixes):
     all = []
     for suffix in suffixes:
-        all += glob.glob(f"{DOCS_SOURCE}/{suffix}") + glob.glob(f"{DOCS_SOURCE}/**/{suffix}", recursive=True)
+        all += glob.glob(f"{prefix}/{suffix}") + glob.glob(f"{prefix}/**/{suffix}", recursive=True)
     return all
 
+
+def md_to_html(raw):
+    html = marko.convert(raw)
+    html = html.replace('<code>', '<code class="hljs">')
+    return re.sub(r'class="(language-[a-zA-Z0-9]+)"', r'class="hljs \1"', html)
+
+
 # Rewrite md files from docs repo into HTML files for the site.
-for file in make_docs_glob("*.md"):
+for file in make_glob(DOCS_SOURCE, "*.md"):
     if file.lower() == DOCS_SOURCE + '/readme.md':
         continue
     if '/internal/' in file:
@@ -66,9 +73,7 @@ for file in make_docs_glob("*.md"):
             raw = raw.replace('.md', '.html')
             raw = re.sub(r'([a-zA-Z0-9.\-_\/]*/([a-zA-Z0-9\-_]*\.(png|gif)))', r'https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main\1', raw)
 
-            html = marko.convert(raw)
-            html = html.replace('<code>', '<code class="hljs">')
-            html = re.sub(r'class="(language-[a-zA-Z0-9]+)"', r'class="hljs \1"', html)
+            html = md_to_html(raw)
 
             title = html[:html.index('</h1>')].split('<h1>')[1].strip()
             page = 'https://github.com/multiprocessio/datastation-documentation/blob/main/' + source
@@ -104,9 +109,8 @@ DEFAULT_DATA = {
 
 blog_posts = []
 
-def load_template(file, base):
-    with open(file, "r") as f:
-        return Environment(loader=FileSystemLoader(base+"/")).from_string(f.read())
+def load_template(source, base):
+    return Environment(loader=FileSystemLoader(base+"/")).from_string(source)
 
 def get_block(tmpl, name):
     ctx = tmpl.environment.context_class
@@ -119,19 +123,28 @@ videos = yaml.load(open('data/videos.yaml'), yaml.Loader)
 events = yaml.load(open('data/events.yaml'), yaml.Loader)
 
 for file in glob.glob(base+"/*.*")+glob.glob(base+"/**/*.*", recursive=True):
-    if not file.endswith('.html'):
+    if not file.endswith('.html') and not file.endswith('.md'):
         continue
+
     print('Rendering ' + file)
-    tmpl = load_template(file, base)
+    with open(file, "r") as f:
+        source = f.read()
+
+    ismd = file.endswith(".md")
+    if ismd:
+        file = file.replace(".md", ".html")
+
+    tmpl = load_template(source, base)
     out = file.replace(base+"/", out_base+"/")
     title = get_block(tmpl, "title")
-    content = tmpl.render({ **DEFAULT_DATA, "events": events, "videos": videos })
 
     # Accumulate blog posts
     if file.startswith(base+"/blog/") and not file.endswith("index.html"):
         title = get_block(tmpl, "postTitle")
         tags = [t.strip() for t in get_block(tmpl, "postTags").split(',')]
         content = tmpl.render({ **DEFAULT_DATA, "events": events, "title": title, "tags": tags })
+        if ismd:
+            content = md_to_html(content)
         blog_posts.append({
             "title": title,
             "author": get_block(tmpl, "postAuthor"),
@@ -140,6 +153,8 @@ for file in glob.glob(base+"/*.*")+glob.glob(base+"/**/*.*", recursive=True):
             "url": file.replace(base+"/", ""),
             "content": content,
         })
+    else:
+        content = tmpl.render({ **DEFAULT_DATA, "events": events, "videos": videos })
 
     directory = os.path.dirname(out)
     if not os.path.exists(directory):
@@ -148,7 +163,8 @@ for file in glob.glob(base+"/*.*")+glob.glob(base+"/**/*.*", recursive=True):
     with open(out, "w") as fw:
         fw.write(content)
 
-tmpl = load_template(base+"/blog/index.html", base)
+with open(base+"/blog/index.html") as f:
+    tmpl = load_template(f.read(), base)
 blog_posts.sort(key=lambda post: datetime.strptime(post["date"], "%B %d, %Y"), reverse=True)
 with open(out_base+"/blog/index.html", "w") as fw:
     print('Rendering blog index')
