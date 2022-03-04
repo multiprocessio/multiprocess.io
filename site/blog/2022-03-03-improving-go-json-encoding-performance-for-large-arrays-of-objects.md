@@ -695,40 +695,41 @@ buffer to the file once at the end. Let's give that a shot.
 ```bash
 $ cp bufio.go buffer.go
 $ diff -u bufio.go buffer.go
---- buffer.go   2022-03-03 19:02:13.628485570 +0000
-+++ cache-columns.go    2022-03-03 19:01:54.121695243 +0000
-@@ -24,6 +24,8 @@
-                return err
+--- bufio.go    2022-03-03 19:02:03.913590177 +0000
++++ buffer.go   2022-03-03 19:03:38.007564957 +0000
+@@ -1,7 +1,7 @@
+ package main
+ 
+ import (
+-       "bufio"
++       "bytes"
+        "encoding/json"
+        "log"
+        "os"
+@@ -18,8 +18,7 @@
+                return stdlibEncoder(out, obj)
         }
-
-+       quotedColumns := map[string][]byte{}
+ 
+-       bo := bufio.NewWriter(out)
+-       defer bo.Flush()
++       bo := bytes.NewBuffer(nil)
+        _, err := bo.Write([]byte("["))
+        if err != nil {
+                return err
+@@ -89,6 +88,14 @@
+        }
+ 
+        _, err = bo.Write([]byte("]"))
 +
-        for i, row := range a {
-                // Write a comma before the current object
-                if i > 0 {
-@@ -65,7 +67,12 @@
-                                }
-                        }
-
--                       _, err = bo.Write([]byte(strconv.QuoteToASCII(col) + ":"))
-+                       quoted := quotedColumns[col]
-+                       if quoted == nil {
-+                               quoted = []byte(strconv.QuoteToASCII(col) + ":")
-+                               quotedColumns[col] = quoted
-+                       }
-+                       _, err = bo.Write(quoted)
-                        if err != nil {
-                                return err
-                        }
-@@ -75,7 +82,7 @@
-                                return err
-                        }
-
--                       _, err = out.Write(bs)
-+                       _, err = bo.Write(bs)
-                        if err != nil {
-                                return err
-                        }
++       for bo.Len() > 0 {
++               _, err := bo.WriteTo(out)
++               if err != nil {
++                       return err
++               }
++       }
++
+        return err
+ }
 ```
 
 And run it.
