@@ -979,7 +979,7 @@ libraries that improve on the Go standard libraries JSON encoder.
 
 Let's add [goccy/go-json](https://github.com/goccy/go-json) which
 bills itself as the fastest encoder. Let's drop `pkg/profile` and
-really soling on timings taken before and after the `encode` function
+rely solely on timings taken before and after the `encode` function
 is called. And let's beef up the benchmark script a bit more to be
 able to run multiple iterations and multiple kinds of encoders.
 
