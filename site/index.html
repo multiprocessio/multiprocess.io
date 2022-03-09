@@ -1,278 +1,316 @@
 {% extends "layout.tmpl" %}
 {% block body %}
 <style>
-  /* https://elad2412.github.io/the-new-css-reset/ */
-  /*** The new CSS Reset - version 1.4.0 (last updated 16.11.2021) ***/
+ /* https://elad2412.github.io/the-new-css-reset/ */
+ /*** The new CSS Reset - version 1.4.0 (last updated 16.11.2021) ***/
 
-  /*
+ /*
     Remove all the styles of the "User-Agent-Stylesheet", except for the 'display' property
     - The "symbol *" part is to solve Firefox SVG sprite bug
- */
-  *:where(:not(iframe, canvas, img, svg, video):not(svg *, symbol *)) {
-      all: unset;
-      display: revert;
-  }
+  */
+ *:where(:not(iframe, canvas, img, svg, video):not(svg *, symbol *)) {
+   all: unset;
+   display: revert;
+ }
 
-  /* Preferred box-sizing value */
-  *,
-  *::before,
-  *::after {
-      box-sizing: border-box;
-  }
+ /* Preferred box-sizing value */
+ *,
+ *::before,
+ *::after {
+   box-sizing: border-box;
+ }
 
-  /* For images to not be able to exceed their container */
-  img {
-      max-width: 100%;
-      max-height: 100%;
-  }
+ /* For images to not be able to exceed their container */
+ img {
+   max-width: 100%;
+   max-height: 100%;
+ }
 
-  /* removes spacing between cells in tables */
-  table {
-      border-collapse: collapse;
-  }
+ /* removes spacing between cells in tables */
+ table {
+   border-collapse: collapse;
+ }
 
-  /* revert the 'white-space' property for textarea elements on Safari */
-  textarea {
-      white-space: revert;
-  }
+ /* revert the 'white-space' property for textarea elements on Safari */
+ textarea {
+   white-space: revert;
+ }
 
-  /* revert for bug in Chromium browsers
-   - fix for the content editable attribute will work properly. */
-  :where([contenteditable]){
-      -webkit-user-modify: read-write;
-      overflow-wrap: break-word;
-      -webkit-line-break: after-white-space;
-  }
+ /* revert for bug in Chromium browsers
+    - fix for the content editable attribute will work properly. */
+ :where([contenteditable]){
+   -webkit-user-modify: read-write;
+   overflow-wrap: break-word;
+   -webkit-line-break: after-white-space;
+ }
 </style>
 <style>
-  :root {
-      --background-dark: #252539;
-  }
-  
-  * {
-      transition: border .5s, background-color .5s, opacity 3s;
-  }
+ :root {
+   --background-dark: #f4f4f7;
+ }
 
-  h1 {
-      font-size: 3rem;
-      font-weight: bold;
-      margin-bottom: 30px;
-  }
+ h1 {
+   font-size: 3rem;
+   font-weight: bold;
+   margin-bottom: 30px;
+ }
 
-  ul.no-decoration {
-      margin: 0;
-  }
+ ul.no-decoration {
+   margin: 0;
+ }
 
-  ul.no-decoration li {
-      list-style: none;
-      display: flex;
-      align-items: center;
-      padding: 5px 0;
-  }
+ ul.no-decoration li {
+   list-style: none;
+   display: flex;
+   align-items: center;
+   padding: 5px 0;
+ }
 
-  ul.no-decoration li .material-icons {
-      padding-right: 5px;
-  }
+ ul.no-decoration li .material-icons {
+   padding-right: 5px;
+ }
 
-  section:not(:first-of-type) {
-      padding: 100px 0;
-  }
+ section:not(:first-of-type) {
+   padding: 100px 0;
+ }
 
-  tbody td:first-of-type,
-  thead th:first-of-type {
-      text-transform: uppercase;
-      font-weight: bold;
-      font-size: .75rem;
-      color: #777;
-      text-align: right;
-  }
+ table tbody tr {
+     border: 0;
+ }
 
-  thead th {
-      font-weight: bold;
-      text-transform: uppercase;
-      font-size: .75rem;
-  }
+ table tbody tr td:first-of-type {
+   text-transform: uppercase;
+   font-weight: bold;
+   color: #333;
+   text-align: right;
+   font-size: .8rem;
+ }
 
-  tbody td:not(:first-of-type) {
-      font-size: 1.2rem;
-      color: black;
-  }
+ table thead th {
+   font-weight: bold;
+   text-transform: uppercase;
+   padding: 60px 15px;
+   text-align: center;
+ }
 
-  tbody td:nth-of-type(2),
-  thead th:nth-of-type(2) {
-      background: #b442fc;
-      color: white;
-      border-bottom: solid 1px #b442fc;
-  }
+ tbody td:not(:first-of-type) {
+   font-size: 1.2rem;
+   color: black;
+ }
 
-  tbody td:nth-of-type(2) a,
-  thead th:nth-of-type(2) a {
-      color: white;
-  }
+ thead th:nth-of-type(2) {
+   background: var(--primary);
+   color: white;
+   font-size: 1.5rem;
+ }
 
-  td, th {
-      padding: 15px;
-  }
+ thead th:nth-of-type(3) {
+     border: 1px solid var(--primary);
+     border-left: 0;
+ }
+
+ tbody td:nth-of-type(2) {
+     color: initial;
+     border: solid 1px var(--primary);
+     border-top: 0;
+     border-bottom: 0;
+ }
+
+ tbody tr:last-of-type td:nth-of-type(2) {
+   border-bottom: solid 1px var(--primary);
+   text-align: center;
+ }
+
+ tbody tr:last-of-type td:nth-of-type(2) a {
+   padding: 15px;
+   background: var(--primary);
+   border-radius: 3px;
+   color: white;
+ }
+
+ tbody td:nth-of-type(3) {
+     color: initial;
+     border: solid 1px #ccc;
+     border-top: 0;
+     border-bottom: 0;
+ }
+
+ tbody tr:last-of-type td:nth-of-type(3) {
+   border-bottom: solid 1px #ccc;
+   text-align: center;
+ }
+
+  tbody tr:last-of-type td:nth-of-type(3) a {
+   padding: 15px 30px;
+   border: 1px solid var(--primary);
+   border-radius: 5px;
+ }
 
 
-  header, #hero {
-      font-family: sans-serif;
-  }
+ tbody td:nth-of-type(2) a,
+ thead th:nth-of-type(2) a {
+   color: white;
+ }
 
-  section#hero {
-      padding: 0;
-      color: white;
-      background: var(--background-dark);
-  }
+ td, th {
+   padding: 15px;
+ }
 
-  #hero .container {
-      padding: 50px 15px;
-  }
 
-  #hero h1 {
-      font-size: 2rem;
-      font-weight: bold;
-      margin-bottom: 0;
-      min-width: 300px;
-  }
+ header, #hero {
+   font-family: sans-serif;
+ }
 
-  #hero h1 .color-yellow {
-      font-size: 4rem;
-  }
+ section#hero {
+   padding: 0;
+ }
 
-  #hero h2 {
-      font-size: 1.8rem;
-      padding-top: 15px;
-  }
+ #hero .container {
+   padding: 50px 15px;
+ }
 
-  .hero-picture {
-      flex: auto;
-      text-align: center;
-  }
+ #hero h1 {
+   font-size: 2rem;
+   font-weight: bold;
+   margin-bottom: 0;
+   min-width: 300px;
+ }
 
-  .hero-footer {
-      padding-top: 50px;
-      text-align: center;
-  }
+ #hero h2 {
+   font-size: 1.8rem;
+   padding-top: 15px;
+ }
 
-  .foss {
-      padding-top: 15px;
-      display: inline-block;
-      text-decoration: underline;
-  }
+ .hero-picture {
+   flex: auto;
+   text-align: center;
+ }
 
-  .features-3 > div {
-      max-width: 33%;
-  }
+ .hero-footer {
+   padding-top: 50px;
+   text-align: center;
+ }
 
-  .product-features {
-      padding-top: 15px;
-  }
+ .foss {
+   padding-top: 15px;
+   display: inline-block;
+   text-decoration: underline;
+ }
 
-  .product-features li {
-      display: flex;
-      align-items: center;
-      padding-bottom: 10px;
-  }
+ .features-3 > div {
+   max-width: 33%;
+ }
 
-  .product-features li .material-icons {
-      padding-right: 10px;
-  }
+ .product-features {
+   padding-top: 15px;
+ }
 
-  .container {
-      max-width: 1200px;
-  }
-  
-  section:nth-of-type(odd) {
-      background: var(--background-dark);
-      color: white;
-  }
+ .product-features li {
+   display: flex;
+   align-items: center;
+   padding-bottom: 10px;
+ }
 
-  section h2 .material-icons {
-      padding-right: 10px;
-  }
+ .product-features li .material-icons {
+   padding-right: 10px;
+ }
 
-  section.h2-center h2 {
-      font-size: 1.5rem;
-      text-align: center;
-  }
+ .container {
+   max-width: 1200px;
+ }
+ 
+ section:nth-of-type(even) {
+   border: 1px solid #ddd;
+   border-left: 0;
+   border-right: 0;
+   background: var(--background-dark);
+ }
 
-  .image-collection {
-      display: flex;
-      flex-wrap: wrap;
-  }
+ section h2 .material-icons {
+   padding-right: 10px;
+ }
 
-  .image-collection .img {
-      width: 100px;
-      height: 100px;
-      margin: 10px;
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center center;
-  }
+ section.h2-center h2 {
+   font-size: 1.5rem;
+   text-align: center;
+ }
 
-  .image-collection .img.long {
-      width: 130px;
-  }
+ .image-collection {
+   display: flex;
+   flex-wrap: wrap;
+ }
 
-  .hide-non-mobile {
-      display: none;
-  }
+ .image-collection .img {
+   width: 100px;
+   height: 100px;
+   margin: 10px;
+   background-size: contain;
+   background-repeat: no-repeat;
+   background-position: center center;
+ }
 
-  @media only screen and (max-width: 1100px) {
-      section:not(:first-of-type), #hero .tabs-container {
-	  padding: 15px 0;
-      }
+ .image-collection .img.long {
+   width: 130px;
+ }
 
-      #hero .hero-text {
-	  flex: 1;
-      }
+ .hide-non-mobile {
+   display: none;
+ }
 
-      #hero h1 {
-	  font-size: 2.5rem;
-      }
+ @media only screen and (max-width: 1100px) {
+   section:not(:first-of-type), #hero .tabs-container {
+     padding: 15px 0;
+   }
 
-      #hero-desktop .flex--horizontal {
-	  flex-direction: column-reverse;
-      }
+   #hero .hero-text {
+     flex: 1;
+   }
 
-      #hero .product-features li {
-	  font-size: .8rem;
-      }
+   #hero h1 {
+     font-size: 2.5rem;
+   }
 
-      .container {
-	  max-width: 100%;
-	  width: initial;
-      }
+   #hero-desktop .flex--horizontal {
+     flex-direction: column-reverse;
+   }
 
-      #hero .tabs-controls .tab-control {
-	  padding: 30px;
-	  width: 50%;
-	  display: flex;
-	  justify-content: center;
-	  align-items: center;
-      }
+   #hero .product-features li {
+     font-size: .8rem;
+   }
 
-      .features-3 > div {
-	  max-width: initial;
-      }
+   .container {
+     max-width: 100%;
+     width: initial;
+   }
 
-      .hide-non-mobile {
-	  display: initial;
-      }
-      
-      .hide-mobile {
-	  display: none;
-      }
-  }
+   #hero .tabs-controls .tab-control {
+     padding: 30px;
+     width: 50%;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+   }
+
+   .features-3 > div {
+     max-width: initial;
+   }
+
+   .hide-non-mobile {
+     display: initial;
+   }
+   
+   .hide-mobile {
+     display: none;
+   }
+ }
 </style>
 <section id="hero">
   <div class="container">
     <div id="hero-desktop">
-      <h1 class="hide-non-mobile">The open-source <span class="color-yellow">Data IDE</span> for <span class="color-green">Developers</span></h1>
+      <h1 class="hide-non-mobile">The Data IDE for Developers</span></h1>
       <div class="flex flex--horizontal">
 	<div class="hero-text">
-	  <h1 class="hide-mobile">The open-source <span class="color-yellow">Data IDE</span> for <span class="color-green">Developers</span></h1>
+	  <h1 class="hide-mobile">The <span class="color-yellow">Data IDE</span> for <span class="color-green">Developers</span></h1>
 	  <ul class="product-features">
 	    <li>
 	      <span class="material-icons">search</span>
@@ -292,9 +330,9 @@
 	    </li>
 	    <li>
 	      <span class="material-icons color-light-purple">favorite</span>
-	      <span>Desktop app on Windows, macOS, or Linux</span>
+	      <span>Windows, macOS, or Linux</span>
 	    </li>
-          </ul>
+	  </ul>
 	</div>
 	<div class="hero-picture">
 	  <div class="carousel">
@@ -331,10 +369,39 @@
     </div>
   </div>
 </section>
+<section>
+  <div class="container">
+    <h1>Existing interfaces are limited</h1>
+    <div class="features features-4 flex flex--horizontal">
+      <div>
+	<h2>BI Tools, SQL GUIs</h2>
+	<ul class="no-decoration">
+	  <li><span class="material-icons">sentiment_very_dissatisfied</span>SQL-only</li>
+	  <li><span class="material-icons">code_off</span>No escape route to code</li>
+	  <li><span class="material-icons">contact_mail</span>Great for product managers</li>
+	</ul>
+      </div>
+      <div>
+	<h2>Data Warehouse</h2>
+	<ul class="no-decoration">
+	  <li><span class="material-icons">attach_money</span>Expensive</li>
+	  <li><span class="material-icons">support_agent</span>Hard for an individual</li>
+	  <li><span class="material-icons">groups</span>Great for mature engineering teams</li>
+	</ul>
+      </div>
+      <div>
+	<h2>HTTP GUIs</h2>
+	<ul class="no-decoration">
+	  <li><span class="material-icons">sentiment_very_dissatisfied</span>API-only</li>
+	  <li><span class="material-icons">sentiment_dissatisfied</span>Great for developers who don't use databases</li>
+	</ul>
+      </div>
+    </div>
+  </div>
+</section>
 <section class="h2-center">
   <div class="container">
-    <h3>You're developer at a SaaS company, investigating and preparing reports</h3>
-    <h1>But your data is all over the place</h1>
+    <h1>No ETL, just a smart client for all your data</h1>
     <div class="features features-3 flex flex--horizontal">
       <div>
 	<h2>REST APIs</h2>
@@ -375,43 +442,66 @@
 </section>
 <section>
   <div class="container">
-    <h1>Existing interfaces are limited</h1>
-    <div class="features features-4 flex flex--horizontal">
-      <div>
-	<h2>BI Tools, SQL GUIs</h2>
-	<ul class="no-decoration">
-	  <li><span class="material-icons">sentiment_very_dissatisfied</span>SQL-only</li>
-	  <li><span class="material-icons">code_off</span>No escape route to code</li>
-	  <li><span class="material-icons">contact_mail</span>Great for product managers</li>
-	</ul>
-      </div>
-      <div>
-	<h2>Data Warehouse</h2>
-	<ul class="no-decoration">
-	  <li><span class="material-icons">attach_money</span>Expensive</li>
-	  <li><span class="material-icons">support_agent</span>Hard for an individual</li>
-	  <li><span class="material-icons">groups</span>Great for mature engineering teams</li>
-	</ul>
-      </div>
-      <div>
-	<h2>HTTP GUIs</h2>
-	<ul class="no-decoration">
-	  <li><span class="material-icons">sentiment_very_dissatisfied</span>API-only</li>
-	  <li><span class="material-icons">sentiment_dissatisfied</span>Great for developers who don't use databases</li>
-	</ul>
-      </div>
-    </div>
+    <h1 id="pricing">Pricing</h1>
+    <table>
+      <thead>
+	<th></th>
+	<th>Professional Edition</th>
+	<th>Community Edition</th>
+      </thead>
+      <tbody>
+	<tr>
+	  <td>Price</td>
+	  <td>$25/mo</td>
+	  <td>Free</td>
+	</tr>
+	<tr>
+	  <td># Databases</td>
+	  <td>Unlimited databases</td>
+	  <td>2 databases per project</td>
+	</tr>
+	<tr>
+	  <td># SSH Servers</td>
+	  <td>Unlimited</td>
+	  <td>1 server per project</td>
+	</tr>
+	<tr>
+	  <td># Pages</td>
+	  <td>Unlimited</td>
+	  <td>1 page per project</td>
+	</tr>
+	<tr>
+	  <td>Support</td>
+	  <td>Response within 24 hours of M-F</td>
+	  <td>Community</td>
+	</tr>
+	<tr>
+	  <td>Databases</td>
+	  <td>Every supported database</td>
+	  <td>Every supported database</td>
+	</tr>
+	<tr>
+	  <td>Languages</td>
+	  <td>Every supported language</td>
+	  <td>Every supported language</td>
+	</tr>
+	<tr>
+	  <td></td>
+	  <td><a href="/signup/">Buy now</a></td>
+	  <td><a href="/docs/">Download</td>
+	</tr>
+      </tbody>
+    </table>
   </div>
 </section>
 <section>
   <div class="container">
-    <h1>DataStation helps developers easily interact with their data</h1>
+    <h1>Get started today</h1>
     <div class="features features-3 flex flex--horizontal">
       <div>
-	<h2><span class="material-icons">download</span>Try it on your laptop today</h2>
+	<h2><span class="material-icons">download</span>Try it on your laptop</h2>
 	<p>
-	  Join the nearly 2000 folks who have installed
-	  DataStation on their laptop.
+	  Join over 500 developers who run DataStation today.
 	</p>
 	<a href="/docs/">Install the app</a>
       </div>
@@ -421,90 +511,90 @@
 	  Learn how to query all supported databases. How to graph and
 	  view results. And how to script and join different panels.
 	</p>
-	 <a href="/docs">Documentation</a>
+	<a href="/docs">Documentation</a>
       </div>
       <div>
 	<h2><span class="material-icons">volunteer_activism</span>Join the community</h2>
 	<ul class="no-decoration">
-	  <li><a href="https://discord.multiprocess.io">400+ members on Discord</a></li>
+	  <li><a href="https://discord.multiprocess.io">500+ members on Discord</a></li>
 	  <li><a href="https://forms.gle/wH5fdxrxXwZHoNxk8">Subscribe to email updates</a></li>
 	  <li><a href="mailto:hi@multiprocess.io">Say hi</a></li>
-	  <li><a href="https://twitter.com/multiprocessio">Twitter</a></li>
-	  <li><a href="https://github.com/multiprocessio">Github</a></li>
-	  <li><a href="https://www.linkedin.com/company/multiprocess-labs/">LinkedIn</a></li>
+	  <li><a href="https://github.com/multiprocessio">Browse the code</a></li>
+          <li><a href="https://twitter.com/multiprocessio">Follow on Twitter</a></li>
+	  <li><a href="https://www.linkedin.com/company/multiprocess-labs/">Follow on LinkedIn</a></li>
 	</ul>
       </div>
     </div>
   </div>
 </section>
 <script>
-  let currentHash = null;
-  function reloadHero() {
-      if (location.hash === currentHash) {
-	  return;
-      }
+ let currentHash = null;
+ function reloadHero() {
+   if (location.hash === currentHash) {
+     return;
+   }
 
-      currentHash = location.hash;
+   currentHash = location.hash;
 
-      const selected = currentHash === '#hero-server' ? 'hero-server' : 'hero-desktop';
-      const tabs = document.querySelectorAll(".tabs-body");
-      for (let i = 0; i < tabs.length; i++) {
-	  const tab = tabs[i];
-	  const tabControl = document.querySelector(`.tab-control[href="#${tab.id}"]`);
-	  if (tab.id === selected) {
-	      tab.style.display = 'initial';
-	      tabControl.className= "tab-control selected";
-	  } else {
-	      tab.style.display = 'none';
-	      tabControl.className= "tab-control";
-	  }
-      }
-  }
+   const selected = currentHash === '#hero-server' ? 'hero-server' : 'hero-desktop';
+   const tabs = document.querySelectorAll(".tabs-body");
+   for (let i = 0; i < tabs.length; i++) {
+     const tab = tabs[i];
+     const tabControl = document.querySelector(`.tab-control[href="#${tab.id}"]`);
+     if (tab.id === selected) {
+       tab.style.display = 'initial';
+       tabControl.className= "tab-control selected";
+     } else {
+       tab.style.display = 'none';
+       tabControl.className= "tab-control";
+     }
+   }
+ }
 
-  function spinCarousel(c) {
-      const carouselBase = '.carousel-image';
-      const images = [...c.querySelectorAll(carouselBase)];
-      if (!images.length) {
-	  return;
-      }
+ function spinCarousel(c) {
+   const carouselBase = '.carousel-image';
+   const images = [...c.querySelectorAll(carouselBase)];
+   if (!images.length) {
+     return;
+   }
 
-      const selectors = c.querySelector('.carousel-selectors');
-      if (!selectors.querySelectorAll('.carousel-selector').length) {
-	  for (let i = 0; i < images.length; i++) {
-	      const sel = document.createElement('div');
-	      sel.className = "carousel-selector" + (i === 0 ? ' selected' : '');
-	      selectors.appendChild(sel);
-	  }
-      }
+   const selectors = c.querySelector('.carousel-selectors');
+   if (!selectors.querySelectorAll('.carousel-selector').length) {
+     for (let i = 0; i < images.length; i++) {
+       const sel = document.createElement('div');
+       sel.className = "carousel-selector" + (i === 0 ? ' selected' : '');
+       selectors.appendChild(sel);
+     }
+   }
 
-      let selected = false;
-      for (let i = 0; i < images.length; i++) {
-	  const img = images[i];
-	  if (!selected && img.className.includes('selected')) {
-	      selected = true;
-	      img.className = carouselBase.slice(1);
-	      const nextIndex = (i + 1) % images.length;
-	      images[nextIndex].className = img.className + " selected";
-	      c.querySelectorAll('.carousel-selector')[i].className = "carousel-selector";
-	      c.querySelectorAll('.carousel-selector')[nextIndex].className = "carousel-selector selected";
-	  }
-      }
+   let selected = false;
+   for (let i = 0; i < images.length; i++) {
+     const img = images[i];
+     if (!selected && img.className.includes('selected')) {
+       selected = true;
+       img.className = carouselBase.slice(1);
+       const nextIndex = (i + 1) % images.length;
+       images[nextIndex].className = img.className + " selected";
+       c.querySelectorAll('.carousel-selector')[i].className = "carousel-selector";
+       c.querySelectorAll('.carousel-selector')[nextIndex].className = "carousel-selector selected";
+     }
+   }
 
-      if (!selected) {
-	  images[0].className = carouselBase.slice(1) + " selected";
-      }
-  }
+   if (!selected) {
+     images[0].className = carouselBase.slice(1) + " selected";
+   }
+ }
 
-  window.onload = function() {
-      reloadHero();
-      setInterval(reloadHero, 500);
+ window.onload = function() {
+   reloadHero();
+   setInterval(reloadHero, 500);
 
-      const carousels = [...document.querySelectorAll('.carousel')];
-      for (const carousel of carousels) {
-	  spinCarousel(carousel);
-	  const c = carousel;
-	  setInterval(() => spinCarousel(c), 7000);
-      }
-  }
+   const carousels = [...document.querySelectorAll('.carousel')];
+   for (const carousel of carousels) {
+     spinCarousel(carousel);
+     const c = carousel;
+     setInterval(() => spinCarousel(c), 7000);
+   }
+ }
 </script>
 {% endblock %}

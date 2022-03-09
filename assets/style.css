@@ -1,8 +1,10 @@
 :root {
     --tabs: #f3f3ff;
-    --background-dark: #252539;
+    --background-dark: #f4f4f7;
     --color: black;
     --link: #3535d0;
+
+    --primary: #4e2a95;
 }
 
 html, body {
@@ -50,8 +52,7 @@ a:visited {
     line-height: 0;
     color: white;
     font-size: .9rem;
-    background: #9f05ff;
-    background: linear-gradient(90deg, rgba(28,144,222,1) 0%, rgba(23,122,198,1) 21%, rgba(159,5,240,1) 95%)
+    background: var(--primary);
 }
 
 .notification a {
@@ -136,27 +137,48 @@ footer {
 
 #title {
     font-size: 2rem;
+    font-weight: bold;
     color: black;
 }
+
+#title {
+    display: flex;
+    align-items: center;
+}
+
+#title img {
+    height: 35px;
+    display: block;
+    margin-right: 15px;
+}
+
 
 #subtitle {
     font-size: .75rem;
     display: block;
 }
 
-#subheader {
-    background: var(--tabs);
-}
-
 #subheader a {
+    text-transform: uppercase;
     margin-right: 50px;
     display: inline-block;
     border-bottom: 3px solid transparent;
     color: black;
+    font-weight: bold;
+    font-size: .9rem;
 }
 
 #subheader a:hover {
-    border-bottom-color: black;
+    color: var(--link);
+}
+
+#subheader a:last-of-type {
+    display: flex;
+    align-items: center;
+}
+
+#subheader a:last-of-type .material-icons {
+    padding-left: 3px;
 }
 
 .product-name, .large-text {
@@ -250,7 +272,7 @@ table ul {
 }
 
 footer {
-    border-top: 1px solid #6400a2;
+     border-top: 1px solid var(--primary);
 }
 
 footer .container > * {
@@ -282,7 +304,6 @@ footer .container > * {
 .tabs-controls .tab-control.selected,
 .tabs-controls .tab-control:hover {
     background: var(--background-dark);
-    color: white;
 }
 
 .tabs-controls .tab-control:hover:not(.selected) {
@@ -326,7 +347,7 @@ footer .container > * {
 }
 
 .color-light-purple {
-    color: #b442fc;
+    color: var(--primary);
 }
 
 .color-light-pink {
@@ -338,11 +359,9 @@ footer .container > * {
 }
 
 .color-green {
-    color: #b0ff00;
 }
 
 .color-yellow {
-    color: #ffd100;
 }
 
 .btn {
@@ -353,7 +372,7 @@ footer .container > * {
 .btn.btn--primary {
     color: white;
     transition: background .3s;
-    background: #9f04ff;
+    background: var(--primary);
 }
 
 .btn.btn--primary:hover,
