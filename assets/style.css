@@ -282,7 +282,7 @@ table ul {
 }
 
 .about-this-page {
-    background: var(--tabs);
+    border: 1px solid #ddd;
     padding: 30px;
     margin-top: 30px;
 }
