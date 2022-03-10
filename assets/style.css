@@ -117,8 +117,24 @@ h6:hover .header-link {
     justify-content: space-evenly;
 }
 
+.footer > div,
 .features > div {
     align-self: stretch;
+    padding: 15px 30px;
+}
+
+.footer-header {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: .9rem;
+}
+
+.footer ul {
+    list-style: none;
+    padding: 0;
+}
+
+footer .logo {
     padding: 15px 30px;
 }
 
@@ -135,18 +151,18 @@ footer {
     background: white;
 }
 
-#title {
+.title, a.title {
     font-size: 2rem;
     font-weight: bold;
     color: black;
 }
 
-#title {
-    display: flex;
+.title {
+    display: inline-flex;
     align-items: center;
 }
 
-#title img {
+.title img {
     height: 35px;
     display: block;
     margin-right: 15px;
@@ -272,7 +288,7 @@ table ul {
 }
 
 footer {
-     border-top: 1px solid var(--primary);
+     border-top: 1px solid #ddd;
 }
 
 footer .container > * {

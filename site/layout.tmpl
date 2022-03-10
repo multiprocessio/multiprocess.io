@@ -17,7 +17,7 @@
   <div class="container">
     <div class="vertical-align-center">
       <div>
-    	<a id="title" href="/"><img src="/icons/LargeDarkOnTransparent.png" />DataStation</a>
+    	<a class="title" href="/"><img src="/icons/LargeDarkOnTransparent.png" />DataStation</a>
       </div>
       <div class="flex-right header-right">
 	<iframe src="/stars/datastation.html" frameborder="0" scrolling="0" width="100" height="20" title="Stars"></iframe>
@@ -42,32 +42,41 @@
 
 <footer>
   <div class="container">
-    <div>
-      <a href="/" class="site-name">DataStation</a>
+    <div class="logo">
+      <a class="title" href="/"><img src="/icons/LargeDarkOnTransparent.png" />DataStation</a>
+      <div class="copyright">
+	&copy; 2021-2022 <a href="https://multiprocess.io">Multiprocess Labs LLC</a>
+      </div>
     </div>
-    <div>
-      <a href="/docs">Learn</a>
-    </div>
-    <div>
-      <a href="/blog">Blog</a>
-    </div>
-    <div>
-      <a href="https://discord.multiprocess.io">Community</a>
-    </div>
-    <div>
-      <a href="https://twitter.com/multiprocessio">Twitter</a>
-    </div>
-    <div>
-      <a href="https://github.com/multiprocessio/datastation">Github</a>
-    </div>
-    <div>
-      <a href="https://www.linkedin.com/company/multiprocess-labs/">LinkedIn</a>
-    </div>
-    <div>
-      <a href="mailto:hi@multiprocess.io">Contact</a>
-    </div>
-    <div>
-    &copy; 2021-2022 <a href="https://multiprocess.io">Multiprocess Labs LLC</a>
+    <div class="flex flex--horizontal footer">
+      <div>
+	<div class="footer-header">Use cases</div>
+	<ul>
+	  <li><a href="/docs/tutorials/Query_PostgreSQL_with_DataStation.html">Query PostgreSQL</a></li>
+	  <li><a href="/docs/tutorials/Query_MySQL_with_DataStation.html">Query MySQL</a></li>
+	  <li><a href="/docs/tutorials/Query_SQLite_with_DataStation.html">Query SQLite</a></li>
+	  <li><a href="/docs/tutorials/Query_Elasticsearch_with_DataStation.html">Query Elasticsearch</a></li>
+	  <li><a href="/docs/tutorials/Query_Prometheus_with_DataStation.html">Query Prometheus</a></li>
+	  <li><a href="/docs/tutorials/Query_Influx_(2.x)_with_DataStation_(Flux).html">Query Influx 2.x</a></li>
+	  <li><a href="/docs">And many more</a></li>
+	</ul>
+      </div>
+      <div>
+	<div class="footer-header">Community</div>
+      	<ul>
+	  <li><a href="https://discord.multiprocess.io">Discord</a></li>
+	  <li><a href="https://meetup.com/hackernights">Hacker Nights Meetup</a></li>
+	  <li><a href="https://github.com/multiprocessio/datastation">Github</a></li>
+      </div>
+      <div>
+	<div class="footer-header">Company</div>
+	<ul>
+	  <li><a href="/blog">Blog</a></li>
+	  <li><a href="https://twitter.com/multiprocessio">Twitter</a></li>
+	  <li><a href="https://www.linkedin.com/company/multiprocess-labs/">LinkedIn</a></li>
+	  <li><a href="mailto:hi@multiprocess.io">Contact</a></li>
+	</ul>
+      </div>
     </div>
   </div>
 </footer>
@@ -75,87 +84,87 @@
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-195070972-1"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
 
-  gtag('config', 'UA-195070972-1');
+ gtag('config', 'UA-195070972-1');
 </script>
 
 <script type="text/javascript">
-// SOURCE: https://stackoverflow.com/a/7995898/1507139
-var isMobile = Boolean(navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i));
-if (isMobile) {
-    var hideMobile = document.querySelectorAll('.hide-mobile');
-    for (var i = 0; i < hideMobile.length; i++) {
-	hideMobile[i].remove();
-    }
+ // SOURCE: https://stackoverflow.com/a/7995898/1507139
+ var isMobile = Boolean(navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i));
+ if (isMobile) {
+   var hideMobile = document.querySelectorAll('.hide-mobile');
+   for (var i = 0; i < hideMobile.length; i++) {
+     hideMobile[i].remove();
+   }
 
-    var showMobile = document.querySelectorAll('.show-mobile');
-    for (var i = 0; i < showMobile.length; i++) {
-	showMobile[i].className = showMobile[i].className.replace('show-mobile', '');
-    }
-}
+   var showMobile = document.querySelectorAll('.show-mobile');
+   for (var i = 0; i < showMobile.length; i++) {
+     showMobile[i].className = showMobile[i].className.replace('show-mobile', '');
+   }
+ }
 
-function makeToCElement({ name, id, level }) {
-    if (level === 0) {
-	const toc = document.createElement('div');
-	toc.level = level;
-	toc.className="toc";
+ function makeToCElement({ name, id, level }) {
+   if (level === 0) {
+     const toc = document.createElement('div');
+     toc.level = level;
+     toc.className="toc";
 
-	const header = document.createElement('h4');
-	header.innerText = 'Contents';
-	toc.appendChild(header);
+     const header = document.createElement('h4');
+     header.innerText = 'Contents';
+     toc.appendChild(header);
 
-	const ul = document.createElement('ul');
-	toc.appendChild(ul);
-	return toc;
-    }
+     const ul = document.createElement('ul');
+     toc.appendChild(ul);
+     return toc;
+   }
 
-    const li = document.createElement('li');
-    li.level = level;
-    li.className = "toc-element";
+   const li = document.createElement('li');
+   li.level = level;
+   li.className = "toc-element";
 
-    const link = document.createElement('a');
-    link.className = "toc-link";
-    link.href = "#" + id;
-    link.innerText = name;
+   const link = document.createElement('a');
+   link.className = "toc-link";
+   link.href = "#" + id;
+   link.innerText = name;
 
-    const ul = document.createElement('ul');
+   const ul = document.createElement('ul');
 
-    li.appendChild(link);
-    li.appendChild(ul);
+   li.appendChild(link);
+   li.appendChild(ul);
 
-    return li;
-}
+   return li;
+ }
 
-if (location.pathname.startsWith('/docs/') && location.pathname.length > '/docs/'.length) {
-    const headers = document.querySelectorAll('h2, h3, h4, h5, h6, .post-body h1, .post-body h2, .post-body h3, .post-body h4, .post-body h5, .post-body h6');
-    const tree = makeToCElement({ level: 0 });
-    const stack = [tree];
-    for (let i = 0; i < headers.length; i++) {
-	const h = headers[i]
-	const name = h.innerHTML;
-	if (name === 'About this page') {
-	    continue;
-	}
+ if (location.pathname.startsWith('/docs/') && location.pathname.length > '/docs/'.length) {
+   const headers = document.querySelectorAll('h2, h3, h4, h5, h6, .post-body h1, .post-body h2, .post-body h3, .post-body h4, .post-body h5, .post-body h6');
+   const tree = makeToCElement({ level: 0 });
+   const stack = [tree];
+   for (let i = 0; i < headers.length; i++) {
+     const h = headers[i]
+     const name = h.innerHTML;
+     if (name === 'About this page') {
+       continue;
+     }
 
-	const id = name.replaceAll(' ', '-').toLowerCase();
-	h.id = id;
+     const id = name.replaceAll(' ', '-').toLowerCase();
+     h.id = id;
 
-	const level = +h.tagName.slice(1);
+     const level = +h.tagName.slice(1);
 
-	while (level <= stack[stack.length-1].level) {
-	    stack.pop();
-	}
+     while (level <= stack[stack.length-1].level) {
+       stack.pop();
+     }
 
-	const next = makeToCElement({ name, id, level });
-	// Add to tree
-	stack[stack.length-1].querySelector('ul').appendChild(next);
-	// Add to stack
-	stack.push(next);
-    }
+     const next = makeToCElement({ name, id, level });
+     // Add to tree
+     stack[stack.length-1].querySelector('ul').appendChild(next);
+     // Add to stack
+     stack.push(next);
+   }
 
-    document.querySelector('.post-body h1').after(tree);
-}
+   document.querySelector('.post-body h1').after(tree);
+ }
 </script>
