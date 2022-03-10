@@ -288,7 +288,7 @@ table ul {
 }
 
 footer {
-     border-top: 1px solid #ddd;
+    border-top: 1px solid #ddd;
 }
 
 footer .container > * {
@@ -761,5 +761,10 @@ ul.checks li:before {
 
     .docs-card, .docs-card:visited {
 	width: 100%;
+    }
+
+    
+    #subheader a {
+	margin-right: 20px;
     }
 }
