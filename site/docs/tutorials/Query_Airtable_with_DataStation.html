@@ -1,0 +1,62 @@
+{# DO NOT EDIT -- THIS FILE IS AUTO-GENERATED #}
+
+{% set doctitle = 'Airtable + SQL: Querying Airtable with DataStation' %}
+
+{% extends 'docs/layout.tmpl' %}
+
+{% block docbody %}
+<div><a href="/docs/">Back to documentation</a></div>
+
+<h1>Airtable + SQL: Querying Airtable with DataStation</h1>
+<p>Requires DataStation 0.8.0+.</p>
+<h1>Database initialization [Optional]</h1>
+<p>If you want to follow along with this tutorial verbatim, create a new
+base in Airtable and enter some basic data.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/airtable-base.png" alt="New Airtable base" /></p>
+<h1>Airtable API token</h1>
+<p>If you don't already have an Airtable API token, go to
+<a href="https://airtable.com/account">airtable.com/account</a>, generate and
+save it.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/airtable-api-token.png" alt="Generate Airtable API token" /></p>
+<h1>Data source setup</h1>
+<p>Now inside DataStation create a new data source in the left sidebar.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/create-data-source.gif" alt="Creating a new data source" /></p>
+<p>Give it a nice name so you can easily find it later. And select
+Airtable in the Vendor dropdown.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/create-airtable-data-source.png" alt="Creating a Airtable data source" /></p>
+<p>Then enter your Airtable API token.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/airtable-data-source-filled.png" alt="Filled out Airtable data source" /></p>
+<h1>Panel setup</h1>
+<p>Now create a new panel and select the Database type. You can fill in
+Base ID, Table ID, and View ID manually or you can just paste your
+Airtable URL into the Base ID column and it will fill out the rest.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/create-airtable-database-panel.gif" alt="Create database panel" /></p>
+<h2>Run a query</h2>
+<p>When querying Airtable you can leave the filter blank to select all
+rows or you can use <a href="https://support.airtable.com/hc/en-us/articles/360003695134">Airtable's filter
+language</a>
+to fetch only a subset of rows in a table.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/run-airtable-query.gif" alt="Run Airtable query" /></p>
+<h2>SQL query on top</h2>
+<p>Now that the data is loaded in DataStation we can use DataStation's
+scripting abilities to run a program using the Airtable data. We'll
+run a SQL program that counts the number of applied applicants.</p>
+<p>Create a new panel, select SQL as the language, enter this query and
+hit run.</p>
+<pre><code class="hljs">SELECT &quot;Notes&quot;, COUNT(1) n FROM DM_getPanel(0) GROUP BY &quot;NOTES&quot;
+</code></pre>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/sql-airtable.gif" alt="SQL on top of Airtable" /></p>
+<p>From here you can generate graphs, do more analysis, or export results
+to a file or HTTP server.</p>
+
+
+<div class="about-this-page">
+<h4>About this page</h4>
+<p>
+  See an error or want to add a clarification? This page is
+  generated from <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/tutorials/Query_Airtable_with_DataStation.md">this file on Github</a>.
+  <br /><br />
+  Last edited Mar 14, 2022.
+</p>
+</div>
+{% endblock %}

@@ -1,0 +1,137 @@
+{% set doctitle = 'DataStation 0.8.0 Release Notes' %}
+{% set subtitle = 'March 14, 2022' %}
+
+{% extends 'docs/release_layout.tmpl' %}
+
+{% block releasebody %}
+<p>
+  This release includes support for macros pulling panel results in
+  any panel type (not just panels that
+  support <code>DM_getPanel</code> functions), support for querying
+  Airtable and AWS Athena, support for graphing with unique lines for
+  each unique element, and more!
+</p>
+<div class="pb-4">
+  <img class="no-shadow" src="/0.8.0-airtable.png" alt="DataStation" />
+</div>
+<p>
+  This release also
+  has <a href="https://github.com/multiprocessio/datastation/pull/195">the
+  largest contributions</a> made by someone other than myself, support
+  for loading Apache ORC files.
+</p>
+<h3>Macros</h3>
+<p>
+  Before this release, only code panels and MySQL/PostgreSQL/SQLite
+  panels could refer to other panel results
+  using <code>DM_getPanel()</code> calls. With this release though all
+  panel contents are run through a Jinja-like macro expander
+  (<a href="https://github.com/flosch/pongo2">pongo2</a>,
+  specifically) that allows you to reference other panel results.
+</p>
+<p>
+  For example, you can now upload a panel result to an HTTP server by
+  entering <code>{{'{{ DM_getPanel("0") | json }}'}}</code></pre> as
+  an HTTP panel's content.
+<div class="pb-4">
+  <img class="no-shadow" src="/0.8.0-http-macro.gif" alt="DataStation" />
+</div>
+<p>
+  Note: unlike the non-macro version, the argument
+  to <code>DM_getPanel</code> must be a string. The value can still be
+  the panel's position or the panel's name.
+</p>
+<p>
+  Another way macros can be used is for passing data between
+  completely different kinds of data sources. For example, let's say
+  you want to filter ElasticSearch logs based on a certain kind of
+  customer. Your SQL panel and query might be something
+  like <code>SELECT id FROM customers WHERE type ='x'</code>. Then
+  your ElasticSearch panel filter might be <code>req.params.customer_id IN ({{'{% for row in DM_getPanel("0") %}{{ row.id }}{% if not forloop.Last %}, {% endif %}{% endfor %}'}})</code>.
+</p>
+<p>
+  Macros can be used in every kind of panel, including code panels and
+  database panels that already supported <code>DM_getPanel()</code>
+  calls without macros. In those cases the existing
+  non-macro <code>DM_getPanel()</code> is more efficient.
+</p>
+<h3>Airtable and AWS Athena</h3>
+<p>
+  You can now fetch data from Airtable with or without filters. And
+  you can query AWS Athena. A tutorial for interacting with Airtable
+  in DataStation
+  is <a href="/docs/tutorials/Query_Airtable_with_DataStation.html">available
+  here</a>. And <a href="/docs/tutorials/Query_AWS_Athena_with_DataStation.html">here</a>
+  is a tutorial for querying AWS Athena.
+</p>
+<div class="pb-4">
+  <img class="no-shadow" src="/0.8.0-airtable.png" alt="DataStation" />
+</div>
+<h3>Graphing unique entities</h3>
+<p>
+  Before this release it was possible to graph multiple lines but
+  where the multiple lines corresponded to entire columns. In this
+  release it's now possible to generate graphs with multiple lines
+  based on a unique values in the column being graphed.
+</p>
+<p>
+  You might use this feature, for example, if you are trying to show
+  traffic by unique IP over time and you want to graph each unique IP
+  traffic over time, one line for each unique IP.
+</p>
+<div class="pb-4">
+  <img src="/0.8.0-unique.gif" alt="DataStation" />
+</div>
+<h3>Apache ORC</h3>
+<p>
+  This release adds support for loading Apache ORC files. This feature
+  was implemented by
+  a <a href="https://github.com/multiprocessio/datastation/commits?author=gl28">first-time
+  OSS contributor</a>!
+</p>
+<h3>SQL queries on nested arrays</h3>
+<p>
+  Before this release, you couldn't run <code>DM_getPanel()</code> in
+  a database panel if the panel you wanted to reference was not an
+  array of objects. With this release you can pass a second parameter
+  which is a "path" to a nested array within the panel's result.
+</p>
+<p>
+  For example if a panel returns <code>{"data": [{"a": 1}, {"b":
+  2}]}</code>, you can now run a SQL query on that: <code>SELECT *
+  FROM DM_getPanel('0', 'data')</code> and it will return <code>[{"a": 1,
+  "b": null}, {"b": 2, "a": null}]</code>.
+</p>
+<h3>Automatic visual panel evaluation</h3>
+<p>
+  In this release, visual panels are re-run automatically when their
+  settings changed *and* when their dependent panel changes. In normal
+  circumstances you should not need to run a graph or table panel
+  manually any more.
+</p>
+<h3>Custom CA certificates</h3>
+<p>
+  Now inside of settings you can add a custom CA certificate. This
+  certificate is automatically tried in all HTTPS requests.
+</p>
+<h2>Install or upgrade</h2>
+<p>
+  <a href="/docs/">Get the 0.8.0 release now!</a>
+</p>
+<h3 id="how-you-can-help">How you can help</h4>
+<p>
+  If you are a developer or engineering manager, install DataStation
+  and start using it at work! Report bugs and usability issues (there
+  are surely many). <a href="https://discord.gg/f2wQBc4bXX">Join the
+  Discord</a>
+  and <a href="https://forms.gle/wH5fdxrxXwZHoNxk8">subscribe to
+  updates</a>.
+</p>
+<p>
+  If you are an investor, <a href="mailto:phil@multiprocess.io">get in
+  touch</a>
+  and <a href="https://forms.gle/wH5fdxrxXwZHoNxk8">subscribe to
+  updates</a>.
+</p>
+<h4>Share</h4>
+{% endblock %}

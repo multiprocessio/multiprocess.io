@@ -1,0 +1,132 @@
+{# DO NOT EDIT -- THIS FILE IS AUTO-GENERATED #}
+
+{% set doctitle = 'Querying AWS Athena with DataStation' %}
+
+{% extends 'docs/layout.tmpl' %}
+
+{% block docbody %}
+<div><a href="/docs/">Back to documentation</a></div>
+
+<h1>Querying AWS Athena with DataStation</h1>
+<p>Requires DataStation 0.8.0+.</p>
+<h1>Database initialization [Optional]</h1>
+<p>If you want to follow along with this tutorial verbatim, create two S3
+buckets. One is for storing data we will query. The other is for
+storing the query result. Athena requires you to give it a bucket for
+storing results.</p>
+<p>My two buckets are called <code class="hljs">s3://datastation-tests</code> and
+<code class="hljs">s3://datastation-test-results</code> respectively. You'll have to pick your
+own names.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/aws-athena-buckets.png" alt="S3 buckets" /></p>
+<h2>Data</h2>
+<p>Create a csv and upload it to the bucket for storing data we will query:</p>
+<pre><code class="hljs">$ cat users.csv
+name,age
+Garry,43
+Mina,39
+Karl,50
+Nile,41
+Emma,52
+$ aws s3 cp users.csv s3://datastation-tests
+</code></pre>
+<p>Swap out <code class="hljs">datastation-tests</code> with the name of your bucket.</p>
+<h2>Athena definition</h2>
+<p>Now go to Athena and create a new table and database.</p>
+<p>The create table statement for this file is:</p>
+<pre><code class="hljs">CREATE EXTERNAL TABLE `basic_users`(
+  `name` string, 
+  `age` int)
+ROW FORMAT DELIMITED 
+  FIELDS TERMINATED BY &#x27;,&#x27; 
+STORED AS INPUTFORMAT 
+  &#x27;org.apache.hadoop.mapred.TextInputFormat&#x27; 
+OUTPUTFORMAT 
+  &#x27;org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat&#x27;
+LOCATION
+  &#x27;s3://datastation-tests&#x27;
+TBLPROPERTIES (
+  &#x27;has_encrypted_data&#x27;=&#x27;false&#x27;, 
+  &#x27;transient_lastDdlTime&#x27;=&#x27;1646067804&#x27;)
+</code></pre>
+<h2>API access</h2>
+<p>Finally, make sure you have an <code class="hljs">AWS_ACCESS_KEY_ID</code> and
+<code class="hljs">AWS_SECRET_ACCESS_KEY</code> with all relevant permissions.</p>
+<p>If you are creating an account solely for read-only access to Athena,
+you can copy these permissions and modify them for own buckets:</p>
+<pre><code class="hljs language-json">{
+    &quot;Version&quot;: &quot;2012-10-17&quot;,
+    &quot;Statement&quot;: [
+        {
+            &quot;Sid&quot;: &quot;VisualEditor0&quot;,
+            &quot;Effect&quot;: &quot;Allow&quot;,
+            &quot;Action&quot;: [
+                &quot;glue:GetDatabase&quot;,
+                &quot;athena:GetWorkGroup&quot;,
+                &quot;s3:GetObject&quot;,
+                &quot;athena:StartQueryExecution&quot;,
+                &quot;glue:GetTables&quot;,
+                &quot;athena:StopQueryExecution&quot;,
+                &quot;athena:GetQueryExecution&quot;,
+                &quot;athena:GetQueryResults&quot;,
+                &quot;s3:ListBucket&quot;,
+                &quot;glue:GetTable&quot;
+            ],
+            &quot;Resource&quot;: [
+                &quot;arn:aws:athena:*:693079658475:workgroup/primary&quot;,
+                &quot;arn:aws:glue:us-east-1:693079658475:table/testdata/*&quot;,
+                &quot;arn:aws:glue:us-east-1:693079658475:database/testdata&quot;,
+                &quot;arn:aws:glue:us-east-1:693079658475:catalog&quot;,
+                &quot;arn:aws:s3:::datastation-tests&quot;,
+                &quot;arn:aws:s3:::datastation-test-results&quot;,
+                &quot;arn:aws:s3:::datastation-test-results/*&quot;,
+                &quot;arn:aws:s3:::datastation-tests/*&quot;
+            ]
+        },
+        {
+            &quot;Sid&quot;: &quot;VisualEditor1&quot;,
+            &quot;Effect&quot;: &quot;Allow&quot;,
+            &quot;Action&quot;: &quot;s3:PutObject&quot;,
+            &quot;Resource&quot;: &quot;arn:aws:s3:::datastation-test-results/*&quot;
+        }
+    ]
+}
+</code></pre>
+<p>Editor's note: there's something subtly wrong with this IAM
+policy. The user it's attached to can only query Athena after a root
+account has queried Athena. If you see what's wrong, please <a href="https://github.com/multiprocessio/datastation-documentation/issues">let us
+know</a>.</p>
+<h1>Data source setup</h1>
+<p>Now in DataStation, create a new data source in the left sidebar.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/create-data-source.gif" alt="Creating a new data source" /></p>
+<p>Give it a nice name so you easily can find it later. And select Athena
+in the Vendor dropdown.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/create-athena-data-source.png" alt="Creating an Athena data source" /></p>
+<p>Fill in database as <code class="hljs">testdata</code>, output bucket as the bucket you
+created for query results, and region, access key id and secret access
+key according to your region and user.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/athena-data-source-filled.png" alt="Filled out Athena data source" /></p>
+<h1>Panel setup</h1>
+<p>Now create a new panel and select the Database type.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/create-athena-database-panel.gif" alt="Create database panel" /></p>
+<h2>Run a query</h2>
+<p>Let's pull population data from a public Athena dataset. Enter the
+following query and hit play!</p>
+<pre><code class="hljs language-sql">SELECT * FROM basic_users;
+</code></pre>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/run-athena-query.gif" alt="Run Athena query" /></p>
+<h1>Graph the results</h1>
+<p>There is a graph button below the query panel, beside the New Panel
+button. Click it to generate a graph panel pointed at the query panel.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/graph-athena-database-results.gif" alt="Graph database results" /></p>
+
+
+<div class="about-this-page">
+<h4>About this page</h4>
+<p>
+  See an error or want to add a clarification? This page is
+  generated from <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/tutorials/Query_AWS_Athena_with_DataStation.md">this file on Github</a>.
+  <br /><br />
+  Last edited Mar 14, 2022.
+</p>
+</div>
+{% endblock %}
