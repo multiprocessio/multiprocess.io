@@ -61,8 +61,8 @@ you can copy these permissions and modify them for own buckets:</p>
             &quot;Effect&quot;: &quot;Allow&quot;,
             &quot;Action&quot;: [
                 &quot;glue:GetDatabase&quot;,
-                &quot;athena:GetWorkGroup&quot;,
                 &quot;s3:GetObject&quot;,
+                &quot;athena:GetWorkGroup&quot;,
                 &quot;athena:StartQueryExecution&quot;,
                 &quot;glue:GetTables&quot;,
                 &quot;athena:StopQueryExecution&quot;,
@@ -72,29 +72,39 @@ you can copy these permissions and modify them for own buckets:</p>
                 &quot;glue:GetTable&quot;
             ],
             &quot;Resource&quot;: [
-                &quot;arn:aws:athena:*:693079658475:workgroup/primary&quot;,
                 &quot;arn:aws:glue:us-east-1:693079658475:table/testdata/*&quot;,
                 &quot;arn:aws:glue:us-east-1:693079658475:database/testdata&quot;,
                 &quot;arn:aws:glue:us-east-1:693079658475:catalog&quot;,
                 &quot;arn:aws:s3:::datastation-tests&quot;,
                 &quot;arn:aws:s3:::datastation-test-results&quot;,
                 &quot;arn:aws:s3:::datastation-test-results/*&quot;,
-                &quot;arn:aws:s3:::datastation-tests/*&quot;
+                &quot;arn:aws:s3:::datastation-tests/*&quot;,
+                &quot;arn:aws:athena:*:693079658475:workgroup/primary&quot;
             ]
         },
         {
             &quot;Sid&quot;: &quot;VisualEditor1&quot;,
             &quot;Effect&quot;: &quot;Allow&quot;,
-            &quot;Action&quot;: &quot;s3:PutObject&quot;,
-            &quot;Resource&quot;: &quot;arn:aws:s3:::datastation-test-results/*&quot;
+            &quot;Action&quot;: [
+                &quot;s3:PutObject&quot;,
+                &quot;s3:GetObject&quot;,
+                &quot;s3:ListBucketMultipartUploads&quot;,
+                &quot;s3:AbortMultipartUpload&quot;,
+                &quot;s3:ListBucketVersions&quot;,
+                &quot;s3:CreateBucket&quot;,
+                &quot;s3:ListBucket&quot;,
+                &quot;s3:DeleteObject&quot;,
+                &quot;s3:GetBucketLocation&quot;,
+                &quot;s3:ListMultipartUploadParts&quot;
+            ],
+            &quot;Resource&quot;: [
+                &quot;arn:aws:s3:::datastation-test-results&quot;,
+                &quot;arn:aws:s3:::datastation-test-results/*&quot;
+            ]
         }
     ]
 }
 </code></pre>
-<p>Editor's note: there's something subtly wrong with this IAM
-policy. The user it's attached to can only query Athena after a root
-account has queried Athena. If you see what's wrong, please <a href="https://github.com/multiprocessio/datastation-documentation/issues">let us
-know</a>.</p>
 <h1>Data source setup</h1>
 <p>Now in DataStation, create a new data source in the left sidebar.</p>
 <p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/create-data-source.gif" alt="Creating a new data source" /></p>
@@ -109,8 +119,7 @@ key according to your region and user.</p>
 <p>Now create a new panel and select the Database type.</p>
 <p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/create-athena-database-panel.gif" alt="Create database panel" /></p>
 <h2>Run a query</h2>
-<p>Let's pull population data from a public Athena dataset. Enter the
-following query and hit play!</p>
+<p>Enter the following query and hit play!</p>
 <pre><code class="hljs language-sql">SELECT * FROM basic_users;
 </code></pre>
 <p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/run-athena-query.gif" alt="Run Athena query" /></p>
@@ -126,7 +135,7 @@ button. Click it to generate a graph panel pointed at the query panel.</p>
   See an error or want to add a clarification? This page is
   generated from <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/tutorials/Query_AWS_Athena_with_DataStation.md">this file on Github</a>.
   <br /><br />
-  Last edited Mar 14, 2022.
+  Last edited Mar 21, 2022.
 </p>
 </div>
 {% endblock %}
