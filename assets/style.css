@@ -763,8 +763,11 @@ ul.checks li:before {
 	width: 100%;
     }
 
-    
     #subheader a {
 	margin-right: 20px;
     }
+
+    .footer {
+       flex-wrap: wrap;
+   }
 }
