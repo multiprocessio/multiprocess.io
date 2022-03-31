@@ -4,6 +4,11 @@
 {% block body %}
 <section class="post-body">
   <div class="container">
+    <div class="subscribe">
+      Stay in the loop about new blog posts; <a
+	href="https://docs.google.com/forms/d/e/1FAIpQLSfYF3AZivacRrQWanC-skd0iI23ermwPd17T_64Xc4etoL_Tw/viewform">subscribe
+	to the mailing list!</a>
+    </div>
     <h1>Blog</h1>
     <div class="posts">
       {% for post in posts %}
@@ -15,6 +20,12 @@
 	<span class="post-tags">{% for tag in post.tags %}<span class="post-tag">{{tag}}</span>{% endfor %}</span>
       </div>
       {% endfor %}
+    </div>
+
+    <div class="subscribe">
+      Stay in the loop about new blog posts; <a
+	href="https://docs.google.com/forms/d/e/1FAIpQLSfYF3AZivacRrQWanC-skd0iI23ermwPd17T_64Xc4etoL_Tw/viewform">subscribe
+	to the mailing list!</a>
     </div>
   </div>
 </section>

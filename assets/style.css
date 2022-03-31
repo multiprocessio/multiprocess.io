@@ -624,15 +624,9 @@ ul.checks li:before {
     left: 0;
 }
 
-.subscribe-footer {
+.subscribe {
     text-align: center;
-    font-size: 1.5rem;
-    padding: 50px;
-    border: 1px solid #3535d0;
-}
-
-.subscribe-footer a {
-    font-weight: 900;
+    padding: 20px;
 }
 
 .post-footer input {
