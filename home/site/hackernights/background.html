@@ -1,0 +1,161 @@
+<link rel="shortcut icon" type="image/png" href="/assets/favicon.png" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<style>
+  html, body {
+      background: #232439; /*#0C1E7F; */
+      background-image: linear-gradient(to right top, #232439, #23263d, #232841, #222b45, #212d49, #1f2c49, #1e2a48, #1c2948, #1a2443, #181f3e, #171a39, #151534);
+
+      margin: 0;
+      font-family: "San Francisco", "Gadugi", sans-serif;
+      line-height: 2rem;
+  }
+
+  * {
+      box-sizing: border-box;
+  }
+
+  h1, h2, h3, h4, h5 {
+      margin: 0;
+      font-weight: 100;
+  }
+
+  header {
+      text-align: center;
+      color: #5c5d81;
+  }
+
+  header h1 {
+      user-select: none;
+      line-height: initial;
+      font-weight: 900;
+      font-size: 6rem;
+      color: #2dffc4;
+      text-shadow: 0 0 10px rgba(45, 255, 196, .7),
+		   0 0 40px rgba(45, 255, 196, .7),
+		   0 0 100px rgba(45, 255, 196, .7);
+      position: relative;
+      z-index: 1;
+      text-transform: uppercase;
+      margin: 100px 0;
+      transform: rotate(-7deg);
+      word-spacing: 1000000000000px;
+  }
+
+  header h1:before {
+      content: attr(data-title);
+      display: block;
+      width: 100%;
+      color: #16a37b;
+      z-index: -1;
+      position: absolute;
+      top: -3px;
+      left: -3px;
+  }
+
+  header h2 {
+      font-size: 3rem;
+      margin: 30px;
+  }
+
+  header a {
+      color: #9fa1b1;
+      text-decoration: none;
+      color: #C4AA0C;
+       text-shadow:
+          0 0 10px rgba(196, 170, 12, .7),
+          0 0 40px rgba(196, 170, 12, .7),
+          0 0 100px rgba(196, 170, 12, .7);
+  }
+
+  section.dark {
+      background: #151635;
+      background-image: linear-gradient(to right top, #232439, #23263d, #232841, #222b45, #212d49, #1f2c49, #1e2a48, #1c2948, #1a2443, #181f3e, #171a39, #151534);
+      color: white;
+  }
+
+  .container {
+      margin: 0 auto;
+      width: 1400px;
+      max-width: 100%;
+      padding: 50px 15px;
+  }
+
+  .features {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      padding-top: 15px;
+  }
+
+  .features.features--sole {
+      display: block;
+  }
+
+  a.feature {
+      text-decoration: none;
+      display: block;
+  }
+
+  .feature {
+      padding: 30px;
+      margin: 0 15px 15px 15px;
+      padding-bottom: 60px;
+      font-size: 1.2rem;
+  }
+
+  .feature a, .feature .a {
+      text-decoration: none;
+      padding-bottom: 2px;
+      border-bottom: 3px solid blue;
+  }
+
+  .feature a:hover, .feature .a:hover {
+      border-bottom-width: 5px;
+  }
+
+  .feature .feature-header {
+      justify-content: space-between;
+  }
+
+  li {
+      padding: 5px 0;
+  }
+
+  .copyright {
+      text-align: center;
+      padding: 15px 0;
+  }
+
+  @media only screen and (max-width: 1100px) {
+      header h1 {
+	  font-size: 4rem;
+      }
+
+      header h2 {
+	  font-size: 2rem;
+      }
+
+      .features {
+	  display: block !important;
+      }
+
+      .feature {
+	  margin: 0;
+	  margin-bottom: 15px;
+	  padding: 15px;
+      }
+
+      .feature p {
+	  height: auto !important;
+      }
+  }
+</style>
+
+<header>
+  <div class="container">
+    <h1 data-title="Hacker Nights">Hacker Nights</h1>
+    <h2>Join discord.multiprocess.io</h2>
+    <h2>#hackernights</h2>
+    <h3>Hosted by <a href="https://multiprocess.io">Multiprocess Labs</a></h3>
+  </div>
+</header>
