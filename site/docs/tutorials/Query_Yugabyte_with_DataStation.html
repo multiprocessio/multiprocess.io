@@ -12,7 +12,7 @@
 table and loading it with data, and finally querying the database in
 DataStation.</p>
 <h1>Database initialization [Optional]</h1>
-<p>If you want to follow along with this tutorial literally, in your
+<p>If you want to follow along with this tutorial verbatim, in your
 terminal start Yugabyte in Docker:</p>
 <pre><code class="hljs language-bash">$ cid=$(docker run -d -p 5433:5433 yugabytedb/yugabyte:latest bin/yugabyted start)
 </code></pre>
@@ -50,7 +50,7 @@ in the Vendor dropdown.</p>
 <p>If you are connecting to <code class="hljs">localhost:5433</code> (the default), you can
 leave the host field blank. If your port is 5433 then you can always
 omit the colon and port and just specify the address.</p>
-<p>However:! when you are connecting to any PostgreSQL wire-compatible
+<p>However: when you are connecting to any PostgreSQL wire-compatible
 database in DataStation (including Yugabyte) and you are connecting
 without TLS, you must explicitly opt out of TLS by specifying the
 query argument <code class="hljs">?sslmode=disable</code>.</p>
@@ -58,7 +58,7 @@ query argument <code class="hljs">?sslmode=disable</code>.</p>
 <p>The database is the one we just created, <code class="hljs">yb_demo</code>. And the default
 username and password for the Yugabyte docker image is <code class="hljs">yugabyte</code> and
 <code class="hljs">yugabyte</code>.</p>
-<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/yugabyte-data-source-filled.png" alt="Filled Flux data source" /></p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/yugabyte-data-source-filled.png" alt="Filled YugabyteDB data source" /></p>
 <h2>SSH Proxy [Optional]</h2>
 <p>If you want connect to a Yugabyte database on a remote server through an
 SSH proxy, you will need to set up the SSH connection to that server
@@ -83,8 +83,6 @@ this panel.</p>
 always get it right. Select the name and age columns for the x and y
 dimensions respectively.</p>
 <p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/graph-yugabyte-database-results.gif" alt="Graph database results" /></p>
-<p>Note: when the query panel changes in the future you'll need to
-manually re-run the graph panel.</p>
 
 
 <div class="about-this-page">
@@ -93,7 +91,7 @@ manually re-run the graph panel.</p>
   See an error or want to add a clarification? This page is
   generated from <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/tutorials/Query_Yugabyte_with_DataStation.md">this file on Github</a>.
   <br /><br />
-  Last edited Feb 13, 2022.
+  Last edited Apr 06, 2022.
 </p>
 </div>
 {% endblock %}

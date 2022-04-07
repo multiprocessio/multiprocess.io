@@ -261,6 +261,15 @@
    display: none;
  }
 
+ .demo {
+     display: flex;
+ }
+
+ .demo-text {
+     max-width: 300px;
+     padding: 30px;
+ }
+ 
  @media only screen and (max-width: 1100px) {
    section:not(:first-of-type), #hero .tabs-container {
      padding: 15px 0;
@@ -354,12 +363,8 @@
 		<small>Read local and remote files</small>
 	      </div>
 	      <div class="carousel-image" id="carousel-script">
-		<img loading="lazy" src="/visual-transform-panel.png" />
-		<small>Apply transformations without code</small>
-	      </div>
-	      <div class="carousel-image" id="carousel-script">
 		<img loading="lazy" src="/code-panel.png" />
-		<small>Or script in Python, JavaScript, Ruby, R, Julia</small>
+		<small>Script in Python, JavaScript, Ruby, R, Julia</small>
 	      </div>
 	      <div class="carousel-image" id="carousel-visualize">
 		<img loading="lazy" src="/visualize-panel.png" />
@@ -373,9 +378,69 @@
     </div>
   </div>
 </section>
+
 <section>
   <div class="container">
-    <h1>Because existing interfaces are limited</h1>
+    <h2>Automate data analysis workflows</h2>
+    <h1>Combining code and data</h1>
+    <div class="demo">
+      <div class="demo-text">
+	<p>
+	  Using Python and Pandas in DataStation to explore employee
+	  data in CockroachDB.
+	</p>
+      </div>
+      <iframe width="800" height="450" src="https://www.youtube.com/embed/q_jRBvbwIzU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h1>Because your data is all over the place</h1>
+    <div class="features features-3 flex flex--horizontal h2-center">
+      <div>
+	<h2>In REST APIs</h2>
+	<div class="image-collection">
+	  <div class="img" style="background-image: url('https://wac-cdn.atlassian.com/dam/jcr:75ba14ba-5e19-46c7-98ef-473289b982a7/Jira%20Software-blue.svg?cdnVersion=199')"></div>
+	  <div class="img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Zendesk_logo.svg/2560px-Zendesk_logo.svg.png')"></div>
+	  <div class="img" style="background-image: url('https://about.gitlab.com/images/press/logo/png/gitlab-logo-gray-stacked-rgb.png')"></div>
+	  <div class="img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/2048px-Octicons-mark-github.svg.png')"></div>
+	</div>
+      </div>
+      <div>
+	<h2>In Databases</h2>
+	<div class="image-collection">
+	  <div class="img long" alt="Prometheus" style="background-image: url('https://cncf-branding.netlify.app/img/projects/prometheus/horizontal/black/prometheus-horizontal-black.png')"></div>
+	  <div class="img long" style="background-image: url('https://cxl.com/wp-content/uploads/2019/10/google-bigquery-logo-1.png')"></div>
+	  <div class="img" alt="PostgreSQL" style="background-image: url('https://wiki.postgresql.org/images/3/30/PostgreSQL_logo.3colors.120x120.png')"></div>
+	  <div class="img" alt="Cassandra" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Cassandra_logo.svg/279px-Cassandra_logo.svg.png')"></div>
+	  <div class="img" alt="MySQL" style="background-image: url('https://upload.wikimedia.org/wikipedia/en/thumb/d/dd/MySQL_logo.svg/1280px-MySQL_logo.svg.png')"></div>
+	  <div class="img long" alt="Elasticsearch" style="background-image: url('https://static-www.elastic.co/v3/assets/bltefdd0b53724fa2ce/blt5ebe80fb665aef6b/5ea8c8f26b62d4563b6ecec2/brand-elasticsearch-220x130.svg')"></div>
+	  <div class="img" style="background-image: url('https://www.scylladb.com/wp-content/uploads/brand-logo-vert@2x.png')"></div>
+	  <div class="img" style="background-image: url('https://logowik.com/content/uploads/images/microsoft-sql-server4529.jpg')"></div>
+	  <div class="img long" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Snowflake_Logo.svg/1280px-Snowflake_Logo.svg.png')"></div>
+	  <div class="img long" alt="Prometheus" style="background-image: url('https://influxdata.github.io/branding/img/downloads/influxdata-logo--full-preview.svg')"></div>
+	</div>
+      </div>
+      <div>
+	<h2>In Files</h2>
+	<div class="image-collection">
+	  <div class="img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Microsoft_Office_Excel_%282019%E2%80%93present%29.svg/2203px-Microsoft_Office_Excel_%282019%E2%80%93present%29.svg.png')"></div>
+	  <div class="img long" style="background-image: url('https://parquet.apache.org/assets/img/parquet_logo.png')"></div>
+	  <div class="img long" style="background-image: url('https://www.nginx.com/wp-content/uploads/2018/08/NGINX-logo-rgb-large.png')"></div>
+	  <div class="img" style="background-image: url('https://storage.googleapis.com/website-dev-images/sites/default/files/Untitled%20design%20%2852%29.jpg')"></div>
+	  <div class="img long" style="background-image: url('https://www.brcline.com/wp-content/uploads/2020/06/apache-logo.png')"></div>
+	</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h1>And existing interfaces are great</h1>
+    <h2>But have some key limitations</h2>
     <div class="features features-4 flex flex--horizontal">
       <div>
 	<h2>BI Tools, SQL GUIs</h2>
@@ -403,48 +468,7 @@
     </div>
   </div>
 </section>
-<section>
-  <div class="container">
-    <h2>When you just need a smarter client</h2>
-    <h1>For working with your data is, wherever it is</h1>
-    <div class="features features-3 flex flex--horizontal h2-center">
-      <div>
-	<h2>REST APIs</h2>
-	<div class="image-collection">
-	  <div class="img" style="background-image: url('https://wac-cdn.atlassian.com/dam/jcr:75ba14ba-5e19-46c7-98ef-473289b982a7/Jira%20Software-blue.svg?cdnVersion=199')"></div>
-	  <div class="img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Zendesk_logo.svg/2560px-Zendesk_logo.svg.png')"></div>
-	  <div class="img" style="background-image: url('https://about.gitlab.com/images/press/logo/png/gitlab-logo-gray-stacked-rgb.png')"></div>
-	  <div class="img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/2048px-Octicons-mark-github.svg.png')"></div>
-	</div>
-      </div>
-      <div>
-	<h2>Databases</h2>
-	<div class="image-collection">
-	  <div class="img long" alt="Prometheus" style="background-image: url('https://cncf-branding.netlify.app/img/projects/prometheus/horizontal/black/prometheus-horizontal-black.png')"></div>
-	  <div class="img long" style="background-image: url('https://cxl.com/wp-content/uploads/2019/10/google-bigquery-logo-1.png')"></div>
-	  <div class="img" alt="PostgreSQL" style="background-image: url('https://wiki.postgresql.org/images/3/30/PostgreSQL_logo.3colors.120x120.png')"></div>
-	  <div class="img" alt="Cassandra" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Cassandra_logo.svg/279px-Cassandra_logo.svg.png')"></div>
-	  <div class="img" alt="MySQL" style="background-image: url('https://upload.wikimedia.org/wikipedia/en/thumb/d/dd/MySQL_logo.svg/1280px-MySQL_logo.svg.png')"></div>
-	  <div class="img long" alt="Elasticsearch" style="background-image: url('https://static-www.elastic.co/v3/assets/bltefdd0b53724fa2ce/blt5ebe80fb665aef6b/5ea8c8f26b62d4563b6ecec2/brand-elasticsearch-220x130.svg')"></div>
-	  <div class="img" style="background-image: url('https://www.scylladb.com/wp-content/uploads/brand-logo-vert@2x.png')"></div>
-	  <div class="img" style="background-image: url('https://logowik.com/content/uploads/images/microsoft-sql-server4529.jpg')"></div>
-	  <div class="img long" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Snowflake_Logo.svg/1280px-Snowflake_Logo.svg.png')"></div>
-	  <div class="img long" alt="Prometheus" style="background-image: url('https://influxdata.github.io/branding/img/downloads/influxdata-logo--full-preview.svg')"></div>
-	</div>
-      </div>
-      <div>
-	<h2>Files</h2>
-	<div class="image-collection">
-	  <div class="img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Microsoft_Office_Excel_%282019%E2%80%93present%29.svg/2203px-Microsoft_Office_Excel_%282019%E2%80%93present%29.svg.png')"></div>
-	  <div class="img long" style="background-image: url('https://parquet.apache.org/assets/img/parquet_logo.png')"></div>
-	  <div class="img long" style="background-image: url('https://www.nginx.com/wp-content/uploads/2018/08/NGINX-logo-rgb-large.png')"></div>
-	  <div class="img" style="background-image: url('https://storage.googleapis.com/website-dev-images/sites/default/files/Untitled%20design%20%2852%29.jpg')"></div>
-	  <div class="img long" style="background-image: url('https://www.brcline.com/wp-content/uploads/2020/06/apache-logo.png')"></div>
-	</div>
-      </div>
-    </div>
-  </div>
-</section>
+
 <!-- <section> -->
 <!--   <div class="container"> -->
 <!--     <h1 id="pricing">Pricing</h1> -->
@@ -502,6 +526,7 @@
 <!--     </p> -->
 <!--   </div> -->
 <!-- </section> -->
+
 <section>
   <div class="container">
     <h1>Get started today</h1>
