@@ -1,10 +1,21 @@
 {% extends 'docs/layout.tmpl' %}
 
 {% block docbody %}
+<div class="subscribe">
+  Stay in the loop about new blog posts; <a href="https://docs.google.com/forms/d/e/1FAIpQLSfYF3AZivacRrQWanC-skd0iI23ermwPd17T_64Xc4etoL_Tw/viewform">subscribe to the mailing list!</a>
+</div>
+
 <p class="what-is-datastation"><label>What is DataStation?</label><small>{{ description }}</small></p>
+
 <h2>{{doctitle}}</h2>
 <div class="post-subtitle">
   Published on <span class="post-date">{{subtitle}}</span>
-</div>
+<div>
+
 {% block releasebody %}{% endblock %}
+
+<div class="subscribe">
+  Stay in the loop about new blog posts; <a href="https://docs.google.com/forms/d/e/1FAIpQLSfYF3AZivacRrQWanC-skd0iI23ermwPd17T_64Xc4etoL_Tw/viewform">subscribe to the mailing list!</a>
+<div>
+
 {% endblock %}

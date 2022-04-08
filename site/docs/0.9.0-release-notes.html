@@ -5,9 +5,10 @@
 
 {% block releasebody %}
 <p>
-  Welcome to April! This release of DataStation brings an improved
-  data storage layer, support for basic autocomplete, and a number of
-  UX improvements and bug fixes.
+  Happy April! This release of DataStation brings an improved data
+  storage layer, support for basic autocomplete, and a number of UX
+  improvements and bug fixes. There's also a small preview of an
+  upcoming Enterprise Edition.
 </p>
 <p>
   Check out this short demo of this release that connects to a
@@ -85,23 +86,59 @@
 <div class="pb-4">
   <img class="no-shadow" src="/0.9.0-autocomplete.png" alt="DataStation autocomplete demo" />
 </div>
+<h2>Runner improvements</h2>
+<p>
+  First-time contributor and first-time Go
+  coder, <a href="https://github.com/fritzgrabo">Fritz</a>,
+  contributed two fixes to the DataStation runner code. The first
+  was <a href="https://github.com/multiprocessio/datastation/pull/205">an
+  improvement to DataStation's shape detection library</a>. The second
+  was
+  to <a href="https://github.com/multiprocessio/datastation/pull/209">increase
+  the size of lines the runner can handle when reading JSON newline
+  files</a>.
+</p>
+<p>
+  Thank you so much, Fritz!
+</p>
 <h2>Misc UI improvements</h2>
 <ul>
-  <li>New panel creation requires you to pick a panel type, you can't edit panel type after creating a panel</li>
+  <li>
+    New panel creation requires you to pick a panel type, you can't edit panel type after creating a panel
+    <div class="pb-4">
+      <img class="no-shadow" src="/0.9.0-new-panel.png" alt="DataStation new panel" />
+    </div>
+  </li>
+  <li>
+    Stdout/Stderr section fixed (and tests added, finally); indicator appears when Stdout/Stderr is not empty
+    <div class="pb-4">
+      <img class="no-shadow" src="/0.9.0-stderr.png" alt="DataStation stdout/stderr" />
+    </div>
+  </li>
+  <li>
+    Dark-mode is a little less blue/purple
+    <div class="pb-4">
+      <img class="no-shadow" src="/0.9.0-dark.png" alt="DataStation dark mode" />
+    </div>
+  </li>
   <li>Ctrl-tab and Ctrl-shift-tab switch between pages in desktop mode</li>
   <li>Double clicking on a panel header toggles between panel fullscreen/regular size</li>
-  <li>Stdout/Stderr section fixed (and tests added, finally); indicator appears when Stdout/Stderr is not empty</li>
   <li>New panels, database connectors, and ssh servers all start expanded when created</li>
-  <li>Dark-mode is a little less blue/purple</li>
 </ul>
+<h2>Enterprise Edition, Change History</h2>
+<p>
+  As you build bigger workflows and reports with DataStation it
+  becomes more important to be able to see the changes that you've
+  made and be able to go backward. So the first paid-only feature is a
+  full history of all changes made within DataStation.
+</p>
+<p>
+  This paid edition is not yet publicly available but if you're
+  interested in being first to try it
+  out, <a href="mailto:phil@multiprocess.io">get in touch</a>.
+</p>
 <div class="pb-4">
-  <img class="no-shadow" src="/0.9.0-dark.png" alt="DataStation dark mode" />
-</div>
-<div class="pb-4">
-  <img class="no-shadow" src="/0.9.0-new-panel.png" alt="DataStation new panel" />
-</div>
-<div class="pb-4">
-  <img class="no-shadow" src="/0.9.0-stderr.png" alt="DataStation stdout/stderr" />
+  <img class="no-shadow" src="/0.9.0-ee-history.png" alt="DataStation EE history" />
 </div>
 <h2>Install or upgrade</h2>
 <p>
@@ -109,18 +146,18 @@
 </p>
 <h3 id="how-you-can-help">How you can help</h4>
 <p>
-  If you are a developer or engineering manager, install DataStation
-  and start using it at work! Report bugs and usability issues (there
-  are surely many). <a href="https://discord.gg/f2wQBc4bXX">Join the
-  Discord</a>
-  and <a href="https://forms.gle/wH5fdxrxXwZHoNxk8">subscribe to
-  updates</a>.
+  <a href="https://forms.gle/wH5fdxrxXwZHoNxk8">Subscribe to updates!</a>
 </p>
 <p>
-  If you are an investor, <a href="mailto:phil@multiprocess.io">get in
-  touch</a>
-  and <a href="https://forms.gle/wH5fdxrxXwZHoNxk8">subscribe to
-  updates</a>.
+  If you are a developer or engineering manager, install DataStation
+  and start using it at work! Report bugs and usability issues (there
+  are surely many).
+</p>
+<p>
+  If you're a developer with some Go experience wanting to contribute
+  to OSS, check out
+  the <a href="https://github.com/multiprocessio/datastation/blob/main/GOOD_FIRST_PROJECTS.md">Good
+  First Projects<a/> page.
 </p>
 <h4>Share</h4>
 {% endblock %}
