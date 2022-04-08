@@ -1,0 +1,126 @@
+{% set doctitle = 'DataStation 0.9.0 Release Notes' %}
+{% set subtitle = 'April 8, 2022' %}
+
+{% extends 'docs/release_layout.tmpl' %}
+
+{% block releasebody %}
+<p>
+  Welcome to April! This release of DataStation brings an improved
+  data storage layer, support for basic autocomplete, and a number of
+  UX improvements and bug fixes.
+</p>
+<p>
+  Check out this short demo of this release that connects to a
+  CockroachDB instance, runs a basic query, and loads the results into
+  a Pandas dataframe in Python for some exploration.
+</p>
+<div class="product-picture">
+  <iframe src="https://www.youtube.com/embed/q_jRBvbwIzU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+<h2>Improved storage layer</h2>
+<p>
+  The name sounds boring but this is actually a really big
+  deal. Before this release all project state was stored in a single
+  JSON blob that was sent on every request from the UI (with the
+  exception of encrypted passwords).
+</p>
+<p>
+  Anyone familiar with API design recognizes this as a horrible
+  model. It helped DataStation get this far but has too many chances
+  for bugs and poor performance. In fact a number of bugs had been
+  reported that were directly attribute to this storage method.
+</p>
+<p>
+  This release moves to an API-driven storage model where only
+  individual entities are sent back on edit (e.g. the panel, connector, ssh
+  server being edited). Additionally it moves from JSON to storing
+  project data in a local SQLite file.
+</p>
+<p>
+  The good news is that the migration is done and well covered by
+  automatic and manual testing. The bad news is that any migration
+  like this can have bugs. DataStation automatically copies your
+  existing JSON project file to a new file with a .bak suffix so you
+  can recover your old data if the migration fails.
+</p>
+<p>
+  If you see bugs when running this new version please report them
+  on <a href="https://github.com/multiprocessio/datastation/issues">Github
+  or <a href="https://discord.multiprocess.io">Discord</a>! Although
+  since this is a one-time migration the main recourse will be to help
+  you get a valid SQLite version of your existing JSON project file.
+</p>
+<h2>Updated navigation</h2>
+<p>
+  This release rearranges navigation slightly, adding a global sidebar
+  to switch between the editor, dashboard, exports, and settings
+  views. This has an important ramification for dashboards and
+  exports; mainly that both will no longer be tied to a specific page
+  in a project. When you use the server mode (which is still in
+  testing) you will be able to put panels onto a dashboard from any
+  page in the project.
+</p>
+<p>
+  Additionally, this new navigation makes it easier to access settings
+  in desktop mode. And when you make changes in settings you'll no
+  longer need to restart DataStation for the changes to take effect.
+</p>
+<div class="pb-4">
+  <img class="no-shadow" src="/0.9.0-settings.png" alt="DataStation settings" />
+</div>
+<h2>Autocomplete</h2>
+<p>
+  This release introduces very basic support for
+  autocomplete. Autocomplete is now provided for panel names (for use
+  when referencing panels with `DM_getPanel`) and panel result field
+  names. Autocomplete is not yet provided for table names and columns
+  when querying a database. The goal is definitely to do so
+  eventually.
+</p>
+<p>
+  It's possible there are bugs in the autocomplete code that prevent
+  you from editing anything at all. In that case you can disable
+  autocomplete on the settings page.
+</p>
+<div class="pb-4">
+  <img class="no-shadow" src="/0.9.0-autocomplete.png" alt="DataStation autocomplete demo" />
+</div>
+<h2>Misc UI improvements</h2>
+<ul>
+  <li>New panel creation requires you to pick a panel type, you can't edit panel type after creating a panel</li>
+  <li>Ctrl-tab and Ctrl-shift-tab switch between pages in desktop mode</li>
+  <li>Double clicking on a panel header toggles between panel fullscreen/regular size</li>
+  <li>Stdout/Stderr section fixed (and tests added, finally); indicator appears when Stdout/Stderr is not empty</li>
+  <li>New panels, database connectors, and ssh servers all start expanded when created</li>
+  <li>Dark-mode is a little less blue/purple</li>
+</ul>
+<div class="pb-4">
+  <img class="no-shadow" src="/0.9.0-dark.png" alt="DataStation dark mode" />
+</div>
+<div class="pb-4">
+  <img class="no-shadow" src="/0.9.0-new-panel.png" alt="DataStation new panel" />
+</div>
+<div class="pb-4">
+  <img class="no-shadow" src="/0.9.0-stderr.png" alt="DataStation stdout/stderr" />
+</div>
+<h2>Install or upgrade</h2>
+<p>
+  <a href="/docs/">Get the 0.9.0 release now!</a>
+</p>
+<h3 id="how-you-can-help">How you can help</h4>
+<p>
+  If you are a developer or engineering manager, install DataStation
+  and start using it at work! Report bugs and usability issues (there
+  are surely many). <a href="https://discord.gg/f2wQBc4bXX">Join the
+  Discord</a>
+  and <a href="https://forms.gle/wH5fdxrxXwZHoNxk8">subscribe to
+  updates</a>.
+</p>
+<p>
+  If you are an investor, <a href="mailto:phil@multiprocess.io">get in
+  touch</a>
+  and <a href="https://forms.gle/wH5fdxrxXwZHoNxk8">subscribe to
+  updates</a>.
+</p>
+<h4>Share</h4>
+{% endblock %}

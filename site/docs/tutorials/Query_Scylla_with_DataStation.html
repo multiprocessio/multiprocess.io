@@ -11,7 +11,7 @@
 <p>This tutorial walks through running Scylla in Docker and querying the
 database in DataStation.</p>
 <h1>Database initialization [Optional]</h1>
-<p>If you want to follow along with this tutorial literally, in your
+<p>If you want to follow along with this tutorial verbatim, in your
 terminal start Scylla in Docker:</p>
 <pre><code class="hljs language-bash">$ cid=$(docker run -d -p 9042:9042 scylladb/scylla --smp 1 --authenticator PasswordAuthenticator --broadcast-address 127.0.0.1 --listen-address 0.0.0.0 --broadcast-rpc-address 127.0.0.1)
 </code></pre>
@@ -57,8 +57,6 @@ button. Or you can reference the results in other panels.</p>
 next to the New Panel button. Click it to generate a table based on
 this panel.</p>
 <p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/graph-scylla-database-results.gif" alt="Render results" /></p>
-<p>Note: when the query panel changes in the future you'll need to
-manually re-run the table panel.</p>
 
 
 <div class="about-this-page">
@@ -67,7 +65,7 @@ manually re-run the table panel.</p>
   See an error or want to add a clarification? This page is
   generated from <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/tutorials/Query_Scylla_with_DataStation.md">this file on Github</a>.
   <br /><br />
-  Last edited Feb 13, 2022.
+  Last edited Apr 06, 2022.
 </p>
 </div>
 {% endblock %}
