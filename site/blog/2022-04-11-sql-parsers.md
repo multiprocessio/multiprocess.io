@@ -1,6 +1,6 @@
 {% extends "blog/layout.tmpl" %}
 
-{% block postTitle %}Review of 10 SQL parser libraries in a few high-level languages{% endblock %}
+{% block postTitle %}Surveying 10+ SQL parser libraries in a few high-level languages{% endblock %}
 {% block postDate %}April 11, 2022{% endblock %}
 {% block postAuthor %}Phil Eaton{% endblock %}
 {% block postAuthorEmail %}phil@multiprocess.io{% endblock %}
@@ -8,18 +8,20 @@
 
 {% block postBody %}
 This post surveys 10+ SQL parsing libraries in Ruby, Java, Python,
-JavaScript, and Go. Two of them, go-mysql-server and sqlparser-rs,
-have handwritten parsers. The rest of them use parser generators.
-
-This isn't an exhaustive list of parser libraries. But these ones
-alone took me a while to find. If there are other major libraries I
-missed feel free to send me them! If there are enough I may make a
-second post.
+JavaScript, and Go. Two of them,
+[go-mysql-server](https://github.com/dolthub/go-mysql-server) and
+[sqlparser-rs](https://github.com/sqlparser-rs/sqlparser-rs), have
+handwritten parsers. The rest use parser generators.
 
 This post will look at support for a few basic `SELECT` queries and
 the usefulness of error messages. SQL is really complex though. So
 keep in mind it takes a lot of work to build these systems and
 the authors deserve a ton of credit.
+
+This post is not an exhaustive list of parser libraries. But these ones
+alone took me a while to find. If there are other major libraries I
+missed feel free to send me them! If there are enough I may make a
+second post.
 
 All code for this post is [available on Github](https://github.com/multiprocessio/sql-parsers).
 
@@ -37,9 +39,8 @@ In trying to avoid some of these contentious parts of SQL we'll be
 eliminating large parts of very commonly used code. Almost every
 real-world query involves dates.
 
-We're also only going to test `SELECT` statements.
-
-So those missing cases will be on you to test.
+We're also only going to test `SELECT` statements. So missing cases
+will be on you to test.
 
 Caveats out of the way, here are the three syntactically valid and one
 syntactically invalid queries we'll try out.
@@ -85,12 +86,10 @@ SELECT * FROM GROUP BY age
 ### DoltHub's go-mysql-server
 
 [This repo](https://github.com/dolthub/go-mysql-server) is a fork of src-d/go-mysql-server after src-d shut
-down. It's not just a SQL parser it's an entire SQL engine. You can
+down. It's not just a SQL parser, it's an entire SQL engine. You can
 read about why DoltHub adopted it
 [here](https://www.dolthub.com/blog/2020-05-04-adopting-go-mysql-server/). But
-the engine exposes a SQL parser, so we're going to look at that.
-
-The SQL parser is [handwritten](https://github.com/dolthub/go-mysql-server/blob/main/sql/parse/parse.go).
+the engine exposes a SQL parser, so we're going to look at that. The SQL parser is [handwritten](https://github.com/dolthub/go-mysql-server/blob/main/sql/parse/parse.go).
 
 #### Setup
 
@@ -146,7 +145,7 @@ ORDER BY talks DESC, country.id ASC;
 
 Now run `go mod tidy` and `go run main.go` and notice:
 
-```bash
+```go
 &plan.Project{
     UnaryNode: plan.UnaryNode{
         Child: &plan.UnresolvedTable{
@@ -477,9 +476,8 @@ for use in front of MySQL servers, originally developed by Youtube. It
 is now part of the Cloud Native Computing Foundation. You can read
 more about it
 [here](https://vitess.io/docs/13.0/overview/history/). Like
-go-mysql-server it happens to include a custom SQL parser.
-
-The SQL parser is [not
+go-mysql-server it happens to include a custom SQL parser. The SQL
+parser is [not
 handwritten](https://github.com/vitessio/vitess/tree/main/go/vt/sqlparser)
 but uses goyacc.
 
@@ -537,7 +535,7 @@ ORDER BY talks DESC, country.id ASC;
 
 Now run `go mod tidy` and `go run main.go`:
 
-```bash
+```go
 &sqlparser.Select{
     Cache:            (*bool)(nil),
     Distinct:         false,
@@ -1207,7 +1205,7 @@ ORDER BY talks DESC, country.id ASC;
 
 Run `go mod tidy` and `go run main.go`:
 
-```bash
+```go
 pg_query.ParsetreeList{
     Statements: {
         pg_query.RawStmt{
@@ -2044,7 +2042,7 @@ function `parse_sql_json`.
 
 Run `python3 main.py`:
 
-```bash
+```python
 {
   "stmts": [
     {
@@ -2893,7 +2891,7 @@ pglast.parser.ParseError: syntax error at or near "GROUP", at index 14
 
 The error:
 
-```
+```python
 Traceback (most recent call last):
   File "/home/phil/multiprocess/sql-parsers/pglast/main.py", line 28, in <module>
     stmt_json = pglast.parser.parse_sql_json(test)
@@ -3307,14 +3305,14 @@ because it's not a project backed by major companies and doesn't even
 seem to have sponsors.
 
 The reason it failed the first "simple" query is because I guess it
-treats `COUNT` as a keyword. If I change that to `countt` (an extra
+treats `count` in `AS count` as a keyword. If I change that to `countt` (an extra
 `t`) it succeeds. So that's annoying but not a massive issue, and
 somewhat understandable.
 
 Also, these errors are AWESOME. This is the kind of error quality
 every parser should aim for.
 
-One disturbing bit though is that it doesn't look like tokens in the
+One concerning bit though is that it doesn't look like tokens in the
 parse tree have locations. That could make it hard for external tools
 to debug themselves. But that information is clearly available
 somewhere in the code so maybe it's a setting I missed. And if not it
@@ -4232,9 +4230,7 @@ Identical to the other pg_query bindings, as expected.
 
 I used [this library](https://github.com/codeschool/sqlite-parser) for
 a while at a previous company. It is [written with a PEG
-parser](https://github.com/codeschool/sqlite-parser).
-
-Unfortunately it's no longer maintained.
+parser](https://github.com/codeschool/sqlite-parser). Unfortunately it's no longer maintained.
 
 That's the last JavaScript library I have. On to Rust.
 
@@ -6452,10 +6448,9 @@ So let's move on to the final language here: Java.
 
 ### presto-parser
 
-Presto is a SQL engine originally built at Facebook. It uses ANTLR, a
-[parser
-generator](https://github.com/prestodb/presto/blob/master/presto-parser/src/main/antlr4/com/facebook/presto/sql/parser/SqlBase.g4),
-under the hood.
+Presto is a SQL engine originally built at Facebook. It uses ANTLR to
+generate a parser from [a
+grammar](https://github.com/prestodb/presto/blob/master/presto-parser/src/main/antlr4/com/facebook/presto/sql/parser/SqlBase.g4).
 
 #### Setup
 
@@ -6570,7 +6565,7 @@ FROM
 ```
 
 Everything succeeds/fails as expected. That error message is pretty
-good too! Line number and column. Nice work, Presto developers.
+good too! Line number and column. Nice work, Presto developers!
 
 ### JSqlParser
 
