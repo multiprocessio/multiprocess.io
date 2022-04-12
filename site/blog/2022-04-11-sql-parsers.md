@@ -6815,4 +6815,6 @@ project!
 
 #### Share
 
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Interested in SQL analysis or trying to decide between SQL parsing libraries? Here&#39;s a blog post to help you out: surveying 10+ SQL parsing libraries in Go, Ruby, Rust, Java, Python, and JavaScript.<a href="https://t.co/7Pmqh5ZNrQ">https://t.co/7Pmqh5ZNrQ</a> <a href="https://t.co/R7vIrn18sP">pic.twitter.com/R7vIrn18sP</a></p>&mdash; Multiprocess Labs (@multiprocessio) <a href="https://twitter.com/multiprocessio/status/1513925342095937541?ref_src=twsrc%5Etfw">April 12, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 {% endblock %}
