@@ -1,24 +1,27 @@
 {% extends "blog/layout.tmpl" %}
 
-{% block postTitle %}A review of SQL parser libraries in a few high-level languages{% endblock %}
+{% block postTitle %}Review of 10 SQL parser libraries in a few high-level languages{% endblock %}
 {% block postDate %}April 11, 2022{% endblock %}
 {% block postAuthor %}Phil Eaton{% endblock %}
 {% block postAuthorEmail %}phil@multiprocess.io{% endblock %}
 {% block postTags %}sql,parsing,go,rust,java,python,ruby,javascript{% endblock %}
 
 {% block postBody %}
-This article reviews a number of SQL parser libraries in major
-programming languages.
+This post surveys 10+ SQL parsing libraries in Ruby, Java, Python,
+JavaScript, and Go. Two of them, go-mysql-server and sqlparser-rs,
+have handwritten parsers. The rest of them use parser generators.
 
-This article will point out issues as I see them but I just want
-to express how complex SQL is and how much syntax there is to
-support. It takes a ton of work to build these systems and the authors
-deserve a ton of credit.
+This isn't an exhaustive list of parser libraries. But these ones
+alone took me a while to find. If there are other major libraries I
+missed feel free to send me them! If there are enough I may make a
+second post.
 
-This won't be an exhaustive list of parser libraries. But these ones
-alone took me a while to find. If there are other major ones I missed
-feel free to send me them! If there are enough I may make a second
-post.
+This post will look at support for a few basic `SELECT` queries and
+the usefulness of error messages. SQL is really complex though. So
+keep in mind it takes a lot of work to build these systems and
+the authors deserve a ton of credit.
+
+All code for this post is [available on Github](https://github.com/multiprocessio/sql-parsers).
 
 ## Sample queries
 
@@ -34,7 +37,7 @@ In trying to avoid some of these contentious parts of SQL we'll be
 eliminating large parts of very commonly used code. Almost every
 real-world query involves dates.
 
-Finally, we're only going to test `SELECT` statements.
+We're also only going to test `SELECT` statements.
 
 So those missing cases will be on you to test.
 
@@ -60,11 +63,11 @@ SELECT
 	country.country_name_eng,
 	SUM(CASE WHEN talk.id IS NOT NULL THEN 1 ELSE 0 END) AS talks,
 	AVG(ISNULL(DATEDIFF(SECOND, talk.start_time, talk.end_time),0)) AS avg_difference
-FROM country 
+FROM country
 LEFT JOIN city ON city.country_id = country.id
 LEFT JOIN customer ON city.id = customer.city_id
 LEFT JOIN talk ON talk.customer_id = customer.id
-GROUP BY 
+GROUP BY
 	country.id,
 	country.country_name_eng
 HAVING AVG(ISNULL(DATEDIFF(SECOND, talk.start_time, talk.end_time),0)) > (SELECT AVG(DATEDIFF(SECOND, talk.start_time, talk.end_time)) FROM talk)
@@ -87,10 +90,7 @@ read about why DoltHub adopted it
 [here](https://www.dolthub.com/blog/2020-05-04-adopting-go-mysql-server/). But
 the engine exposes a SQL parser, so we're going to look at that.
 
-The SQL parser is [hand-written in a single ~3600 LoC Go
-file](https://github.com/dolthub/go-mysql-server/blob/main/sql/parse/parse.go). If
-that really is the whole of the parser, that is actually pretty small,
-suggesting a large part of SQL will not be supported. We'll see.
+The SQL parser is [handwritten](https://github.com/dolthub/go-mysql-server/blob/main/sql/parse/parse.go).
 
 #### Setup
 
@@ -101,7 +101,7 @@ package main
 
 import (
 	"fmt"
-	
+
 	"github.com/dolthub/go-mysql-server/sql"
 	"github.com/dolthub/go-mysql-server/sql/parse"
 	"github.com/kr/pretty"
@@ -109,19 +109,19 @@ import (
 
 func main() {
 	simple := "SELECT * FROM x WHERE y > 9 ORDER BY z LIMIT 5"
-	
+
 	medium := "SELECT COUNT(1) AS count, name section FROM (SELECT * FROM jobs) t GROUP BY name LIMIT 10"
-	
+
 	complex := `
-SELECT 
+SELECT
 	country.country_name_eng,
 	SUM(CASE WHEN talk.id IS NOT NULL THEN 1 ELSE 0 END) AS talks,
 	AVG(ISNULL(DATEDIFF(SECOND, talk.start_time, talk.end_time),0)) AS avg_difference
-FROM country 
+FROM country
 LEFT JOIN city ON city.country_id = country.id
 LEFT JOIN customer ON city.id = customer.city_id
 LEFT JOIN talk ON talk.customer_id = customer.id
-GROUP BY 
+GROUP BY
 	country.id,
 	country.country_name_eng
 HAVING AVG(ISNULL(DATEDIFF(SECOND, talk.start_time, talk.end_time),0)) > (SELECT AVG(DATEDIFF(SECOND, talk.start_time, talk.end_time)) FROM talk)
@@ -480,7 +480,7 @@ more about it
 go-mysql-server it happens to include a custom SQL parser.
 
 The SQL parser is [not
-hand-written](https://github.com/vitessio/vitess/tree/main/go/vt/sqlparser)
+handwritten](https://github.com/vitessio/vitess/tree/main/go/vt/sqlparser)
 but uses goyacc.
 
 Let's try it out.
@@ -502,19 +502,19 @@ import (
 
 func main() {
 	simple := "SELECT * FROM x"
-	
+
 	medium := "SELECT COUNT(1) AS count, name section FROM t GROUP BY name LIMIT 10"
-	
+
 	complex := `
-SELECT 
+SELECT
 	country.country_name_eng,
 	SUM(CASE WHEN talk.id IS NOT NULL THEN 1 ELSE 0 END) AS talks,
 	AVG(ISNULL(DATEDIFF(SECOND, talk.start_time, talk.end_time),0)) AS avg_difference
-FROM country 
+FROM country
 LEFT JOIN city ON city.country_id = country.id
 LEFT JOIN customer ON city.id = customer.city_id
 LEFT JOIN talk ON talk.customer_id = customer.id
-GROUP BY 
+GROUP BY
 	country.id,
 	country.country_name_eng
 HAVING AVG(ISNULL(DATEDIFF(SECOND, talk.start_time, talk.end_time),0)) > (SELECT AVG(DATEDIFF(SECOND, talk.start_time, talk.end_time)) FROM talk)
@@ -1172,19 +1172,19 @@ import (
 
 func main() {
 	simple := "SELECT * FROM x"
-	
+
 	medium := "SELECT COUNT(1) AS count, name section FROM t GROUP BY name LIMIT 10"
-	
+
 	complex := `
-SELECT 
+SELECT
 	country.country_name_eng,
 	SUM(CASE WHEN talk.id IS NOT NULL THEN 1 ELSE 0 END) AS talks,
 	AVG(ISNULL(DATEDIFF(SECOND, talk.start_time, talk.end_time),0)) AS avg_difference
-FROM country 
+FROM country
 LEFT JOIN city ON city.country_id = country.id
 LEFT JOIN customer ON city.id = customer.city_id
 LEFT JOIN talk ON talk.customer_id = customer.id
-GROUP BY 
+GROUP BY
 	country.id,
 	country.country_name_eng
 HAVING AVG(ISNULL(DATEDIFF(SECOND, talk.start_time, talk.end_time),0)) > (SELECT AVG(DATEDIFF(SECOND, talk.start_time, talk.end_time)) FROM talk)
@@ -2011,19 +2011,19 @@ import json
 import pglast.parser
 
 simple = "SELECT * FROM x"
-	
+
 medium = "SELECT COUNT(1) AS count, name section FROM t GROUP BY name LIMIT 10"
-	
+
 _complex = """
-SELECT 
+SELECT
 	country.country_name_eng,
 	SUM(CASE WHEN talk.id IS NOT NULL THEN 1 ELSE 0 END) AS talks,
 	AVG(ISNULL(DATEDIFF(SECOND, talk.start_time, talk.end_time),0)) AS avg_difference
-FROM country 
+FROM country
 LEFT JOIN city ON city.country_id = country.id
 LEFT JOIN customer ON city.id = customer.city_id
 LEFT JOIN talk ON talk.customer_id = customer.id
-GROUP BY 
+GROUP BY
 	country.id,
 	country.country_name_eng
 HAVING AVG(ISNULL(DATEDIFF(SECOND, talk.start_time, talk.end_time),0)) > (SELECT AVG(DATEDIFF(SECOND, talk.start_time, talk.end_time)) FROM talk)
@@ -2935,26 +2935,26 @@ Bison.
 
 #### Setup
 
-Create a new directory, run `yarn init` and `yarn add alasql`, and
+Create a new directory, run `yarn add alasql`, and
 enter the following into `main.js`:
 
 ```javascript
 const alasql = require('alasql');
 
 const simple = "SELECT * FROM x";
-	
+
 const medium = "SELECT COUNT(1) AS count, name section FROM t GROUP BY name LIMIT 10";
-	
+
 const complex = `
-SELECT 
+SELECT
 	country.country_name_eng,
 	SUM(CASE WHEN talk.id IS NOT NULL THEN 1 ELSE 0 END) AS talks,
 	AVG(ISNULL(DATEDIFF(SECOND, talk.start_time, talk.end_time),0)) AS avg_difference
-FROM country 
+FROM country
 LEFT JOIN city ON city.country_id = country.id
 LEFT JOIN customer ON city.id = customer.city_id
 LEFT JOIN talk ON talk.customer_id = customer.id
-GROUP BY 
+GROUP BY
 	country.id,
 	country.country_name_eng
 HAVING AVG(ISNULL(DATEDIFF(SECOND, talk.start_time, talk.end_time),0)) > (SELECT AVG(DATEDIFF(SECOND, talk.start_time, talk.end_time)) FROM talk)
@@ -2995,7 +2995,7 @@ And run `node main.js`:
   ]
 }
 SyntaxError: Parse error on line 1:
-SELECT COUNT(1) AS count, name section 
+SELECT COUNT(1) AS count, name section
 -------------------^
 Expecting 'LITERAL', 'BRALITERAL', 'NUMBER', 'STRING', 'NSTRING', got 'COUNT'
     at Parser.parser.parseError (/home/phil/multiprocess/sql-parsers/alasql/node_modules/alasql/dist/alasql.fs.js:2220:8)
@@ -3268,7 +3268,7 @@ The errors:
 
 ```javascript
 SyntaxError: Parse error on line 1:
-SELECT COUNT(1) AS count, name section 
+SELECT COUNT(1) AS count, name section
 -------------------^
 Expecting 'LITERAL', 'BRALITERAL', 'NUMBER', 'STRING', 'NSTRING', got 'COUNT'
     at Parser.parser.parseError (/home/phil/multiprocess/sql-parsers/alasql/node_modules/alasql/dist/alasql.fs.js:2220:8)
@@ -3320,10 +3320,3502 @@ to debug themselves. But that information is clearly available
 somewhere in the code so maybe it's a setting I missed. And if not it
 should be easy to add.
 
-### pgsql-parser
+### libpg-query-node
 
-[This project](https://github.com/pyramation/pgsql-parser) is another
+[This project](https://github.com/pyramation/libpg-query-node) is another
 binding to pg_query.
+
+#### Setup
+
+Create a new directory, run `yarn add libpg-query`, and
+enter the following into `main.js`:
+
+```javascript
+const parser = require('libpg-query');
+
+const simple = "SELECT * FROM x";
+
+const medium = "SELECT COUNT(1) AS count, name section FROM t GROUP BY name LIMIT 10";
+
+const complex = `
+SELECT
+	country.country_name_eng,
+	SUM(CASE WHEN talk.id IS NOT NULL THEN 1 ELSE 0 END) AS talks,
+	AVG(ISNULL(DATEDIFF(SECOND, talk.start_time, talk.end_time),0)) AS avg_difference
+FROM country
+LEFT JOIN city ON city.country_id = country.id
+LEFT JOIN customer ON city.id = customer.city_id
+LEFT JOIN talk ON talk.customer_id = customer.id
+GROUP BY
+	country.id,
+	country.country_name_eng
+HAVING AVG(ISNULL(DATEDIFF(SECOND, talk.start_time, talk.end_time),0)) > (SELECT AVG(DATEDIFF(SECOND, talk.start_time, talk.end_time)) FROM talk)
+ORDER BY talks DESC, country.id ASC;
+`;
+
+const simplebad = "SELECT * FROM GROUP BY age";
+
+for (const test of [simple, medium, complex, simplebad]) {
+  let stmt;
+  try {
+    stmt = parser.parseQuerySync(test);
+  } catch (e) {
+    console.error(e);
+    continue;
+  }
+  console.log(JSON.stringify(stmt, null, 2));
+}
+```
+
+And run `node main.js`:
+
+```json
+{
+  "version": 130003,
+  "stmts": [
+    {
+      "stmt": {
+        "SelectStmt": {
+          "targetList": [
+            {
+              "ResTarget": {
+                "val": {
+                  "ColumnRef": {
+                    "fields": [
+                      {
+                        "A_Star": {}
+                      }
+                    ],
+                    "location": 7
+                  }
+                },
+                "location": 7
+              }
+            }
+          ],
+          "fromClause": [
+            {
+              "RangeVar": {
+                "relname": "x",
+                "inh": true,
+                "relpersistence": "p",
+                "location": 14
+              }
+            }
+          ],
+          "limitOption": "LIMIT_OPTION_DEFAULT",
+          "op": "SETOP_NONE"
+        }
+      }
+    }
+  ]
+}
+{
+  "version": 130003,
+  "stmts": [
+    {
+      "stmt": {
+        "SelectStmt": {
+          "targetList": [
+            {
+              "ResTarget": {
+                "name": "count",
+                "val": {
+                  "FuncCall": {
+                    "funcname": [
+                      {
+                        "String": {
+                          "str": "count"
+                        }
+                      }
+                    ],
+                    "args": [
+                      {
+                        "A_Const": {
+                          "val": {
+                            "Integer": {
+                              "ival": 1
+                            }
+                          },
+                          "location": 13
+                        }
+                      }
+                    ],
+                    "location": 7
+                  }
+                },
+                "location": 7
+              }
+            },
+            {
+              "ResTarget": {
+                "name": "section",
+                "val": {
+                  "ColumnRef": {
+                    "fields": [
+                      {
+                        "String": {
+                          "str": "name"
+                        }
+                      }
+                    ],
+                    "location": 26
+                  }
+                },
+                "location": 26
+              }
+            }
+          ],
+          "fromClause": [
+            {
+              "RangeVar": {
+                "relname": "t",
+                "inh": true,
+                "relpersistence": "p",
+                "location": 44
+              }
+            }
+          ],
+          "groupClause": [
+            {
+              "ColumnRef": {
+                "fields": [
+                  {
+                    "String": {
+                      "str": "name"
+                    }
+                  }
+                ],
+                "location": 55
+              }
+            }
+          ],
+          "limitCount": {
+            "A_Const": {
+              "val": {
+                "Integer": {
+                  "ival": 10
+                }
+              },
+              "location": 66
+            }
+          },
+          "limitOption": "LIMIT_OPTION_COUNT",
+          "op": "SETOP_NONE"
+        }
+      }
+    }
+  ]
+}
+{
+  "version": 130003,
+  "stmts": [
+    {
+      "stmt": {
+        "SelectStmt": {
+          "targetList": [
+            {
+              "ResTarget": {
+                "val": {
+                  "ColumnRef": {
+                    "fields": [
+                      {
+                        "String": {
+                          "str": "country"
+                        }
+                      },
+                      {
+                        "String": {
+                          "str": "country_name_eng"
+                        }
+                      }
+                    ],
+                    "location": 10
+                  }
+                },
+                "location": 10
+              }
+            },
+            {
+              "ResTarget": {
+                "name": "talks",
+                "val": {
+                  "FuncCall": {
+                    "funcname": [
+                      {
+                        "String": {
+                          "str": "sum"
+                        }
+                      }
+                    ],
+                    "args": [
+                      {
+                        "CaseExpr": {
+                          "args": [
+                            {
+                              "CaseWhen": {
+                                "expr": {
+                                  "NullTest": {
+                                    "arg": {
+                                      "ColumnRef": {
+                                        "fields": [
+                                          {
+                                            "String": {
+                                              "str": "talk"
+                                            }
+                                          },
+                                          {
+                                            "String": {
+                                              "str": "id"
+                                            }
+                                          }
+                                        ],
+                                        "location": 51
+                                      }
+                                    },
+                                    "nulltesttype": "IS_NOT_NULL",
+                                    "location": 59
+                                  }
+                                },
+                                "result": {
+                                  "A_Const": {
+                                    "val": {
+                                      "Integer": {
+                                        "ival": 1
+                                      }
+                                    },
+                                    "location": 76
+                                  }
+                                },
+                                "location": 46
+                              }
+                            }
+                          ],
+                          "defresult": {
+                            "A_Const": {
+                              "val": {
+                                "Integer": {
+                                  "ival": 0
+                                }
+                              },
+                              "location": 83
+                            }
+                          },
+                          "location": 41
+                        }
+                      }
+                    ],
+                    "location": 37
+                  }
+                },
+                "location": 37
+              }
+            },
+            {
+              "ResTarget": {
+                "name": "avg_difference",
+                "val": {
+                  "FuncCall": {
+                    "funcname": [
+                      {
+                        "String": {
+                          "str": "avg"
+                        }
+                      }
+                    ],
+                    "args": [
+                      {
+                        "FuncCall": {
+                          "funcname": [
+                            {
+                              "String": {
+                                "str": "isnull"
+                              }
+                            }
+                          ],
+                          "args": [
+                            {
+                              "FuncCall": {
+                                "funcname": [
+                                  {
+                                    "String": {
+                                      "str": "datediff"
+                                    }
+                                  }
+                                ],
+                                "args": [
+                                  {
+                                    "ColumnRef": {
+                                      "fields": [
+                                        {
+                                          "String": {
+                                            "str": "second"
+                                          }
+                                        }
+                                      ],
+                                      "location": 121
+                                    }
+                                  },
+                                  {
+                                    "ColumnRef": {
+                                      "fields": [
+                                        {
+                                          "String": {
+                                            "str": "talk"
+                                          }
+                                        },
+                                        {
+                                          "String": {
+                                            "str": "start_time"
+                                          }
+                                        }
+                                      ],
+                                      "location": 129
+                                    }
+                                  },
+                                  {
+                                    "ColumnRef": {
+                                      "fields": [
+                                        {
+                                          "String": {
+                                            "str": "talk"
+                                          }
+                                        },
+                                        {
+                                          "String": {
+                                            "str": "end_time"
+                                          }
+                                        }
+                                      ],
+                                      "location": 146
+                                    }
+                                  }
+                                ],
+                                "location": 112
+                              }
+                            },
+                            {
+                              "A_Const": {
+                                "val": {
+                                  "Integer": {
+                                    "ival": 0
+                                  }
+                                },
+                                "location": 161
+                              }
+                            }
+                          ],
+                          "location": 105
+                        }
+                      }
+                    ],
+                    "location": 101
+                  }
+                },
+                "location": 101
+              }
+            }
+          ],
+          "fromClause": [
+            {
+              "JoinExpr": {
+                "jointype": "JOIN_LEFT",
+                "larg": {
+                  "JoinExpr": {
+                    "jointype": "JOIN_LEFT",
+                    "larg": {
+                      "JoinExpr": {
+                        "jointype": "JOIN_LEFT",
+                        "larg": {
+                          "RangeVar": {
+                            "relname": "country",
+                            "inh": true,
+                            "relpersistence": "p",
+                            "location": 188
+                          }
+                        },
+                        "rarg": {
+                          "RangeVar": {
+                            "relname": "city",
+                            "inh": true,
+                            "relpersistence": "p",
+                            "location": 207
+                          }
+                        },
+                        "quals": {
+                          "A_Expr": {
+                            "kind": "AEXPR_OP",
+                            "name": [
+                              {
+                                "String": {
+                                  "str": "="
+                                }
+                              }
+                            ],
+                            "lexpr": {
+                              "ColumnRef": {
+                                "fields": [
+                                  {
+                                    "String": {
+                                      "str": "city"
+                                    }
+                                  },
+                                  {
+                                    "String": {
+                                      "str": "country_id"
+                                    }
+                                  }
+                                ],
+                                "location": 215
+                              }
+                            },
+                            "rexpr": {
+                              "ColumnRef": {
+                                "fields": [
+                                  {
+                                    "String": {
+                                      "str": "country"
+                                    }
+                                  },
+                                  {
+                                    "String": {
+                                      "str": "id"
+                                    }
+                                  }
+                                ],
+                                "location": 233
+                              }
+                            },
+                            "location": 231
+                          }
+                        }
+                      }
+                    },
+                    "rarg": {
+                      "RangeVar": {
+                        "relname": "customer",
+                        "inh": true,
+                        "relpersistence": "p",
+                        "location": 254
+                      }
+                    },
+                    "quals": {
+                      "A_Expr": {
+                        "kind": "AEXPR_OP",
+                        "name": [
+                          {
+                            "String": {
+                              "str": "="
+                            }
+                          }
+                        ],
+                        "lexpr": {
+                          "ColumnRef": {
+                            "fields": [
+                              {
+                                "String": {
+                                  "str": "city"
+                                }
+                              },
+                              {
+                                "String": {
+                                  "str": "id"
+                                }
+                              }
+                            ],
+                            "location": 266
+                          }
+                        },
+                        "rexpr": {
+                          "ColumnRef": {
+                            "fields": [
+                              {
+                                "String": {
+                                  "str": "customer"
+                                }
+                              },
+                              {
+                                "String": {
+                                  "str": "city_id"
+                                }
+                              }
+                            ],
+                            "location": 276
+                          }
+                        },
+                        "location": 274
+                      }
+                    }
+                  }
+                },
+                "rarg": {
+                  "RangeVar": {
+                    "relname": "talk",
+                    "inh": true,
+                    "relpersistence": "p",
+                    "location": 303
+                  }
+                },
+                "quals": {
+                  "A_Expr": {
+                    "kind": "AEXPR_OP",
+                    "name": [
+                      {
+                        "String": {
+                          "str": "="
+                        }
+                      }
+                    ],
+                    "lexpr": {
+                      "ColumnRef": {
+                        "fields": [
+                          {
+                            "String": {
+                              "str": "talk"
+                            }
+                          },
+                          {
+                            "String": {
+                              "str": "customer_id"
+                            }
+                          }
+                        ],
+                        "location": 311
+                      }
+                    },
+                    "rexpr": {
+                      "ColumnRef": {
+                        "fields": [
+                          {
+                            "String": {
+                              "str": "customer"
+                            }
+                          },
+                          {
+                            "String": {
+                              "str": "id"
+                            }
+                          }
+                        ],
+                        "location": 330
+                      }
+                    },
+                    "location": 328
+                  }
+                }
+              }
+            }
+          ],
+          "groupClause": [
+            {
+              "ColumnRef": {
+                "fields": [
+                  {
+                    "String": {
+                      "str": "country"
+                    }
+                  },
+                  {
+                    "String": {
+                      "str": "id"
+                    }
+                  }
+                ],
+                "location": 353
+              }
+            },
+            {
+              "ColumnRef": {
+                "fields": [
+                  {
+                    "String": {
+                      "str": "country"
+                    }
+                  },
+                  {
+                    "String": {
+                      "str": "country_name_eng"
+                    }
+                  }
+                ],
+                "location": 366
+              }
+            }
+          ],
+          "havingClause": {
+            "A_Expr": {
+              "kind": "AEXPR_OP",
+              "name": [
+                {
+                  "String": {
+                    "str": ">"
+                  }
+                }
+              ],
+              "lexpr": {
+                "FuncCall": {
+                  "funcname": [
+                    {
+                      "String": {
+                        "str": "avg"
+                      }
+                    }
+                  ],
+                  "args": [
+                    {
+                      "FuncCall": {
+                        "funcname": [
+                          {
+                            "String": {
+                              "str": "isnull"
+                            }
+                          }
+                        ],
+                        "args": [
+                          {
+                            "FuncCall": {
+                              "funcname": [
+                                {
+                                  "String": {
+                                    "str": "datediff"
+                                  }
+                                }
+                              ],
+                              "args": [
+                                {
+                                  "ColumnRef": {
+                                    "fields": [
+                                      {
+                                        "String": {
+                                          "str": "second"
+                                        }
+                                      }
+                                    ],
+                                    "location": 418
+                                  }
+                                },
+                                {
+                                  "ColumnRef": {
+                                    "fields": [
+                                      {
+                                        "String": {
+                                          "str": "talk"
+                                        }
+                                      },
+                                      {
+                                        "String": {
+                                          "str": "start_time"
+                                        }
+                                      }
+                                    ],
+                                    "location": 426
+                                  }
+                                },
+                                {
+                                  "ColumnRef": {
+                                    "fields": [
+                                      {
+                                        "String": {
+                                          "str": "talk"
+                                        }
+                                      },
+                                      {
+                                        "String": {
+                                          "str": "end_time"
+                                        }
+                                      }
+                                    ],
+                                    "location": 443
+                                  }
+                                }
+                              ],
+                              "location": 409
+                            }
+                          },
+                          {
+                            "A_Const": {
+                              "val": {
+                                "Integer": {
+                                  "ival": 0
+                                }
+                              },
+                              "location": 458
+                            }
+                          }
+                        ],
+                        "location": 402
+                      }
+                    }
+                  ],
+                  "location": 398
+                }
+              },
+              "rexpr": {
+                "SubLink": {
+                  "subLinkType": "EXPR_SUBLINK",
+                  "subselect": {
+                    "SelectStmt": {
+                      "targetList": [
+                        {
+                          "ResTarget": {
+                            "val": {
+                              "FuncCall": {
+                                "funcname": [
+                                  {
+                                    "String": {
+                                      "str": "avg"
+                                    }
+                                  }
+                                ],
+                                "args": [
+                                  {
+                                    "FuncCall": {
+                                      "funcname": [
+                                        {
+                                          "String": {
+                                            "str": "datediff"
+                                          }
+                                        }
+                                      ],
+                                      "args": [
+                                        {
+                                          "ColumnRef": {
+                                            "fields": [
+                                              {
+                                                "String": {
+                                                  "str": "second"
+                                                }
+                                              }
+                                            ],
+                                            "location": 485
+                                          }
+                                        },
+                                        {
+                                          "ColumnRef": {
+                                            "fields": [
+                                              {
+                                                "String": {
+                                                  "str": "talk"
+                                                }
+                                              },
+                                              {
+                                                "String": {
+                                                  "str": "start_time"
+                                                }
+                                              }
+                                            ],
+                                            "location": 493
+                                          }
+                                        },
+                                        {
+                                          "ColumnRef": {
+                                            "fields": [
+                                              {
+                                                "String": {
+                                                  "str": "talk"
+                                                }
+                                              },
+                                              {
+                                                "String": {
+                                                  "str": "end_time"
+                                                }
+                                              }
+                                            ],
+                                            "location": 510
+                                          }
+                                        }
+                                      ],
+                                      "location": 476
+                                    }
+                                  }
+                                ],
+                                "location": 472
+                              }
+                            },
+                            "location": 472
+                          }
+                        }
+                      ],
+                      "fromClause": [
+                        {
+                          "RangeVar": {
+                            "relname": "talk",
+                            "inh": true,
+                            "relpersistence": "p",
+                            "location": 531
+                          }
+                        }
+                      ],
+                      "limitOption": "LIMIT_OPTION_DEFAULT",
+                      "op": "SETOP_NONE"
+                    }
+                  },
+                  "location": 464
+                }
+              },
+              "location": 462
+            }
+          },
+          "sortClause": [
+            {
+              "SortBy": {
+                "node": {
+                  "ColumnRef": {
+                    "fields": [
+                      {
+                        "String": {
+                          "str": "talks"
+                        }
+                      }
+                    ],
+                    "location": 546
+                  }
+                },
+                "sortby_dir": "SORTBY_DESC",
+                "sortby_nulls": "SORTBY_NULLS_DEFAULT",
+                "location": -1
+              }
+            },
+            {
+              "SortBy": {
+                "node": {
+                  "ColumnRef": {
+                    "fields": [
+                      {
+                        "String": {
+                          "str": "country"
+                        }
+                      },
+                      {
+                        "String": {
+                          "str": "id"
+                        }
+                      }
+                    ],
+                    "location": 558
+                  }
+                },
+                "sortby_dir": "SORTBY_ASC",
+                "sortby_nulls": "SORTBY_NULLS_DEFAULT",
+                "location": -1
+              }
+            }
+          ],
+          "limitOption": "LIMIT_OPTION_DEFAULT",
+          "op": "SETOP_NONE"
+        }
+      },
+      "stmt_len": 572
+    }
+  ]
+}
+Error: syntax error at or near "GROUP"
+    at Object.parseQuerySync (/home/phil/multiprocess/sql-parsers/libpg-query-node/node_modules/libpg-query/index.js:21:31)
+    at Object.<anonymous> (/home/phil/multiprocess/sql-parsers/libpg-query-node/main.js:28:19)
+    at Module._compile (node:internal/modules/cjs/loader:1103:14)
+    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1155:10)
+    at Module.load (node:internal/modules/cjs/loader:981:32)
+    at Function.Module._load (node:internal/modules/cjs/loader:822:12)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:77:12)
+    at node:internal/main/run_main_module:17:47 {
+  fileName: 'scan.l',
+  functionName: 'scanner_yyerror',
+  lineNumber: 1234,
+  cursorPosition: 15,
+  context: null
+}
+```
+
+Identical to the other pg_query bindings, as expected.
+
+### Special mention: Code School's sqlite-parser
+
+I used [this library](https://github.com/codeschool/sqlite-parser) for
+a while at a previous company. It is [written with a PEG
+parser](https://github.com/codeschool/sqlite-parser).
+
+Unfortunately it's no longer maintained.
+
+That's the last JavaScript library I have. On to Rust.
+
+## Rust
+
+### sqlparser-rs
+
+[This parser](https://github.com/sqlparser-rs/sqlparser-rs) is
+[handwritten](https://github.com/sqlparser-rs/sqlparser-rs/blob/main/src/parser.rs). It
+is used by many major projects including DataFusion and GlueSQL.
+
+#### Setup
+
+Create a new directory, run `cargo init`, and
+enter the following into `Cargo.toml`:
+
+```toml
+[dependencies]
+sqlparser = "0.16.0"
+```
+
+Since I created a `sqlparser-rs` directory my entire Cargo.toml looks like:
+
+```toml
+[package]
+name = "sqlparser-rs"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+sqlparser = "0.16.0"
+```
+
+Now put the following in `src/main.rs`:
+
+```rust
+use sqlparser::dialect::GenericDialect;
+use sqlparser::parser::Parser;
+
+fn main() {
+    let simple = "SELECT * FROM x";
+
+    let medium = "SELECT COUNT(1) AS count, name section FROM t GROUP BY name LIMIT 10";
+
+    let complex = "
+SELECT
+        country.country_name_eng,
+        SUM(CASE WHEN talk.id IS NOT NULL THEN 1 ELSE 0 END) AS talks,
+        AVG(ISNULL(DATEDIFF(SECOND, talk.start_time, talk.end_time),0)) AS avg_difference
+FROM country
+LEFT JOIN city ON city.country_id = country.id
+LEFT JOIN customer ON city.id = customer.city_id
+LEFT JOIN talk ON talk.customer_id = customer.id
+GROUP BY
+        country.id,
+        country.country_name_eng
+HAVING AVG(ISNULL(DATEDIFF(SECOND, talk.start_time, talk.end_time),0)) > (SELECT AVG(DATEDIFF(SECOND, talk.start_time, talk.end_time)) FROM talk)
+ORDER BY talks DESC, country.id ASC;
+";
+
+    let simplebad = "SELECT * FROM GROUP BY age";
+
+    let tests = vec![simple, medium, complex, simplebad];
+
+    let dialect = GenericDialect {};
+    for test in tests {
+        match Parser::parse_sql(&dialect, test) {
+            Ok(ast) => println!("AST: {:#?}", ast),
+            Err(err) => println!("Error: {:#?}", err),
+        }
+    }
+}
+```
+
+And run `cargo run`:
+
+```json
+   Compiling sqlparser-rs v0.1.0 (/home/phil/multiprocess/sql-parsers/sqlparser-rs)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.31s
+     Running `target/debug/sqlparser-rs`
+AST: [
+    Query(
+        Query {
+            with: None,
+            body: Select(
+                Select {
+                    distinct: false,
+                    top: None,
+                    projection: [
+                        Wildcard,
+                    ],
+                    into: None,
+                    from: [
+                        TableWithJoins {
+                            relation: Table {
+                                name: ObjectName(
+                                    [
+                                        Ident {
+                                            value: "x",
+                                            quote_style: None,
+                                        },
+                                    ],
+                                ),
+                                alias: None,
+                                args: [],
+                                with_hints: [],
+                            },
+                            joins: [],
+                        },
+                    ],
+                    lateral_views: [],
+                    selection: None,
+                    group_by: [],
+                    cluster_by: [],
+                    distribute_by: [],
+                    sort_by: [],
+                    having: None,
+                },
+            ),
+            order_by: [],
+            limit: None,
+            offset: None,
+            fetch: None,
+            lock: None,
+        },
+    ),
+]
+AST: [
+    Query(
+        Query {
+            with: None,
+            body: Select(
+                Select {
+                    distinct: false,
+                    top: None,
+                    projection: [
+                        ExprWithAlias {
+                            expr: Function(
+                                Function {
+                                    name: ObjectName(
+                                        [
+                                            Ident {
+                                                value: "COUNT",
+                                                quote_style: None,
+                                            },
+                                        ],
+                                    ),
+                                    args: [
+                                        Unnamed(
+                                            Expr(
+                                                Value(
+                                                    Number(
+                                                        "1",
+                                                        false,
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                    ],
+                                    over: None,
+                                    distinct: false,
+                                },
+                            ),
+                            alias: Ident {
+                                value: "count",
+                                quote_style: None,
+                            },
+                        },
+                        ExprWithAlias {
+                            expr: Identifier(
+                                Ident {
+                                    value: "name",
+                                    quote_style: None,
+                                },
+                            ),
+                            alias: Ident {
+                                value: "section",
+                                quote_style: None,
+                            },
+                        },
+                    ],
+                    into: None,
+                    from: [
+                        TableWithJoins {
+                            relation: Table {
+                                name: ObjectName(
+                                    [
+                                        Ident {
+                                            value: "t",
+                                            quote_style: None,
+                                        },
+                                    ],
+                                ),
+                                alias: None,
+                                args: [],
+                                with_hints: [],
+                            },
+                            joins: [],
+                        },
+                    ],
+                    lateral_views: [],
+                    selection: None,
+                    group_by: [
+                        Identifier(
+                            Ident {
+                                value: "name",
+                                quote_style: None,
+                            },
+                        ),
+                    ],
+                    cluster_by: [],
+                    distribute_by: [],
+                    sort_by: [],
+                    having: None,
+                },
+            ),
+            order_by: [],
+            limit: Some(
+                Value(
+                    Number(
+                        "10",
+                        false,
+                    ),
+                ),
+            ),
+            offset: None,
+            fetch: None,
+            lock: None,
+        },
+    ),
+]
+AST: [
+    Query(
+        Query {
+            with: None,
+            body: Select(
+                Select {
+                    distinct: false,
+                    top: None,
+                    projection: [
+                        UnnamedExpr(
+                            CompoundIdentifier(
+                                [
+                                    Ident {
+                                        value: "country",
+                                        quote_style: None,
+                                    },
+                                    Ident {
+                                        value: "country_name_eng",
+                                        quote_style: None,
+                                    },
+                                ],
+                            ),
+                        ),
+                        ExprWithAlias {
+                            expr: Function(
+                                Function {
+                                    name: ObjectName(
+                                        [
+                                            Ident {
+                                                value: "SUM",
+                                                quote_style: None,
+                                            },
+                                        ],
+                                    ),
+                                    args: [
+                                        Unnamed(
+                                            Expr(
+                                                Case {
+                                                    operand: None,
+                                                    conditions: [
+                                                        IsNotNull(
+                                                            CompoundIdentifier(
+                                                                [
+                                                                    Ident {
+                                                                        value: "talk",
+                                                                        quote_style: None,
+                                                                    },
+                                                                    Ident {
+                                                                        value: "id",
+                                                                        quote_style: None,
+                                                                    },
+                                                                ],
+                                                            ),
+                                                        ),
+                                                    ],
+                                                    results: [
+                                                        Value(
+                                                            Number(
+                                                                "1",
+                                                                false,
+                                                            ),
+                                                        ),
+                                                    ],
+                                                    else_result: Some(
+                                                        Value(
+                                                            Number(
+                                                                "0",
+                                                                false,
+                                                            ),
+                                                        ),
+                                                    ),
+                                                },
+                                            ),
+                                        ),
+                                    ],
+                                    over: None,
+                                    distinct: false,
+                                },
+                            ),
+                            alias: Ident {
+                                value: "talks",
+                                quote_style: None,
+                            },
+                        },
+                        ExprWithAlias {
+                            expr: Function(
+                                Function {
+                                    name: ObjectName(
+                                        [
+                                            Ident {
+                                                value: "AVG",
+                                                quote_style: None,
+                                            },
+                                        ],
+                                    ),
+                                    args: [
+                                        Unnamed(
+                                            Expr(
+                                                Function(
+                                                    Function {
+                                                        name: ObjectName(
+                                                            [
+                                                                Ident {
+                                                                    value: "ISNULL",
+                                                                    quote_style: None,
+                                                                },
+                                                            ],
+                                                        ),
+                                                        args: [
+                                                            Unnamed(
+                                                                Expr(
+                                                                    Function(
+                                                                        Function {
+                                                                            name: ObjectName(
+                                                                                [
+                                                                                    Ident {
+                                                                                        value: "DATEDIFF",
+                                                                                        quote_style: None,
+                                                                                    },
+                                                                                ],
+                                                                            ),
+                                                                            args: [
+                                                                                Unnamed(
+                                                                                    Expr(
+                                                                                        Identifier(
+                                                                                            Ident {
+                                                                                                value: "SECOND",
+                                                                                                quote_style: None,
+                                                                                            },
+                                                                                        ),
+                                                                                    ),
+                                                                                ),
+                                                                                Unnamed(
+                                                                                    Expr(
+                                                                                        CompoundIdentifier(
+                                                                                            [
+                                                                                                Ident {
+                                                                                                    value: "talk",
+                                                                                                    quote_style: None,
+                                                                                                },
+                                                                                                Ident {
+                                                                                                    value: "start_time",
+                                                                                                    quote_style: None,
+                                                                                                },
+                                                                                            ],
+                                                                                        ),
+                                                                                    ),
+                                                                                ),
+                                                                                Unnamed(
+                                                                                    Expr(
+                                                                                        CompoundIdentifier(
+                                                                                            [
+                                                                                                Ident {
+                                                                                                    value: "talk",
+                                                                                                    quote_style: None,
+                                                                                                },
+                                                                                                Ident {
+                                                                                                    value: "end_time",
+                                                                                                    quote_style: None,
+                                                                                                },
+                                                                                            ],
+                                                                                        ),
+                                                                                    ),
+                                                                                ),
+                                                                            ],
+                                                                            over: None,
+                                                                            distinct: false,
+                                                                        },
+                                                                    ),
+                                                                ),
+                                                            ),
+                                                            Unnamed(
+                                                                Expr(
+                                                                    Value(
+                                                                        Number(
+                                                                            "0",
+                                                                            false,
+                                                                        ),
+                                                                    ),
+                                                                ),
+                                                            ),
+                                                        ],
+                                                        over: None,
+                                                        distinct: false,
+                                                    },
+                                                ),
+                                            ),
+                                        ),
+                                    ],
+                                    over: None,
+                                    distinct: false,
+                                },
+                            ),
+                            alias: Ident {
+                                value: "avg_difference",
+                                quote_style: None,
+                            },
+                        },
+                    ],
+                    into: None,
+                    from: [
+                        TableWithJoins {
+                            relation: Table {
+                                name: ObjectName(
+                                    [
+                                        Ident {
+                                            value: "country",
+                                            quote_style: None,
+                                        },
+                                    ],
+                                ),
+                                alias: None,
+                                args: [],
+                                with_hints: [],
+                            },
+                            joins: [
+                                Join {
+                                    relation: Table {
+                                        name: ObjectName(
+                                            [
+                                                Ident {
+                                                    value: "city",
+                                                    quote_style: None,
+                                                },
+                                            ],
+                                        ),
+                                        alias: None,
+                                        args: [],
+                                        with_hints: [],
+                                    },
+                                    join_operator: LeftOuter(
+                                        On(
+                                            BinaryOp {
+                                                left: CompoundIdentifier(
+                                                    [
+                                                        Ident {
+                                                            value: "city",
+                                                            quote_style: None,
+                                                        },
+                                                        Ident {
+                                                            value: "country_id",
+                                                            quote_style: None,
+                                                        },
+                                                    ],
+                                                ),
+                                                op: Eq,
+                                                right: CompoundIdentifier(
+                                                    [
+                                                        Ident {
+                                                            value: "country",
+                                                            quote_style: None,
+                                                        },
+                                                        Ident {
+                                                            value: "id",
+                                                            quote_style: None,
+                                                        },
+                                                    ],
+                                                ),
+                                            },
+                                        ),
+                                    ),
+                                },
+                                Join {
+                                    relation: Table {
+                                        name: ObjectName(
+                                            [
+                                                Ident {
+                                                    value: "customer",
+                                                    quote_style: None,
+                                                },
+                                            ],
+                                        ),
+                                        alias: None,
+                                        args: [],
+                                        with_hints: [],
+                                    },
+                                    join_operator: LeftOuter(
+                                        On(
+                                            BinaryOp {
+                                                left: CompoundIdentifier(
+                                                    [
+                                                        Ident {
+                                                            value: "city",
+                                                            quote_style: None,
+                                                        },
+                                                        Ident {
+                                                            value: "id",
+                                                            quote_style: None,
+                                                        },
+                                                    ],
+                                                ),
+                                                op: Eq,
+                                                right: CompoundIdentifier(
+                                                    [
+                                                        Ident {
+                                                            value: "customer",
+                                                            quote_style: None,
+                                                        },
+                                                        Ident {
+                                                            value: "city_id",
+                                                            quote_style: None,
+                                                        },
+                                                    ],
+                                                ),
+                                            },
+                                        ),
+                                    ),
+                                },
+                                Join {
+                                    relation: Table {
+                                        name: ObjectName(
+                                            [
+                                                Ident {
+                                                    value: "talk",
+                                                    quote_style: None,
+                                                },
+                                            ],
+                                        ),
+                                        alias: None,
+                                        args: [],
+                                        with_hints: [],
+                                    },
+                                    join_operator: LeftOuter(
+                                        On(
+                                            BinaryOp {
+                                                left: CompoundIdentifier(
+                                                    [
+                                                        Ident {
+                                                            value: "talk",
+                                                            quote_style: None,
+                                                        },
+                                                        Ident {
+                                                            value: "customer_id",
+                                                            quote_style: None,
+                                                        },
+                                                    ],
+                                                ),
+                                                op: Eq,
+                                                right: CompoundIdentifier(
+                                                    [
+                                                        Ident {
+                                                            value: "customer",
+                                                            quote_style: None,
+                                                        },
+                                                        Ident {
+                                                            value: "id",
+                                                            quote_style: None,
+                                                        },
+                                                    ],
+                                                ),
+                                            },
+                                        ),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                    lateral_views: [],
+                    selection: None,
+                    group_by: [
+                        CompoundIdentifier(
+                            [
+                                Ident {
+                                    value: "country",
+                                    quote_style: None,
+                                },
+                                Ident {
+                                    value: "id",
+                                    quote_style: None,
+                                },
+                            ],
+                        ),
+                        CompoundIdentifier(
+                            [
+                                Ident {
+                                    value: "country",
+                                    quote_style: None,
+                                },
+                                Ident {
+                                    value: "country_name_eng",
+                                    quote_style: None,
+                                },
+                            ],
+                        ),
+                    ],
+                    cluster_by: [],
+                    distribute_by: [],
+                    sort_by: [],
+                    having: Some(
+                        BinaryOp {
+                            left: Function(
+                                Function {
+                                    name: ObjectName(
+                                        [
+                                            Ident {
+                                                value: "AVG",
+                                                quote_style: None,
+                                            },
+                                        ],
+                                    ),
+                                    args: [
+                                        Unnamed(
+                                            Expr(
+                                                Function(
+                                                    Function {
+                                                        name: ObjectName(
+                                                            [
+                                                                Ident {
+                                                                    value: "ISNULL",
+                                                                    quote_style: None,
+                                                                },
+                                                            ],
+                                                        ),
+                                                        args: [
+                                                            Unnamed(
+                                                                Expr(
+                                                                    Function(
+                                                                        Function {
+                                                                            name: ObjectName(
+                                                                                [
+                                                                                    Ident {
+                                                                                        value: "DATEDIFF",
+                                                                                        quote_style: None,
+                                                                                    },
+                                                                                ],
+                                                                            ),
+                                                                            args: [
+                                                                                Unnamed(
+                                                                                    Expr(
+                                                                                        Identifier(
+                                                                                            Ident {
+                                                                                                value: "SECOND",
+                                                                                                quote_style: None,
+                                                                                            },
+                                                                                        ),
+                                                                                    ),
+                                                                                ),
+                                                                                Unnamed(
+                                                                                    Expr(
+                                                                                        CompoundIdentifier(
+                                                                                            [
+                                                                                                Ident {
+                                                                                                    value: "talk",
+                                                                                                    quote_style: None,
+                                                                                                },
+                                                                                                Ident {
+                                                                                                    value: "start_time",
+                                                                                                    quote_style: None,
+                                                                                                },
+                                                                                            ],
+                                                                                        ),
+                                                                                    ),
+                                                                                ),
+                                                                                Unnamed(
+                                                                                    Expr(
+                                                                                        CompoundIdentifier(
+                                                                                            [
+                                                                                                Ident {
+                                                                                                    value: "talk",
+                                                                                                    quote_style: None,
+                                                                                                },
+                                                                                                Ident {
+                                                                                                    value: "end_time",
+                                                                                                    quote_style: None,
+                                                                                                },
+                                                                                            ],
+                                                                                        ),
+                                                                                    ),
+                                                                                ),
+                                                                            ],
+                                                                            over: None,
+                                                                            distinct: false,
+                                                                        },
+                                                                    ),
+                                                                ),
+                                                            ),
+                                                            Unnamed(
+                                                                Expr(
+                                                                    Value(
+                                                                        Number(
+                                                                            "0",
+                                                                            false,
+                                                                        ),
+                                                                    ),
+                                                                ),
+                                                            ),
+                                                        ],
+                                                        over: None,
+                                                        distinct: false,
+                                                    },
+                                                ),
+                                            ),
+                                        ),
+                                    ],
+                                    over: None,
+                                    distinct: false,
+                                },
+                            ),
+                            op: Gt,
+                            right: Subquery(
+                                Query {
+                                    with: None,
+                                    body: Select(
+                                        Select {
+                                            distinct: false,
+                                            top: None,
+                                            projection: [
+                                                UnnamedExpr(
+                                                    Function(
+                                                        Function {
+                                                            name: ObjectName(
+                                                                [
+                                                                    Ident {
+                                                                        value: "AVG",
+                                                                        quote_style: None,
+                                                                    },
+                                                                ],
+                                                            ),
+                                                            args: [
+                                                                Unnamed(
+                                                                    Expr(
+                                                                        Function(
+                                                                            Function {
+                                                                                name: ObjectName(
+                                                                                    [
+                                                                                        Ident {
+                                                                                            value: "DATEDIFF",
+                                                                                            quote_style: None,
+                                                                                        },
+                                                                                    ],
+                                                                                ),
+                                                                                args: [
+                                                                                    Unnamed(
+                                                                                        Expr(
+                                                                                            Identifier(
+                                                                                                Ident {
+                                                                                                    value: "SECOND",
+                                                                                                    quote_style: None,
+                                                                                                },
+                                                                                            ),
+                                                                                        ),
+                                                                                    ),
+                                                                                    Unnamed(
+                                                                                        Expr(
+                                                                                            CompoundIdentifier(
+                                                                                                [
+                                                                                                    Ident {
+                                                                                                        value: "talk",
+                                                                                                        quote_style: None,
+                                                                                                    },
+                                                                                                    Ident {
+                                                                                                        value: "start_time",
+                                                                                                        quote_style: None,
+                                                                                                    },
+                                                                                                ],
+                                                                                            ),
+                                                                                        ),
+                                                                                    ),
+                                                                                    Unnamed(
+                                                                                        Expr(
+                                                                                            CompoundIdentifier(
+                                                                                                [
+                                                                                                    Ident {
+                                                                                                        value: "talk",
+                                                                                                        quote_style: None,
+                                                                                                    },
+                                                                                                    Ident {
+                                                                                                        value: "end_time",
+                                                                                                        quote_style: None,
+                                                                                                    },
+                                                                                                ],
+                                                                                            ),
+                                                                                        ),
+                                                                                    ),
+                                                                                ],
+                                                                                over: None,
+                                                                                distinct: false,
+                                                                            },
+                                                                        ),
+                                                                    ),
+                                                                ),
+                                                            ],
+                                                            over: None,
+                                                            distinct: false,
+                                                        },
+                                                    ),
+                                                ),
+                                            ],
+                                            into: None,
+                                            from: [
+                                                TableWithJoins {
+                                                    relation: Table {
+                                                        name: ObjectName(
+                                                            [
+                                                                Ident {
+                                                                    value: "talk",
+                                                                    quote_style: None,
+                                                                },
+                                                            ],
+                                                        ),
+                                                        alias: None,
+                                                        args: [],
+                                                        with_hints: [],
+                                                    },
+                                                    joins: [],
+                                                },
+                                            ],
+                                            lateral_views: [],
+                                            selection: None,
+                                            group_by: [],
+                                            cluster_by: [],
+                                            distribute_by: [],
+                                            sort_by: [],
+                                            having: None,
+                                        },
+                                    ),
+                                    order_by: [],
+                                    limit: None,
+                                    offset: None,
+                                    fetch: None,
+                                    lock: None,
+                                },
+                            ),
+                        },
+                    ),
+                },
+            ),
+            order_by: [
+                OrderByExpr {
+                    expr: Identifier(
+                        Ident {
+                            value: "talks",
+                            quote_style: None,
+                        },
+                    ),
+                    asc: Some(
+                        false,
+                    ),
+                    nulls_first: None,
+                },
+                OrderByExpr {
+                    expr: CompoundIdentifier(
+                        [
+                            Ident {
+                                value: "country",
+                                quote_style: None,
+                            },
+                            Ident {
+                                value: "id",
+                                quote_style: None,
+                            },
+                        ],
+                    ),
+                    asc: Some(
+                        true,
+                    ),
+                    nulls_first: None,
+                },
+            ],
+            limit: None,
+            offset: None,
+            fetch: None,
+            lock: None,
+        },
+    ),
+]
+Error: ParserError(
+    "Expected end of statement, found: age",
+)
+```
+
+The error:
+
+```
+Error: ParserError(
+    "Expected end of statement, found: age",
+)
+```
+
+At least it knows there's an error. But that's not very useful at all
+since the error happened much before `age` showed up.
+
+And it doesn't look like location info is exported in the parsed
+result. Maybe that's due to how the formatter works while printing the
+struct or maybe it's really not available yet.
+
+### pg_query.rs
+
+Last up in Rust parsers we have another [binding to
+pg_query](https://github.com/pganalyze/pg_query.rs).
+
+#### Setup
+
+Create a new directory, run `cargo init`, and
+enter the following into `Cargo.toml`:
+
+```toml
+[dependencies]
+pg_query = "0.6.0"
+```
+
+And edit `src/main.rs`:
+
+```rust
+use pg_query;
+
+fn main() {
+    let simple = "SELECT * FROM x";
+
+    let medium = "SELECT COUNT(1) AS count, name section FROM t GROUP BY name LIMIT 10";
+
+    let complex = "
+SELECT
+        country.country_name_eng,
+        SUM(CASE WHEN talk.id IS NOT NULL THEN 1 ELSE 0 END) AS talks,
+        AVG(ISNULL(DATEDIFF(SECOND, talk.start_time, talk.end_time),0)) AS avg_difference
+FROM country
+LEFT JOIN city ON city.country_id = country.id
+LEFT JOIN customer ON city.id = customer.city_id
+LEFT JOIN talk ON talk.customer_id = customer.id
+GROUP BY
+        country.id,
+        country.country_name_eng
+HAVING AVG(ISNULL(DATEDIFF(SECOND, talk.start_time, talk.end_time),0)) > (SELECT AVG(DATEDIFF(SECOND, talk.start_time, talk.end_time)) FROM talk)
+ORDER BY talks DESC, country.id ASC;
+";
+
+    let simplebad = "SELECT * FROM GROUP BY age";
+
+    let tests = vec![simple, medium, complex, simplebad];
+
+    for test in tests {
+        match pg_query::parse(test) {
+            Ok(ast) => println!("AST: {:#?}", ast),
+            Err(err) => println!("Error: {:#?}", err),
+        }
+    }
+}
+```
+
+If you don't have libclang installed you'll also need that. Run `cargo run`:
+
+```json
+AST: [
+    SelectStmt(
+        SelectStmt {
+            distinct_clause: None,
+            into_clause: None,
+            target_list: Some(
+                [
+                    ResTarget(
+                        ResTarget {
+                            name: None,
+                            indirection: None,
+                            val: Some(
+                                ColumnRef(
+                                    ColumnRef {
+                                        fields: Some(
+                                            [
+                                                A_Star(
+                                                    A_Star,
+                                                ),
+                                            ],
+                                        ),
+                                        location: 7,
+                                    },
+                                ),
+                            ),
+                            location: 7,
+                        },
+                    ),
+                ],
+            ),
+            from_clause: Some(
+                [
+                    RangeVar(
+                        RangeVar {
+                            catalogname: None,
+                            schemaname: None,
+                            relname: Some(
+                                "x",
+                            ),
+                            inh: true,
+                            relpersistence: 'p',
+                            alias: None,
+                            location: 14,
+                        },
+                    ),
+                ],
+            ),
+            where_clause: None,
+            group_clause: None,
+            having_clause: None,
+            window_clause: None,
+            values_lists: None,
+            sort_clause: None,
+            limit_offset: None,
+            limit_count: None,
+            limit_option: LIMIT_OPTION_DEFAULT,
+            locking_clause: None,
+            with_clause: None,
+            op: SETOP_NONE,
+            all: false,
+            larg: None,
+            rarg: None,
+        },
+    ),
+]
+AST: [
+    SelectStmt(
+        SelectStmt {
+            distinct_clause: None,
+            into_clause: None,
+            target_list: Some(
+                [
+                    ResTarget(
+                        ResTarget {
+                            name: Some(
+                                "count",
+                            ),
+                            indirection: None,
+                            val: Some(
+                                FuncCall(
+                                    FuncCall {
+                                        funcname: Some(
+                                            [
+                                                String {
+                                                    value: Some(
+                                                        "count",
+                                                    ),
+                                                },
+                                            ],
+                                        ),
+                                        args: Some(
+                                            [
+                                                A_Const(
+                                                    A_Const {
+                                                        val: Value(
+                                                            Integer {
+                                                                value: 1,
+                                                            },
+                                                        ),
+                                                        location: 13,
+                                                    },
+                                                ),
+                                            ],
+                                        ),
+                                        agg_order: None,
+                                        agg_filter: None,
+                                        agg_within_group: false,
+                                        agg_star: false,
+                                        agg_distinct: false,
+                                        func_variadic: false,
+                                        over: None,
+                                        location: 7,
+                                    },
+                                ),
+                            ),
+                            location: 7,
+                        },
+                    ),
+                    ResTarget(
+                        ResTarget {
+                            name: Some(
+                                "section",
+                            ),
+                            indirection: None,
+                            val: Some(
+                                ColumnRef(
+                                    ColumnRef {
+                                        fields: Some(
+                                            [
+                                                String {
+                                                    value: Some(
+                                                        "name",
+                                                    ),
+                                                },
+                                            ],
+                                        ),
+                                        location: 26,
+                                    },
+                                ),
+                            ),
+                            location: 26,
+                        },
+                    ),
+                ],
+            ),
+            from_clause: Some(
+                [
+                    RangeVar(
+                        RangeVar {
+                            catalogname: None,
+                            schemaname: None,
+                            relname: Some(
+                                "t",
+                            ),
+                            inh: true,
+                            relpersistence: 'p',
+                            alias: None,
+                            location: 44,
+                        },
+                    ),
+                ],
+            ),
+            where_clause: None,
+            group_clause: Some(
+                [
+                    ColumnRef(
+                        ColumnRef {
+                            fields: Some(
+                                [
+                                    String {
+                                        value: Some(
+                                            "name",
+                                        ),
+                                    },
+                                ],
+                            ),
+                            location: 55,
+                        },
+                    ),
+                ],
+            ),
+            having_clause: None,
+            window_clause: None,
+            values_lists: None,
+            sort_clause: None,
+            limit_offset: None,
+            limit_count: Some(
+                A_Const(
+                    A_Const {
+                        val: Value(
+                            Integer {
+                                value: 10,
+                            },
+                        ),
+                        location: 66,
+                    },
+                ),
+            ),
+            limit_option: LIMIT_OPTION_COUNT,
+            locking_clause: None,
+            with_clause: None,
+            op: SETOP_NONE,
+            all: false,
+            larg: None,
+            rarg: None,
+        },
+    ),
+]
+AST: [
+    SelectStmt(
+        SelectStmt {
+            distinct_clause: None,
+            into_clause: None,
+            target_list: Some(
+                [
+                    ResTarget(
+                        ResTarget {
+                            name: None,
+                            indirection: None,
+                            val: Some(
+                                ColumnRef(
+                                    ColumnRef {
+                                        fields: Some(
+                                            [
+                                                String {
+                                                    value: Some(
+                                                        "country",
+                                                    ),
+                                                },
+                                                String {
+                                                    value: Some(
+                                                        "country_name_eng",
+                                                    ),
+                                                },
+                                            ],
+                                        ),
+                                        location: 17,
+                                    },
+                                ),
+                            ),
+                            location: 17,
+                        },
+                    ),
+                    ResTarget(
+                        ResTarget {
+                            name: Some(
+                                "talks",
+                            ),
+                            indirection: None,
+                            val: Some(
+                                FuncCall(
+                                    FuncCall {
+                                        funcname: Some(
+                                            [
+                                                String {
+                                                    value: Some(
+                                                        "sum",
+                                                    ),
+                                                },
+                                            ],
+                                        ),
+                                        args: Some(
+                                            [
+                                                CaseExpr(
+                                                    CaseExpr {
+                                                        casetype: 0,
+                                                        casecollid: 0,
+                                                        arg: None,
+                                                        args: Some(
+                                                            [
+                                                                CaseWhen(
+                                                                    CaseWhen {
+                                                                        expr: Some(
+                                                                            NullTest(
+                                                                                NullTest {
+                                                                                    arg: Some(
+                                                                                        ColumnRef(
+                                                                                            ColumnRef {
+                                                                                                fields: Some(
+                                                                                                    [
+                                                                                                        String {
+                                                                                                            value: Some(
+                                                                                                                "talk",
+                                                                                                            ),
+                                                                                                        },
+                                                                                                        String {
+                                                                                                            value: Some(
+                                                                                                                "id",
+                                                                                                            ),
+                                                                                                        },
+                                                                                                    ],
+                                                                                                ),
+                                                                                                location: 65,
+                                                                                            },
+                                                                                        ),
+                                                                                    ),
+                                                                                    nulltesttype: IS_NOT_NULL,
+                                                                                    argisrow: false,
+                                                                                    location: 73,
+                                                                                },
+                                                                            ),
+                                                                        ),
+                                                                        result: Some(
+                                                                            A_Const(
+                                                                                A_Const {
+                                                                                    val: Value(
+                                                                                        Integer {
+                                                                                            value: 1,
+                                                                                        },
+                                                                                    ),
+                                                                                    location: 90,
+                                                                                },
+                                                                            ),
+                                                                        ),
+                                                                        location: 60,
+                                                                    },
+                                                                ),
+                                                            ],
+                                                        ),
+                                                        defresult: Some(
+                                                            A_Const(
+                                                                A_Const {
+                                                                    val: Value(
+                                                                        Integer {
+                                                                            value: 0,
+                                                                        },
+                                                                    ),
+                                                                    location: 97,
+                                                                },
+                                                            ),
+                                                        ),
+                                                        location: 55,
+                                                    },
+                                                ),
+                                            ],
+                                        ),
+                                        agg_order: None,
+                                        agg_filter: None,
+                                        agg_within_group: false,
+                                        agg_star: false,
+                                        agg_distinct: false,
+                                        func_variadic: false,
+                                        over: None,
+                                        location: 51,
+                                    },
+                                ),
+                            ),
+                            location: 51,
+                        },
+                    ),
+                    ResTarget(
+                        ResTarget {
+                            name: Some(
+                                "avg_difference",
+                            ),
+                            indirection: None,
+                            val: Some(
+                                FuncCall(
+                                    FuncCall {
+                                        funcname: Some(
+                                            [
+                                                String {
+                                                    value: Some(
+                                                        "avg",
+                                                    ),
+                                                },
+                                            ],
+                                        ),
+                                        args: Some(
+                                            [
+                                                FuncCall(
+                                                    FuncCall {
+                                                        funcname: Some(
+                                                            [
+                                                                String {
+                                                                    value: Some(
+                                                                        "isnull",
+                                                                    ),
+                                                                },
+                                                            ],
+                                                        ),
+                                                        args: Some(
+                                                            [
+                                                                FuncCall(
+                                                                    FuncCall {
+                                                                        funcname: Some(
+                                                                            [
+                                                                                String {
+                                                                                    value: Some(
+                                                                                        "datediff",
+                                                                                    ),
+                                                                                },
+                                                                            ],
+                                                                        ),
+                                                                        args: Some(
+                                                                            [
+                                                                                ColumnRef(
+                                                                                    ColumnRef {
+                                                                                        fields: Some(
+                                                                                            [
+                                                                                                String {
+                                                                                                    value: Some(
+                                                                                                        "second",
+                                                                                                    ),
+                                                                                                },
+                                                                                            ],
+                                                                                        ),
+                                                                                        location: 142,
+                                                                                    },
+                                                                                ),
+                                                                                ColumnRef(
+                                                                                    ColumnRef {
+                                                                                        fields: Some(
+                                                                                            [
+                                                                                                String {
+                                                                                                    value: Some(
+                                                                                                        "talk",
+                                                                                                    ),
+                                                                                                },
+                                                                                                String {
+                                                                                                    value: Some(
+                                                                                                        "start_time",
+                                                                                                    ),
+                                                                                                },
+                                                                                            ],
+                                                                                        ),
+                                                                                        location: 150,
+                                                                                    },
+                                                                                ),
+                                                                                ColumnRef(
+                                                                                    ColumnRef {
+                                                                                        fields: Some(
+                                                                                            [
+                                                                                                String {
+                                                                                                    value: Some(
+                                                                                                        "talk",
+                                                                                                    ),
+                                                                                                },
+                                                                                                String {
+                                                                                                    value: Some(
+                                                                                                        "end_time",
+                                                                                                    ),
+                                                                                                },
+                                                                                            ],
+                                                                                        ),
+                                                                                        location: 167,
+                                                                                    },
+                                                                                ),
+                                                                            ],
+                                                                        ),
+                                                                        agg_order: None,
+                                                                        agg_filter: None,
+                                                                        agg_within_group: false,
+                                                                        agg_star: false,
+                                                                        agg_distinct: false,
+                                                                        func_variadic: false,
+                                                                        over: None,
+                                                                        location: 133,
+                                                                    },
+                                                                ),
+                                                                A_Const(
+                                                                    A_Const {
+                                                                        val: Value(
+                                                                            Integer {
+                                                                                value: 0,
+                                                                            },
+                                                                        ),
+                                                                        location: 182,
+                                                                    },
+                                                                ),
+                                                            ],
+                                                        ),
+                                                        agg_order: None,
+                                                        agg_filter: None,
+                                                        agg_within_group: false,
+                                                        agg_star: false,
+                                                        agg_distinct: false,
+                                                        func_variadic: false,
+                                                        over: None,
+                                                        location: 126,
+                                                    },
+                                                ),
+                                            ],
+                                        ),
+                                        agg_order: None,
+                                        agg_filter: None,
+                                        agg_within_group: false,
+                                        agg_star: false,
+                                        agg_distinct: false,
+                                        func_variadic: false,
+                                        over: None,
+                                        location: 122,
+                                    },
+                                ),
+                            ),
+                            location: 122,
+                        },
+                    ),
+                ],
+            ),
+            from_clause: Some(
+                [
+                    JoinExpr(
+                        JoinExpr {
+                            jointype: JOIN_LEFT,
+                            is_natural: false,
+                            larg: Some(
+                                JoinExpr(
+                                    JoinExpr {
+                                        jointype: JOIN_LEFT,
+                                        is_natural: false,
+                                        larg: Some(
+                                            JoinExpr(
+                                                JoinExpr {
+                                                    jointype: JOIN_LEFT,
+                                                    is_natural: false,
+                                                    larg: Some(
+                                                        RangeVar(
+                                                            RangeVar {
+                                                                catalogname: None,
+                                                                schemaname: None,
+                                                                relname: Some(
+                                                                    "country",
+                                                                ),
+                                                                inh: true,
+                                                                relpersistence: 'p',
+                                                                alias: None,
+                                                                location: 209,
+                                                            },
+                                                        ),
+                                                    ),
+                                                    rarg: Some(
+                                                        RangeVar(
+                                                            RangeVar {
+                                                                catalogname: None,
+                                                                schemaname: None,
+                                                                relname: Some(
+                                                                    "city",
+                                                                ),
+                                                                inh: true,
+                                                                relpersistence: 'p',
+                                                                alias: None,
+                                                                location: 228,
+                                                            },
+                                                        ),
+                                                    ),
+                                                    using_clause: None,
+                                                    quals: Some(
+                                                        A_Expr(
+                                                            A_Expr {
+                                                                kind: AEXPR_OP,
+                                                                name: Some(
+                                                                    [
+                                                                        String {
+                                                                            value: Some(
+                                                                                "=",
+                                                                            ),
+                                                                        },
+                                                                    ],
+                                                                ),
+                                                                lexpr: Some(
+                                                                    ColumnRef(
+                                                                        ColumnRef {
+                                                                            fields: Some(
+                                                                                [
+                                                                                    String {
+                                                                                        value: Some(
+                                                                                            "city",
+                                                                                        ),
+                                                                                    },
+                                                                                    String {
+                                                                                        value: Some(
+                                                                                            "country_id",
+                                                                                        ),
+                                                                                    },
+                                                                                ],
+                                                                            ),
+                                                                            location: 236,
+                                                                        },
+                                                                    ),
+                                                                ),
+                                                                rexpr: Some(
+                                                                    ColumnRef(
+                                                                        ColumnRef {
+                                                                            fields: Some(
+                                                                                [
+                                                                                    String {
+                                                                                        value: Some(
+                                                                                            "country",
+                                                                                        ),
+                                                                                    },
+                                                                                    String {
+                                                                                        value: Some(
+                                                                                            "id",
+                                                                                        ),
+                                                                                    },
+                                                                                ],
+                                                                            ),
+                                                                            location: 254,
+                                                                        },
+                                                                    ),
+                                                                ),
+                                                                location: 252,
+                                                            },
+                                                        ),
+                                                    ),
+                                                    alias: None,
+                                                    rtindex: 0,
+                                                },
+                                            ),
+                                        ),
+                                        rarg: Some(
+                                            RangeVar(
+                                                RangeVar {
+                                                    catalogname: None,
+                                                    schemaname: None,
+                                                    relname: Some(
+                                                        "customer",
+                                                    ),
+                                                    inh: true,
+                                                    relpersistence: 'p',
+                                                    alias: None,
+                                                    location: 275,
+                                                },
+                                            ),
+                                        ),
+                                        using_clause: None,
+                                        quals: Some(
+                                            A_Expr(
+                                                A_Expr {
+                                                    kind: AEXPR_OP,
+                                                    name: Some(
+                                                        [
+                                                            String {
+                                                                value: Some(
+                                                                    "=",
+                                                                ),
+                                                            },
+                                                        ],
+                                                    ),
+                                                    lexpr: Some(
+                                                        ColumnRef(
+                                                            ColumnRef {
+                                                                fields: Some(
+                                                                    [
+                                                                        String {
+                                                                            value: Some(
+                                                                                "city",
+                                                                            ),
+                                                                        },
+                                                                        String {
+                                                                            value: Some(
+                                                                                "id",
+                                                                            ),
+                                                                        },
+                                                                    ],
+                                                                ),
+                                                                location: 287,
+                                                            },
+                                                        ),
+                                                    ),
+                                                    rexpr: Some(
+                                                        ColumnRef(
+                                                            ColumnRef {
+                                                                fields: Some(
+                                                                    [
+                                                                        String {
+                                                                            value: Some(
+                                                                                "customer",
+                                                                            ),
+                                                                        },
+                                                                        String {
+                                                                            value: Some(
+                                                                                "city_id",
+                                                                            ),
+                                                                        },
+                                                                    ],
+                                                                ),
+                                                                location: 297,
+                                                            },
+                                                        ),
+                                                    ),
+                                                    location: 295,
+                                                },
+                                            ),
+                                        ),
+                                        alias: None,
+                                        rtindex: 0,
+                                    },
+                                ),
+                            ),
+                            rarg: Some(
+                                RangeVar(
+                                    RangeVar {
+                                        catalogname: None,
+                                        schemaname: None,
+                                        relname: Some(
+                                            "talk",
+                                        ),
+                                        inh: true,
+                                        relpersistence: 'p',
+                                        alias: None,
+                                        location: 324,
+                                    },
+                                ),
+                            ),
+                            using_clause: None,
+                            quals: Some(
+                                A_Expr(
+                                    A_Expr {
+                                        kind: AEXPR_OP,
+                                        name: Some(
+                                            [
+                                                String {
+                                                    value: Some(
+                                                        "=",
+                                                    ),
+                                                },
+                                            ],
+                                        ),
+                                        lexpr: Some(
+                                            ColumnRef(
+                                                ColumnRef {
+                                                    fields: Some(
+                                                        [
+                                                            String {
+                                                                value: Some(
+                                                                    "talk",
+                                                                ),
+                                                            },
+                                                            String {
+                                                                value: Some(
+                                                                    "customer_id",
+                                                                ),
+                                                            },
+                                                        ],
+                                                    ),
+                                                    location: 332,
+                                                },
+                                            ),
+                                        ),
+                                        rexpr: Some(
+                                            ColumnRef(
+                                                ColumnRef {
+                                                    fields: Some(
+                                                        [
+                                                            String {
+                                                                value: Some(
+                                                                    "customer",
+                                                                ),
+                                                            },
+                                                            String {
+                                                                value: Some(
+                                                                    "id",
+                                                                ),
+                                                            },
+                                                        ],
+                                                    ),
+                                                    location: 351,
+                                                },
+                                            ),
+                                        ),
+                                        location: 349,
+                                    },
+                                ),
+                            ),
+                            alias: None,
+                            rtindex: 0,
+                        },
+                    ),
+                ],
+            ),
+            where_clause: None,
+            group_clause: Some(
+                [
+                    ColumnRef(
+                        ColumnRef {
+                            fields: Some(
+                                [
+                                    String {
+                                        value: Some(
+                                            "country",
+                                        ),
+                                    },
+                                    String {
+                                        value: Some(
+                                            "id",
+                                        ),
+                                    },
+                                ],
+                            ),
+                            location: 381,
+                        },
+                    ),
+                    ColumnRef(
+                        ColumnRef {
+                            fields: Some(
+                                [
+                                    String {
+                                        value: Some(
+                                            "country",
+                                        ),
+                                    },
+                                    String {
+                                        value: Some(
+                                            "country_name_eng",
+                                        ),
+                                    },
+                                ],
+                            ),
+                            location: 401,
+                        },
+                    ),
+                ],
+            ),
+            having_clause: Some(
+                A_Expr(
+                    A_Expr {
+                        kind: AEXPR_OP,
+                        name: Some(
+                            [
+                                String {
+                                    value: Some(
+                                        ">",
+                                    ),
+                                },
+                            ],
+                        ),
+                        lexpr: Some(
+                            FuncCall(
+                                FuncCall {
+                                    funcname: Some(
+                                        [
+                                            String {
+                                                value: Some(
+                                                    "avg",
+                                                ),
+                                            },
+                                        ],
+                                    ),
+                                    args: Some(
+                                        [
+                                            FuncCall(
+                                                FuncCall {
+                                                    funcname: Some(
+                                                        [
+                                                            String {
+                                                                value: Some(
+                                                                    "isnull",
+                                                                ),
+                                                            },
+                                                        ],
+                                                    ),
+                                                    args: Some(
+                                                        [
+                                                            FuncCall(
+                                                                FuncCall {
+                                                                    funcname: Some(
+                                                                        [
+                                                                            String {
+                                                                                value: Some(
+                                                                                    "datediff",
+                                                                                ),
+                                                                            },
+                                                                        ],
+                                                                    ),
+                                                                    args: Some(
+                                                                        [
+                                                                            ColumnRef(
+                                                                                ColumnRef {
+                                                                                    fields: Some(
+                                                                                        [
+                                                                                            String {
+                                                                                                value: Some(
+                                                                                                    "second",
+                                                                                                ),
+                                                                                            },
+                                                                                        ],
+                                                                                    ),
+                                                                                    location: 453,
+                                                                                },
+                                                                            ),
+                                                                            ColumnRef(
+                                                                                ColumnRef {
+                                                                                    fields: Some(
+                                                                                        [
+                                                                                            String {
+                                                                                                value: Some(
+                                                                                                    "talk",
+                                                                                                ),
+                                                                                            },
+                                                                                            String {
+                                                                                                value: Some(
+                                                                                                    "start_time",
+                                                                                                ),
+                                                                                            },
+                                                                                        ],
+                                                                                    ),
+                                                                                    location: 461,
+                                                                                },
+                                                                            ),
+                                                                            ColumnRef(
+                                                                                ColumnRef {
+                                                                                    fields: Some(
+                                                                                        [
+                                                                                            String {
+                                                                                                value: Some(
+                                                                                                    "talk",
+                                                                                                ),
+                                                                                            },
+                                                                                            String {
+                                                                                                value: Some(
+                                                                                                    "end_time",
+                                                                                                ),
+                                                                                            },
+                                                                                        ],
+                                                                                    ),
+                                                                                    location: 478,
+                                                                                },
+                                                                            ),
+                                                                        ],
+                                                                    ),
+                                                                    agg_order: None,
+                                                                    agg_filter: None,
+                                                                    agg_within_group: false,
+                                                                    agg_star: false,
+                                                                    agg_distinct: false,
+                                                                    func_variadic: false,
+                                                                    over: None,
+                                                                    location: 444,
+                                                                },
+                                                            ),
+                                                            A_Const(
+                                                                A_Const {
+                                                                    val: Value(
+                                                                        Integer {
+                                                                            value: 0,
+                                                                        },
+                                                                    ),
+                                                                    location: 493,
+                                                                },
+                                                            ),
+                                                        ],
+                                                    ),
+                                                    agg_order: None,
+                                                    agg_filter: None,
+                                                    agg_within_group: false,
+                                                    agg_star: false,
+                                                    agg_distinct: false,
+                                                    func_variadic: false,
+                                                    over: None,
+                                                    location: 437,
+                                                },
+                                            ),
+                                        ],
+                                    ),
+                                    agg_order: None,
+                                    agg_filter: None,
+                                    agg_within_group: false,
+                                    agg_star: false,
+                                    agg_distinct: false,
+                                    func_variadic: false,
+                                    over: None,
+                                    location: 433,
+                                },
+                            ),
+                        ),
+                        rexpr: Some(
+                            SubLink(
+                                SubLink {
+                                    sub_link_type: EXPR_SUBLINK,
+                                    sub_link_id: 0,
+                                    testexpr: None,
+                                    oper_name: None,
+                                    subselect: Some(
+                                        SelectStmt(
+                                            SelectStmt {
+                                                distinct_clause: None,
+                                                into_clause: None,
+                                                target_list: Some(
+                                                    [
+                                                        ResTarget(
+                                                            ResTarget {
+                                                                name: None,
+                                                                indirection: None,
+                                                                val: Some(
+                                                                    FuncCall(
+                                                                        FuncCall {
+                                                                            funcname: Some(
+                                                                                [
+                                                                                    String {
+                                                                                        value: Some(
+                                                                                            "avg",
+                                                                                        ),
+                                                                                    },
+                                                                                ],
+                                                                            ),
+                                                                            args: Some(
+                                                                                [
+                                                                                    FuncCall(
+                                                                                        FuncCall {
+                                                                                            funcname: Some(
+                                                                                                [
+                                                                                                    String {
+                                                                                                        value: Some(
+                                                                                                            "datediff",
+                                                                                                        ),
+                                                                                                    },
+                                                                                                ],
+                                                                                            ),
+                                                                                            args: Some(
+                                                                                                [
+                                                                                                    ColumnRef(
+                                                                                                        ColumnRef {
+                                                                                                            fields: Some(
+                                                                                                                [
+                                                                                                                    String {
+                                                                                                                        value: Some(
+                                                                                                                            "second",
+                                                                                                                        ),
+                                                                                                                    },
+                                                                                                                ],
+                                                                                                            ),
+                                                                                                            location: 520,
+                                                                                                        },
+                                                                                                    ),
+                                                                                                    ColumnRef(
+                                                                                                        ColumnRef {
+                                                                                                            fields: Some(
+                                                                                                                [
+                                                                                                                    String {
+                                                                                                                        value: Some(
+                                                                                                                            "talk",
+                                                                                                                        ),
+                                                                                                                    },
+                                                                                                                    String {
+                                                                                                                        value: Some(
+                                                                                                                            "start_time",
+                                                                                                                        ),
+                                                                                                                    },
+                                                                                                                ],
+                                                                                                            ),
+                                                                                                            location: 528,
+                                                                                                        },
+                                                                                                    ),
+                                                                                                    ColumnRef(
+                                                                                                        ColumnRef {
+                                                                                                            fields: Some(
+                                                                                                                [
+                                                                                                                    String {
+                                                                                                                        value: Some(
+                                                                                                                            "talk",
+                                                                                                                        ),
+                                                                                                                    },
+                                                                                                                    String {
+                                                                                                                        value: Some(
+                                                                                                                            "end_time",
+                                                                                                                        ),
+                                                                                                                    },
+                                                                                                                ],
+                                                                                                            ),
+                                                                                                            location: 545,
+                                                                                                        },
+                                                                                                    ),
+                                                                                                ],
+                                                                                            ),
+                                                                                            agg_order: None,
+                                                                                            agg_filter: None,
+                                                                                            agg_within_group: false,
+                                                                                            agg_star: false,
+                                                                                            agg_distinct: false,
+                                                                                            func_variadic: false,
+                                                                                            over: None,
+                                                                                            location: 511,
+                                                                                        },
+                                                                                    ),
+                                                                                ],
+                                                                            ),
+                                                                            agg_order: None,
+                                                                            agg_filter: None,
+                                                                            agg_within_group: false,
+                                                                            agg_star: false,
+                                                                            agg_distinct: false,
+                                                                            func_variadic: false,
+                                                                            over: None,
+                                                                            location: 507,
+                                                                        },
+                                                                    ),
+                                                                ),
+                                                                location: 507,
+                                                            },
+                                                        ),
+                                                    ],
+                                                ),
+                                                from_clause: Some(
+                                                    [
+                                                        RangeVar(
+                                                            RangeVar {
+                                                                catalogname: None,
+                                                                schemaname: None,
+                                                                relname: Some(
+                                                                    "talk",
+                                                                ),
+                                                                inh: true,
+                                                                relpersistence: 'p',
+                                                                alias: None,
+                                                                location: 566,
+                                                            },
+                                                        ),
+                                                    ],
+                                                ),
+                                                where_clause: None,
+                                                group_clause: None,
+                                                having_clause: None,
+                                                window_clause: None,
+                                                values_lists: None,
+                                                sort_clause: None,
+                                                limit_offset: None,
+                                                limit_count: None,
+                                                limit_option: LIMIT_OPTION_DEFAULT,
+                                                locking_clause: None,
+                                                with_clause: None,
+                                                op: SETOP_NONE,
+                                                all: false,
+                                                larg: None,
+                                                rarg: None,
+                                            },
+                                        ),
+                                    ),
+                                    location: 499,
+                                },
+                            ),
+                        ),
+                        location: 497,
+                    },
+                ),
+            ),
+            window_clause: None,
+            values_lists: None,
+            sort_clause: Some(
+                [
+                    SortBy(
+                        SortBy {
+                            node: Some(
+                                ColumnRef(
+                                    ColumnRef {
+                                        fields: Some(
+                                            [
+                                                String {
+                                                    value: Some(
+                                                        "talks",
+                                                    ),
+                                                },
+                                            ],
+                                        ),
+                                        location: 581,
+                                    },
+                                ),
+                            ),
+                            sortby_dir: SORTBY_DESC,
+                            sortby_nulls: SORTBY_NULLS_DEFAULT,
+                            use_op: None,
+                            location: -1,
+                        },
+                    ),
+                    SortBy(
+                        SortBy {
+                            node: Some(
+                                ColumnRef(
+                                    ColumnRef {
+                                        fields: Some(
+                                            [
+                                                String {
+                                                    value: Some(
+                                                        "country",
+                                                    ),
+                                                },
+                                                String {
+                                                    value: Some(
+                                                        "id",
+                                                    ),
+                                                },
+                                            ],
+                                        ),
+                                        location: 593,
+                                    },
+                                ),
+                            ),
+                            sortby_dir: SORTBY_ASC,
+                            sortby_nulls: SORTBY_NULLS_DEFAULT,
+                            use_op: None,
+                            location: -1,
+                        },
+                    ),
+                ],
+            ),
+            limit_offset: None,
+            limit_count: None,
+            limit_option: LIMIT_OPTION_DEFAULT,
+            locking_clause: None,
+            with_clause: None,
+            op: SETOP_NONE,
+            all: false,
+            larg: None,
+            rarg: None,
+        },
+    ),
+]
+Error: ParseError(
+    "syntax error at or near \"GROUP\"",
+)
+```
+
+The error:
+
+```
+Error: ParseError(
+    "syntax error at or near \"GROUP\"",
+)
+```
+
+Identical to other pg_query bindings, as expected.
+
+Now on to Ruby.
+
+## Ruby
+
+The only parser I have for Ruby is another [pg_query
+binding](https://github.com/pganalyze/pg_query ). I believe this was
+the first binding written by the pganalyze team.
+
+Since all the bindings so far have been identical I don't think
+there's anything meaningful to show. The docs for this binding are
+good as is.
+
+So let's move on to the final language here: Java.
+
+## Java
+
+### presto-parser
+
+Presto is a SQL engine originally built at Facebook. It uses ANTLR, a
+[parser
+generator](https://github.com/prestodb/presto/blob/master/presto-parser/src/main/antlr4/com/facebook/presto/sql/parser/SqlBase.g4),
+under the hood.
+
+#### Setup
+
+Create a new directory and
+enter the following into `pom.xml`:
+
+```xml
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.mycompany.app</groupId>
+  <artifactId>my-app</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+  <properties>
+    <maven.compiler.source>18</maven.compiler.source>
+    <maven.compiler.target>18</maven.compiler.target>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.2.1</version>
+        <configuration>
+          <mainClass>main.Main</mainClass>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.facebook.presto</groupId>
+      <artifactId>presto-parser</artifactId>
+      <version>0.272</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.9.0</version>
+    </dependency>
+  </dependencies>
+</project>
+```
+
+And edit `src/main/java/Main.java`:
+
+```java
+package main;
+
+import com.facebook.presto.sql.tree.*;
+import com.facebook.presto.sql.parser.*;
+
+public class Main {
+    public static void main(String[] args) {
+        var simple = "SELECT * FROM x";
+
+        var medium = "SELECT COUNT(1) AS count, name section FROM t GROUP BY name LIMIT 10";
+
+        var complex = """
+SELECT
+        country.country_name_eng,
+        SUM(CASE WHEN talk.id IS NOT NULL THEN 1 ELSE 0 END) AS talks,
+        AVG(ISNULL(DATEDIFF(SECOND, talk.start_time, talk.end_time),0)) AS avg_difference
+FROM country
+LEFT JOIN city ON city.country_id = country.id
+LEFT JOIN customer ON city.id = customer.city_id
+LEFT JOIN talk ON talk.customer_id = customer.id
+GROUP BY
+        country.id,
+        country.country_name_eng
+HAVING AVG(ISNULL(DATEDIFF(SECOND, talk.start_time, talk.end_time),0)) > (SELECT AVG(DATEDIFF(SECOND, talk.start_time, talk.end_time)) FROM talk)
+ORDER BY talks DESC, country.id ASC;
+        """;
+
+        var simplebad = "SELECT * FROM GROUP BY age";
+
+        var p = new SqlParser();
+        String[] tests = {simple, medium, complex, simplebad};
+        for (var test : tests) {
+            try {
+                var query = (Query)p.createStatement(test);
+                System.out.println(query);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+    }
+}
+```
+
+And run `mvn package` and `mvn exec:java`:
+
+```json
+Query{queryBody=QuerySpecification{select=Select{distinct=false, selectItems=[*]}, from=Optional[Table{x}], where=null, groupBy=Optional.empty, having=null, orderBy=Optional.empty, offset=null, limit=null}, orderBy=Optional.empty}
+Query{queryBody=QuerySpecification{select=Select{distinct=false, selectItems=["count"(1) count, name section]}, from=Optional[Table{t}], where=null, groupBy=Optional[GroupBy{isDistinct=false, groupingElements=[SimpleGroupBy{columns=[name]}]}], having=null, orderBy=Optional.empty, offset=null, limit=10}, orderBy=Optional.empty}
+com.facebook.presto.sql.parser.ParsingException: line 13:36: mismatched input ';'. Expecting: ',', 'LIMIT', 'NULLS', 'OFFSET', <EOF>
+com.facebook.presto.sql.parser.ParsingException: line 1:15: mismatched input 'GROUP'. Expecting: '(', 'LATERAL', 'UNNEST', <identifier>
+```
+
+Looks like it has an issue with the semicolon at the end of the complex query. If we remove that and re-run:
+
+```json
+Query{queryBody=QuerySpecification{select=Select{distinct=false, selectItems=[*]}, from=Optional[Table{x}], where=null, groupBy=Optional.empty, having=null, orderBy=Optional.empty, offset=null, limit=null}, orderBy=Optional.empty}
+Query{queryBody=QuerySpecification{select=Select{distinct=false, selectItems=["count"(1) count, name section]}, from=Optional[Table{t}], where=null, groupBy=Optional[GroupBy{isDistinct=false, groupingElements=[SimpleGroupBy{columns=[name]}]}], having=null, orderBy=Optional.empty, offset=null, limit=10}, orderBy=Optional.empty}                                                                                      Query{queryBody=QuerySpecification{select=Select{distinct=false, selectItems=[country.country_name_eng, "sum"((CASE WHEN (talk.id IS NOT NULL) THEN 1 ELSE 0 END)) talks, "avg"("isnull"("datediff"(SECOND, talk.start_time, talk.end_time), 0)) avg_difference]}, from=Optional[Join{type=LEFT, left=Join{type=LEFT, left=Join{type=LEFT, left=Table{country}, right=Table{city}, criteria=Optional[JoinOn{(city.country_id = country.id)}]}, right=Table{customer}, criteria=Optional[JoinOn{(city.id = customer.city_id)}]}, right=Table{talk}, criteria=Optional[JoinOn{(talk.customer_id = customer.id)}]}], where=null, groupBy=Optional[GroupBy{isDistinct=false, groupingElements=[SimpleGroupBy{columns=[country.id]}, SimpleGroupBy{columns=[country.country_name_eng]}]}], having=("avg"("isnull"("datediff"(SECOND, talk.start_time, talk.end_time), 0)) > (SELECT "avg"("datediff"(SECOND, talk.start_time, talk.end_time))
+FROM
+  talk
+)), orderBy=Optional[OrderBy{sortItems=[SortItem{sortKey=talks, ordering=DESCENDING, nullOrdering=UNDEFINED}, SortItem{sortKey=country.id, ordering=ASCENDING, nullOrdering=UNDEFINED}]}], offset=null, limit=null}, orderBy=Optional.empty}                                        com.facebook.presto.sql.parser.ParsingException: line 1:15: mismatched input 'GROUP'. Expecting: '(', 'LATERAL', 'UNNEST', <identifier>
+```
+
+Everything succeeds/fails as expected. That error message is pretty
+good too! Line number and column. Nice work, Presto developers.
+
+### JSqlParser
+
+The last parser for this post is
+[JSqlParser](https://github.com/JSQLParser/JSqlParser). It uses
+[JJTree](https://javacc.github.io/javacc/documentation/jjtree.html) to
+[generate a parser from a
+grammer](https://github.com/JSQLParser/JSqlParser/blob/master/src/main/jjtree/net/sf/jsqlparser/parser/JSqlParserCC.jjt).
+
+#### Setup
+
+
+Create a new directory and
+enter the following into `pom.xml`:
+
+```xml
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <groupId>com.mycompany.app</groupId>
+  <artifactId>my-app</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  
+  <properties>
+    <maven.compiler.source>18</maven.compiler.source>
+    <maven.compiler.target>18</maven.compiler.target>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.2.1</version>
+        <configuration>
+          <mainClass>main.Main</mainClass>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  
+  <dependencies>
+    <dependency>
+      <groupId>com.github.jsqlparser</groupId>
+      <artifactId>jsqlparser</artifactId>
+      <version>4.2</version>
+    </dependency>
+  </dependencies>
+</project>
+
+```
+
+And edit `src/main/java/Main.java`:
+
+```java
+package main;
+
+import net.sf.jsqlparser.parser.*;
+
+
+public class Main {
+    public static void main(String[] args) {
+        var simple = "SELECT * FROM x";
+        
+        var medium = "SELECT COUNT(1) AS count, name section FROM t GROUP BY name LIMIT 10";
+        
+        var complex = """
+SELECT 
+        country.country_name_eng,
+        SUM(CASE WHEN talk.id IS NOT NULL THEN 1 ELSE 0 END) AS talks,
+        AVG(ISNULL(DATEDIFF(SECOND, talk.start_time, talk.end_time),0)) AS avg_difference
+FROM country 
+LEFT JOIN city ON city.country_id = country.id
+LEFT JOIN customer ON city.id = customer.city_id
+LEFT JOIN talk ON talk.customer_id = customer.id
+GROUP BY 
+        country.id,
+        country.country_name_eng
+HAVING AVG(ISNULL(DATEDIFF(SECOND, talk.start_time, talk.end_time),0)) > (SELECT AVG(DATEDIFF(SECOND, talk.start_time, talk.end_time)) FROM talk)
+ORDER BY talks DESC, country.id ASC;
+        """;
+
+        var simplebad = "SELECT * FROM GROUP BY age";
+
+        String[] tests = {simple, medium, complex, simplebad};
+        for (var test : tests) {
+            try {
+                var stmt = CCJSqlParserUtil.parse(test);
+                System.out.println(stmt);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+    }
+}
+```
+
+And run `mvn package` and `mvn exec:java`:
+
+```json
+SELECT * FROM x
+SELECT COUNT(1) AS count, name section FROM t GROUP BY name LIMIT 10
+SELECT country.country_name_eng, SUM(CASE WHEN talk.id IS NOT NULL THEN 1 ELSE 0 END) AS talks, AVG(ISNULL(DATEDIFF(SECOND, talk.start_time, talk.end_time), 0)) AS avg_difference FROM country LEFT JOIN city ON city.country_id = country.id LEFT JOIN customer ON city.id = customer.city_id LEFT JOIN talk ON talk.customer_id = customer.id GROUP BY country.id, country.country_name_eng HAVING AVG(ISNULL(DATEDIFF(SECOND, talk.start_time, talk.end_time), 0)) > (SELECT AVG(DATEDIFF(SECOND, talk.start_time, talk.end_time)) FROM talk) ORDER BY talks DESC, country.id ASC
+net.sf.jsqlparser.JSQLParserException: Encountered unexpected token: "BY" "BY"
+    at line 1, column 21.
+
+Was expecting one of:
+
+    ";"
+    "ACTION"
+    "ACTIVE"
+    "ALGORITHM"
+    "ARCHIVE"
+    "ARRAY"
+    "AS"
+    "BYTE"
+    "CASCADE"
+    "CASE"
+    "CAST"
+    "CHANGE"
+    "CHAR"
+    "CHARACTER"
+    "CHECKPOINT"
+    "COLUMN"
+    "COLUMNS"
+    "COMMENT"
+    "COMMIT"
+    "CONNECT"
+    "COSTS"
+    "CYCLE"
+    "DBA_RECYCLEBIN"
+    "DESC"
+    "DESCRIBE"
+    "DISABLE"
+    "DISCONNECT"
+    "DIV"
+    "DO"
+    "DUMP"
+    "DUPLICATE"
+    "ENABLE"
+    "END"
+    "EXCLUDE"
+    "EXTRACT"
+    "FALSE"
+    "FILTER"
+    "FIRST"
+    "FLUSH"
+    "FN"
+    "FOLLOWING"
+    "FOR"
+    "FORMAT"
+    "GROUP"
+    "HAVING"
+    "HISTORY"
+    "INDEX"
+    "INSERT"
+    "INTERVAL"
+    "ISNULL"
+    "JSON"
+    "KEY"
+    "LAST"
+    "LEADING"
+    "LINK"
+    "LOCAL"
+    "LOG"
+    "MATERIALIZED"
+    "NO"
+    "NOLOCK"
+    "NULLS"
+    "OF"
+    "OPEN"
+    "OVER"
+    "PARALLEL"
+    "PARTITION"
+    "PATH"
+    "PERCENT"
+    "PIVOT"
+    "PRECISION"
+    "PRIMARY"
+    "PRIOR"
+    "QUIESCE"
+    "RANGE"
+    "READ"
+    "RECYCLEBIN"
+    "REGISTER"
+    "REPLACE"
+    "RESTRICTED"
+    "RESUME"
+    "ROW"
+    "ROWS"
+    "SCHEMA"
+    "SEPARATOR"
+    "SEQUENCE"
+    "SESSION"
+    "SHUTDOWN"
+    "SIBLINGS"
+    "SIGNED"
+    "SIZE"
+    "SKIP"
+    "START"
+    "SUSPEND"
+    "SWITCH"
+    "SYNONYM"
+    "TABLE"
+    "TEMP"
+    "TEMPORARY"
+    "TIMEOUT"
+    "TO"
+    "TOP"
+    "TRUE"
+    "TRUNCATE"
+    "TYPE"
+    "UNQIESCE"
+    "UNSIGNED"
+    "USER"
+    "VALIDATE"
+    "VALUE"
+    "VALUES"
+    "VIEW"
+    "WINDOW"
+    "XML"
+    "ZONE"
+    <EOF>
+    <K_DATETIMELITERAL>
+    <K_DATE_LITERAL>
+    <K_NEXTVAL>
+    <K_STRING_FUNCTION_NAME>
+    <S_CHAR_LITERAL>
+    <S_IDENTIFIER>
+    <S_QUOTED_IDENTIFIER>
+```
+
+Ok so this doesn't seem to have a builtin AST printer, it just prints
+back the whole query as SQL, which is kind of cool but doesn't show us
+the parsed structure.
+
+The error is quite solid though. It interprets `GROUP` as a table name
+which is interesting and then blows up at the unexpected "keyword"
+`by`. It gives helpful line/column info too. Nice work!
+
+## Summary
+
+Hopefully this helps you out as you're evaluating SQL parsers for your
+project!
 
 #### Share
 
