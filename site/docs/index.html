@@ -1,16 +1,9 @@
-{% set doctitle = 'DataStation Documentation' %}
+{% set doctitle = 'Documentation' %}
 
-{% extends 'layout.tmpl' %}
+{% extends 'docs/layout.tmpl' %}
 
-{% block body %}
-<div class="container">
-  <div class="subscribe">
-  Stay in the loop about new
-	releases; <a href="https://docs.google.com/forms/d/e/1FAIpQLSfYF3AZivacRrQWanC-skd0iI23ermwPd17T_64Xc4etoL_Tw/viewform">subscribe
-      to the mailing list!</a>
-  </div>
-  <h1>Learn</h1>
-  <h2>Install</h2>
+{% block docbody %}
+  <h1>Install</h1>
   <p class="docs-p">
     Pre-built binaries are provided for 64-bit x86 machines running
     macOS, Windows, and Linux.
@@ -226,10 +219,9 @@
     <li><a href="https://datastation.multiprocess.io/docs/0.0.3-alpha-release-notes.html">0.0.3-alpha</a></li>
   </ul>
 
-  <div class="subscribe">
-  Stay in the loop about new
-	releases; <a href="https://docs.google.com/forms/d/e/1FAIpQLSfYF3AZivacRrQWanC-skd0iI23ermwPd17T_64Xc4etoL_Tw/viewform">subscribe
-      to the mailing list!</a>
-  </div>
-</div>
+  <style>
+    .post-body {
+	width: 100%;
+    }
+  </style>
 {% endblock %}

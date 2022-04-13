@@ -624,6 +624,21 @@ ul.checks li:before {
     left: 0;
 }
 
+ul.no-decoration {
+    margin: 0;
+}
+
+ul.no-decoration li {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+}
+
+ul.no-decoration li .material-icons {
+    padding-right: 5px;
+}
+
 .subscribe {
     text-align: center;
     padding: 20px;
@@ -751,6 +766,10 @@ ul.checks li:before {
 
     section {
 	padding: 30px 0;
+    }
+
+    section:first-of-type {
+	padding-top: 0;
     }
 
     .docs-card, .docs-card:visited {

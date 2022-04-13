@@ -4,12 +4,127 @@
 
 {% block head %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css" />
+<style>
+.docs-container {
+  display: flex;
+}
+
+.docs-sidebar {
+  padding-right: 50px;
+  min-width: 300px;
+}
+
+.docs-sidebar ul.no-decoration {
+  padding-left: 15px;
+}
+
+.docs-sidebar ul.no-decoration li {
+  display: initial;
+}
+
+.post-body .docs-main {
+  max-width: 750px;
+}
+
+.post-body {
+  width: initial;
+}
+
+.toc h4 {
+  margin-top: 0;
+}
+
+@media only screen and (max-width: 600px) {
+  .docs-container {
+    flex-direction: column;
+  }
+
+  .docs-sidebar {
+    padding: 0;
+  }
+}      
+</style>
 {% endblock %}
 
 {% block body %}
 <section class="post-body">
-  <div class="container">
-    {% block docbody %}{% endblock %}
+  <div class="container docs-container">
+        <div class="subscribe">
+        Stay in the loop about new releases; <a href="https://docs.google.com/forms/d/e/1FAIpQLSfYF3AZivacRrQWanC-skd0iI23ermwPd17T_64Xc4etoL_Tw/viewform">subscribe to the mailing list!</a>
+      </div>
+
+    <div class="docs-sidebar"></div>
+    <div class="docs-main">
+      {% block docbody %}{% endblock %}
+
+      <div class="subscribe">
+        Stay in the loop about new releases; <a href="https://docs.google.com/forms/d/e/1FAIpQLSfYF3AZivacRrQWanC-skd0iI23ermwPd17T_64Xc4etoL_Tw/viewform">subscribe to the mailing list!</a>
+      </div>
+    </div>
   </div>
 </section>
+
+<script>
+ function makeToCElement({ name, id, level }) {
+   if (level === 0) {
+     const toc = document.createElement('div');
+     toc.level = level;
+     toc.className="toc";
+
+     const header = document.createElement('h4');
+     header.innerText = 'Contents';
+     toc.appendChild(header);
+
+     const ul = document.createElement('ul');
+     ul.className = "no-decoration";
+     toc.appendChild(ul);
+     return toc;
+   }
+
+   const li = document.createElement('li');
+   li.level = level;
+   li.className = "toc-element";
+
+   const link = document.createElement('a');
+   link.className = "toc-link";
+   link.href = "#" + id;
+   link.innerText = name;
+
+   const ul = document.createElement('ul');
+   ul.className = "no-decoration";
+
+   li.appendChild(link);
+   li.appendChild(ul);
+
+   return li;
+ }
+
+ const headers = document.querySelectorAll('h1, h2, h3, h4, h5, h6, .docs-card-title');
+ const tree = makeToCElement({ level: 0 });
+ const stack = [tree];
+ for (let i = 0; i < headers.length; i++) {
+   const h = headers[i]
+   const name = h.innerHTML;
+   if (name === 'About this page' || (h.tagName == 'H1' && document.title.startsWith(name))) {
+     continue;
+   }
+
+   const id = name.replaceAll(' ', '-').toLowerCase();
+   h.id = id;
+
+   const level = +h.tagName.slice(1) || 3;
+
+   while (level <= stack[stack.length-1].level) {
+     stack.pop();
+   }
+
+   const next = makeToCElement({ name, id, level });
+   // Add to tree
+   stack[stack.length-1].querySelector('ul').appendChild(next);
+   // Add to stack
+   stack.push(next);
+ }
+
+ document.querySelector('.docs-sidebar').appendChild(tree);
+</script>
 {% endblock %}
