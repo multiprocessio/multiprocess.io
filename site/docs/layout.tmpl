@@ -48,11 +48,11 @@
 
 {% block body %}
 <section class="post-body">
-  <div class="container docs-container">
-        <div class="subscribe">
+  <div class="container">
+  <div class="subscribe">
         Stay in the loop about new releases; <a href="https://docs.google.com/forms/d/e/1FAIpQLSfYF3AZivacRrQWanC-skd0iI23ermwPd17T_64Xc4etoL_Tw/viewform">subscribe to the mailing list!</a>
       </div>
-
+      <div class="docs-container">
     <div class="docs-sidebar"></div>
     <div class="docs-main">
       {% block docbody %}{% endblock %}
@@ -60,6 +60,7 @@
       <div class="subscribe">
         Stay in the loop about new releases; <a href="https://docs.google.com/forms/d/e/1FAIpQLSfYF3AZivacRrQWanC-skd0iI23ermwPd17T_64Xc4etoL_Tw/viewform">subscribe to the mailing list!</a>
       </div>
+    </div>
     </div>
   </div>
 </section>
