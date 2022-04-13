@@ -7,7 +7,7 @@
 {% block postTags %}sql,parsing,go,rust,java,python,ruby,javascript{% endblock %}
 
 {% block postBody %}
-This post surveys 10+ SQL parsing libraries in Ruby, Java, Python,
+This post surveys 10+ SQL parsing libraries in Ruby, Java, Rust, Python,
 JavaScript, and Go. Two of them,
 [go-mysql-server](https://github.com/dolthub/go-mysql-server) and
 [sqlparser-rs](https://github.com/sqlparser-rs/sqlparser-rs), have
