@@ -1,6 +1,6 @@
 {% extends "blog/layout.tmpl" %}
 
-{% block postTitle %}Surveying 10+ SQL parser libraries in a few high-level languages{% endblock %}
+{% block postTitle %}Surveying SQL parser libraries in a few high-level languages{% endblock %}
 {% block postDate %}April 11, 2022{% endblock %}
 {% block postAuthor %}Phil Eaton{% endblock %}
 {% block postAuthorEmail %}phil@multiprocess.io{% endblock %}
