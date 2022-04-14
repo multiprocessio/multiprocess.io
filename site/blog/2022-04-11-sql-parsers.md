@@ -30,8 +30,8 @@ All code for this post is [available on Github](https://github.com/multiprocessi
 SQL is such a large standard it's going to be hard to express large
 parts of it. It's also hard to test "SQL parsers" because there are a
 few major SQL dialects. And I'm only going to stick to the "free"
-SQLs. MySQL notably uses single quotes for columns and double quotes
-for strings, the reverse of the SQL standard. MySQL, PostgreSQL, and
+SQLs. MySQL notably diverges from the SQL standard by using backticks for columns and single or double quotes
+for strings. MySQL, PostgreSQL, and
 SQLite all have different ways of expressing dates, date
 calculcations, and intervals.
 
