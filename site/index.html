@@ -186,6 +186,10 @@
    text-align: center;
  }
 
+ .text-muted {
+ color: #777;
+ }
+
  .foss {
    padding-top: 15px;
    display: inline-block;
@@ -261,7 +265,13 @@
      font-size: 1.5rem;
  }
  
- @media only screen and (max-width: 1100px) {
+    @media only screen and (max-width: 1100px) {
+
+     section:not(:first-of-type) h1,
+ section:not(:first-of-type) h2 {
+     text-align: initial;
+ }
+
    section:not(:first-of-type), #hero .tabs-container {
      padding: 15px 0;
    }
@@ -276,8 +286,9 @@
 
    #hero-desktop .flex--horizontal {
      flex-direction: column-reverse;
-   }
+    }
 
+    small,
    #hero .product-features li {
      font-size: .8rem;
    }
@@ -311,19 +322,27 @@
        flex-direction: column-reverse;
    }
 
-   .demo iframe {
+   #hero iframe {
        width: 100%;
        height: calc(100vw / (16 / 9));
-   }
+    }
+
+    #hero .container {
+    padding-top: 0;
+    }
+
+    .product-picture {
+    padding-top: 0;
+    }
  }
 </style>
 <section id="hero">
   <div class="container">
     <div id="hero-desktop">
-      <h1 class="hide-non-mobile">The <span class="color-light-pink">Data IDE</span> for <span class="color-green">Developers</span></h1>
+      <h1 class="hide-non-mobile">The <span class="color-blue">Data IDE</span> for <span class="color-blue">Developers</span></h1>
       <div class="flex flex--horizontal">
 	      <div class="hero-text">
-          <h1 class="hide-mobile">The <span class="color-light-pink">Data IDE</span> for <span class="color-green">Developers</span></h1>
+          <h1 class="hide-mobile">The <span class="color-blue">Data IDE</span> for <span class="color-blue">Developers</span></h1>
 <ul class="product-features">
 	    <li>
 	      <span class="material-icons">search</span>
@@ -342,14 +361,14 @@
 	      <span>Data never leaves your machine</span>
 	    </li>
 	    <li>
-	      <span class="material-icons color-green">favorite</span>
+	      <span class="material-icons color-blue">favorite</span>
 	      <span>Windows, macOS, or Linux</span>
 	    </li>
 	  </ul>
 	</div>
 	<div class="hero-picture">
 	  <iframe width="800" height="450" src="https://www.youtube.com/embed/q_jRBvbwIzU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    <small>Exploring data in CockroachDB with Python and Pandas</small>
+    <small class="text-muted">Exploring data in CockroachDB with Python and Pandas</small>
 	</div>
       </div>
     </div>
@@ -398,9 +417,11 @@
     <div class="product-picture no-shadow">
 	    <img src="/the-basics-graph.png" />
     </div>
+    <!--
     <div class="text-center">
       <p><small class="product-text"><a href="/docs/latest/Panels/Graph_Panels.html">Read more about graph panels</a>.</small></p>
     </div>
+    -->
   </div>
 </section>
 
@@ -419,8 +440,73 @@
 <section>
   <div class="container">
     <h2>And if you deploy the DataStation server</h2>
-    <h1>Panels become the building blocks of <span class="color-red">hosted dashboards</span> and <span class="color-light-pink">recurring exports</span></h1>
+    <h1>Panels become the building blocks of <span class="color-blue">hosted dashboards</span> and <span class="color-blue">recurring exports</span></h1>
     <p class="text-center"><a href="https://docs.google.com/forms/d/e/1FAIpQLSfYF3AZivacRrQWanC-skd0iI23ermwPd17T_64Xc4etoL_Tw/viewform">Coming soon</a> :)</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h1>With builtin support for</h1>
+    <div class="features features-3 flex flex--horizontal">
+      <div>
+	<h2>20+ databases</h2>
+	<ul class="no-decoration">
+	  <li><a href="https://datastation.multiprocess.io/docs/tutorials/Query_PostgreSQL_with_DataStation.html">PostgreSQL</a></li>
+	  <li><a href="https://datastation.multiprocess.io/docs/tutorials/Query_MySQL_with_DataStation.html">MySQL</a>,&nbsp;MariaDB</li>
+	  <li><a href="https://datastation.multiprocess.io/docs/tutorials/Query_SQLite_with_DataStation.html">SQLite</a></li>
+	  <li><a href="https://datastation.multiprocess.io/docs/tutorials/Query_SQL_Server_with_DataStation.html">SQL Server</a></li>
+	  <li><a href="https://datastation.multiprocess.io/docs/tutorials/Query_Oracle_with_DataStation.html">Oracle</a></li>
+	  <li><a href="https://datastation.multiprocess.io/docs/tutorials/Query_ClickHouse_with_DataStation.html">ClickHouse</a></li>
+	  <li><a href="https://datastation.multiprocess.io/docs/tutorials/Query_Influx_(1.x)_with_DataStation_(InfluxQL).html">Influx 1 (InfluxQL)</a>,&nbsp;<a href="https://datastation.multiprocess.io/docs/tutorials/Query_Influx_(2.x)_with_DataStation_(Flux).html">Influx 2 (Flux)</a></li>
+	  <li><a href="https://datastation.multiprocess.io/docs/tutorials/Query_Prometheus_with_DataStation.html">Prometheus</a></li>
+	  <li><a href="https://datastation.multiprocess.io/docs/tutorials/Query_Elasticsearch_with_DataStation.html">Elasticsearch</a></li>
+	  <li><a href="https://datastation.multiprocess.io/docs/tutorials/Query_AWS_Athena_with_DataStation.html">AWS Athena</a></li>
+	  <li><a href="https://datastation.multiprocess.io/docs/tutorials/Query_BigQuery_with_DataStation.html">Google BigQuery</a></li>
+	  <li>Snowflake</li>
+	  <li>Cassandra,&nbsp;<a href="https://datastation.multiprocess.io/docs/tutorials/Query_Scylla_with_DataStation.html">Scylla</a></li>
+	  <li>TimescaleDB</li>
+	  <li><a href="https://datastation.multiprocess.io/docs/tutorials/Query_Yugabyte_with_DataStation.html">YugabyteDB</a></li>
+	  <li><a href="https://datastation.multiprocess.io/docs/tutorials/Query_CockroachDB_with_DataStation.html">CockroachDB</a></li>
+	  <li>CrateDB</li>
+	  <li>QuestDB</li>
+	  <li><a href="https://datastation.multiprocess.io/docs/tutorials/Query_Airtable_with_DataStation.html">Airtable</a></li>
+	</ul>
+      </div>
+      <div>
+	<h2>6 languages</h2>
+	<ul class="no-decoration">
+	  <li>Python</li>
+	  <li>Ruby</li>
+	  <li>Julia</li>
+	  <li>R</li>
+	  <li>JavaScript</li>
+	  <li>In-memory SQL</li>
+	</ul>
+      </div>
+      <div>
+	<h2>13 file types</h2>
+	<ul class="no-decoration">
+	  <li>Avro</li>
+	  <li>Parquet</li>
+	  <li>JSON, JSON Newline, Concatenated JSON</li>
+	  <li>CSV, TSV</li>
+	  <li>Excel (XLSX)</li>
+	  <li>ODS</li>
+	  <li>Apache Error Logs</li>
+	  <li>Apache Access Logs</li>
+	  <li>Nginx Access Logs</li>
+	  <li>Newline-delimited Custom Regexp</li>
+	</ul>
+      </div>
+    </div>
+
+    <p class="text-center">
+      This list is constantly growing. Not seeing a database or file
+      type you
+      need? <a href="https://github.com/multiprocessio/datastation/issues">Open
+      an issue</a>.
+    </p>
   </div>
 </section>
 

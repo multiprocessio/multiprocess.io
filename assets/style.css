@@ -2,10 +2,14 @@
     --tabs: #f3f3ff;
     --background-dark: #f4f4f7;
     --color: black;
-    --link: #3535d0;
+    --link: #1723FF;
 
-    --primary: #4e2a95;
+    /* See: https://paletton.com/#uid=c3Y194r3v0kGK++mI+bt1+W+VSTZKvc */
+    --purple: #6F0EFF;
+    --orange: #FFBC00;
+    --primary: var(--orange);
     --green: #157f6e;
+    --blue: #1723FF;
 }
 
 html, body {
@@ -53,7 +57,7 @@ a:visited {
     line-height: 0;
     color: white;
     font-size: .9rem;
-    background: var(--green); /* var(--primary);*/
+    background: var(--blue);
 }
 
 .notification a {
@@ -375,6 +379,14 @@ footer .container > * {
     color: #734EFD;
 }
 
+.color-blue {
+    color: var(--blue);
+}
+
+.color-primary {
+    color: var(--primary);
+}
+
 .color-green {
     color: var(--green);
 }
@@ -388,14 +400,15 @@ footer .container > * {
 }
 
 .btn.btn--primary {
-    color: white;
+    color: black;
     transition: background .3s;
     background: var(--primary);
+    border: 1px solid transparent;
 }
 
 .btn.btn--primary:hover,
 .btn.btn--primary:active {
-    background: #1c8fde;
+    border-color: black;
 }
 
 .carousel-image {
