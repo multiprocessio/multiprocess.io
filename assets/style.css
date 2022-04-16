@@ -367,7 +367,7 @@ footer .container > * {
 }
 
 .color-light-pink {
-    color: #fd36af;
+    color: #fd36af !important;
 }
 
 .color-light-blue {

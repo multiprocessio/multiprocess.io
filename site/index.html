@@ -64,6 +64,11 @@
    padding: 100px 0;
  }
 
+ section:not(:first-of-type) h1,
+ section:not(:first-of-type) h2 {
+     text-align: center;
+ }
+
  table tbody tr {
      border: 0;
  }
@@ -202,7 +207,7 @@
  }
 
  .product-features li .material-icons {
-   padding-right: 10px;
+     padding-right: 10px;
  }
 
  .container {
@@ -315,11 +320,11 @@
 <section id="hero">
   <div class="container">
     <div id="hero-desktop">
-      <h1 class="hide-non-mobile">Easy, programmatic data integration, workflows and reports around any data source</span></h1>
+      <h1 class="hide-non-mobile">The developer's <span class="color-red">data-integration</span> and <span class="color-light-pink">reporting toolkit</span></h1>
       <div class="flex flex--horizontal">
-	<div class="hero-text">
-	  <h1 class="hide-mobile">Easy, programmatic data integration, workflows and reports around any data source</span></h1>
-	  <ul class="product-features">
+	      <div class="hero-text">
+          <h1 class="hide-mobile">The developer's <span class="color-red">data-integration</span> and <span class="color-light-pink">reporting toolkit</span></h1>
+<ul class="product-features">
 	    <li>
 	      <span class="material-icons">search</span>
 	      <span>Load from databases, REST APIs and files</span>
@@ -337,13 +342,14 @@
 	      <span>Data never leaves your machine</span>
 	    </li>
 	    <li>
-	      <span class="material-icons color-light-purple">favorite</span>
+	      <span class="material-icons color-light-pink">favorite</span>
 	      <span>Windows, macOS, or Linux</span>
 	    </li>
 	  </ul>
 	</div>
 	<div class="hero-picture">
 	  <iframe width="800" height="450" src="https://www.youtube.com/embed/q_jRBvbwIzU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <small>Exploring data in CockroachDB with Python and Pandas</small>
 	</div>
       </div>
     </div>
@@ -406,11 +412,9 @@
 
 <section>
   <div class="container">
-    <div class="demo">
-      <div class="demo-text">
-	<p>And, coming soon, you might compile these graph panels into a hosted dashboard you can share with your coworker. Or a recurring export recalculated and emailed to you once a week.</p>
-      </div>
-    </div>
+    <h2>And if you deploy the DataStation server</h2>
+    <h1>Panels become the building blocks of <span class="color-red">hosted dashboards</span> and <span class="color-light-pink">recurring exports</span></h1>
+    <p class="text-center"><a href="https://docs.google.com/forms/d/e/1FAIpQLSfYF3AZivacRrQWanC-skd0iI23ermwPd17T_64Xc4etoL_Tw/viewform">Coming soon</a> :)</p>
   </div>
 </section>
 
@@ -434,14 +438,11 @@
 	<a href="/docs">Documentation</a>
       </div>
       <div>
-	<h2><span class="material-icons">volunteer_activism</span>Join the community</h2>
-	<ul class="no-decoration">
-	  <li><a href="https://discord.multiprocess.io">500+ members on Discord</a></li>
+	<h2><span class="material-icons">volunteer_activism</span>Keep up to date</h2>
+	<ul class="no-decoration uptodate">
 	  <li><a href="https://forms.gle/wH5fdxrxXwZHoNxk8">Subscribe to email updates</a></li>
-	  <li><a href="mailto:hi@multiprocess.io">Say hi</a></li>
-	  <li><a href="https://github.com/multiprocessio">Browse the code</a></li>
-          <li><a href="https://twitter.com/multiprocessio">Follow on Twitter</a></li>
-	  <li><a href="https://www.linkedin.com/company/multiprocess-labs/">Follow on LinkedIn</a></li>
+    <li><a href="https://github.com/multiprocessio/datastation">Star the repo</a></li>
+    <li><a href="https://discord.multiprocess.io">Join 700 members on Discord</a></li>
 	</ul>
       </div>
     </div>
