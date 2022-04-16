@@ -253,6 +253,7 @@
  .demo-text {
      max-width: 300px;
      padding: 30px;
+     font-size: 1.5rem;
  }
  
  @media only screen and (max-width: 1100px) {
@@ -314,10 +315,10 @@
 <section id="hero">
   <div class="container">
     <div id="hero-desktop">
-      <h1 class="hide-non-mobile">The Data IDE for Developers</span></h1>
+      <h1 class="hide-non-mobile">Easy, programmatic data integration, workflows and reports around any data source</span></h1>
       <div class="flex flex--horizontal">
 	<div class="hero-text">
-	  <h1 class="hide-mobile">The <span class="color-yellow">Data IDE</span> for <span class="color-green">Developers</span></h1>
+	  <h1 class="hide-mobile">Easy, programmatic data integration, workflows and reports around any data source</span></h1>
 	  <ul class="product-features">
 	    <li>
 	      <span class="material-icons">search</span>
@@ -342,31 +343,7 @@
 	  </ul>
 	</div>
 	<div class="hero-picture">
-	  <div class="carousel">
-	    <div class="carousel-images">
-	      <div class="carousel-image" id="carousel-database">
-		<img loading="lazy" src="/database-panel.png" />
-		<small>Query SQL and non-SQL databases</small>
-	      </div>
-	      <div class="carousel-image" id="carousel-http">
-		<img loading="lazy" src="/http-panel.png" />
-		<small>Query REST APIs</small>
-	      </div>
-	      <div class="carousel-image" id="carousel-file">
-		<img loading="lazy" src="/file-panel.png" />
-		<small>Read local and remote files</small>
-	      </div>
-	      <div class="carousel-image" id="carousel-script">
-		<img loading="lazy" src="/code-panel.png" />
-		<small>Script in Python, JavaScript, Ruby, R, Julia</small>
-	      </div>
-	      <div class="carousel-image" id="carousel-visualize">
-		<img loading="lazy" src="/visualize-panel.png" />
-		<small>Visualize results</small>
-	      </div>
-	    </div>
-	    <div class="carousel-selectors"></div>
-	  </div>
+	  <iframe width="800" height="450" src="https://www.youtube.com/embed/q_jRBvbwIzU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 	</div>
       </div>
     </div>
@@ -375,214 +352,65 @@
 
 <section>
   <div class="container">
-    <h2>Automate data analysis workflows</h2>
-    <h1>Combining code and data</h1>
+    <h1>It might start with a database query</h1>
+    <div class="product-picture no-shadow">
+	    <img src="/the-basics-database-panel.png" />
+    </div>
+    <div class="text-center">
+      <p><small class="product-text"><a href="https://catalog.data.gov/dataset/hudson-river-park-flora-plantings-beginning-1997">Get this dataset</a>. Or <a href="/docs/latest/Panels/Database_Panels.html">read more about database panels</a>.</small></p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h1>But some things are easier to do in code</h1>
+    <div class="product-picture no-shadow">
+	    <img src="/the-basics-code-panel1.png" />
+    </div>
+    <div class="text-center">
+      <p><small class="product-text"><a href="/docs/latest/Panels/Code_Panels.html">Read more about code panels</a>.</small></p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h1>And not always code in the same language</h1>
+    <div class="product-picture no-shadow">
+	    <img src="/the-basics-group-by.png" />
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h1>When you're working on a report</h1>
+    <div class="product-picture no-shadow">
+	    <img src="/the-basics-graph.png" />
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+	  <h1>Or a long-term data point</h1>
+    <div class="product-picture no-shadow">
+	    <img src="/the-basics-post-http.png" />
+    </div>
+    <div class="text-center">
+      <p><small class="product-text"><a href="/docs/latest/Panels/HTTP_Panels.html">Read more about HTTP panels</a>.</small></p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
     <div class="demo">
       <div class="demo-text">
-	<p>
-	  Using Python and Pandas in DataStation to explore employee
-	  data in CockroachDB.
-	</p>
-      </div>
-      <iframe width="800" height="450" src="https://www.youtube.com/embed/q_jRBvbwIzU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="container">
-    <h1>Because your data is all over the place</h1>
-    <div class="features features-3 flex flex--horizontal h2-center">
-      <div>
-	<h2>In REST APIs</h2>
-	<div class="image-collection">
-	  <div class="img" style="background-image: url('https://wac-cdn.atlassian.com/dam/jcr:75ba14ba-5e19-46c7-98ef-473289b982a7/Jira%20Software-blue.svg?cdnVersion=199')"></div>
-	  <div class="img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Zendesk_logo.svg/2560px-Zendesk_logo.svg.png')"></div>
-	  <div class="img" style="background-image: url('https://about.gitlab.com/images/press/logo/png/gitlab-logo-gray-stacked-rgb.png')"></div>
-	  <div class="img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/2048px-Octicons-mark-github.svg.png')"></div>
-	</div>
-      </div>
-      <div>
-	<h2>In Databases</h2>
-	<div class="image-collection">
-	  <div class="img long" alt="Prometheus" style="background-image: url('https://cncf-branding.netlify.app/img/projects/prometheus/horizontal/black/prometheus-horizontal-black.png')"></div>
-	  <div class="img long" style="background-image: url('https://cxl.com/wp-content/uploads/2019/10/google-bigquery-logo-1.png')"></div>
-	  <div class="img" alt="PostgreSQL" style="background-image: url('https://wiki.postgresql.org/images/3/30/PostgreSQL_logo.3colors.120x120.png')"></div>
-	  <div class="img" alt="Cassandra" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Cassandra_logo.svg/279px-Cassandra_logo.svg.png')"></div>
-	  <div class="img" alt="MySQL" style="background-image: url('https://upload.wikimedia.org/wikipedia/en/thumb/d/dd/MySQL_logo.svg/1280px-MySQL_logo.svg.png')"></div>
-	  <div class="img long" alt="Elasticsearch" style="background-image: url('https://static-www.elastic.co/v3/assets/bltefdd0b53724fa2ce/blt5ebe80fb665aef6b/5ea8c8f26b62d4563b6ecec2/brand-elasticsearch-220x130.svg')"></div>
-	  <div class="img" style="background-image: url('https://www.scylladb.com/wp-content/uploads/brand-logo-vert@2x.png')"></div>
-	  <div class="img" style="background-image: url('https://logowik.com/content/uploads/images/microsoft-sql-server4529.jpg')"></div>
-	  <div class="img long" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Snowflake_Logo.svg/1280px-Snowflake_Logo.svg.png')"></div>
-	  <div class="img long" alt="Prometheus" style="background-image: url('https://influxdata.github.io/branding/img/downloads/influxdata-logo--full-preview.svg')"></div>
-	</div>
-      </div>
-      <div>
-	<h2>In Files</h2>
-	<div class="image-collection">
-	  <div class="img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Microsoft_Office_Excel_%282019%E2%80%93present%29.svg/2203px-Microsoft_Office_Excel_%282019%E2%80%93present%29.svg.png')"></div>
-	  <div class="img long" style="background-image: url('https://parquet.apache.org/assets/img/parquet_logo.png')"></div>
-	  <div class="img long" style="background-image: url('https://www.nginx.com/wp-content/uploads/2018/08/NGINX-logo-rgb-large.png')"></div>
-	  <div class="img" style="background-image: url('https://storage.googleapis.com/website-dev-images/sites/default/files/Untitled%20design%20%2852%29.jpg')"></div>
-	  <div class="img long" style="background-image: url('https://www.brcline.com/wp-content/uploads/2020/06/apache-logo.png')"></div>
-	</div>
+	<p>And, coming soon, you might compile these graph panels into a hosted dashboard you can share with your coworker. Or a recurring export recalculated and emailed to you once a week.</p>
       </div>
     </div>
-  </div>
-</section>
-
-<section>
-  <div class="container">
-    <h2>And existing interfaces are great</h2>
-    <h1>But have some key limitations</h1>
-    <div class="features features-4 flex flex--horizontal">
-      <div>
-	<h2>BI Tools, SQL GUIs</h2>
-	<ul class="no-decoration">
-	  <li><span class="material-icons">sentiment_very_dissatisfied</span>SQL-only</li>
-	  <li><span class="material-icons">code_off</span>No escape route to code</li>
-	  <li><span class="material-icons">contact_mail</span>Great for product managers</li>
-	</ul>
-      </div>
-      <div>
-	<h2>Data Warehouse</h2>
-	<ul class="no-decoration">
-	  <li><span class="material-icons">attach_money</span>Expensive</li>
-	  <li><span class="material-icons">support_agent</span>Hard for an individual to set up</li>
-	  <li><span class="material-icons">groups</span>Great for mature engineering teams</li>
-	</ul>
-      </div>
-      <div>
-	<h2>HTTP GUIs</h2>
-	<ul class="no-decoration">
-	  <li><span class="material-icons">sentiment_very_dissatisfied</span>API-only</li>
-	  <li><span class="material-icons">sentiment_dissatisfied</span>Great for developers who don't use databases</li>
-	</ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- <section> -->
-<!--   <div class="container"> -->
-<!--     <h1 id="pricing">Pricing</h1> -->
-<!--     <table> -->
-<!--       <thead> -->
-<!-- 	<th></th> -->
-<!-- 	<th>Professional Edition</th> -->
-<!-- 	<th>Community Edition</th> -->
-<!--       </thead> -->
-<!--       <tbody> -->
-<!-- 	<tr> -->
-<!-- 	  <td>Price</td> -->
-<!-- 	  <td>TBD</td> -->
-<!-- 	  <td>Free</td> -->
-<!-- 	</tr> -->
-<!-- 	<tr> -->
-<!-- 	  <td># Databases</td> -->
-<!-- 	  <td>Unlimited databases</td> -->
-<!-- 	  <td>2 databases per project</td> -->
-<!-- 	</tr> -->
-<!-- 	<tr> -->
-<!-- 	  <td># SSH Servers</td> -->
-<!-- 	  <td>Unlimited</td> -->
-<!-- 	  <td>1 server per project</td> -->
-<!-- 	</tr> -->
-<!-- 	<tr> -->
-<!-- 	  <td># Pages</td> -->
-<!-- 	  <td>Unlimited</td> -->
-<!-- 	  <td>1 page per project</td> -->
-<!-- 	</tr> -->
-<!-- 	<tr> -->
-<!-- 	  <td>Support</td> -->
-<!-- 	  <td>Response within 24 hours of M-F</td> -->
-<!-- 	  <td>Community</td> -->
-<!-- 	</tr> -->
-<!-- 	<tr> -->
-<!-- 	  <td>Databases</td> -->
-<!-- 	  <td>Every supported database</td> -->
-<!-- 	  <td>Every supported database</td> -->
-<!-- 	</tr> -->
-<!-- 	<tr> -->
-<!-- 	  <td>Languages</td> -->
-<!-- 	  <td>Every supported language</td> -->
-<!-- 	  <td>Every supported language</td> -->
-<!-- 	</tr> -->
-<!-- 	<tr> -->
-<!-- 	  <td></td> -->
-<!-- 	  <td><a href="">Coming soon</a></td> -->
-<!-- 	  <td><a href="/docs/">Download</td> -->
-<!-- 	</tr> -->
-<!--       </tbody> -->
-<!--     </table> -->
-<!--     <p class="text-center"> -->
-<!--       Discounts available for folks interested in acting as a design partner. <a href="mailto:phil@multiprocess.io">Get in touch!</a> -->
-<!--     </p> -->
-<!--   </div> -->
-<!-- </section> -->
-
-<section>
-  <div class="container">
-    <h1>DataStation comes with builtin support for</h1>
-    <div class="features features-3 flex flex--horizontal">
-      <div>
-	<h2>20+ databases</h2>
-	<ul class="no-decoration">
-	  <li><a href="https://datastation.multiprocess.io/docs/tutorials/Query_PostgreSQL_with_DataStation.html">PostgreSQL</a></li>
-	  <li><a href="https://datastation.multiprocess.io/docs/tutorials/Query_MySQL_with_DataStation.html">MySQL</a>, MariaDB</li>
-	  <li><a href="https://datastation.multiprocess.io/docs/tutorials/Query_SQLite_with_DataStation.html">SQLite</a></li>
-	  <li><a href="https://datastation.multiprocess.io/docs/tutorials/Query_SQL_Server_with_DataStation.html">SQL Server</a></li>
-	  <li><a href="https://datastation.multiprocess.io/docs/tutorials/Query_Oracle_with_DataStation.html">Oracle</a></li>
-	  <li><a href="https://datastation.multiprocess.io/docs/tutorials/Query_ClickHouse_with_DataStation.html">ClickHouse</a></li>
-	  <li><a href="https://datastation.multiprocess.io/docs/tutorials/Query_Influx_(1.x)_with_DataStation_(InfluxQL).html">Influx 1 (InfluxQL)</a>, <a href="https://datastation.multiprocess.io/docs/tutorials/Query_Influx_(2.x)_with_DataStation_(Flux).html">Influx 2 (Flux)</a></li>
-	  <li><a href="https://datastation.multiprocess.io/docs/tutorials/Query_Prometheus_with_DataStation.html">Prometheus</a></li>
-	  <li><a href="https://datastation.multiprocess.io/docs/tutorials/Query_Elasticsearch_with_DataStation.html">Elasticsearch</a></li>
-	  <li><a href="https://datastation.multiprocess.io/docs/tutorials/Query_AWS_Athena_with_DataStation.html">AWS Athena</a></li>
-	  <li><a href="https://datastation.multiprocess.io/docs/tutorials/Query_BigQuery_with_DataStation.html">Google BigQuery</a></li>
-	  <li>Snowflake</li>
-	  <li>Cassandra, <a href="https://datastation.multiprocess.io/docs/tutorials/Query_Scylla_with_DataStation.html">Scylla</a></li>
-	  <li>TimescaleDB</li>
-	  <li><a href="https://datastation.multiprocess.io/docs/tutorials/Query_Yugabyte_with_DataStation.html">YugabyteDB</a></li>
-	  <li><a href="https://datastation.multiprocess.io/docs/tutorials/Query_CockroachDB_with_DataStation.html">CockroachDB</a></li>
-	  <li>CrateDB</li>
-	  <li>QuestDB</li>
-	  <li><a href="https://datastation.multiprocess.io/docs/tutorials/Query_Airtable_with_DataStation.html">Airtable</a></li>
-	</ul>
-      </div>
-      <div>
-	<h2>6 languages</h2>
-	<ul class="no-decoration">
-	  <li>Python</li>
-	  <li>Ruby</li>
-	  <li>Julia</li>
-	  <li>R</li>
-	  <li>JavaScript</li>
-	  <li>In-memory SQL</li>
-	</ul>
-      </div>
-      <div>
-	<h2>13 file types</h2>
-	<ul class="no-decoration">
-	  <li>Avro</li>
-	  <li>Parquet</li>
-	  <li>JSON, JSON Newline, Concatenated JSON</li>
-	  <li>CSV, TSV</li>
-	  <li>Excel (XLSX)</li>
-	  <li>ODS</li>
-	  <li>Apache Error Logs</li>
-	  <li>Apache Access Logs</li>
-	  <li>Nginx Access Logs</li>
-	  <li>Newline-delimited Custom Regexp</li>
-	</ul>
-      </div>
-    </div>
-
-    <p>
-      This list is constantly growing. Not seeing a database or file
-      type you
-      need? <a href="https://github.com/multiprocessio/datastation/issues">Open
-      an issue</a> or <a href="mailto:hi@multiprocess.io">get in touch</a>.
-    </p>
   </div>
 </section>
 
