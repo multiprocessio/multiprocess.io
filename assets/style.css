@@ -5,6 +5,7 @@
     --link: #3535d0;
 
     --primary: #4e2a95;
+    --green: #157f6e;
 }
 
 html, body {
@@ -52,7 +53,7 @@ a:visited {
     line-height: 0;
     color: white;
     font-size: .9rem;
-    background: #157f6e; /* var(--primary);*/
+    background: var(--green); /* var(--primary);*/
 }
 
 .notification a {
@@ -375,6 +376,7 @@ footer .container > * {
 }
 
 .color-green {
+    color: var(--green);
 }
 
 .color-yellow {
