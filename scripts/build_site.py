@@ -73,7 +73,7 @@ for file in make_glob(DOCS_SOURCE, "*.md"):
             raw = raw.replace('.md', '.html')
             raw = re.sub(r'([a-zA-Z0-9.\-_\/]*/([a-zA-Z0-9\-_]*\.(png|gif)))', r'https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main\1', raw)
 
-            html = md_to_html(raw)
+            html = '{% raw %}'+ md_to_html(raw) +'{% endraw %}'
 
             title = html[:html.index('</h1>')].split('<h1>')[1].strip()
             page = 'https://github.com/multiprocessio/datastation-documentation/blob/main/' + source

@@ -7,7 +7,7 @@
 {% block docbody %}
 <div><a href="/docs/">Back to documentation</a></div>
 
-<h1>Database Panels</h1>
+{% raw %}<h1>Database Panels</h1>
 <p>These panels allow you to query databases either locally or through an
 SSH proxy. You must first configure a <a href="../Data_Sources.html">data
 source</a> for the database you want to connect
@@ -66,7 +66,7 @@ connections</a> you set up previously.</p>
 disable <code class="hljs">sslmode</code> in your connection. Append <code class="hljs">?sslmode=disable</code> to the
 database address. For example if you are running PostgreSQL locally
 you might set the database address to <code class="hljs">localhost?sslmode=disable</code>.</p>
-
+{% endraw %}
 
 <div class="about-this-page">
 <h4>About this page</h4>

@@ -7,14 +7,20 @@
 {% block docbody %}
 <div><a href="/docs/">Back to documentation</a></div>
 
-<h1>HTTP Panels</h1>
-<p>These panels allow you to making API requests. You can make GET, POST,
+{% raw %}<h1>HTTP Panels</h1>
+<p>HTTP panels allow you to make API requests. You can make GET, POST,
 PUT, HEAD, or DELETE requests.</p>
+<h1>Macros</h1>
+<p>The URL, headers, and HTTP body in an HTTP panel can include
+macros. This allows you to, for example, POST the results of one panel
+to a web server.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/post-macro.png" alt="Post macro" /></p>
+<p>Read more about macros <a href="./Macros.html">here</a>.</p>
 <h1>With Server</h1>
-<p>HTTP requests can be proxied through an SSH tunnel by checking the
-<strong>With Server</strong> option. Once selected, you will be prompted to pick from
-one of the <a href="../SSH_Connections">SSH connections</a> you set up previously.</p>
-
+<p>If you define an <a href="./SSH_Connections.html">SSH connections</a> you will be
+able to select the server to proxy your HTTP request through an
+SSH tunnel.</p>
+{% endraw %}
 
 <div class="about-this-page">
 <h4>About this page</h4>
@@ -22,7 +28,7 @@ one of the <a href="../SSH_Connections">SSH connections</a> you set up previousl
   See an error or want to add a clarification? This page is
   generated from <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/latest/Panels/HTTP_Panels.md">this file on Github</a>.
   <br /><br />
-  Last edited Apr 06, 2022.
+  Last edited Apr 18, 2022.
 </p>
 </div>
 {% endblock %}

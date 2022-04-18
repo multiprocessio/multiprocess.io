@@ -7,7 +7,7 @@
 {% block docbody %}
 <div><a href="/docs/">Back to documentation</a></div>
 
-<h1>Installation</h1>
+{% raw %}<h1>Installation</h1>
 <p>DataStation can run as either a desktop application or as a server
 application. You will need to have an OIDC provider if you want to run
 the server application. The server application comes with the ability
@@ -73,7 +73,7 @@ systemd timer for DataStation exports.</p>
 }
 </code></pre>
 <p>And then restart the systemd service: <code class="hljs">sudo systemctl restart datastation</code>.</p>
-
+{% endraw %}
 
 <div class="about-this-page">
 <h4>About this page</h4>

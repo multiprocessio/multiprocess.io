@@ -7,16 +7,16 @@
 {% block docbody %}
 <div><a href="/docs/">Back to documentation</a></div>
 
-<h1>Data Sources</h1>
+{% raw %}<h1>Data Sources</h1>
 <p>A data source is a definition of an external connection. You must fill
 out a data source for external SQL servers like MySQL or PostgreSQL so
 you can query them in a <a href="./Panels/Database_Panels.html">Database panel</a>.</p>
 <h1>With Server</h1>
-<p>A data source can be definied as being proxied through an SSH tunnel
+<p>A data source can be defined as being proxied through an SSH tunnel
 by checking the <strong>With Server</strong> option. Once selected, you will be
 prompted to pick from one of the <a href="./SSH_Connections.html">SSH connections</a> you set up
 previously.</p>
-
+{% endraw %}
 
 <div class="about-this-page">
 <h4>About this page</h4>
@@ -24,7 +24,7 @@ previously.</p>
   See an error or want to add a clarification? This page is
   generated from <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/0.2.0/Data_Sources.md">this file on Github</a>.
   <br /><br />
-  Last edited Nov 17, 2021.
+  Last edited Apr 18, 2022.
 </p>
 </div>
 {% endblock %}

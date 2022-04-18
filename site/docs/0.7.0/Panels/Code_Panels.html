@@ -7,7 +7,7 @@
 {% block docbody %}
 <div><a href="/docs/">Back to documentation</a></div>
 
-<h1>Code Panels</h1>
+{% raw %}<h1>Code Panels</h1>
 <p>These panels allow you to write any kind of program with no
 limitations. You can read values from previous panels and set your own
 value for the code panel result. You can run custom calculations</p>
@@ -60,7 +60,7 @@ or not the default, you can modify
 <code class="hljs">$HOME/DataStationProjects/.settings</code> and modify the <code class="hljs">${language}Path</code>
 variable (e.g. <code class="hljs">rPath</code>, <code class="hljs">pythonPath</code>) to point at the program you'd
 like to be run.</p>
-
+{% endraw %}
 
 <div class="about-this-page">
 <h4>About this page</h4>

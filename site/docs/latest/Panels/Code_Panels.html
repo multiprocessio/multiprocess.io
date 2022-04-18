@@ -7,60 +7,89 @@
 {% block docbody %}
 <div><a href="/docs/">Back to documentation</a></div>
 
-<h1>Code Panels</h1>
-<p>These panels allow you to write any kind of program with no
-limitations. You can read values from previous panels and set your own
-value for the code panel result. You can run custom calculations</p>
-<h1>Supported languages</h1>
-<ul>
-<li>JavaScript</li>
-<li>Python</li>
-<li>Ruby</li>
-<li>R</li>
-<li>Julia</li>
-</ul>
+{% raw %}<h1>Code Panels</h1>
+<p>Code panels allow you to run code in a few major languages:
+JavaScript, Deno, Ruby, R, Julia, Python, and in-memory SQL.</p>
+<p>Like every other panel, code panels must have a result. You can set
+the result using the <code class="hljs">DM_setPanel</code> function. And you can fetch another
+panel's result using the <code class="hljs">DM_getPanel</code> function.</p>
+<p>In-memory SQL code panels are the exception. Their result is
+set automatically to the result of their SQL query. You cannot use
+<code class="hljs">DM_setPanel</code> in an in-memory SQL code panel.</p>
+<h1>Fetching another panel's result</h1>
+<p>All code panels can grab another panel's result with the <code class="hljs">DM_getPanel</code>
+function. This function takes one argument which is either the integer
+index of the panel (from top to bottom starting with <code class="hljs">0</code>), or the
+panel's name.</p>
+<p>Let's say you have a <a href="./File_Panels.html">file panel</a> that reads a CSV
+file from disk (the <a href="https://catalog.data.gov/dataset/hudson-river-park-flora-plantings-beginning-1997">Hudson River Plant
+dataset</a>). And
+say the panel's name is <code class="hljs">Load plant data</code>.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/file-plant-data.png" alt="Load plant data from CSV file" /></p>
+<p>Once you have run the file panel, you can grab that data in a code
+panel using <code class="hljs">DM_getPanel(&#x27;Load plant data&#x27;)</code>:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/transform-plant-data-no-set.png" alt="Transform plant data no set" /></p>
+<h1>Setting a panel result</h1>
+<p><code class="hljs">DM_setPanel</code> sets the current panel's result. It accepts one argument. The argument must be serializable. Serialization happens automatically. Some kinds of objects that aren't serializable are circular data structures.</p>
+<p>Building off the last example, the whole code panel should like like this:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/transform-plant-data.png" alt="Transform plant data" /></p>
+<h2>Result format</h2>
+<p>Panel results can be of any format, as long as the value is
+serializable. But when setting a panel you intend to have read from a
+Table, Graph, or panel that supports SQL, there is a single accepted data format.</p>
+<p>Table and Graph panels can only read from a panel that formats data as
+an array of objects. Each object-element must be a mapping of column
+name to column value. For example:</p>
+<pre><code class="hljs language-json">[
+  { &quot;age&quot;: 1, &quot;name&quot;: &quot;Eliza&quot; },
+  { &quot;age&quot;: 3, &quot;name&quot;: &quot;Javier&quot; }
+]
+</code></pre>
+<h1>Modifying the default program implementation</h1>
+<p>For most languages, DataStation looks in your <code class="hljs">$PATH</code> environment
+variable for an implementation of the language you pick in the code
+panel. The in-memory SQL option is an exception, you don't need
+anything installed to use it.</p>
+<p>If an implementation by the name it looks doesn't exist, the panel
+will fail with an error when you run the panel.</p>
+<p>But maybe you have multiple instances of <code class="hljs">python</code> on your machine. You
+can specify an absolute path you want to use for each language
+implementation in settings under the &quot;Language Path Overrides&quot; section.</p>
+<p>In this screenshot you can see the Deno, Julia, R, and Ruby language
+paths are not absolute. They will be looked up in <code class="hljs">$PATH</code>. However,
+JavaScript, PHP and Python are absolute paths that will not be looked
+up in <code class="hljs">$PATH</code>.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/language-path-overrides.png" alt="Language path overrides" /></p>
+<p>Changes take effect the next time you run the code panel.</p>
+<p>If you ever mess up these settings, you can always revert back to the
+default by hitting the &quot;Reset button&quot;.</p>
 <h1>Importing 3rd party libraries</h1>
-<p>Since DataStation uses the language already installed, you can import
-any libraries you already have installed too.</p>
-<p>This means that even when DataStation doesn't support a particular API
-or database, you can install a language-level package on your system
-so you can write your own custom code to make requests or queries to
-any system.</p>
-<h1>Communicating between panels</h1>
-<p>Use <code class="hljs">DM_getPanel($number)</code> or <code class="hljs">DM_getPanel(&#x27;$panelName&#x27;)</code> to pull the
-results from another panel where <code class="hljs">$number</code> is the index of the panel
-(starting from zero) or <code class="hljs">$panelName</code> is the name of the panel you want
-to grab. Similarly, use <code class="hljs">DM_setPanel($var)</code> to set the current panel's
-result.</p>
-<p>Panel results can be of any format. But when setting a panel you
-intend to have read from a Table or Graph panel, there is a <a href="#table-and-graph-panel-data-format">single
-accepted data format</a>.</p>
+<p>DataStation uses the language implementation you have already
+installed on your system. This means you can import any libraries you
+already have installed too.</p>
+<p>Furthermore, this means that even when DataStation doesn't support a
+particular API or database, you can install a language-level package
+on your system so you can write your own custom code to make requests
+or queries to any system.</p>
 <h1>In-Memory SQL</h1>
-<p>In-memory SQL is a way of running SQL queries solely
-against other panels without a running database. It is useful in
-situations where you don't have a database but the most natural way to
-express a join or filter is in SQL rather than code.</p>
+<p>In-memory SQL is a way of running SQL queries solely against other
+panels without a running database. You don't need to set up a data
+source to use it. It is useful in situations where you don't have a
+database but the most natural way to express a join or filter is in
+SQL rather than code.</p>
 <p>SQL panels can refer to the results of other panels by using
 <code class="hljs">DM_getPanel($number)</code> where <code class="hljs">$number</code> is the zero-indexed panel you
 want to grab. Or, like other languages, you can also refer by name
 <code class="hljs">DM_getPanel(&#x27;$panelName&#x27;)</code> where <code class="hljs">$panelName</code> is the name of the
 panel you want to grab.</p>
-<p><code class="hljs">DM_getPanel</code> should only be called once. After that it can be
-referred to by the alias <code class="hljs">t_$number</code> or <code class="hljs">&quot;t_$panelName&quot;</code>. For example:
-<code class="hljs">SELECT * FROM DM_getPanel(0) WHERE t_0.age &lt; 12</code> will fetch all
-results from the first panel (zero-indexed) and filter out rows where
-the age column is less than 12.</p>
-<h1>Table and Graph panel data format</h1>
-<p>Table and Graph panels must read from a panel that formats data as an
-array of objects. Each object-element must be a mapping of column name
-to column value. For example: <code class="hljs">[{ &quot;age&quot;: 1, &quot;name&quot;: &quot;Eliza&quot; }, { &quot;age&quot;: 3, &quot;name&quot;: &quot;Javier&quot; }]</code>.</p>
-<h1>Overriding program path</h1>
-<p>If you want to use a version of the language that is not in your <code class="hljs">$PATH</code>
-or not the default, you can modify
-<code class="hljs">$HOME/DataStationProjects/.settings</code> and modify the <code class="hljs">${language}Path</code>
-variable (e.g. <code class="hljs">rPath</code>, <code class="hljs">pythonPath</code>) to point at the program you'd
-like to be run.</p>
-
+<p>The panel you refer to must have a result that is in the array of
+objects format.</p>
+<p>Here's an example that will fetch all results from the first panel
+(zero-indexed) and filter out rows where the age column is less than
+12.</p>
+<pre><code class="hljs language-sql">SELECT * FROM DM_getPanel(0) users WHERE users.age &lt; 12
+</code></pre>
+{% endraw %}
 
 <div class="about-this-page">
 <h4>About this page</h4>
@@ -68,7 +97,7 @@ like to be run.</p>
   See an error or want to add a clarification? This page is
   generated from <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/latest/Panels/Code_Panels.md">this file on Github</a>.
   <br /><br />
-  Last edited Apr 06, 2022.
+  Last edited Apr 18, 2022.
 </p>
 </div>
 {% endblock %}

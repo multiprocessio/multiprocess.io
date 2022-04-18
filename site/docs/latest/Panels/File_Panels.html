@@ -7,16 +7,22 @@
 {% block docbody %}
 <div><a href="/docs/">Back to documentation</a></div>
 
-<h1>File Panels</h1>
-<p>These panels allow you to import files into DataStation from
+{% raw %}<h1>File Panels</h1>
+<p>File panels allow you to import files into DataStation from
 disk. Every time the panel is run the file is read again.</p>
+<h1>With Server</h1>
+<p>If you define an <a href="./SSH_Connections.html">SSH connections</a> you will be
+able to select the server to read your file remotely over SSH.</p>
 <h1>Supported file formats</h1>
 <p>Data</p>
 <ul>
-<li>JSON</li>
-<li>CSV</li>
-<li>Parquet</li>
+<li>JSON, JSON Newline, Concatenated JSON</li>
+<li>CSV, TSV</li>
+<li>Apache parquet</li>
 <li>XLSX</li>
+<li>ODS</li>
+<li>Apache ORC</li>
+<li>Apache Avro</li>
 </ul>
 <p>Logs</p>
 <ul>
@@ -26,12 +32,7 @@ disk. Every time the panel is run the file is read again.</p>
 <li>Newline-delimited JSON</li>
 <li>Newline-delimited Custom Regex</li>
 </ul>
-<h1>With Server</h1>
-<p>You can read files from remote servers with an SSH tunnel by checking
-the <strong>With Server</strong> option. Once selected, you will be prompted to
-pick from one of the <a href="../SSH_Connections.html">SSH connections</a> you set
-up previously.</p>
-
+{% endraw %}
 
 <div class="about-this-page">
 <h4>About this page</h4>
@@ -39,7 +40,7 @@ up previously.</p>
   See an error or want to add a clarification? This page is
   generated from <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/latest/Panels/File_Panels.md">this file on Github</a>.
   <br /><br />
-  Last edited Apr 06, 2022.
+  Last edited Apr 18, 2022.
 </p>
 </div>
 {% endblock %}

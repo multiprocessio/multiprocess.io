@@ -1,0 +1,52 @@
+{# DO NOT EDIT -- THIS FILE IS AUTO-GENERATED #}
+
+{% set doctitle = 'Macros' %}
+
+{% extends 'docs/layout.tmpl' %}
+
+{% block docbody %}
+<div><a href="/docs/">Back to documentation</a></div>
+
+{% raw %}<h1>Macros</h1>
+<p>Not all panels operate on code where the <code class="hljs">DM_getPanel</code> builtin
+function call is available. To work around this, DataStation allows
+you to templatize any panel body (and sometimes other fields) using
+Jinja-like macros. The primary purpose of these macros is to read some
+panel results.</p>
+<p>A panel's macros are evaluated when you run the panel. But they happen
+before the panel's primary action. For example if you have macros in
+an HTTP panel body, they are evaluated before submitting the request.</p>
+<h1>DM_getPanel macro</h1>
+<p>The primary thing you have access to in a macro is a <code class="hljs">DM_getPanel</code>
+call. It's very similar to the non-macro <code class="hljs">DM_getPanel</code> call. The
+difference is that all of the rows are always loaded into memory at
+once. This makes macros not excellent for passing around massive
+amounts of data.</p>
+<p>Also, you can only pass strings to this macro function. You cannot do
+<code class="hljs">{{ DM_getPanel(0) }}</code>. You must surround the argument with quotes.</p>
+<h1>Iterating over panel results</h1>
+<p>Here is an example macro referencing the first panel that is an array
+of objects containing at least two fields: <code class="hljs">name</code> and <code class="hljs">age</code>.</p>
+<pre><code class="hljs">{% for row in DM_getPanel(&quot;0&quot;) %}{{ row.name }}: {{ row.age }}{% if not forloop.Last %}, {% endif %}{% endfor %}
+</code></pre>
+<h1>Converting a result to JSON</h1>
+<p>If you want to convert a panel result to JSON you can use the <code class="hljs">json</code>
+filter:</p>
+<pre><code class="hljs">{{ DM_getPanel(&quot;0&quot;) | json }}
+</code></pre>
+<h1>Macro language</h1>
+<p>The underlying macro language is a Jinja-like language called
+<a href="https://github.com/flosch/pongo2">Pongo2</a>. Check out their docs for
+more details on what is available in this language.</p>
+{% endraw %}
+
+<div class="about-this-page">
+<h4>About this page</h4>
+<p>
+  See an error or want to add a clarification? This page is
+  generated from <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/0.9.0/Panels/Macros.md">this file on Github</a>.
+  <br /><br />
+  Last edited Apr 18, 2022.
+</p>
+</div>
+{% endblock %}

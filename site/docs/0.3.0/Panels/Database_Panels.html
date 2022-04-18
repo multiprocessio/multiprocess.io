@@ -7,7 +7,7 @@
 {% block docbody %}
 <div><a href="/docs/">Back to documentation</a></div>
 
-<h1>Database Panels</h1>
+{% raw %}<h1>Database Panels</h1>
 <p>These panels allow you to query databases either locally or through an
 SSH proxy. You must first configure a <a href="../Data_Sources.html">data source</a> for the database you want to connect to. Then you can
 create a new panel and select the Database type and data source you
@@ -46,7 +46,7 @@ connections</a> you set up previously.</p>
 client</a>
 from their site and unzip it. Add the enclosed directory to your
 <code class="hljs">$PATH</code> environment variable and restart DataStation.</p>
-
+{% endraw %}
 
 <div class="about-this-page">
 <h4>About this page</h4>
