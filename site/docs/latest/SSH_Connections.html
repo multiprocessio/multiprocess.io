@@ -10,18 +10,17 @@
 {% raw %}<h1>SSH Connections</h1>
 <p>An SSH connection is all the configuration needed to connect to a
 server running SSH. Once a connection is set up, it can be used in
-File panels, HTTP panels, and SQL panels to access remote data that
-you wouldn't otherwise be able to.</p>
+<a href="./Panels/File_Panels.html">file panels</a>, <a href="./Panels/HTTP_Panels.html">HTTP
+panels</a>, and <a href="./Panels/Database_Panels.html">database
+panels</a> to access remote data.</p>
 <p>You can connect using either a username/password combination or an SSH
 private key file.</p>
 <p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/basic-ssh-connection.png" alt="Basic SSH connection" /></p>
 <h1>Defaults</h1>
-<p>DataStation picks a default value for the Username and Private Key
+<p>DataStation picks a default value for the <code class="hljs">Username</code> and <code class="hljs">Private Key</code>
 fields if the field is left blank.</p>
-<p>| Field       | Default                                                                                                                             |
-|-------------|-------------------------------------------------------------------------------------------------------------------------------------|
-| Username    | Current system username (i.e. $USER on Linux and macOS)                                                                             |
-| Private Key | Checks each of these 3 files in order and picks the first one exists if any exist: ~/.ssh/id_rsa, ~/.ssh/id_dsa, ~/.ssh/id_ed25519. |</p>
+<p>The default value for <code class="hljs">Username</code> is the current system username, i.e. <code class="hljs">$USER</code> on Linux and macOS.</p>
+<p>The default value for <code class="hljs">Private Key</code> is the first among these 3 files that exists: <code class="hljs">~/.ssh/id_rsa</code>, <code class="hljs">~/.ssh/id_dsa</code>, <code class="hljs">~/.ssh/id_ed25519</code>.</p>
 {% endraw %}
 
 <div class="about-this-page">

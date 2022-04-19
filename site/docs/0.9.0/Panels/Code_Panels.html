@@ -9,7 +9,8 @@
 
 {% raw %}<h1>Code Panels</h1>
 <p>Code panels allow you to run code in a few major languages:
-JavaScript, Deno, Ruby, R, Julia, Python, and in-memory SQL.</p>
+JavaScript, Deno, Ruby, R, Julia, Python, PHP, and in-memory SQL.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/basic-code-panel.png" alt="Basic code panel" /></p>
 <p>Like every other panel, code panels must have a result. You can set
 the result using the <code class="hljs">DM_setPanel</code> function. And you can fetch another
 panel's result using the <code class="hljs">DM_getPanel</code> function.</p>
@@ -84,11 +85,9 @@ want to grab. Or, like other languages, you can also refer by name
 panel you want to grab.</p>
 <p>The panel you refer to must have a result that is in the array of
 objects format.</p>
-<p>Here's an example that will fetch all results from the first panel
-(zero-indexed) and filter out rows where the age column is less than
-12.</p>
-<pre><code class="hljs language-sql">SELECT * FROM DM_getPanel(0) users WHERE users.age &lt; 12
-</code></pre>
+<p>Building off the above plant example, here's how you could calculate
+most common plants with in-memory SQL.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/basic-sql-code.png" alt="Basic SQL code panel" /></p>
 {% endraw %}
 
 <div class="about-this-page">
@@ -97,7 +96,7 @@ objects format.</p>
   See an error or want to add a clarification? This page is
   generated from <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/0.9.0/Panels/Code_Panels.md">this file on Github</a>.
   <br /><br />
-  Last edited Apr 18, 2022.
+  Last edited Apr 19, 2022.
 </p>
 </div>
 {% endblock %}
