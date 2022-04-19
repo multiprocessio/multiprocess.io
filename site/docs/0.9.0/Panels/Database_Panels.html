@@ -13,6 +13,7 @@ SSH proxy. You must first configure a <a href="../Data_Sources.html">data
 source</a> for the database you want to connect
 to. Then you can create a database panel and select the data source
 you created.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/basic-database-panel.png" alt="Basic database panel" /></p>
 <h1>Reading from other panels</h1>
 <p>MySQL, PostgreSQL and SQLite panels support the <code class="hljs">DM_getPanel($panel)</code>
 function. You can either pass a panel index or the panel name. If you
@@ -48,10 +49,13 @@ MySQL, PostgreSQL or SQLite) you can still use macros to fetch another
 panel's result.</p>
 <p>Read more about macros <a href="./Macros.html">here</a>.</p>
 <h1>Connecting via SSH proxy</h1>
-<p>Queries can be proxied through an SSH tunnel by checking the <strong>With
-Server</strong> option on the data source definition or panel details. Once
-selected, you will be prompted to pick from one of the <a href="../SSH_Connections.html">SSH
-connections</a> you set up previously.</p>
+<p>If you define an <a href="../SSH_Connections.html">SSH connections</a> you will be
+able to select the server to proxy your database connection through an
+SSH tunnel.</p>
+<p>NOTE: In some versions (including 0.9.0) there may be a bug where you
+need to specify <code class="hljs">localhost</code> in the Data Source configuration. Normally
+the default would be set to <code class="hljs">localhost</code> if you didn't set it.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/basic-database-panel-via-server.png" alt="Basic database panel via server" /></p>
 <h1>PostgreSQL</h1>
 <p>If you are not running your PostgreSQL with TLS, you will need to
 disable <code class="hljs">sslmode</code> in your connection. Append <code class="hljs">?sslmode=disable</code> to the
@@ -103,7 +107,7 @@ you might set the database address to <code class="hljs">localhost?sslmode=disab
   See an error or want to add a clarification? This page is
   generated from <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/0.9.0/Panels/Database_Panels.md">this file on Github</a>.
   <br /><br />
-  Last edited Apr 18, 2022.
+  Last edited Apr 19, 2022.
 </p>
 </div>
 {% endblock %}
