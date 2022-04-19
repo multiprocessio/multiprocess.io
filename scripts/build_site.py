@@ -66,10 +66,9 @@ for file in make_glob(DOCS_SOURCE, "*.md"):
     if not os.path.exists(directory):
         os.makedirs(directory)
 
-    with open(DOCS_SITE_ROOT + newfile, 'w') as f:
-        with open(file) as original:
-            original_file = original.read()
-            raw = ''.join(original_file)
+    with open(DOCS_SITE_ROOT + newfile, 'wb') as f:
+        with open(file, 'rb') as original:
+            raw = original.read().decode()
             raw = raw.replace('.md', '.html')
             raw = re.sub(r'([a-zA-Z0-9.\-_\/]*/([a-zA-Z0-9\-_]*\.(png|gif)))', r'https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main\1', raw)
 
@@ -99,7 +98,7 @@ for file in make_glob(DOCS_SOURCE, "*.md"):
                                 # actual post body.
                                 'BODY', html)
 
-            f.write(replaced)
+            f.write(replaced.encode())
 
 DEFAULT_DATA = {
     "title": "DataStation | The Data IDE for Developers",

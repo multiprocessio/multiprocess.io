@@ -3,7 +3,7 @@
 {% extends 'layout.tmpl' %}
 
 {% block head %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/default.min.css">
 <style>
 .docs-container {
   display: flex;
@@ -19,7 +19,7 @@
 }
 
 .docs-sidebar ul.no-decoration li {
-  display: initial;
+  display: block;
 }
 
 .post-body .docs-main {
@@ -84,7 +84,8 @@
 
    const li = document.createElement('li');
    li.level = level;
-   li.className = "toc-element";
+   const tocElementDefaultClassname = 'toc-element toc-element--childrenHidden';
+   li.className = tocElementDefaultClassname;
 
    const link = document.createElement('a');
    link.className = "toc-link";
@@ -93,6 +94,37 @@
 
    const ul = document.createElement('ul');
    ul.className = "no-decoration";
+
+   let expanderAdded = false;
+   ul.addEventListener('DOMNodeInserted', function () {
+     if (!ul.querySelectorAll('li').length || expanderAdded) return;
+
+     expanderAdded = true;
+     const expander = document.createElement('span');
+     expander.className = 'expander material-icons';
+     expander.innerText = 'keyboard_arrow_right';
+     expander.style.position = 'relative';
+     expander.style.cursor = 'pointer';
+     expander.style.top = '5px';
+     expander.onclick = function() {
+       if (this.innerText === 'keyboard_arrow_right') {
+         this.innerText = 'keyboard_arrow_down';
+         li.className = tocElementDefaultClassname.split(' ')[0];
+       } else {
+         this.innerText = 'keyboard_arrow_right';
+         li.className = tocElementDefaultClassname;
+       }
+     
+       const sibling = this.parentNode.querySelector('ul');
+       if (sibling.className.includes(' hidden')) {
+         sibling.className = sibling.className.replace(' hidden', '');
+       } else {
+         sibling.className += ' hidden';
+       }
+     };
+
+     li.prepend(expander);
+   });
 
    li.appendChild(link);
    li.appendChild(ul);

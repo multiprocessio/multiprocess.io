@@ -50,7 +50,7 @@ a {
 }
 
 a:visited {
-    color: #3535d0;
+    color: var(--link);
 }
 
 .notification {
@@ -528,6 +528,10 @@ p {
     box-shadow: 0 0 3px 0 black;
 }
 
+.post-body .docs-main img {
+    box-shadow: initial;
+}
+
 .post-body h2,
 .post-body h3 {
     margin-top: 30px;
@@ -654,9 +658,17 @@ ul.no-decoration li .material-icons {
     padding-right: 5px;
 }
 
+.toc-element--childrenHidden ul {
+    display: none;
+}
+
 .subscribe {
     text-align: center;
     padding: 20px;
+}
+
+.container > .subscribe {
+    padding-bottom: 50px;
 }
 
 .post-footer input {
