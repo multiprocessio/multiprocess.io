@@ -95,17 +95,20 @@
    const ul = document.createElement('ul');
    ul.className = "no-decoration";
 
-   let expanderAdded = false;
-   ul.addEventListener('DOMNodeInserted', function () {
-     if (!ul.querySelectorAll('li').length || expanderAdded) return;
+   const expander = document.createElement('span');
+   expander.className = 'expander material-icons';
+   expander.innerText = 'keyboard_arrow_right';
+   expander.style.position = 'relative';
+   expander.style.cursor = 'pointer';
+   expander.style.top = '5px';
+   expander.style.visibility = 'hidden';
 
-     expanderAdded = true;
-     const expander = document.createElement('span');
-     expander.className = 'expander material-icons';
-     expander.innerText = 'keyboard_arrow_right';
-     expander.style.position = 'relative';
-     expander.style.cursor = 'pointer';
-     expander.style.top = '5px';
+   let expanderVisible = false;
+   ul.addEventListener('DOMNodeInserted', function () {
+     if (!ul.querySelectorAll('li').length || expanderVisible) return;
+
+     expanderVisible = true;
+     expander.style.visibility = 'initial';
      expander.onclick = function() {
        if (this.innerText === 'keyboard_arrow_right') {
          this.innerText = 'keyboard_arrow_down';
@@ -122,12 +125,11 @@
          sibling.className += ' hidden';
        }
      };
-
-     li.prepend(expander);
    });
 
-   li.appendChild(link);
-   li.appendChild(ul);
+   li.append(expander);
+   li.append(link);
+   li.append(ul);
 
    return li;
  }
