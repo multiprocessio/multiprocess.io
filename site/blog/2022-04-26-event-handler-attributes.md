@@ -153,7 +153,7 @@ in the locals section.
 
 At this point Simon and I both started simple searches against the
 [HTML spec](https://html.spec.whatwg.org/print.pdf) (PDF). There were
-no examples `event` showing up in `onclick` attribute values. But I
+no examples `event` showing up in `onclick` attribute values. But we
 did start seeing examples of other handlers using `event`.
 
 ![Examples of event object in event handler attribute values](/html-spec-event.png)
