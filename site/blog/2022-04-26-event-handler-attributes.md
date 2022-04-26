@@ -69,9 +69,11 @@ In each form all I'd have to do is something like this:
 <button onclick="submit">...</button>
 ```
 
-And I'd be set. But I tried that out and nothing happened.
+And I'd be set. But I tried that out and nothing happened. So I
+switched to `onclick="submit()"`. And that worked. But where is the
+event?
 
-Ok, let's check the internet. MDN docs on the [onclick
+Let's check the internet. MDN docs on the [onclick
 attribute](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/onclick#specifications). Nothing. Google
 "onclick html attribute access event". Nothing.
 
@@ -134,7 +136,7 @@ function dothing (x) {
 dothing(window.x);
 ```
 
-`x` is a local variable in scope in the `dothign` function. And it
+`x` is a local variable in scope in the `dothing` function. And it
 happens to be equal to `window.x`.
 
 So comparing the `event` and `window.event` isn't enough to know if
@@ -179,9 +181,12 @@ I'm not sure what `$name` is but `$body` is the string passed to the
 handler attribute in HTML. `event` is an argument. This string becomes
 a function through the `Function` constructor I'm assuming.
 
-Good to know! Thank you Simon for jumping in and amplifying the
-questions. And thank you Colin for finding the location in the spec
-where these event handler attributes are described!
+Good to know! Thank you Simon for digging into the problem and also
+amplifying the questions. And thank you Colin for finding the location
+in the spec where these event handler attributes are described!
+
+And as a footnote: I ended up switching from `<button onclick` to
+`<form onsubmit` since it seems like the latter handles more cases.
 
 #### Share
 
