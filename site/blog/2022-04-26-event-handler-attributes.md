@@ -185,4 +185,6 @@ where these event handler attributes are described!
 
 #### Share
 
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">I wrote up my little adventure yesterday trying to understand how HTML event attribute values are evaluated.<br><br>Thanks <a href="https://twitter.com/simonw?ref_src=twsrc%5Etfw">@simonw</a> and <a href="https://twitter.com/cldellow?ref_src=twsrc%5Etfw">@cldellow</a> for helping me find the way! 😆<a href="https://t.co/0MRKqpUkgN">https://t.co/0MRKqpUkgN</a> <a href="https://t.co/Pp1BvUVUQP">pic.twitter.com/Pp1BvUVUQP</a></p>&mdash; Phil Eaton (@phil_eaton) <a href="https://twitter.com/phil_eaton/status/1519048613464268804?ref_src=twsrc%5Etfw">April 26, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 {% endblock %}
