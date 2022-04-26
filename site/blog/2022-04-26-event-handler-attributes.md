@@ -14,8 +14,8 @@ simple using only server-side templates
 ([Pongo2](https://github.com/flosch/pongo2), a Go clone of Jinja
 templates).
 
-But I still wanted to submit JSON in my form rather than the default
-multipart/form-data.
+But I wanted all of my Go code to just deal with JSON HTTP bodies
+rather than multipart/form-data.
 
 A basic form in the app looks like this:
 
