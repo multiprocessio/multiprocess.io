@@ -79,7 +79,7 @@ attribute](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/onclick#sp
 
 All the examples on Google/StackOverflow/MDN do show a function
 call. Some show something like `onclick="submit(this)"`. But `this` in
-this context is the form not the event. None of them show anything to
+this context is the button element not the event. None of them show anything to
 do with an event.
 
 I need to pass the event to `submit` to be able to prevent
@@ -94,7 +94,6 @@ hoping one of my intelligent followers would illuminate me.
 ### The debugger
 
 Then I opened up the debugger and set a breakpoint within my submit
-function. When I set `onclick="submit()"` it does get into this
 function.
 
 I noticed that the caller scope is the HTML attribute. And when I
