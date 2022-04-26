@@ -105,16 +105,18 @@ Well that looks like it! I set `onclick="submit(event)"` and it works!
 I get the submit event I want.
 
 But what the heck is this variable? As I scoured the internet I
-noticed `window.event` which is documented in MDN and is marked as
-deprecated. Crap. I hope that's not the variable I'm using. Because if
-a variable isn't in scope it will get looked up in the window object.
+noticed `window.event` which is [documented in
+MDN](https://developer.mozilla.org/en-US/docs/Web/API/Window/event)
+and is marked as deprecated. Crap. I hope that's not the variable I'm
+using. Because if a variable isn't in scope it will get looked up in
+the window object.
 
-Now Simon Willison [chimed
+Simon Willison [chimed
 in](https://twitter.com/simonw/status/1518681988978290688) and
 suggested I check `console.log(event === window.event)`. It's
 true. But that doesn't mean `event` and `window.event` are the same.
 
-Here's a case illustrating how it could be true:
+Here's a case illustrating this fallback to `window`:
 
 ```javascript
 window.x = 1;
