@@ -1,0 +1,101 @@
+{# DO NOT EDIT -- THIS FILE IS AUTO-GENERATED #}
+
+{% set doctitle = 'DataStation Server CE' %}
+
+{% extends 'docs/layout.tmpl' %}
+
+{% block docbody %}
+<div><a href="/docs/">Back to documentation</a></div>
+
+{% raw %}<h1>DataStation Server CE</h1>
+<p>NOTE: The Server system and these instructions are in early
+stages. There may be bugs and it would help if you report them on
+Github or Discord.</p>
+<p>DataStation can run as a server giving you access to all your projects
+from any machine that can connect to the server. All scripts and
+queries run on the server rather than on your laptop.</p>
+<p>This is useful if you frequently switch machines or if you want to
+work on DataStation projects as a team.</p>
+<p>The server supports OpenID authentication. The Community Edition does
+not have an advanced concept of users. It will hook into your OpenID
+system but does not come with access control beyond existing
+validating with your OpenID provider.</p>
+<p>However, coming shortly will be support for read-only dashboards built
+on top of your projects. And coming shortly will also be the ability
+to schedule recurring runs and exports of your projects to email.</p>
+<h1>Prerequisites</h1>
+<ul>
+<li>x86_64 Linux machine</li>
+<li>Nodejs 16</li>
+</ul>
+<h1>Install</h1>
+<p>Download <a href="https://github.com/multiprocessio/datastation/releases/download/0.10.0/datastation-server-x64-0.10.0.tar.gz">datastation-server-x64-0.10.0.tar.gz</a>.</p>
+<pre><code class="hljs">curl -LO https://github.com/multiprocessio/datastation/releases/download/0.10.0/datastation-server-x64-0.10.0.tar.gz
+tar xvzf datastation-server-*.tar.gz
+</code></pre>
+<h2>First-time</h2>
+<p>If you are installing DataStation on a server for the first time you
+can run the included install script.</p>
+<p>This will override the configuration file at
+<code class="hljs">/etc/datastation/config.yaml</code> and systemd configurations. So if you
+have already created or modified those files do not run this script.</p>
+<pre><code class="hljs">./datastation/release/install.sh
+</code></pre>
+<p>This install script will create a new <code class="hljs">datastation</code> Linux user if it
+does not exist and will create a systemd service for DataStation.</p>
+<p>It will start a <code class="hljs">datastation</code> systemd service but it will not succeed
+because you will need to edit the config file manually.</p>
+<h1>Configuration</h1>
+<p>Next edit <code class="hljs">/etc/datastation/config.yaml</code> and replace the defaults with your own settings.</p>
+<pre><code class="hljs language-yaml">auth:
+  sessionSecret: &quot;some good long random string&quot; # Any strong random string for signing sessions
+  openId:
+    realm: https://accounts.google.com # Or some other realm
+    clientId: &quot;my id&quot;
+    clientSecret: &quot;my secret&quot;
+
+server:
+  port: 443
+  address: localhost
+  publicUrl: https://datastation.mydomain.com # The address users will enter into the browser to use the app
+  tlsKey: /home/server/certs/datastation.key.pem # Can be left blank and set at the reverse-proxy level if desired
+  tlsCert: /home/server/certs/datastation.cert.pem
+</code></pre>
+<p>Make sure to replace the <code class="hljs">sessionSecret</code> with some random string.</p>
+<h2>Privileged ports</h2>
+<p>If you want to run the server on ports below 1024 (i.e. privileged
+ports like 80 and 443), you will need to give <code class="hljs">node</code> bind
+capabilities:</p>
+<pre><code class="hljs language-bash">$ setcap &#x27;cap_net_bind_service=+ep&#x27; $(which node)
+</code></pre>
+<h2>Authentication</h2>
+<p>If you want to disable authentication, you can omit the entire
+<code class="hljs">openId</code> section. But this is very dangerous! Since DataStation runs
+scripts on the server if you disable authentication and make your
+server public then anyone has access to do anything on the server.</p>
+<p>Any OpenID provider should work, but only Google auth has been tested.</p>
+<h2>Applying settings</h2>
+<p>Once you are done editing settings, restart the systemd service:
+<code class="hljs">systemctl restart datastation</code>.</p>
+<h1>Upgrade</h1>
+<p>To upgrade an existing DataStation Server instance simply overwrite
+the files in the tar archive. For example if you first used the
+install script that comes with DataStation, it moves the datastation
+directory into <code class="hljs">/usr/share/datastation</code>.</p>
+<p>So you can just delete that directory and then <code class="hljs">mv datastation /usr/share/datastation</code>.</p>
+<p>Finally, restart the systemd service <code class="hljs">systemctl restart datastation</code>.</p>
+<p>Migrations are automatically run on startup.</p>
+<h1>Logs</h1>
+<p>You can view DataStation logs by running <code class="hljs">journalctl -efu datastation</code>.</p>
+{% endraw %}
+
+<div class="about-this-page">
+<h4>About this page</h4>
+<p>
+  See an error or want to add a clarification? This page is
+  generated from <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/0.10.0/DataStation_Server.md">this file on Github</a>.
+  <br /><br />
+  Last edited May 08, 2022.
+</p>
+</div>
+{% endblock %}

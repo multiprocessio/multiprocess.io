@@ -11,22 +11,107 @@
   fixes and UX improvements.
 </p>
 <div class="pb-4">
-  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  <img class="no-shadow" src="/0.10.0-settings.png" alt="DataStation settings" />
+  <img class="no-shadow" src="/0.10.0-elasticsearch.png" alt="Elasticsearch support" />
 </div>
 <h2>Table panel updates</h2>
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-<p></p>
+<p>
+  This release brings pagination to table panels. Every table panel is
+  paginated automatically and you can pick a few table sizes. This
+  allows DataStation to handle rendering millions of rows. Before this
+  release the app would simply crash when rendering too big a data
+  source in a table panel. Additionally, it would fail to render at
+  all (not yet able to crash) when the data source was over 4GB. Now
+  the max effective size should be infinite.
+</p>
+<p>
+  Additionally, this release brings better support for rendering data
+  that differs row-by-row. When pulling data from most databases or
+  some strictly-typed file formats there is no variation
+  row-by-row. In other formats like JSON each row can be completely
+  different. Before this release viewing a table with varied row data
+  could crash DataStation. In this release varied data is handled and
+  simply stringified. If a cell has no value then it is rendered with
+  a special <code>(Empty)</code> marker.
+</p>
+<div class="pb-4">
+  <img class="no-shadow" src="/0.10.0-table.png" alt="Pagination" />
+</div>
 <h2>Elasticsearch updates</h2>
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-<p></p>
+<p>
+  The bad news is that before this release, you could fetch at most 10
+  rows of data from Elasticsearch. The good news is that now there's
+  no such limitation. :) I guess at some point I forgot to implement
+  pagination logic. With this release DataStation will happily ingest
+  hundreds of thousands of rows of Elasticsearch data.
+</p>
+<p>
+  Additionally, you can now disable SSL validation when querying
+  Elasticsearch. The better choice would be to add a custom CA
+  certificate in the DataStation settings page but disabling SSL
+  validation is sometimes more convenient in the short-term. This
+  option is also available in this release for HTTP panels as well.
+</p>
+<p>
+  NOTE: Elasticsearch connections don't seem to work over SSH
+  connections in DataStation. You can instead run <code>ssh
+  -L9200:localhost:9200 your-es-server.your-domain.com</code> and then
+  query <code>localhost:9200</code> in the meantime.
+</p>
+<div class="pb-4">
+  <img class="no-shadow" src="/0.10.0-elasticsearch.png" alt="Elasticsearch support" />
+</div>
 <h2>Google Sheets</h2>
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-<p></p>
-<h2>DataStation Server</h2>
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-<p></p>
-
+<p>
+  This release adds support for fetching data from Google Sheets. The
+  sheet must have a header row of labels like a CSV file.
+</p>
+<div class="pb-4">
+  <img class="no-shadow" src="/0.10.0-sheets.png" alt="Google Sheets support" />
+</div>
+<h2>Self-hosted DataStation Server</h2>
+<p>
+  DataStation Server allows you to run DataStation on an x86_64 Linux
+  server. All code/query evaluation happens on the server, not your
+  laptop. You view the UI in your browser. It's a web app. It is
+  self-hosted only for now.
+</p>
+<p>
+  To clarify the difference between the existing desktop app and this
+  new web app, the desktop app has been renamed from DataStation
+  Community Edition to DataStation Desktop CE. The web app is called
+  DataStation Server CE.
+</p>
+<p>
+  The server supports OpenID for authentication but no per-user access system. I've been
+  running an instance of DataStation Server for internal analytics for
+  months now but the install process is early stages. Try it out if
+  you're interested and report bugs on Discord or Github.
+</p>
+<p>
+  An upcoming release will bring 1) support for developing read-only
+  dashboards hosted on the server and 2) support for setting up
+  recurring runs and email exports of panels. These features will only
+  be available in DataStation Server, not DataStation Desktop.
+</p>
+<div class="pb-4">
+  <img class="no-shadow" src="/0.10.0-server.png" alt="DataStation Server CE" />
+</div>
+<h2>Misc</h2>
+<ul>
+  <li>Preliminary support for Neo4j courtesy of <a href="https://github.com/Posrabi">posrabi</a></li>
+  <li>The "Metadata" panel tab has become a permanent status bar at the bottom of every panel</li>
+  <li>Panel selected tab is stored in URL so it doesn't change all the time now</li>
+  <li>Dropdown when selecting data source rather than changing it after creating a data source</li>
+  <li>Preview and Stdout/Stderr sections can be expanded to full-width</li>
+</ul>
+<div class="pb-4">
+  <img class="no-shadow" src="/0.10.0-standard-preview.png" alt="Standard preview" />
+  <small>Standard preview</small>
+</div>
+<div class="pb-4">
+  <img class="no-shadow" src="/0.10.0-full-preview.png" alt="Full width preview" />
+  <small>Full width preview</small>
+</div>
 <h2>Install or upgrade</h2>
 <p>
   <a href="/docs/">Get the 0.10.0 release now!</a>
@@ -36,9 +121,9 @@
   <a href="https://forms.gle/wH5fdxrxXwZHoNxk8">Subscribe to updates!</a>
 </p>
 <p>
-  If you are a developer or engineering manager, install DataStation
-  and start using it at work! Report bugs and usability issues (there
-  are surely many).
+  If you are a developer, data scientist, or engineering manager,
+  install DataStation and start using it at work! Report bugs and
+  usability issues (there are surely many).
 </p>
 <p>
   If you're a developer with some Go experience wanting to contribute
@@ -47,5 +132,4 @@
   First Projects<a/> page.
 </p>
 <h4>Share</h4>
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">A new DataStation release is out! This one brings support for basic autocomplete of panel names and result fields, a much-improved storage layer, and a number of other UX and runner improvements!<br><br>And a first look at an upcoming paid Enterprise Edition 🎉<a href="https://t.co/JF86MDlNs4">https://t.co/JF86MDlNs4</a> <a href="https://t.co/6cyj8Rx7nN">pic.twitter.com/6cyj8Rx7nN</a></p>&mdash; Multiprocess Labs (@multiprocessio) <a href="https://twitter.com/multiprocessio/status/1512437560710254605?ref_src=twsrc%5Etfw">April 8, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 {% endblock %}
