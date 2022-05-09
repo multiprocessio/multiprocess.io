@@ -55,13 +55,11 @@ a:visited {
 
 .notification {
     line-height: 0;
-    color: white;
     font-size: .9rem;
-    background: var(--blue);
+    background: var(--primary);
 }
 
 .notification a {
-    color: white;
     text-decoration: underline;
 }
 
@@ -400,9 +398,9 @@ footer .container > * {
 }
 
 .btn.btn--primary {
-    color: black;
+    color: white;
     transition: background .3s;
-    background: var(--primary);
+    background: var(--blue);
     border: 1px solid transparent;
 }
 
