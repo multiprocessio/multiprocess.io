@@ -163,5 +163,6 @@ SQLite and [mattn/go-sqlite3](https://github.com/mattn/go-sqlite3).
 
 #### Share
 
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Did you know there is a Go translation of SQLite&#39;s C source code? This translation allows you to use SQLite in Go without cgo, which many Go developers find enticing.<br><br>But how does it perform? Unfortunately, at least twice as slow in all tested cases.<a href="https://t.co/rgarrMJFKQ">https://t.co/rgarrMJFKQ</a> <a href="https://t.co/UzDO9BU371">pic.twitter.com/UzDO9BU371</a></p>&mdash; Multiprocess Labs (@multiprocessio) <a href="https://twitter.com/multiprocessio/status/1524795230188347393?ref_src=twsrc%5Etfw">May 12, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 {% endblock %}
