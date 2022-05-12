@@ -69,6 +69,9 @@ Rise-1](https://us.ovhcloud.com/bare-metal/rise/rise-1/).
 
 # Results
 
+Below are the averages across all 10 runs for each query category,
+number of rows acting on, and the library (cgo or no cgo) used.
+
 <table class="table table-bordered table-hover table-condensed">
 <thead><tr><th title="Field #1">Category</th>
 <th>Rows</th>
