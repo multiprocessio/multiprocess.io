@@ -74,92 +74,113 @@ number of rows acting on, and the library (cgo or no cgo) used.
 
 <table class="table table-bordered table-hover table-condensed">
 <thead><tr><th title="Field #1">Category</th>
-<th>Rows</th>
-<th>Time</th>
-<th>Library</th>
+<th title="Field #2">Average Time (Seconds)</th>
+<th title="Field #3">Standard Deviation</th>
+<th title="Field #4"># Rows</th>
+<th title="Field #5">Library</th>
 </tr></thead>
 <tbody><tr>
 <td>insert</td>
+<td>0.046708</td>
+<td>0.002034</td>
 <td>10000</td>
-<td>0.045729</td>
-<td>cgo</td>
+<td>mattn</td>
 </tr>
 <tr>
 <td>insert</td>
+<td>0.094758</td>
+<td>0.001631</td>
 <td>10000</td>
-<td>0.09462</td>
-<td>nocgo</td>
+<td>modernc</td>
 </tr>
 <tr>
 <td>group_by</td>
+<td>0.000048</td>
+<td>0.000006</td>
 <td>10000</td>
-<td>0.000052</td>
-<td>cgo</td>
+<td>mattn</td>
 </tr>
 <tr>
 <td>group_by</td>
+<td>0.003762</td>
+<td>0.000246</td>
 <td>10000</td>
-<td>0.003748</td>
-<td>nocgo</td>
+<td>modernc</td>
 </tr>
 <tr>
 <td>insert</td>
+<td>2.148416</td>
+<td>0.012983</td>
 <td>479827</td>
-<td>2.145348</td>
-<td>cgo</td>
+<td>mattn</td>
 </tr>
 <tr>
 <td>insert</td>
+<td>4.533048</td>
+<td>0.01208</td>
 <td>479827</td>
-<td>4.551237</td>
-<td>nocgo</td>
+<td>modernc</td>
 </tr>
 <tr>
 <td>group_by</td>
+<td>0.000048</td>
+<td>0.000006</td>
 <td>479827</td>
-<td>0.00005</td>
-<td>cgo</td>
+<td>mattn</td>
 </tr>
 <tr>
 <td>group_by</td>
+<td>0.230283</td>
+<td>0.002151</td>
 <td>479827</td>
-<td>0.230043</td>
-<td>nocgo</td>
+<td>modernc</td>
 </tr>
 <tr>
 <td>insert</td>
+<td>21.344969</td>
+<td>0.084976</td>
 <td>4798270</td>
-<td>21.336897</td>
-<td>cgo</td>
+<td>mattn</td>
 </tr>
 <tr>
 <td>insert</td>
+<td>45.322141</td>
+<td>0.114671</td>
 <td>4798270</td>
-<td>45.591783</td>
-<td>nocgo</td>
+<td>modernc</td>
 </tr>
 <tr>
 <td>group_by</td>
+<td>0.000051</td>
+<td>0.000005</td>
 <td>4798270</td>
-<td>0.000052</td>
-<td>cgo</td>
+<td>mattn</td>
 </tr>
 <tr>
 <td>group_by</td>
+<td>2.791617</td>
+<td>0.01678</td>
 <td>4798270</td>
-<td>2.782423</td>
-<td>nocgo</td>
+<td>modernc</td>
 </tr>
 </tbody></table>
 
 # Summary
 
-[modernc.org/sqlite](https://gitlab.com/cznic/sqlite) is a very impressive project. But it is at least
-twice as slow in every variation even with smaller datasets. If your
-workload has solely small datasets (i.e. small business apps) the
-tradeoff allowing you to avoid cgo could be worth it. Otherwise if you
-care strongly about performance you'll be better off with the real
-SQLite and [mattn/go-sqlite3](https://github.com/mattn/go-sqlite3).
+[modernc.org/sqlite](https://gitlab.com/cznic/sqlite) is a very
+impressive project. But it is at least twice as slow in every
+variation even with smaller datasets. And `SELECT` performance gets
+way worse as the dataset size increases. The Go translation also has a
+greater standard deviation which might be attributable to the garbage
+collector. My guess is that mattn/go-sqlite3 is so constant in
+`SELECT` performance even as the dataset increases because even 4
+million rows is peanuts for SQLite. Or maybe my benchmark code is wrong!
+
+Based on these results, if your workload has solely small datasets
+(i.e. small business apps) the tradeoff allowing you to avoid cgo
+could be worth it. Otherwise if you care strongly about performance
+you'll be better off with the real SQLite and
+[mattn/go-sqlite3](https://github.com/mattn/go-sqlite3).
 
 #### Share
 
