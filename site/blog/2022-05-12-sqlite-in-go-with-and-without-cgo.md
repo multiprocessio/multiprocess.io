@@ -7,30 +7,38 @@
 {% block postTags %}sqlite,go,benchmark{% endblock %}
 
 {% block postBody %}
-Most people use SQLite in Go with the
-[mattn/go-sqlite3](https://github.com/mattn/go-sqlite3) package. This
+Most people use the
+[mattn/go-sqlite3](https://github.com/mattn/go-sqlite3) package to interact with SQLite in Go. This
 package uses cgo and bundles the [SQLite C amalgamation
 files](https://github.com/mattn/go-sqlite3/commit/2df077b74c66723d9b44d01c8db88e74191bdd0e)
 with the Go source.
 
-But there appears to be a preference among Go developers to prefer not
-using cgo (see for example [cgo is not
-go](https://dave.cheney.net/tag/cgo)). I mention this because there
-happens to be an underrated [translation of SQLite's C source code to
-Go](https://gitlab.com/cznic/sqlite). Since it is a translation of C
-to Go, you don't need to use cgo to call into it. Some developers find
-this idea compelling. And it is truly an impressive work in and of itself.
+But Go developers often prefer not to use cgo (see for example [cgo is
+not go](https://dave.cheney.net/tag/cgo)). I mention this because
+there happens to be an underrated [translation of SQLite's C source
+code to Go](https://gitlab.com/cznic/sqlite). Since it is a
+translation of C to Go, you don't need to use cgo to call into
+it. Some developers find this idea compelling. And this Go translation
+is an impressive work in and of itself.
 
 But for real-world usage there are at least two major concerns I had:
 compatibility and performance. According to [their
 documentation](https://pkg.go.dev/modernc.org/sqlite#section-readme)
-they pass most or all SQLite3 tests, so we can rule that part out.
+they pass most or all SQLite3 tests, so it seems pretty compatible. But I
+didn't see anything on their site or documentation (which, to their detriment,
+is pretty scant) that talked about performance. So I took a look.
 
 This post summarizes some basic ingestion and query benchmarks using
-mattn/go-sqlite3 and modernc.org/sqlite.
+[mattn/go-sqlite3](https://github.com/mattn/go-sqlite3) and
+[modernc.org/sqlite](https://pkg.go.dev/modernc.org/sqlite). tldr; the
+Go translation is consistently at least twice as slow for both small
+datasets and large, for `INSERT`s and `SELECT`s.
 
-tldr; the Go translation is consistently at least twice as slow for
-both small datasets and large, for `INSERT`s and `SELECT`s.
+# Benchmarks
+
+There are two main benchmarks, one ingest benchmark and one query
+benchmark. They are both run 10 times and both run against a growing
+number of rows.
 
 ## Ingest
 
@@ -40,15 +48,24 @@ generated strings and integers.
 
 ## Query
 
-There is a single `GROUP BY` query: `SELECT COUNT(1), age FROM people
-GROUP BY age ORDER BY COUNT(1) DESC` that runs 10 times against each
-of the sizes of rows ingested.
+This benchmark runs a single `GROUP BY` query: `SELECT COUNT(1), age
+FROM people GROUP BY age ORDER BY COUNT(1) DESC`. It runs 10 times
+against each of the sizes of rows ingested.
 
 ## Code
 
 Here is the [mattn/go-sqlite3
 version](https://github.com/multiprocessio/sqlite-cgo-no-cgo/blob/main/cgo/main.go). And here is the [SQLite Go translated
 version](https://github.com/multiprocessio/sqlite-cgo-no-cgo/blob/main/nocgo/main.go).
+
+## Machine Specs
+
+I am running these benchmarks on a dedicated bare metal instance, [OVH
+Rise-1](https://us.ovhcloud.com/bare-metal/rise/rise-1/).
+
+* RAM: 64 GB DDR4 ECC 2,133 MHz
+* Disk: 2x450 GB SSD NVMe in Soft RAID
+* Processor: Intel Xeon E3-1230v6 - 4c/8t - 3.5 GHz/3.9 GHz
 
 # Results
 
@@ -132,15 +149,6 @@ version](https://github.com/multiprocessio/sqlite-cgo-no-cgo/blob/main/nocgo/mai
 </tr>
 </tbody></table>
 
-## Machine Specs
-
-I am running these benchmarks on a dedicated bare metal instance, [OVH
-Rise-1](https://us.ovhcloud.com/bare-metal/rise/rise-1/).
-
-* RAM: 64 GB DDR4 ECC 2,133 MHz
-* Disk: 2x450 GB SSD NVMe in Soft RAID
-* Processor: Intel Xeon E3-1230v6 - 4c/8t - 3.5 GHz/3.9 GHz
-
 # Summary
 
 [modernc.org/sqlite](https://gitlab.com/cznic/sqlite) is a very impressive project. But it is at least
@@ -148,7 +156,7 @@ twice as slow in every variation even with smaller datasets. If your
 workload has solely small datasets (i.e. small business apps) the
 tradeoff allowing you to avoid cgo could be worth it. Otherwise if you
 care strongly about performance you'll be better off with the real
-SQLite and mattn/go-sqlite3.
+SQLite and [mattn/go-sqlite3](https://github.com/mattn/go-sqlite3).
 
 #### Share
 
