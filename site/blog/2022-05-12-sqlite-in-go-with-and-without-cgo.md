@@ -31,7 +31,7 @@ is pretty scant) that talked about performance. So I took a look.
 This post summarizes some basic ingestion and query benchmarks using
 [mattn/go-sqlite3](https://github.com/mattn/go-sqlite3) and
 [modernc.org/sqlite](https://pkg.go.dev/modernc.org/sqlite). tldr; the
-Go translation is consistently at least twice as slow for both small
+Go translation is between twice as slow and 10% slower for both small
 datasets and large, for `INSERT`s and `SELECT`s.
 
 # Benchmarks
@@ -81,91 +81,114 @@ number of rows acting on, and the library (cgo or no cgo) used.
 </tr></thead>
 <tbody><tr>
 <td>insert</td>
-<td>0.046708</td>
-<td>0.002034</td>
+<td>0.0446901</td>
+<td>0.000986</td>
 <td>10000</td>
 <td>mattn</td>
 </tr>
 <tr>
 <td>insert</td>
-<td>0.094758</td>
-<td>0.001631</td>
+<td>0.0954987</td>
+<td>0.0018</td>
 <td>10000</td>
 <td>modernc</td>
 </tr>
 <tr>
 <td>group_by</td>
-<td>0.000048</td>
-<td>0.000006</td>
+<td>0.0028469</td>
+<td>0.000132</td>
 <td>10000</td>
 <td>mattn</td>
 </tr>
 <tr>
 <td>group_by</td>
-<td>0.003762</td>
-<td>0.000246</td>
+<td>0.0045523</td>
+<td>.000085</td>
 <td>10000</td>
 <td>modernc</td>
 </tr>
 <tr>
 <td>insert</td>
-<td>2.148416</td>
-<td>0.012983</td>
+<td>2.317502</td>
+<td>0.017499</td>
 <td>479827</td>
 <td>mattn</td>
 </tr>
 <tr>
 <td>insert</td>
-<td>4.533048</td>
-<td>0.01208</td>
+<td>4.6066586</td>
+<td>0.027994</td>
 <td>479827</td>
 <td>modernc</td>
 </tr>
 <tr>
 <td>group_by</td>
-<td>0.000048</td>
-<td>0.000006</td>
+<td>0.227473</td>
+<td>0.005689</td>
 <td>479827</td>
 <td>mattn</td>
 </tr>
 <tr>
 <td>group_by</td>
-<td>0.230283</td>
-<td>0.002151</td>
+<td>0.2786216</td>
+<td>0.00188</td>
 <td>479827</td>
 <td>modernc</td>
 </tr>
 <tr>
 <td>insert</td>
-<td>21.344969</td>
-<td>0.084976</td>
+<td>23.0529852</td>
+<td>0.077669</td>
 <td>4798270</td>
 <td>mattn</td>
 </tr>
 <tr>
 <td>insert</td>
-<td>45.322141</td>
-<td>0.114671</td>
+<td>46.2240191</td>
+<td>0.370401</td>
 <td>4798270</td>
 <td>modernc</td>
 </tr>
 <tr>
 <td>group_by</td>
-<td>0.000051</td>
-<td>0.000005</td>
+<td>3.5935438</td>
+<td>0.052308</td>
 <td>4798270</td>
 <td>mattn</td>
 </tr>
 <tr>
 <td>group_by</td>
-<td>2.791617</td>
-<td>0.01678</td>
+<td>4.0170164</td>
+<td>0.066636</td>
 <td>4798270</td>
 <td>modernc</td>
 </tr>
 </tbody></table>
 
 # Summary
+
+[modernc.org/sqlite](https://gitlab.com/cznic/sqlite) is a very
+impressive project. But the Go translation is twice as slow in
+`INSERT`s. It does quite well with `SELECT`s for a translation; being
+between 10% slower and at worst twice as slow.
+
+Based on these results, if your workload has solely small datasets
+(i.e. small business apps) the tradeoff allowing you to avoid cgo
+could be worth it. Otherwise if you care strongly about performance
+you'll be better off with the real SQLite and
+[mattn/go-sqlite3](https://github.com/mattn/go-sqlite3).
+
+## Errata: bug in SELECT
+
+Thanks
+[benhoyt](https://www.reddit.com/r/golang/comments/uo5mix/comment/i8dnkb0/)
+and [oefrha](https://news.ycombinator.com/item?id=31366759) for
+finding a bug in the `SELECT` query that was causing the mattn version
+not to finish executing the `SELECT` query.
+
+<details>
+  <summary>Summary before errata correction</summary>
+<span>
 
 [modernc.org/sqlite](https://gitlab.com/cznic/sqlite) is a very
 impressive project. But it is at least twice as slow in every
@@ -181,6 +204,8 @@ Based on these results, if your workload has solely small datasets
 could be worth it. Otherwise if you care strongly about performance
 you'll be better off with the real SQLite and
 [mattn/go-sqlite3](https://github.com/mattn/go-sqlite3).
+</span>
+</details>
 
 #### Share
 
