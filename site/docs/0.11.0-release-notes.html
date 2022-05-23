@@ -1,0 +1,68 @@
+{% set doctitle = 'DataStation 0.11.0 Release Notes' %}
+{% set subtitle = 'May 24, 2022' %}
+
+{% extends 'docs/release_layout.tmpl' %}
+
+{% block releasebody %}
+<p>
+  This release brings an entire standard library of string, regexp,
+  math, url parsing, best-effort date parsing, statistical
+  aggregation, and hashing/encoding functions to the SQL code panel
+  (and to dsq). This addition makes it much easier to analyse
+  arbitrary data with less code. SQL code panels (and SQLite database
+  panels) now autocomplete all of these new functions and all
+  functions built into SQLite.
+</p>
+<p>
+  This release upgrades the "download panel results" feature, adding
+  more formats and copy-to-clipboard. It also adds formatting support
+  for SQL panels, and other UX improvements.
+</p>
+<div class="pb-4">
+  <img class="no-shadow" src="/0.11.0-elasticsearch.png" alt="Elasticsearch support" />
+</div>
+<h2>SQL Code Panel Standard Library</h2>
+<p>
+  
+</p>
+<div class="pb-4">
+  <img class="no-shadow" src="/0.11.0-table.png" alt="Pagination" />
+</div>
+<h2>Download, copy-to-clipboard; CSV, JSON, HTML Table and Markdown Table</h2>
+<p>
+</p>
+<div class="pb-4">
+  <img class="no-shadow" src="/0.11.0-elasticsearch.png" alt="Elasticsearch support" />
+</div>
+<h2>SQL Formatting</h2>
+<p>
+</p>
+<div class="pb-4">
+  <img class="no-shadow" src="/0.11.0-sheets.png" alt="Google Sheets support" />
+</div>
+<h2>Misc</h2>
+<p>
+  Changes to standard HTML input elements now only take effect onblur;
+  that is, when you click away from the input or switch tabs/windows.
+</p>
+<h2>Install or upgrade</h2>
+<p>
+  <a href="/docs/">Get the 0.11.0 release now!</a>
+</p>
+<h3 id="how-you-can-help">How you can help</h4>
+<p>
+  <a href="https://forms.gle/wH5fdxrxXwZHoNxk8">Subscribe to updates!</a>
+</p>
+<p>
+  If you are a developer, data scientist, or engineering manager,
+  install DataStation and start using it at work! Report bugs and
+  usability issues (there are surely many).
+</p>
+<p>
+  If you're a developer with some Go experience wanting to contribute
+  to OSS, check out
+  the <a href="https://github.com/multiprocessio/datastation/blob/main/GOOD_FIRST_PROJECTS.md">Good
+  First Projects<a/> page.
+</p>
+<h4>Share</h4>
+{% endblock %}
