@@ -21,12 +21,56 @@
 <div class="pb-4">
   <img class="no-shadow" src="/0.11.0-elasticsearch.png" alt="Elasticsearch support" />
 </div>
-<h2>SQL Code Panel Standard Library</h2>
+<h2>A standard library for SQL code panels</h2>
 <p>
-  
+  SQL code panels are a really easy way to join, search and transform
+  data in DataStation. But until now you could only do so as long as
+  your data was already in a format you wanted. SQL code panels use
+  SQLite under the hood and SQLite has relatively few builtin
+  functions.
+</p>
+<p>
+  So I recently built and
+  open-sourced <a href"https://github.com/multiprocessio/go-sqlite3-stdlib">go-sqlite3-stdlib</a>,
+  a collection of libraries for use in DataStation, dsq, and any other
+  Go programs using SQLite.
+</p>
+<p>
+  New functions now available include:
 </p>
 <div class="pb-4">
-  <img class="no-shadow" src="/0.11.0-table.png" alt="Pagination" />
+  <a href="https://github.com/multiprocessio/go-sqlite3-stdlib#strings">String functions</a>
+  <img class="no-shadow" src="/0.11.0-stdlib-strings.png" alt="SQL standard library: string functions" />
+</div>
+<div class="pb-4">
+  <a href="https://github.com/multiprocessio/go-sqlite3-stdlib#aggregation">Aggregation functions</a>
+  <img class="no-shadow" src="/0.11.0-stdlib-aggregation.png" alt="SQL standard library: aggregation functions" />
+</div>
+<div class="pb-4">
+  <a href="https://github.com/multiprocessio/go-sqlite3-stdlib#net">URL-manipulation functions</a>
+  <img class="no-shadow" src="/0.11.0-stdlib-url.png" alt="SQL standard library: url manipulation" />
+</div>
+<div class="pb-4">
+  <a href="https://github.com/multiprocessio/go-sqlite3-stdlib#date">Best-effort date manipulation functions</a>
+  <img class="no-shadow" src="/0.11.0-stdlib-date.png" alt="SQL standard library: date manipulation" />
+</div>
+<div class="pb-4">
+  <a href="https://github.com/multiprocessio/go-sqlite3-stdlib#math">Math functions</a>
+  <img class="no-shadow" src="/0.11.0-stdlib-math.png" alt="SQL standard library: math functions" />
+</div>
+<div class="pb-4">
+  <a href="https://github.com/multiprocessio/go-sqlite3-stdlib#encoding">And hashing/encoding functions</a>
+  <img class="no-shadow" src="/0.11.0-stdlib-encoding.png" alt="SQL standard library: hashing/encoding functions" />
+</div>
+<p>
+  The code editor in DataStation also autocompletes all of these
+  functions and all builtin SQLite ones. But you can
+  always <a href="https://github.com/multiprocessio/go-sqlite3-stdlib">read
+  the docs</a> if you'd prefer.
+</p>
+<div class="pb-4">
+  <p>And hashing/encoding functions</p>
+  <img class="no-shadow" src="/0.11.0-sql-autocomplete.png" alt="Autocompleting SQL functions" />
 </div>
 <h2>Download, copy-to-clipboard; CSV, JSON, HTML Table and Markdown Table</h2>
 <p>
