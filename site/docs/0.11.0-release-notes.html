@@ -1,4 +1,4 @@
-{% set doctitle = 'DataStation 0.11.0 Release Notes' %}
+{% set doctitle = 'DataStation 0.11.0 Release Notes: Easier log analysis in SQL with a standard library for SQLite in Go' %}
 {% set subtitle = 'May 26, 2022' %}
 
 {% extends 'docs/release_layout.tmpl' %}
@@ -73,6 +73,15 @@
 <div class="pb-4">
   <a href="https://github.com/multiprocessio/go-sqlite3-stdlib#encoding">Read hashing/encoding function docs</a>
   <img class="no-shadow" src="/0.11.0-stdlib-encoding.png" alt="SQL standard library: hashing/encoding functions" />
+</div>
+<p>
+  This is particularly useful for enabling SQL analysis of logs in
+  DataStation. In fact, there's even a new sample project included
+  with DataStation (you'll read more about this below) that
+  demonstrates SQL analysis of nginx logs.
+</p>
+<div class="pb-4">
+  <img class="no-shadow" src="/0.11.0-sql-logs.png" alt="SQL analysis of nginx logs" />
 </div>
 <p>
   The code editor in DataStation also autocompletes all of these
