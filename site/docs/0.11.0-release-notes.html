@@ -1,5 +1,5 @@
 {% set doctitle = 'DataStation 0.11.0 Release Notes' %}
-{% set subtitle = 'May 24, 2022' %}
+{% set subtitle = 'May 26, 2022' %}
 
 {% extends 'docs/release_layout.tmpl' %}
 
@@ -16,27 +16,39 @@
 <p>
   This release upgrades the "download panel results" feature, adding
   more formats and copy-to-clipboard. It also adds formatting support
-  for SQL panels, and other UX improvements.
+  for SQL panels, and other UX improvements. And it improves in-app
+  onboarding and provides sample data and sample projects for folks
+  who want a quick tour.
 </p>
 <div class="pb-4">
-  <img class="no-shadow" src="/0.11.0-elasticsearch.png" alt="Elasticsearch support" />
+  <img class="no-shadow" src="/0.11.0-sql-autocomplete.png" alt="Autocompleting SQL functions" />
 </div>
 <h2>A standard library for SQL code panels</h2>
 <p>
-  SQL code panels are a really easy way to join, search and transform
-  data in DataStation. But until now you could only do so as long as
+  Taking a step back for a second, DataStation allows you to query
+  many kinds of databases. But it also allows you to script with
+  code. One of the options for scripting with code is an in-app SQL
+  system. This system is based on SQLite. Being able to script with
+  SQL makes some kinds of transformations and joins very easy.
+</p>
+<p>
+  But until now you could only do so as long as
   your data was already in a format you wanted. SQL code panels use
   SQLite under the hood and SQLite has relatively few builtin
   functions.
 </p>
 <p>
   So I recently built and
-  open-sourced <a href"https://github.com/multiprocessio/go-sqlite3-stdlib">go-sqlite3-stdlib</a>,
+  open-sourced <a href="https://github.com/multiprocessio/go-sqlite3-stdlib">go-sqlite3-stdlib</a>,
   a collection of libraries for use in DataStation, dsq, and any other
   Go programs using SQLite.
 </p>
 <p>
-  New functions now available include:
+  Here are a few screenshots of the docs for the new
+  functions. Screenshots because this release announcement is not the
+  authority,
+  the <a href="https://github.com/multiprocessio/go-sqlite3-stdlib">go-sqlite3-stdlib</a>
+  repo is the authority.
 </p>
 <div class="pb-4">
   <a href="https://github.com/multiprocessio/go-sqlite3-stdlib#strings">String functions</a>
@@ -69,25 +81,71 @@
   the docs</a> if you'd prefer.
 </p>
 <div class="pb-4">
-  <p>And hashing/encoding functions</p>
   <img class="no-shadow" src="/0.11.0-sql-autocomplete.png" alt="Autocompleting SQL functions" />
 </div>
-<h2>Download, copy-to-clipboard; CSV, JSON, HTML Table and Markdown Table</h2>
+<h2>Download, copy-to-clipboard</h2>
 <p>
+  Before this release, downloading a panel created a CSV or JSON file
+  depending on if the panel result was table-like. In this release you
+  now have the option to export to CSV, JSON, HTML Table or Markdown
+  Table. And you can copy to clipboard instead of downloading if you
+  know you're just going to paste the result somewhere (like a blog
+  post).
+</p>
+<p>
+  Just remember, the tabular data formats will only be an option if
+  the panel result is an array of objects.
 </p>
 <div class="pb-4">
-  <img class="no-shadow" src="/0.11.0-elasticsearch.png" alt="Elasticsearch support" />
+  <img class="no-shadow" src="/0.11.0-export-result.png" alt="Exporting results" />
 </div>
 <h2>SQL Formatting</h2>
 <p>
+  This release brings support for reformatting SQL code. In the future
+  this formatting ability will be extended to all code types. For now,
+  just SQL.
 </p>
 <div class="pb-4">
-  <img class="no-shadow" src="/0.11.0-sheets.png" alt="Google Sheets support" />
+  <img class="no-shadow" src="/0.11.0-format.gif" alt="Formatting SQL" />
+</div>
+<h2>In-app onboarding</h2>
+<p>
+  When you create a new project, you will now how the option to pick
+  from an existing template that uses sample data bundled in with the
+  DataStation install. These are to help new folks try out parts of
+  DataStation easily without needing to bring any of their own data
+  yet.
+</p>
+<div class="pb-4">
+  <img class="no-shadow" src="/0.11.0-templates.png" alt="Templates" />
+</div>
+<p>
+  And when you create a new blank project, the empty project will contain
+  links to tutorials and also an embedded video showing some of
+  DataStation.
+</p>
+<div class="pb-4">
+  <img class="no-shadow" src="/0.11.0-blank.png" alt="Blank project" />
+</div>
+<p>
+  There is also now a new Help tab in the navigation sidebar, and
+  associated page.
+</p>
+<div class="pb-4">
+  <img class="no-shadow" src="/0.11.0-help.png" alt="Blank project" />
 </div>
 <h2>Misc</h2>
 <p>
   Changes to standard HTML input elements now only take effect onblur;
   that is, when you click away from the input or switch tabs/windows.
+</p>
+<p>
+  File panels now run automatically on change similar to tables and
+  graph panels.
+</p>
+<p>
+  File and HTTP panels now recognized .xslm as an Excel file
+  extension.
 </p>
 <h2>Install or upgrade</h2>
 <p>

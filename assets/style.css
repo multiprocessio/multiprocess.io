@@ -7,9 +7,9 @@
     /* See: https://paletton.com/#uid=c3Y194r3v0kGK++mI+bt1+W+VSTZKvc */
     --purple: #6F0EFF;
     --orange: #FFBC00;
-    --primary: var(--orange);
     --green: #157f6e;
     --blue: #1723FF;
+    --primary: var(--blue);
 }
 
 html, body {
@@ -56,11 +56,13 @@ a:visited {
 .notification {
     line-height: 0;
     font-size: .9rem;
-    background: var(--primary);
+    background: var(--blue);
+    color: white;
 }
 
 .notification a {
     text-decoration: underline;
+    color: white;
 }
 
 header {
@@ -398,9 +400,9 @@ footer .container > * {
 }
 
 .btn.btn--primary {
-    color: white;
+    color: black;
     transition: background .3s;
-    background: var(--blue);
+    background: var(--orange);
     border: 1px solid transparent;
 }
 

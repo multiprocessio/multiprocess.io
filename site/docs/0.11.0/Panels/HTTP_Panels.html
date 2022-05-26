@@ -1,0 +1,47 @@
+{# DO NOT EDIT -- THIS FILE IS AUTO-GENERATED #}
+
+{% set doctitle = 'HTTP Panels' %}
+
+{% extends 'docs/layout.tmpl' %}
+
+{% block docbody %}
+<div><a href="/docs/">Back to documentation</a></div>
+
+{% raw %}<h1>HTTP Panels</h1>
+<p>HTTP panels allow you to make API requests. You can make GET, POST,
+PUT, HEAD, or DELETE requests.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/basic-http-panel.png" alt="Basic http panel" /></p>
+<h1>Results</h1>
+<p>When DataStation understands the file format (because it recognized
+the URL's file extension or the HTTP response's <code class="hljs">Content-Type</code>
+or because you overrode the response content type) it will try to put data
+in array of objects format.</p>
+<p>The exceptions to this are JSON responses (they can be any structure)
+and when you override the content type to be plain text.</p>
+<h1>Macros</h1>
+<p>The URL, headers, and HTTP body in an HTTP panel can include
+macros. This allows you to, for example, POST the results of one panel
+to a web server.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/post-macro.png" alt="Post macro" /></p>
+<p>Read more about macros <a href="./Macros.html">here</a>.</p>
+<h1>Supported file formats</h1>
+<p>HTTP panels can handle all the same file formats that <a href="./File_Panels.html#supported-file-formats">file panels can</a>.</p>
+<h1>With Server</h1>
+<p>If you define an <a href="../SSH_Connections.html">SSH connection</a> you will be
+able to select the server to proxy your HTTP request through an SSH
+tunnel.</p>
+<p>For example, this screenshot demonstrates querying <code class="hljs">localhost:8080</code> on
+the remote server.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/basic-http-panel-via-server.png" alt="Basic http panel with proxy" /></p>
+{% endraw %}
+
+<div class="about-this-page">
+<h4>About this page</h4>
+<p>
+  See an error or want to add a clarification? This page is
+  generated from <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/0.11.0/Panels/HTTP_Panels.md">this file on Github</a>.
+  <br /><br />
+  Last edited May 26, 2022.
+</p>
+</div>
+{% endblock %}
