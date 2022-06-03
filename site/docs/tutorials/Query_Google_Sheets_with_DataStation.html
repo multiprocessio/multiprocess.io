@@ -1,0 +1,85 @@
+{# DO NOT EDIT -- THIS FILE IS AUTO-GENERATED #}
+
+{% set doctitle = 'Google Sheets + SQL: Querying Google Sheets with DataStation' %}
+
+{% extends 'docs/layout.tmpl' %}
+
+{% block docbody %}
+<div><a href="/docs/">Back to documentation</a></div>
+
+{% raw %}<h1>Google Sheets + SQL: Querying Google Sheets with DataStation</h1>
+<p>Requires DataStation 0.10.0+.</p>
+<h1>Database initialization [Optional]</h1>
+<p>If you want to follow along with this tutorial verbatim, create a new
+sheet and import the CSV of world population data you can get from
+<a href="https://worldpopulationreview.com/">this page</a>.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/google-sheets-world-population.png" alt="World population Google sheet" /></p>
+<h1>Google Service Account</h1>
+<p>Enable the <a href="https://console.cloud.google.com/apis/library/sheets.googleapis.com">Sheets API</a>.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/enable-sheets-api.png" alt="Enable Sheets API" /></p>
+<p>If you don't already have a Google Service Account, <a href="https://console.cloud.google.com/iam-admin/serviceaccounts/create">make
+one</a>.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/google-service-account.png" alt="New Google service account" /></p>
+<p>Then download the service account JSON from the Keys page of the
+service account.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/download-service-account-json.png" alt="Download service account JSON" /></p>
+<p>Finally, share the sheet you just created with the service account email you just created.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/share-sheet-with-service-account.png" alt="Share Sheet with service account" /></p>
+<h1>Data source setup</h1>
+<p>Now inside DataStation create a new Google Sheets data source in the left sidebar.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/create-google-sheet-data-source.gif" alt="Creating a new data source" /></p>
+<p>Give it a nice name so you can easily find it later.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/create-google-sheets-data-source.png" alt="Creating a Google Sheets data source" /></p>
+<p>Copy the service account JSON file contents you just downloaded into
+the service account JSON field.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/google-sheets-data-source-filled.png" alt="Filled out Google Sheets data source" /></p>
+<h1>Panel setup</h1>
+<p>Copy the sheet ID from the URL of the Google Sheet.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/copy-sheet-id.png" alt="Copy sheet ID" /></p>
+<p>Now create a new Database panel and enter the ID.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/create-sheets-database-panel.gif" alt="Create Google Sheets database panel" /></p>
+<p>And run the panel to fetch the data!</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/run-google-sheets-query.gif" alt="Run Google Sheets panel" /></p>
+<h2>SQL query on top</h2>
+<p>Now that the data is loaded in DataStation we can use DataStation's
+scripting abilities to run a program using the Google Sheets data. We'll
+run a SQL program that counts the number of applied applicants.</p>
+<p>Let's build a graph of world population over time. Since the
+population by year is given in columns we can write a few <code class="hljs">UNION</code>
+queries to get the total population at each recorded decade:</p>
+<pre><code class="hljs">SELECT SUM(pop1970) AS population, &#x27;1970&#x27; AS decade FROM DM_getPanel(&#x27;Grab population sheet&#x27;)
+UNION
+SELECT SUM(pop1980) AS population, &#x27;1980&#x27; AS decade FROM DM_getPanel(&#x27;Grab population sheet&#x27;)
+UNION
+SELECT SUM(pop1990) AS population, &#x27;1990&#x27; AS decade FROM DM_getPanel(&#x27;Grab population sheet&#x27;)
+UNION
+SELECT SUM(pop2000) AS population, &#x27;2000&#x27; AS decade FROM DM_getPanel(&#x27;Grab population sheet&#x27;)
+UNION
+SELECT SUM(pop2010) AS population, &#x27;2010&#x27; AS decade FROM DM_getPanel(&#x27;Grab population sheet&#x27;)
+UNION
+SELECT SUM(pop2020) AS population, &#x27;2020&#x27; AS decade FROM DM_getPanel(&#x27;Grab population sheet&#x27;)
+UNION
+SELECT SUM(pop2030) AS population, &#x27;2030&#x27; AS decade FROM DM_getPanel(&#x27;Grab population sheet&#x27;)
+</code></pre>
+<p>Create a new Code panel, select SQL as the language, enter this query and
+hit run.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/sql-google-sheets.gif" alt="SQL on top of Google Sheets" /></p>
+<h1>Graph the results</h1>
+<p>After running the query, a graph button will appear below the panel
+next to the New Panel button. Click it to generate a graph based on
+this panel.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/multiprocessio/datastation-documentation@main/tutorials/graph-google-sheets.gif" alt="Graph results" /></p>
+<p>From here you can do more analysis or export results to clipboard, a
+file, HTTP server, etc.</p>
+{% endraw %}
+
+<div class="about-this-page">
+<h4>About this page</h4>
+<p>
+  See an error or want to add a clarification? This page is
+  generated from <a href="https://github.com/multiprocessio/datastation-documentation/blob/main/tutorials/Query_Google_Sheets_with_DataStation.md">this file on Github</a>.
+  <br /><br />
+  Last edited Jun 03, 2022.
+</p>
+</div>
+{% endblock %}
