@@ -331,8 +331,10 @@ page](https://news.ycombinator.com/item?id=31574317). :)
 # Fun parts, hard parts and a supportive spouse
 
 The most fun parts were solving a problem I've had for years, digging
-into database internals, optimizing Go code, working on a desktop
-app, and building a community of like-minded hackers.
+into database internals, optimizing Go code, working on a desktop app,
+and building a community of like-minded hackers. It's been awesome to
+see people use and share DataStation and dsq, report bugs, and
+contribute code or suggestions.
 
 The hard parts were the initial slowness of building a community and
 project and user group from nothing. Every single time I reached a
