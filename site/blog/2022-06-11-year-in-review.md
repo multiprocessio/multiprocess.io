@@ -167,12 +167,14 @@ undoubtedly because I posted screenshots and demos on Twitter or
 shared blog posts on Hacker News.
 
 When I spoke with VCs it felt like I was speaking with aliens. It's
-not that they made no sense it's that what they I couldn't understand
-what they wanted and they didn't understand the problem I was trying
-to solve and where I was headed. I don't blame them of course it's a
-combination of my job to explain well and also to find the right fit
-of VCs who understand the problem. Or maybe the idea is not something
-that should be VC funded.
+not that they made no sense it's that what I couldn't understand
+what they wanted or how they wanted it presented. And they didn't understand the problem I was trying
+to solve or where I was headed. Most of them didn't know Kibana which is one of the most similar SaaS products.
+
+I don't blame them of course. It was a combination of 1) me not
+explaining well and 2) not focusing on talking to the right VCs who
+understand the space. Or maybe the idea is not something that should
+be VC funded.
 
 After months of learning (but ultimately getting nowhere) talking to
 these inbound VCs, and receiving no responses from outbound VCs, I got
