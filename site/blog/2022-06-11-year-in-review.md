@@ -322,12 +322,27 @@ project.
 
 These numbers aren't massive but they're not nothing!
 
+# YC and the front of HN
+
+In May I interviewed with YCombinator. I stressed out a lot about the
+interview but it ended up being extremely friendly and positive. Later
+that day they told me no with a great email. They weren't a fan of me
+being a solo founder and they felt the usage wasn't high enough.
+
+Lots of successful founders have failed YC interviews so it doesn't
+really bother me. It was a neat experience and maybe I'll do better
+next time!
+
+Unrelatedly, I decided to submit DataStation on HN as a Show HN and
+[it reached the front
+page](https://news.ycombinator.com/item?id=31574317). :)
+
 # What's next
 
-Without funding I'm ready to head back to employment. I am excited to
-keep working on DataStation/dsq, both of which are completely
-open-source, and I hope to introduce DataStation as an analytics and
-reporting tool wherever I land.
+Without funding I'm ready to head back to full-time employment. I am
+excited to keep working on DataStation/dsq, both of which are
+completely open-source, and I hope to introduce DataStation as an
+analytics and reporting tool wherever I land.
 
 I'm particularly interested in ending up at a database or analytics
 company. So if you're a database or analytics company hiring managers
