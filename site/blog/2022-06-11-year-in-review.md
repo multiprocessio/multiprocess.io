@@ -372,4 +372,6 @@ more updates on DataStation/dsq open source!
 
 ## Share
 
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">I&#39;ve been hacking on DataStation for a year now so time for a retro and what&#39;s next!<br><br>4k+ stars in 15 repos. 7 posts on the front of HN. Dozens of failed investor chats (including YC).<br><br>tldr; DataStation has a bright future; I&#39;m actively interviewing. :)<a href="https://t.co/iFXoMsWC8Y">https://t.co/iFXoMsWC8Y</a> <a href="https://t.co/ujj4Ho46gR">pic.twitter.com/ujj4Ho46gR</a></p>&mdash; Phil Eaton (@phil_eaton) <a href="https://twitter.com/phil_eaton/status/1536674149363425280?ref_src=twsrc%5Etfw">June 14, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 {% endblock %}
