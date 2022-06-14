@@ -318,9 +318,7 @@ contributors. One of them submitting 6 pull requests between
 DataStation and dsq. Another submitting two pull requests to dsq.
 
 Just folks who want to get some practice with OSS and coding in a real
-project.
-
-These numbers aren't massive but they're not nothing!
+project; volunteers.
 
 # YC and the front of HN
 
