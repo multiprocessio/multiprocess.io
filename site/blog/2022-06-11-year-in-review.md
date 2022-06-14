@@ -244,9 +244,12 @@ determined to do them well.
 Every tutorial that can use Docker shows you the steps for how to set
 up Docker and add test data to it. It shows with GIFs how to connect
 to the database in DataStation and how to use DataStation to query and
-work with data from the database.
+work with data from the database. For example, check out the [Google
+Sheets + SQL: Querying Google Sheets with DataStation
+](https://datastation.multiprocess.io/docs/tutorials/Query_Google_Sheets_with_DataStation.html)
+tutorial.
 
-I am pretty sure the DataStation tutorials are one of the best places
+I am pretty sure the [DataStation tutorials](https://datastation.multiprocess.io/docs/#tutorials) are one of the best places
 on the internet for understanding how to set up a working Docker
 container for every major database and get test data into it. I will
 be referring back to those docs for years. And they're only going to
