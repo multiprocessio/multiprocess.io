@@ -213,11 +213,13 @@ $ dsq testdata/userdata.parquet 'select count(*) from {}' | jq
 Just like DataStation you can join multiple different data sources
 (with different original data formats).
 
+```
 $ dsq testdata/join/users.csv testdata/join/ages.json \
   "select u.name, a.age from {0} u join {1} a on u.id = a.id"
 [{"age":88,"name":"Ted"},
 {"age":56,"name":"Marjory"},
 {"age":33,"name":"Micah"}]
+```
 
 I [wrote a blog post](https://datastation.multiprocess.io/blog/2022-01-11-dsq.html) describing dsq which [hit the front of HN](https://news.ycombinator.com/item?id=29892463). The dsq
 repo blew up, bringing DataStation along with it. Within a month dsq
