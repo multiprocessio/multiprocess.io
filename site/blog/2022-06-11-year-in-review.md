@@ -120,9 +120,6 @@ keep working toward a desktop version of DataStation and my general
 goal was to blog and record demo videos for Youtube (which I did a few
 times, like [this one](https://www.youtube.com/watch?v=_7LEV3ZeQWU&list=PL2t91m2RvccpsXbMtz4sNZ_AExXX-nxPr&index=7) on June 14, 2021).
 
-Somewhere during this time I broke my ankle longboarding (on the very
-the first day). That was fun!
-
 # Desktop
 
 It took me around a month to go from the in-browser demo to a desktop
