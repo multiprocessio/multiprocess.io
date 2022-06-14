@@ -182,8 +182,6 @@ these inbound VCs, and receiving no responses from outbound VCs, I got
 depressed and decided to stop talking to VCs for a while and just
 focus on DataStation usability, stability and documentation.
 
-DataStation today is still solely funded on my savings.
-
 # dsq
 
 One thing DataStation allows you to do is run SQL on any kind of
