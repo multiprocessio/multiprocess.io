@@ -337,6 +337,14 @@ Unrelatedly, I decided to submit DataStation on HN as a Show HN and
 [it reached the front
 page](https://news.ycombinator.com/item?id=31574317). :)
 
+# Credit where due, my wife
+
+I would not have been able to go this long without my extremely
+supportive wife. While we agreed for me to take some time off I
+thought she'd be asking me to go back to work after a few
+months. Instead she continued to push me to keep working on
+DataStation even when I got frustrated or depressed.
+
 # What's next
 
 Without funding I'm ready to head back to full-time employment. I am
