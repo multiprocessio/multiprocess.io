@@ -31,7 +31,8 @@ I also ended up talking to dozens of investors and interviewing
 
 In this post I'll share a bit about how I did this, the not very
 successful process of finding funding, and what happens
-next. Basically, everything stays open-source and I'm actively
+next. Basically, everything stays open-source, I'm still extremely
+excited about using and working on DataStation, and I'm actively
 interviewing. :)
 
 First a little background on the problem. You can skip this part if
