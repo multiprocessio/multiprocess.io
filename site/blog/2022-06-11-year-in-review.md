@@ -323,9 +323,12 @@ project; volunteers.
 # YC and the front of HN
 
 In May I interviewed with YCombinator. I stressed out a lot about the
-interview but it ended up being extremely friendly and positive. Later
-that day they told me no with a great email. They weren't a fan of me
-being a solo founder and they felt the usage wasn't high enough.
+interview but it ended up being extremely friendly and positive. I
+pitched building a SaaS offering where teams can work on projects
+together and have hosted dashboards and recurring exports.
+
+Later that day they told me no with a great email. They weren't a fan
+of me being a solo founder and they felt the usage wasn't high enough.
 
 Lots of successful founders have failed YC interviews so it doesn't
 really bother me. It was a neat experience and maybe I'll do better
@@ -335,11 +338,22 @@ Unrelatedly, I decided to submit DataStation on HN as a Show HN and
 [it reached the front
 page](https://news.ycombinator.com/item?id=31574317). :)
 
-# Credit where due, my wife
+# Fun parts, hard parts and a supportive spouse
 
-I would not have been able to go this long without my extremely
-supportive wife. While we agreed for me to take some time off I
-thought she'd be asking me to go back to work after a few
+The most fun parts were solving a problem I've had for years, digging
+into database internals, optimizing Go code, working on a desktop
+app, and building a community of like-minded hackers.
+
+The hard parts were the initial slowness of building a community and
+project and user group from nothing. And I missed working on a team,
+the entire time. The Discord and Meetup groups helped eventually.
+
+There's also a great feeling of working with paying customers and not
+(yet) having a product I sold, I didn't have that.
+
+Credit where due, I would not have been able to go this long without
+my extremely supportive wife. While we agreed for me to take some time
+off I thought she'd be asking me to go back to work after a few
 months. Instead she continued to push me to keep working on
 DataStation even when I got frustrated or depressed.
 
