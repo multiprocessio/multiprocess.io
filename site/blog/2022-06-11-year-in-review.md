@@ -186,10 +186,10 @@ focus on DataStation usability, stability and documentation.
 
 One thing DataStation allows you to do is run SQL on any kind of
 data. In December 2021 I realized this would be extremely useful as a
-CLI app. The panel evaluation code was written in Go so I exposed it
+CLI app. The panel evaluation code in DataStation was written in Go so I exposed it
 as a library and wrote a ~200 line wrapper around it.
 
-It is a CLI that allows the user to specify data files and a SQL
+That wrapper is a CLI that allows the user to specify data files and a SQL
 query.
 
 ```
