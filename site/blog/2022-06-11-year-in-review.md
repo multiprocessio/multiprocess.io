@@ -54,14 +54,13 @@ of tooling. One company I was at did analysis based only on data in
 the SQL database. But not all your data is in SQL. As you scale, SQL
 databases tend only to store the existence of info (a list of
 customers for example). The activity of customers is stored in your
-API logs. How often did they use the API (through the UI or
-directly). How has that been trending over time. How is that linked to
-their contract start/end date info stored in Salesforce. And so on.
+API logs. How often did they use the API (through the UI or directly)?
+How has that been trending over time? How is that linked to their
+contract start/end date info stored in Salesforce? These questions can
+only be answered by extreme denormalization or joining across
+databases.
 
-There are almost no vendor-independent data analysis platforms for the
-wealth of databases and data storage systems (i.e. APIs, files,
-databases, etc.) that backend developers and operations folk deal
-with. Your logs are in Elasticsearch or Splunk or CloudWatch. Your
+Your logs are in Elasticsearch or Splunk or CloudWatch. Your
 customer data is in PostgreSQL or SQL Server or MongoDB. Your
 analytics data is in Snowflake or ClickHouse or BigQuery. Your
 internal APIs are behind REST interfaces. And then there are the
@@ -75,12 +74,6 @@ that they are expensive and that the ETL process for every new
 database is expensive too. Tons and tons of companies are trying to
 solve this. You'll get lost among all the vendors trying to capitalize
 on the “Modern Data Stack”. They're expensive.
-
-And in my experience enough companies don't even try to set up any
-tooling in the first place other than read access to the MySQL
-database (a specific example of a situation I was in in the
-past). It's hard for managers to do analysis in these cases despite
-all the relevant systems having working APIs.
 
 If you're forced to write custom scripts you spend a lot of time
 reading API docs. Some APIs are very complicated. I've written a
