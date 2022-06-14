@@ -100,7 +100,7 @@ JSON files. And you could make HTTP requests so long as CORS headers
 were set. (Again this was all purely in-browser, no server or desktop
 component).
 
-It has been open-source since the first proof of concept commit on
+It has been [open-source](https://github.com/multiprocessio/datastation) since the first proof of concept commit on
 Monday, June 7 2021.
 
 <img class="no-shadow" src="https://pbs.twimg.com/media/E3yxGEBWQAEQSSK?format=png&name=4096x4096" alt="An early screenshot" />
