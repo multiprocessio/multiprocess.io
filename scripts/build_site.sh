@@ -4,9 +4,11 @@ set -e
 
 find . -name '*~' -delete
 
-# Grab docs repo
-git clone git@github.com:multiprocessio/datastation-documentation || echo 'already exists'
-( cd datastation-documentation && git fetch origin && git reset --hard origin/main)
+if ! [[ "$2" == "--skip-docs" ]]; then
+    # Grab docs repo
+    git clone git@github.com:multiprocessio/datastation-documentation || echo 'already exists'
+    ( cd datastation-documentation && git fetch origin && git reset --hard origin/main)
+fi
 
 rm -rf build && mkdir -p build/blog build/docs
 python3 -m venv .env
