@@ -217,6 +217,8 @@ repo blew up, bringing DataStation along with it. Within a month dsq
 hit 1,000 Github stars and DataStation went from ~600 to ~1,000 stars
 during that time.
 
+![DataStation and dsq star history](/assets/star-history-2022614.png)
+
 # Documentation
 
 Until around November (about 5 months) there was no documentation for
