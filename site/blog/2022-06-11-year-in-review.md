@@ -11,8 +11,7 @@ I quit my job as an engineering manager at Oracle in early
 June 2021. I had a bit of savings and a few contract opportunities so
 I decided to see how far I could get building an app I've wanted for
 years as a manager. I have never built my own app before and I've
-never built a desktop app before. It seemed like a fun and helpful
-idea!
+never built a desktop app before.
 
 Over the last 12 months I've garnered over 4,000 Github stars across 4
 tools, 6 libraries, and 5 benchmark repos. I've written 19 blog posts
@@ -20,20 +19,23 @@ mostly about benchmarking ([SQLite in Go, with and without cgo](https://datastat
 [Speeding up Go's builtin JSON encoder up to 55% for large arrays of
 objects](https://datastation.multiprocess.io/blog/2022-03-03-improving-go-json-encoding-performance-for-large-arrays-of-objects.html) and explorations of databases ([Surveying SQL parser libraries
 in a few high-level languages](https://datastation.multiprocess.io/blog/2022-04-11-sql-parsers.html) and [The world of PostgreSQL wire
-compatibility](https://datastation.multiprocess.io/blog/2022-02-08-the-world-of-postgresql-wire-compatibility.html)).
-
-5 of these posts have reached the front page of HN.
+compatibility](https://datastation.multiprocess.io/blog/2022-02-08-the-world-of-postgresql-wire-compatibility.html)). 5 of these posts have reached the front page of HN.
 
 A few more stats about DataStation specifically:
 * Over 1,100 unique users have ever opened the app
 * Around 400 unique users open the app per month
 * Around 50 users opening the app at least 3 times per month
 
+I also ended up talking to dozens of investors and interviewing
+(unsuccessfully) with YCombinator.
+
 In this post I'll share a bit about how I did this, the not very
-successful process of finding funding, and what happens next.
+successful process of finding funding, and what happens
+next. Basically, everything stays open-source and I'm actively
+interviewing. :)
 
 First a little background on the problem. You can skip this part if
-you just want to read about the process. :)
+you just want to read about the process.
 
 # Background
 
