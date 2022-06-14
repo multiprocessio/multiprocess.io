@@ -345,11 +345,14 @@ into database internals, optimizing Go code, working on a desktop
 app, and building a community of like-minded hackers.
 
 The hard parts were the initial slowness of building a community and
-project and user group from nothing. And I missed working on a team,
-the entire time. The Discord and Meetup groups helped eventually.
+project and user group from nothing. Every single time I reached a
+milestone it immediately felt like the new normal and wasn't good
+enough.
 
-There's also a great feeling of working with paying customers and not
-(yet) having a product I sold, I didn't have that.
+I missed working on a team, the entire time. The Discord and Meetup
+groups helped eventually. And there's also a great reward of
+successfully working with paying customers. Not (yet) having a product
+I sold, I got no such reward.
 
 Credit where due, I would not have been able to go this long without
 my extremely supportive wife. While we agreed for me to take some time
