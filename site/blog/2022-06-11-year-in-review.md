@@ -366,7 +366,7 @@ analytics and reporting tool wherever I land.
 
 I'm particularly interested in ending up at a database or analytics
 company. So if you're a database or analytics company hiring managers
-or developers, feel free to [message me](phil@multiprocess.io)!
+or developers, feel free to [message me](mailto:phil@multiprocess.io)!
 
 Otherwise, join the community on
 [Discord](https://discord.multiprocess.io/) or
