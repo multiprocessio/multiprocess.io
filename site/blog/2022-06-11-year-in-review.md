@@ -167,9 +167,9 @@ undoubtedly because I posted screenshots and demos on Twitter or
 shared blog posts on Hacker News.
 
 When I spoke with VCs it felt like I was speaking with aliens. It's
-not that they made no sense it's that what I couldn't understand
-what they wanted or how they wanted it presented. And they didn't understand the problem I was trying
-to solve or where I was headed. Most of them didn't know Kibana which is one of the most similar SaaS products.
+not that they made no sense it's that I couldn't understand
+what they wanted or how they wanted things presented. And they didn't understand the problem I was trying
+to solve or where I was headed. Most of them didn't know Kibana, one of the most similar SaaS products.
 
 I don't blame them of course. It was a combination of 1) me not
 explaining well and 2) not focusing on talking to the right VCs who
