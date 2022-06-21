@@ -234,7 +234,7 @@ before I built out high-level tutorials that I knew would invite more
 users.
 
 In November 2021 I created the
-[datastation-documentation](https://github.com/multiprcessio/datastation-documentation)
+[datastation-documentation](https://github.com/multiprocessio/datastation-documentation)
 repo and started adding docs for panels.
 
 And by January 2022 I was comfortable with the state of stability so I
