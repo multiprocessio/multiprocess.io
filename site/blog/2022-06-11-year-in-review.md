@@ -178,7 +178,7 @@ be VC funded.
 
 After months of learning (but ultimately getting nowhere) talking to
 these inbound VCs, and receiving no responses from outbound VCs, I got
-depressed and decided to stop talking to VCs for a while and just
+frustrated and decided to stop talking to VCs for a while and just
 focus on DataStation usability, stability and documentation.
 
 # dsq
