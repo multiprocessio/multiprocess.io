@@ -693,6 +693,15 @@ ul.no-decoration li .material-icons {
     font-weight: bold;
 }
 
+.banner {
+    background: var(--blue);
+    text-align: center;
+}
+
+.banner a {
+    color: white;
+}
+
 .pt-4 {
     padding-top: 20px;
 }
