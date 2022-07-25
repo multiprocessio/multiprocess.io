@@ -14,11 +14,10 @@ Athena).
 
 ![A list of DataStation database test files](/integration-tests.png)
 
-Aside from testing basic UI interactions and backend CRUD operations,
-integration testing DataStation connectors to these databases is the
-most important part of developing DataStation. Since DataStation is an
-open-source project, these integration tests can run freely in Github
-Actions.
+Integration testing DataStation connectors to these databases is
+basically the most important part of developing
+DataStation. Thankfully, since DataStation is an open-source project,
+these integration tests can run freely in Github Actions.
 
 # Testing non-SaaS databases
 
@@ -28,7 +27,8 @@ packages. This run/install step happened before tests ran.
 
 For example, here are the parts of the [install script for Github
 Actions](https://github.com/multiprocessio/datastation/blob/3362433dc5cce51760cbac8f800e3befce59a072/scripts/ci/prepare_linux_integration_test_setup_only.sh)
-that set up MySQL and PostgreSQL.
+that set up MySQL and PostgreSQL. (This is an old commit, it's no
+longer done like this. As you'll see further on.)
 
 ```bash
 # Set up MySQL
@@ -65,16 +65,18 @@ docker run -d -p 9090:9090 -v $(pwd)/testdata/prometheus:/etc/prometheus prom/pr
 ```
 
 This was the easy, lazy way to get tests working. But there were two
-big problems. First off, it sucked to test these databases
-locally. You’d have to go into this script and find the lines that set
-it up. If you were trying to test outside of Linux you’d need to
-figure out how to set up the Ubuntu package-managed bits yourself
-manually.
+big problems. First off, it was horrible to test these databases
+locally. You'd have to leave the test file and go into this CI setup
+script and find the lines that set a database up. If you were trying
+to test outside of Ubuntu and needed to run one of these databases set
+up using Ubuntu packages you'd have to figure out how to translate
+those steps to your OS/distro.
 
 The second big problem was that after months of adding new databases
 and new database containers for new database tests, Github Actions was
-crawling to a halt. After the 14th running database, MongoDB, was
-added, this workflow on Github Actions crashed repeatedly for a week.
+crawling to a halt. After setting up the 14th running database
+(MongoDB) last week, this workflow on Github Actions crashed
+repeatedly for a week.
 
 # `withDocker`
 
@@ -133,6 +135,8 @@ so long as you know the command *should* succeed in normal conditions.
 Also, all commands in the `cmds` list get run within the Docker
 container with by prefixing the command with `docker exec
 $containerId`.
+
+## More manual waiting
 
 If you need to wait on something outside of the container you can fill
 out the optional `wait` callback. Here's an example ([source code
@@ -213,10 +217,9 @@ describe('elasticsearch testdata/documents tests', () => {
 Using `cmds` or `wait` lets me almost fully avoid using `sleep()` as
 the sole way for deciding when tests can be run. But out laziness,
 there are some exceptions. For example I haven't yet figured out a CLI
-or `curl` based way to test for when Oracle is ready so I just [`await
-new Promise(r => setTimeout(r,
-60_000))`](https://github.com/multiprocessio/datastation/blob/main/integration/oracle.test.js#L34);
-i.e. wait one minute.
+or `curl` based way to test for when Oracle is ready so I just `await
+new Promise(r => setTimeout(r, 60_000))`; i.e. [wait one
+minute](https://github.com/multiprocessio/datastation/blob/main/integration/oracle.test.js#L34).
 
 #### Share
 {% endblock %}
