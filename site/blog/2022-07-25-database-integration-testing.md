@@ -1,0 +1,222 @@
+{% extends "blog/layout.tmpl" %}
+
+{% block postTitle %}Database integration testing DataStation in Github Actions{% endblock %}
+{% block postDate %}July 25, 2022{% endblock %}
+{% block postAuthor %}Phil Eaton{% endblock %}
+{% block postAuthorEmail %}phil@multiprocess.io{% endblock %}
+{% block postTags %}testing,databases,containers,github actions{% endblock %}
+
+{% block postBody %}
+DataStation lets you query over 20 SQL and non-SQL data systems. 14+
+databases can be tested locally. And 6 other data systems are
+SaaS-only (BigQuery, Snowflake, Airtable, Google Sheets, and AWS
+Athena).
+
+![A list of DataStation database test files](/integration-tests.png)
+
+Aside from testing basic UI interactions and backend CRUD operations,
+integration testing DataStation connectors to these databases is the
+most important part of developing DataStation. Since DataStation is an
+open-source project, these integration tests can run freely in Github
+Actions.
+
+# Testing non-SaaS databases
+
+When first adding integration tests I either ran docker images in the
+background or I installed the database globally from Ubuntu
+packages. This run/install step happened before tests ran.
+
+For example, here are the parts of the [install script for Github
+Actions](https://github.com/multiprocessio/datastation/blob/3362433dc5cce51760cbac8f800e3befce59a072/scripts/ci/prepare_linux_integration_test_setup_only.sh)
+that set up MySQL and PostgreSQL.
+
+```bash
+# Set up MySQL
+sudo service mysql start
+sudo mysql -u root -proot --execute="CREATE USER 'test'@'localhost' IDENTIFIED BY 'test'";
+sudo mysql -u root -proot --execute="CREATE DATABASE test";
+sudo mysql -u root -proot --execute="GRANT ALL PRIVILEGES ON test.* TO 'test'@'localhost'";
+
+# Set up PostgreSQL
+sudo apt-get install postgresql postgresql-contrib
+echo "
+local  test            test                md5
+host   test            test   localhost    md5
+local  all             all                 peer" | sudo tee /etc/postgresql/12/main/pg_hba.conf
+sudo service postgresql restart
+sudo -u postgres psql -c "CREATE USER test WITH PASSWORD 'test'"
+sudo -u postgres psql -c "CREATE DATABASE test"
+sudo -u postgres psql -c "GRANT ALL ON DATABASE test TO test"
+```
+
+And here is later on in the same script where Docker containers for
+QuestDB, Elasticsearch, and Prometheus are set up to run in the
+background.
+
+```bash
+# Start up questdb
+docker run -d -p 8812:8812 questdb/questdb
+
+# Start up elasticsearch
+docker run -d -p 9200:9200 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.16.3
+
+# Start up prometheus
+docker run -d -p 9090:9090 -v $(pwd)/testdata/prometheus:/etc/prometheus prom/prometheus
+```
+
+This was the easy, lazy way to get tests working. But there were two
+big problems. First off, it sucked to test these databases
+locally. You’d have to go into this script and find the lines that set
+it up. If you were trying to test outside of Linux you’d need to
+figure out how to set up the Ubuntu package-managed bits yourself
+manually.
+
+The second big problem was that after months of adding new databases
+and new database containers for new database tests, Github Actions was
+crawling to a halt. After the 14th running database, MongoDB, was
+added, this workflow on Github Actions crashed repeatedly for a week.
+
+# `withDocker`
+
+So I decided to solve both problems at once by writing a small helper
+function `withDocker` that each test could call and declare the
+container setup it needed for its tests to work. The goal here was
+that 1) all of these local database tests would now only require
+Docker and 2) each database would only run so long as it was
+needed. No more 14 databases running at the same time in Github
+Actions.
+
+Here's an example ([source code
+here](https://github.com/multiprocessio/datastation/blob/main/integration/scylla.test.js))
+of the `useDocker` helper for running a Scylla container and running a
+query in DataStation against it.
+
+```javascript
+... imports ...
+
+describe('basic cassandra/scylladb tests', () => {
+  test(`runs basic cql query`, async () => {
+    await withDocker(
+      {
+        image: 'docker.io/scylladb/scylla:latest',
+        port: '9042',
+        program: [
+          '--smp',
+          '1',
+          '--authenticator',
+          'PasswordAuthenticator',
+          '--broadcast-address',
+          '127.0.0.1',
+          '--listen-address',
+          '0.0.0.0',
+          '--broadcast-rpc-address',
+          '127.0.0.1',
+        ],
+        cmds: [
+          `cqlsh -u cassandra -p cassandra -e "CREATE KEYSPACE test WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1};"`,
+          `cqlsh -u cassandra -p cassandra -e "CREATE ROLE test WITH PASSWORD = 'test' AND LOGIN = true AND SUPERUSER = true;"`,
+        ],
+      },
+      async () => {
+	    ... do actual test stuff ...
+      }
+    );
+  }, 360_000);
+});
+```
+
+One really useful part of `withDocker` is that when you specify `cmds`
+it will re-run the first element in the list until it succeeds. This
+is an easy shorthand for waiting for the container to become available
+so long as you know the command *should* succeed in normal conditions.
+
+Also, all commands in the `cmds` list get run within the Docker
+container with by prefixing the command with `docker exec
+$containerId`.
+
+If you need to wait on something outside of the container you can fill
+out the optional `wait` callback. Here's an example ([source code
+here](https://github.com/multiprocessio/datastation/blob/main/integration/elasticsearch.test.js))
+of using the `wait` callback to make sure that data has been ingested
+into Elasticsearch before allowing tests to run.
+
+```javascript
+... imports ...
+
+describe('elasticsearch testdata/documents tests', () => {
+  const tests = [
+    ... some test data ...
+  ];
+
+  for (const testcase of tests) {
+    test(
+      'query: "' + testcase.query + '"',
+      async () => {
+        await withDocker(
+          {
+            port: 9200,
+            env: {
+              'discovery.type': 'single-node',
+            },
+            image: 'docker.elastic.co/elasticsearch/elasticsearch:7.16.3',
+            wait: async () => {
+              console.log('Awaiting container');
+              while (true) {
+                try {
+                  const r = await fetch('http://localhost:9200');
+                  break;
+                } catch (e) {
+                  await new Promise((r) => setTimeout(r, 2000));
+                }
+              }
+
+              // Setting up test docs
+              const nDocs = 4;
+              for (let i = 0; i < nDocs; i++) {
+                cp.execSync(
+                  `curl --fail -X POST -H 'Content-Type: application/json' -d @testdata/documents/${
+                    i + 1
+                  }.json http://localhost:9200/test/_doc`,
+                  { stdio: 'inherit' }
+                );
+              }
+
+              // Wait until all docs have been ingested
+              while (true) {
+                console.log('Waiting for all docs to be ready');
+                try {
+                  const r = await fetch('http://localhost:9200/test/_search');
+                  const j = await r.json();
+                  console.log(j);
+                  if (j.hits.hits.length === nDocs) {
+                    break;
+                  }
+                } catch (e) {
+                  /* pass */
+                }
+
+                await new Promise((r) => setTimeout(r, 2000));
+              }
+            },
+          },
+          async () => {
+            ... do the actual test ...
+          }
+        );
+      },
+      360_000
+    );
+  }
+});
+```
+
+Using `cmds` or `wait` lets me almost fully avoid using `sleep()` as
+the sole way for deciding when tests can be run. But out laziness,
+there are some exceptions. For example I haven't yet figured out a CLI
+or `curl` based way to test for when Oracle is ready so I just [`await
+new Promise(r => setTimeout(r,
+60_000))`](https://github.com/multiprocessio/datastation/blob/main/integration/oracle.test.js#L34);
+i.e. wait one minute.
+
+#### Share
+{% endblock %}
