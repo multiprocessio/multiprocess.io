@@ -253,4 +253,6 @@ could share work across a few processes. I'll have to try it out to
 see if it improves overall test run time.
 
 #### Share
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Here&#39;s a new blog post on how integration testing 14+ databases has evolved in DataStation.<br><br>From running 14 databases in Github Actions all at once<br><br>To building a `withDocker()` helper in Node.js so each jest test can schedule its own container<a href="https://t.co/p1WqJQeq8F">https://t.co/p1WqJQeq8F</a> <a href="https://t.co/7YBq2VBjWW">pic.twitter.com/7YBq2VBjWW</a></p>&mdash; Multiprocess Labs (@multiprocessio) <a href="https://twitter.com/multiprocessio/status/1552362075208515587?ref_src=twsrc%5Etfw">July 27, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 {% endblock %}
