@@ -1,6 +1,6 @@
 {% extends "blog/layout.tmpl" %}
 
-{% block postTitle %}Database integration testing DataStation in Github Actions{% endblock %}
+{% block postTitle %}Container scheduling strategies in Github Actions for integration testing 14 different databases{% endblock %}
 {% block postDate %}July 25, 2022{% endblock %}
 {% block postAuthor %}Phil Eaton{% endblock %}
 {% block postAuthorEmail %}phil@multiprocess.io{% endblock %}
