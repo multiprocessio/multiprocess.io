@@ -1,6 +1,6 @@
 {% extends "blog/layout.tmpl" %}
 
-{% block postTitle %}Container scheduling strategies in Github Actions for integration testing 14 different databases{% endblock %}
+{% block postTitle %}Container scheduling strategies for integration testing 14 different databases in Github Actions{% endblock %}
 {% block postDate %}July 25, 2022{% endblock %}
 {% block postAuthor %}Phil Eaton{% endblock %}
 {% block postAuthorEmail %}phil@multiprocess.io{% endblock %}
@@ -10,23 +10,28 @@
 DataStation lets you query over 20 SQL and non-SQL data systems. 14+
 databases can be tested locally (in Docker; even SQL Server and Oracle!).
 
-Integration testing DataStation connectors to these databases is
-basically the most important part of developing
-DataStation. Thankfully, since DataStation is an open-source project,
-these integration tests can run freely in Github Actions.
+Integration testing DataStation support for these databases is the
+most important part of developing DataStation. Thankfully, since
+DataStation is an open-source project, these integration tests can run
+freely in Github Actions.
 
 In this post I'm going to focus on the data systems that can be tested
-locally.
+locally in Docker.
 
 ![A list of DataStation database test files](/integration-tests.png)
 
 # Database integration tests
 
-When first adding integration tests I either ran docker images in the
-background or I installed the database globally from Ubuntu
-packages. This run/install step happened before tests ran.
+When I first started integration testing databases in DataStation I
+did one of two things:
 
-For example, here are the parts of the [install script for Github
+1. Ran docker images in the background
+2. Installed databases globally from Ubuntu packages
+
+One of these two steps happened for each database that needed to be
+tested. The process ran as part of a setup script.
+
+For example, here are the parts of the [setup script for Github
 Actions](https://github.com/multiprocessio/datastation/blob/3362433dc5cce51760cbac8f800e3befce59a072/scripts/ci/prepare_linux_integration_test_setup_only.sh)
 that set up MySQL and PostgreSQL. (This is an old commit, it's no
 longer done like this. As you'll see further on.)
@@ -82,7 +87,7 @@ repeatedly for a week.
 # `withDocker`
 
 So I decided to solve both problems at once by writing a small helper
-function `withDocker` that each test could call and declare the
+function, `withDocker`, that each test could call and declare the
 container setup it needed for its tests to work. The goal here was
 that 1) all of these local database tests would now only require
 Docker and 2) each database would only run so long as it was
@@ -91,8 +96,9 @@ Actions.
 
 Here's an example ([source code
 here](https://github.com/multiprocessio/datastation/blob/main/integration/scylla.test.js))
-of the `useDocker` helper for running a [ScyllaDB](https://www.scylladb.com/) container and running a
-query in DataStation against it.
+of the `useDocker` helper for running a
+[ScyllaDB](https://www.scylladb.com/) container, setting the stage for
+DataStation tests to run for Scylla integration.
 
 ```javascript
 ... imports ...
@@ -139,7 +145,7 @@ $containerId`.
 
 ## More manual waiting
 
-If you need to wait on something outside of the container you can fill
+When you need to wait on something outside of the container you can fill
 out the optional `wait` callback. Here's an example ([source code
 here](https://github.com/multiprocessio/datastation/blob/main/integration/elasticsearch.test.js))
 of using the `wait` callback to make sure that data has been ingested
@@ -216,7 +222,7 @@ describe('elasticsearch testdata/documents tests', () => {
 ```
 
 Using `cmds` or `wait` lets me almost fully avoid using `sleep()` as
-the sole way for deciding when tests can be run. But out laziness,
+the sole way for deciding when tests can be run. But out of laziness,
 there are some exceptions. For example I haven't yet figured out a CLI
 or `curl` based way to test for when Oracle is ready so I just `await
 new Promise(r => setTimeout(r, 60_000))`; i.e. [wait one
@@ -226,31 +232,35 @@ minute](https://github.com/multiprocessio/datastation/blob/main/integration/orac
 
 You can find the [full code on a Github Gist
 here](https://gist.github.com/eatonphil/78df2e2309f6804491840aeb5e40acd9). It's
-not perfect and I don't want to maintain it for others but might be a
-useful base for others that are interested in similar style testing.
+not perfect and I don't want to maintain it for others. But it might
+be a useful base for others that are interested in similar style
+testing.
 
 # Impact and next steps
 
-Before this in the last few weeks after we added the 14th running
+Before this, in the last few weeks after we added the 14th running
 databases, tests were hanging in Github Actions after 45-ish
 minutes. Now tests are finishing reliably in under 30 minutes (10
 minutes goes to setup).
 
 One shortcut I took in the `withDocker` implementation is putting a
-hacky lock in JavaScript on a single image running at a time. And I
-made this stronger still by requiring jest to run `--runInBand`, not
-scheduling tests onto worker processes. This was to block tests from
-failing because a port was in use. This may slow down tests but it may
-also be possible that multiple containers running at once would cause
-less work to be done in the shared compute environment that is free
-Github Actions. I'm not sure.
+hack-y lock in JavaScript on a single image running at a time. And I
+made this behavior stronger by requiring jest to run one test at a
+time with `--runInBand`; not scheduling tests onto worker
+processes. This was to block tests from failing because a port was in
+use.
+
+This may be slowing down tests but it may also be possible that
+multiple containers running at once would cause less work to be done
+in the shared compute environment that is free Github Actions. I'm not
+sure.
 
 The way I'm thinking about trying without locks is by having the
 `withDocker` function pick a free port and sending it to the
-callback. This was it could schedule all tests at once without port
-conflicts. And then it without jest's `--runInBand` flag in place jest
+callback. Then it could schedule all tests at once without port
+conflicts. And then without jest's `--runInBand` flag in place jest
 could share work across a few processes. I'll have to try it out to
-see if it improves overall test run time.
+see if it improves overall test runtime.
 
 #### Share
 
