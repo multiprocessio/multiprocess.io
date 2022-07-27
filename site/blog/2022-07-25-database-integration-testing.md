@@ -8,18 +8,19 @@
 
 {% block postBody %}
 DataStation lets you query over 20 SQL and non-SQL data systems. 14+
-databases can be tested locally. And 6 other data systems are
-SaaS-only (BigQuery, Snowflake, Airtable, Google Sheets, and AWS
-Athena).
-
-![A list of DataStation database test files](/integration-tests.png)
+databases can be tested locally (in Docker; even SQL Server and Oracle!).
 
 Integration testing DataStation connectors to these databases is
 basically the most important part of developing
 DataStation. Thankfully, since DataStation is an open-source project,
 these integration tests can run freely in Github Actions.
 
-# Testing non-SaaS databases
+In this post I'm going to focus on the data systems that can be tested
+locally.
+
+![A list of DataStation database test files](/integration-tests.png)
+
+# Database integration tests
 
 When first adding integration tests I either ran docker images in the
 background or I installed the database globally from Ubuntu
@@ -66,11 +67,11 @@ docker run -d -p 9090:9090 -v $(pwd)/testdata/prometheus:/etc/prometheus prom/pr
 
 This was the easy, lazy way to get tests working. But there were two
 big problems. First off, it was horrible to test these databases
-locally. You'd have to leave the test file and go into this CI setup
-script and find the lines that set a database up. If you were trying
-to test outside of Ubuntu and needed to run one of these databases set
-up using Ubuntu packages you'd have to figure out how to translate
-those steps to your OS/distro.
+locally. When working on tests, you'd have to leave the test file and
+go into this CI setup script and find the lines that set a database
+up. If you were trying to test outside of Ubuntu and needed to run one
+of these databases set up using Ubuntu packages you'd have to figure
+out how to translate those steps to your OS/distro.
 
 The second big problem was that after months of adding new databases
 and new database containers for new database tests, Github Actions was
@@ -90,7 +91,7 @@ Actions.
 
 Here's an example ([source code
 here](https://github.com/multiprocessio/datastation/blob/main/integration/scylla.test.js))
-of the `useDocker` helper for running a Scylla container and running a
+of the `useDocker` helper for running a [ScyllaDB](https://www.scylladb.com/) container and running a
 query in DataStation against it.
 
 ```javascript
@@ -220,6 +221,36 @@ there are some exceptions. For example I haven't yet figured out a CLI
 or `curl` based way to test for when Oracle is ready so I just `await
 new Promise(r => setTimeout(r, 60_000))`; i.e. [wait one
 minute](https://github.com/multiprocessio/datastation/blob/main/integration/oracle.test.js#L34).
+
+## `withDocker` implementation
+
+You can find the [full code on a Github Gist
+here](https://gist.github.com/eatonphil/78df2e2309f6804491840aeb5e40acd9). It's
+not perfect and I don't want to maintain it for others but might be a
+useful base for others that are interested in similar style testing.
+
+# Result
+
+Before this in the last few weeks after we added the 14th running
+databases, tests were hanging in Github Actions after 45-ish
+minutes. Now tests are finishing reliably in under 30 minutes (10
+minutes goes to setup).
+
+One shortcut I took in the `withDocker` implementation is putting a
+hacky lock in JavaScript on a single image running at a time. And I
+made this stronger still by requiring jest to run `--runInBand`, not
+scheduling tests onto worker processes. This was to block tests from
+failing because a port was in use. This may slow down tests but it may
+also be possible that multiple containers running at once would cause
+less work to be done in the shared compute environment that is free
+Github Actions. I'm not sure.
+
+The way I'm thinking about trying without locks is by having the
+`withDocker` function pick a free port and sending it to the
+callback. This was it could schedule all tests at once without port
+conflicts. And then it without jest's `--runInBand` flag in place jest
+could share work across a few processes. I'll have to try it out to
+see if it improves overall test run time.
 
 #### Share
 {% endblock %}
