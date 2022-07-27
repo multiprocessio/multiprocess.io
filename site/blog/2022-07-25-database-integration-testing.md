@@ -15,12 +15,12 @@ most important part of developing DataStation. Thankfully, since
 DataStation is an open-source project, these integration tests can run
 freely in Github Actions.
 
-In this post I'm going to focus on the data systems that can be tested
+I'm going to focus on the data systems that can be tested
 locally in Docker.
 
 ![A list of DataStation database test files](/integration-tests.png)
 
-# Database integration tests
+# Every database, everywhere at once
 
 When I first started integration testing databases in DataStation I
 did one of two things:
@@ -84,7 +84,7 @@ crawling to a halt. After setting up the 14th running database
 (MongoDB) last week, this workflow on Github Actions crashed
 repeatedly for a week.
 
-# `withDocker`
+# Per-test scheduling
 
 So I decided to solve both problems at once by writing a small helper
 function, `withDocker`, that each test could call and declare the
