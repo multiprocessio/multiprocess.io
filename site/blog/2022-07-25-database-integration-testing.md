@@ -239,7 +239,7 @@ testing.
 # Impact and next steps
 
 Before this, in the last few weeks after we added the 14th running
-databases, tests were hanging in Github Actions after 45-ish
+database, tests were hanging in Github Actions after 45-ish
 minutes. Now tests are finishing reliably in under 30 minutes (10
 minutes goes to setup).
 
