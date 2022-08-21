@@ -39,7 +39,7 @@ database otherwise very similar to SQLite) comes with a [suite of
 statistics aggregation
 functions](https://duckdb.org/docs/sql/aggregates). Even PostgreSQL
 has a [wealth of statistical aggregation
-functions](https://www.sqlite.org/lang_mathfunc.html).
+functions](https://www.postgresql.org/docs/current/functions-aggregate.html).
 
 If I had to choose between SQLite and DuckDB for ad-hoc analysis of
 datasets on the command line I'd probably pick DuckDB for its
