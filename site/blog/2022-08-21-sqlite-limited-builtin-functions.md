@@ -121,4 +121,6 @@ expected, personally. So you may need to do some work to fill in the
 gaps (if you aren't embedding SQLite in Go).
 
 #### Share
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">I wrote a short post about SQLite&#39;s surprisingly limited builtin functions (surprising to me anyway; compared to DuckDB and PostgreSQL) and how I worked around that in a Go library for <a href="https://twitter.com/multiprocessio?ref_src=twsrc%5Etfw">@multiprocessio</a> DataStation/dsq.<a href="https://t.co/wiDp0P9pdl">https://t.co/wiDp0P9pdl</a> <a href="https://t.co/pi7Z5ePd97">pic.twitter.com/pi7Z5ePd97</a></p>&mdash; Phil Eaton (@phil_eaton) <a href="https://twitter.com/phil_eaton/status/1561457805143511040?ref_src=twsrc%5Etfw">August 21, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 {% endblock %}
