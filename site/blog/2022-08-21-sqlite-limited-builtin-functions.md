@@ -57,7 +57,7 @@ continuous percentiles, standard deviation, and so on.
 
 ![Aggregation functions](/0.11.0-stdlib-aggregation.png)
 
-Since DataStation/dsq now register `go-sqlite3-stdlib`, you
+Since DataStation/dsq now registers `go-sqlite3-stdlib`, you
 can do much more statistical analysis in DataStation/dsq.
 
 Furthermore, not just DataStation/dsq but anyone who uses SQLite in Go
