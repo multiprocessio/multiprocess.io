@@ -37,20 +37,35 @@ extension.
 In contrast, [DuckDB](https://github.com/duckdb/duckdb) (an analytics
 database otherwise very similar to SQLite) comes with a [suite of
 statistics aggregation
-functions](https://duckdb.org/docs/sql/aggregates). Even PostgreSQL
-has a [wealth of statistical aggregation
-functions](https://www.postgresql.org/docs/current/functions-aggregate.html).
+functions](https://duckdb.org/docs/sql/aggregates). This isn't just an
+"OLAP" thing. PostgreSQL has a [wealth of statistical aggregation
+functions](https://www.postgresql.org/docs/current/functions-aggregate.html). [MySQL](https://dev.mysql.com/doc/refman/8.0/en/aggregate-functions.html),
+[Oracle](https://docs.oracle.com/database/121/SQLRF/functions003.htm#SQLRF20035),
+and [SQL
+Server](https://docs.microsoft.com/en-us/sql/t-sql/functions/aggregate-functions-transact-sql?view=sql-server-ver16)
+too.
 
 If I had to choose between SQLite and DuckDB for ad-hoc analysis of
 datasets on the command line I'd probably pick DuckDB for its
 more convenient standard library.
 
-However, DataStation/dsq use SQLite. So to bridge the gap I
-published a standard library for
-SQLite, called [go-sqlite3-stdlib](https://github.com/multiprocessio/go-sqlite3-stdlib). The
+However, SQLite is still the most convenient database to *embed* and for
+that reason DataStation/dsq use SQLite. What can be done?
+
+### A new standard library
+
+So to bridge the gap I published a standard library for SQLite, called
+[go-sqlite3-stdlib](https://github.com/multiprocessio/go-sqlite3-stdlib). The
 standard library is written in Go and mostly wraps existing
 statistical (and other) libraries, providing a useful set of functions
-to Go users embedding SQLite.
+for Go users embedding SQLite.
+
+Why not [sqlean](https://github.com/nalgeon/sqlean) you may ask? It's
+a great project.  But setting up extensions like this in Go bindings
+to C projects is inconvenient. And sqlean is written in C. So if it's
+ever missing a function I'd have to write it in C. I don't really want
+to write anything in C if I can avoid it. So `go-sqlite3-stdlib` is
+written in Go and has 95% test coverage.
 
 It adds statistical aggregation functions like discrete and
 continuous percentiles, standard deviation, and so on.
