@@ -25,4 +25,4 @@ if [[ "$1" != "--skip-stars" ]]; then
     done
 fi
 
-printf "multiprocess.io\napp.datastation.multiprocess.io\ndatastation.multiprocess.io\n" > build/CNAME
+echo datastation.multiprocess.io > build/CNAME
