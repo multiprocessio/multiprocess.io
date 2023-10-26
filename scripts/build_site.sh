@@ -24,3 +24,5 @@ if [[ "$1" != "--skip-stars" ]]; then
 	sed -i 's/STARS/'"$stars"'/g' "$starfile"
     done
 fi
+
+printf "multiprocess.io\napp.datastation.multiprocess.io\ndatastation.multiprocess.io\n" > build/CNAME
