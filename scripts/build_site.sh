@@ -25,4 +25,4 @@ if [[ "$1" != "--skip-stars" ]]; then
     done
 fi
 
-echo datastation.multiprocess.io > build/CNAME
+echo multiprocess.io > build/CNAME
